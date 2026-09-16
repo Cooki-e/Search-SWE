@@ -1,9 +1,11 @@
 # Downloading task data and models
 
-Use Python 3.12 or newer. Install the download dependency in your host environment:
+Use Python 3.12 or newer. Install the host-side tools in your environment;
+`scripts/requirements.txt` provides both the Harbor launcher and the Hugging
+Face asset client:
 
 ```bash
-python -m pip install -r scripts/requirements-assets.txt
+python -m pip install -r scripts/requirements.txt
 ```
 
 ## Commands
@@ -95,10 +97,11 @@ python scripts/check_release.py --hf-data ../hf-data --verify-data
 
 Local restoration verifies sizes and SHA-256 checksums. For maintainers adding
 unpublished data, the staging check accepts `--allow-unpublished` together with
-`--hf-data`; it still checks mappings and data integrity. Before publishing the
-code, upload the dataset files, pin their immutable commit in `assets.json`,
-and run the release check without `--allow-unpublished`. Remote downloads fail
-explicitly if a dataset revision is unset.
+`--hf-data`; it checks mappings and file sizes. Add `--verify-data` to also
+verify SHA-256 checksums. Before publishing the code, upload the dataset files,
+pin their immutable commit in `assets.json`, and run the release check without
+`--allow-unpublished`. Remote downloads fail explicitly if a dataset revision
+is unset.
 
 The downloader applies file permissions from each entry's `mode` and private
 directory permissions from `directory_modes`. Private verifier models use
@@ -133,8 +136,9 @@ The standard launcher uses the repository's own `tasks/` directory.
 The downloader uses Hugging Face login or `HF_TOKEN` when available. Public,
 ungated downloads do not require your Agent or verifier API keys. For a host
 proxy, configure your own standard `HTTP_PROXY`/`HTTPS_PROXY` environment
-variables; `.env` and `CONTAINER_PROXY` belong to the task launcher and are not
-loaded by the download scripts.
+variables. The download scripts do not load `.env`; current task-runtime
+allowlists reject `CONTAINER_PROXY` because a general proxy would bypass
+destination filtering.
 
 ## Checking a release package
 
