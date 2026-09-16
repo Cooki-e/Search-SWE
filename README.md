@@ -197,6 +197,7 @@ hardware matrix plus GPU, network-policy, and custom-provider options.
 | [Network policy](docs/network-policy.md) | Harbor egress modes and exact per-task host allowlists |
 | [Asset guide](docs/assets.md) | Downloading, verifying, and restoring fixed data and models |
 | [Benchmark design](docs/benchmark.md) | Evaluation, repository layout, and data provenance |
+| [Contributing guide](docs/contributing.md) | Task-authoring workflow, validation, and PR expectations |
 
 For task descriptions and results, visit the
 [project website](https://search-swe.github.io/), maintained in a
@@ -204,43 +205,10 @@ For task descriptions and results, visit the
 
 ## 🤝 Contributing
 
-Contributions to task packages, shared images, launchers, tests, and
-documentation are welcome. Keep each change focused and include evidence for
-the validation layers you actually ran.
-
-For a new task or a substantial task revision, start with the repository-local
-[contributor workflow](.agents/AGENTS.md) and the
-[`create-searchswe-task` skill](.agents/skills/create-searchswe-task/SKILL.md).
-The `.agents/` directory contains skills, references, and helpers for
-agent-assisted contributions. A compatible agent harness can invoke
-`$create-searchswe-task`; otherwise, read the skill file directly. It covers
-task design, CPU/GPU scaffolding, fixed inputs, verifier isolation, and staged
-validation.
-
-Reuse the shared images described in [`docker/README.md`](docker/README.md),
-and never commit API keys, downloaded task inputs, hidden verifier data, or job
-outputs. Keep `README.md` and `README_zh.md` aligned when changing shared user
-documentation.
-
-Before opening a pull request, run at least the repository-level checks:
-
-```bash
-python scripts/check_release.py
-python -m unittest discover -s scripts/tests -p 'test_*.py'
-git diff --check
-```
-
-Task changes also need the task-specific and runtime checks described in the
-skill's [validation guide](.agents/skills/create-searchswe-task/references/validation.md).
-If you modify the skill or its scaffolder, run:
-
-```bash
-python .agents/skills/create-searchswe-task/scripts/test_scaffold_task.py
-```
-
-In the pull request, summarize the scope, list the commands and results, and
-identify any checks that were not run because they require external data, GPU
-hardware, credentials, or paid APIs.
+Contributions are welcome. For new or substantially revised tasks, start with
+the workflow and skills in [`.agents/`](.agents/AGENTS.md), including
+[`create-searchswe-task`](.agents/skills/create-searchswe-task/SKILL.md). See the
+[contributing guide](docs/contributing.md) for validation and PR requirements.
 
 ## Citation
 
