@@ -189,6 +189,41 @@ gateway、订阅 OAuth、Bedrock、Vertex、ACP 和自定义 Claude settings。�
 任务介绍和评测结果可在[项目主页](https://search-swe.github.io/)查看，主页由
 [独立仓库](https://github.com/search-swe/search-swe.github.io)维护。
 
+## 🤝 参与贡献
+
+欢迎贡献任务包、共享镜像、启动器、测试和文档。请保持每次修改范围清晰，并提供
+实际执行过的各层验证证据。
+
+创建新任务或大幅修改已有任务时，请先阅读仓库内的
+[贡献者工作流](.agents/AGENTS.md)和
+[`create-searchswe-task` skill](.agents/skills/create-searchswe-task/SKILL.md)。
+`.agents/` 目录包含面向智能体辅助贡献的 skills、参考资料和工具。兼容的智能体
+框架可以直接调用 `$create-searchswe-task`；其他环境也可以直接阅读该 skill 文件。
+其中覆盖任务设计、CPU/GPU 脚手架、固定输入、verifier 隔离和分阶段验证。
+
+请复用 [`docker/README.md`](docker/README.md) 中说明的共享镜像，不要提交 API
+密钥、下载得到的任务输入、隐藏 verifier 数据或 job 输出。修改共享用户文档时，
+应保持 `README.md` 和 `README_zh.md` 一致。
+
+提交 pull request 前，至少运行仓库级检查：
+
+```bash
+python scripts/check_release.py
+python -m unittest discover -s scripts/tests -p 'test_*.py'
+git diff --check
+```
+
+任务修改还需要完成 skill 的
+[验证指南](.agents/skills/create-searchswe-task/references/validation.md)中对应的
+任务专项和运行时检查。若修改了 skill 或脚手架，请运行：
+
+```bash
+python .agents/skills/create-searchswe-task/scripts/test_scaffold_task.py
+```
+
+请在 pull request 中概述修改范围，列出执行过的命令和结果，并明确说明因外部数据、
+GPU、凭证或付费 API 而未执行的检查。
+
 ## 引用
 
 TBA
