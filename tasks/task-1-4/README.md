@@ -88,12 +88,15 @@ Page relevance is scored deterministically against labels; there is no
 answer-correctness model. A separate trajectory audit checks compliance.
 Final reward is mean Recall@5 when execution, output, and audit checks pass,
 and zero otherwise.
+The audit uses `deepseek-flash` through pinned RewardKit 0.2.0 with
+verifier-only endpoint and key settings.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 Configure the trajectory judge's `VERIFIER_OPENAI_*` settings. This task does
@@ -106,7 +109,8 @@ python scripts/download_assets.py --task task-1-4
 bash scripts/run_task.sh --task task-1-4 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-1-4/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-1-4/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

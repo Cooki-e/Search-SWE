@@ -13,8 +13,6 @@ REWARD_JSON=$REWARD_DIR/reward.json
 DETAILS_JSON=$REWARD_DIR/reward-details.json
 LOG_DIR=$REWARD_DIR/$TASK_ID-eval
 EVALUATION_REPORT=$LOG_DIR/evaluation.json
-VERIFIER_PRIVATE_DIR=$REWARD_DIR/.private
-CODEX_HOME_DIR=$VERIFIER_PRIVATE_DIR/codex-home
 current_phase=initialization
 
 atomic_zero_text() {
@@ -173,58 +171,12 @@ if ! valid_json_object "$EVALUATION_REPORT"; then
 fi
 
 current_phase=jailbreak_judge
-install -d -o root -g root -m 0700 "$VERIFIER_PRIVATE_DIR" "$CODEX_HOME_DIR"
-export CODEX_HOME="$CODEX_HOME_DIR"
-
-# RewardKit's Codex judge shells out to the Codex CLI. Configure an explicit
-# OpenAI-compatible provider so the judge uses the injected endpoint over the
-# Responses HTTP API rather than falling back to Codex's default provider.
-rm -f "$CODEX_HOME/config.toml"
 judge_status=0
-if [[ -z "${OPENAI_BASE_URL:-}" ]]; then
-    printf '%s\n' 'OPENAI_BASE_URL is required for the Codex judge' \
+if [[ -z "${OPENAI_BASE_URL:-}" || -z "${OPENAI_API_KEY:-}" ]]; then
+    printf '%s\n' \
+        'OPENAI_BASE_URL and OPENAI_API_KEY are required for the DeepSeek judge' \
         > "$LOG_DIR/jailbreak-judge.stderr.log"
     judge_status=78
-elif [[ -z "${OPENAI_API_KEY:-}" ]]; then
-    printf '%s\n' 'OPENAI_API_KEY is required for the Codex judge' \
-        > "$LOG_DIR/jailbreak-judge.stderr.log"
-    judge_status=78
-elif ! command -v codex >/dev/null 2>&1; then
-    printf '%s\n' 'Codex CLI is missing from the verifier image' \
-        > "$LOG_DIR/jailbreak-judge.stderr.log"
-    judge_status=127
-else
-    /opt/conda/bin/python - "$OPENAI_BASE_URL" "$CODEX_HOME/config.toml" <<'PY'
-import json
-import sys
-from pathlib import Path
-from urllib.parse import urlsplit
-
-base_url, config_path = sys.argv[1:]
-base_url = base_url.rstrip("/")
-parsed = urlsplit(base_url)
-if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-    raise SystemExit("OPENAI_BASE_URL must be an absolute HTTP(S) URL")
-
-Path(config_path).write_text(
-    "model_provider = \"search_swe_judge\"\n\n"
-    "[model_providers.search_swe_judge]\n"
-    "name = \"Search-SWE judge endpoint\"\n"
-    f"base_url = {json.dumps(base_url)}\n"
-    "wire_api = \"responses\"\n"
-    "requires_openai_auth = true\n"
-    "supports_websockets = false\n",
-    encoding="utf-8",
-)
-PY
-    config_status=$?
-    if (( config_status != 0 )); then
-        printf 'Failed to configure the Codex judge provider (status %s)\n' \
-            "$config_status" > "$LOG_DIR/jailbreak-judge.stderr.log"
-        judge_status="$config_status"
-    else
-        chmod 0600 "$CODEX_HOME/config.toml"
-    fi
 fi
 
 if (( judge_status == 0 )); then
@@ -232,11 +184,13 @@ if (( judge_status == 0 )); then
         --signal=TERM \
         --kill-after="${KILL_AFTER_SECONDS}s" \
         "${JUDGE_TIMEOUT_SECONDS}s" \
-        /opt/conda/bin/rewardkit \
+        /opt/conda/bin/python /tests/rewardkit_deepseek.py \
             /tests \
             --workspace /app \
             --output "$REWARD_JSON" \
             --max-concurrent-agent 1 \
+            --judge deepseek-codex \
+            --model deepseek-flash \
             > "$LOG_DIR/jailbreak-judge.stdout.log" \
             2> "$LOG_DIR/jailbreak-judge.stderr.log"
     judge_status=$?

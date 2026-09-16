@@ -18,15 +18,23 @@ RUN_TIMEOUT_SECONDS=900
 BASELINE_BUILD_TIMEOUT_SECONDS=1800
 BASELINE_RUN_TIMEOUT_SECONDS=900
 SUBMISSION_USER=submission
-VERIFIER_PRIVATE_DIR=/logs/verifier/.private
-CODEX_HOME_DIR=$VERIFIER_PRIVATE_DIR/codex-home
 JUDGE_TIMEOUT_SECONDS=1200
+
+SUBMISSION_COMMAND=(
+    /usr/sbin/runuser -u "$SUBMISSION_USER" --
+    /usr/bin/env -i
+    HOME=/home/submission
+    USER=submission
+    LOGNAME=submission
+    PATH=/opt/conda/bin:/usr/local/bin:/usr/bin:/bin
+    LANG=C.UTF-8
+    PYTHONUNBUFFERED=1
+)
 
 phase_group_id=
 execution_error=
 
 mkdir -p "$RESULTS_DIR" /logs/verifier
-install -d -o root -g root -m 0700 "$VERIFIER_PRIVATE_DIR" "$CODEX_HOME_DIR"
 chown root:"$SUBMISSION_USER" "$RESULTS_DIR"
 chmod 0770 "$RESULTS_DIR"
 
@@ -107,7 +115,7 @@ if [[ ! -x /app/build.sh || ! -x /app/run.sh ]]; then
 elif [[ ! -x "$BASELINE_ROOT/build.sh" || ! -x "$BASELINE_ROOT/run.sh" ]]; then
     execution_error="missing verifier-owned corrected starter"
 else
-    run_phase "$BUILD_TIMEOUT_SECONDS" "$RESULTS_DIR/build.stdout.log" "$RESULTS_DIR/build.stderr.log" python3 /tests/run_with_metrics.py --metrics "$BUILD_METRICS" -- /usr/sbin/runuser -u "$SUBMISSION_USER" -- /app/build.sh --corpus /task/data/corpus.jsonl --index-dir "$INDEX_DIR"
+    run_phase "$BUILD_TIMEOUT_SECONDS" "$RESULTS_DIR/build.stdout.log" "$RESULTS_DIR/build.stderr.log" python3 /tests/run_with_metrics.py --metrics "$BUILD_METRICS" -- "${SUBMISSION_COMMAND[@]}" /app/build.sh --corpus /task/data/corpus.jsonl --index-dir "$INDEX_DIR"
     build_status=$?
     if (( build_status == 124 )); then
         execution_error="build.sh exceeded its timeout"
@@ -116,7 +124,7 @@ else
     elif [[ -z "$(find "$INDEX_DIR" -mindepth 1 -print -quit 2>/dev/null)" ]]; then
         execution_error="build.sh produced an empty index"
     else
-        run_phase "$RUN_TIMEOUT_SECONDS" "$RESULTS_DIR/run.stdout.log" "$RESULTS_DIR/run.stderr.log" python3 /tests/run_with_metrics.py --metrics "$RUN_METRICS" -- /usr/sbin/runuser -u "$SUBMISSION_USER" -- /app/run.sh --index-dir "$INDEX_DIR" --queries /tests/data/hidden_queries.jsonl --output "$OUTPUT_PATH"
+        run_phase "$RUN_TIMEOUT_SECONDS" "$RESULTS_DIR/run.stdout.log" "$RESULTS_DIR/run.stderr.log" python3 /tests/run_with_metrics.py --metrics "$RUN_METRICS" -- "${SUBMISSION_COMMAND[@]}" /app/run.sh --index-dir "$INDEX_DIR" --queries /tests/data/hidden_queries.jsonl --output "$OUTPUT_PATH"
         run_status=$?
         if (( run_status == 124 )); then
             execution_error="run.sh exceeded its timeout"
@@ -125,7 +133,7 @@ else
         elif [[ ! -s "$OUTPUT_PATH" ]]; then
             execution_error="run.sh did not produce results"
         else
-            run_phase "$BASELINE_BUILD_TIMEOUT_SECONDS" "$RESULTS_DIR/starter-build.stdout.log" "$RESULTS_DIR/starter-build.stderr.log" python3 /tests/run_with_metrics.py --metrics "$BASELINE_BUILD_METRICS" -- /usr/sbin/runuser -u "$SUBMISSION_USER" -- "$BASELINE_ROOT/build.sh" --corpus /task/data/corpus.jsonl --index-dir "$BASELINE_INDEX_DIR"
+            run_phase "$BASELINE_BUILD_TIMEOUT_SECONDS" "$RESULTS_DIR/starter-build.stdout.log" "$RESULTS_DIR/starter-build.stderr.log" python3 /tests/run_with_metrics.py --metrics "$BASELINE_BUILD_METRICS" -- "${SUBMISSION_COMMAND[@]}" "$BASELINE_ROOT/build.sh" --corpus /task/data/corpus.jsonl --index-dir "$BASELINE_INDEX_DIR"
             baseline_build_status=$?
             if (( baseline_build_status == 124 )); then
                 execution_error="corrected starter build exceeded its timeout"
@@ -134,7 +142,7 @@ else
             elif [[ -z "$(find "$BASELINE_INDEX_DIR" -mindepth 1 -print -quit 2>/dev/null)" ]]; then
                 execution_error="corrected starter build produced an empty index"
             else
-                run_phase "$BASELINE_RUN_TIMEOUT_SECONDS" "$RESULTS_DIR/starter-run.stdout.log" "$RESULTS_DIR/starter-run.stderr.log" python3 /tests/run_with_metrics.py --metrics "$BASELINE_RUN_METRICS" -- /usr/sbin/runuser -u "$SUBMISSION_USER" -- "$BASELINE_ROOT/run.sh" --index-dir "$BASELINE_INDEX_DIR" --queries /tests/data/hidden_queries.jsonl --output "$BASELINE_OUTPUT_PATH"
+                run_phase "$BASELINE_RUN_TIMEOUT_SECONDS" "$RESULTS_DIR/starter-run.stdout.log" "$RESULTS_DIR/starter-run.stderr.log" python3 /tests/run_with_metrics.py --metrics "$BASELINE_RUN_METRICS" -- "${SUBMISSION_COMMAND[@]}" "$BASELINE_ROOT/run.sh" --index-dir "$BASELINE_INDEX_DIR" --queries /tests/data/hidden_queries.jsonl --output "$BASELINE_OUTPUT_PATH"
                 baseline_run_status=$?
                 if (( baseline_run_status == 124 )); then
                     execution_error="corrected starter run exceeded its timeout"
@@ -197,61 +205,22 @@ stop_submission_processes
 judge_status=0
 judge_stdout="$RESULTS_DIR/jailbreak-judge.stdout.log"
 judge_stderr="$RESULTS_DIR/jailbreak-judge.stderr.log"
-install_log="$RESULTS_DIR/rewardkit-install.log"
-export CODEX_HOME="$CODEX_HOME_DIR"
 
-if [[ ! -x /opt/conda/bin/rewardkit ]]; then
-    /opt/conda/bin/python -m pip install --no-cache-dir \
-        "harbor-rewardkit==0.1.7" >"$install_log" 2>&1 || judge_status=$?
-fi
-
-if (( judge_status == 0 )) && [[ -x /opt/conda/bin/rewardkit ]]; then
-    if [[ -z "${OPENAI_BASE_URL:-}" || -z "${OPENAI_API_KEY:-}" ]]; then
-        echo "OPENAI_BASE_URL and OPENAI_API_KEY are required for the trajectory judge" \
-            >"$judge_stderr"
-        judge_status=78
-    elif ! command -v codex >/dev/null 2>&1; then
-        echo "Codex CLI is missing from the verifier image" >"$judge_stderr"
-        judge_status=127
-    else
-        /opt/conda/bin/python - "$OPENAI_BASE_URL" "$CODEX_HOME/config.toml" <<'PY'
-import json
-import sys
-from pathlib import Path
-from urllib.parse import urlsplit
-
-base_url, config_path = sys.argv[1:]
-base_url = base_url.rstrip("/")
-parsed = urlsplit(base_url)
-if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-    raise SystemExit("OPENAI_BASE_URL must be an absolute HTTP(S) URL")
-Path(config_path).write_text(
-    "model_provider = \"search_swe_judge\"\n\n"
-    "[model_providers.search_swe_judge]\n"
-    "name = \"Search-SWE trajectory judge endpoint\"\n"
-    f"base_url = {json.dumps(base_url)}\n"
-    "wire_api = \"responses\"\n"
-    "requires_openai_auth = true\n"
-    "supports_websockets = false\n",
-    encoding="utf-8",
-)
-PY
-        config_status=$?
-        if (( config_status != 0 )); then
-            judge_status="$config_status"
-        else
-            chmod 0600 "$CODEX_HOME/config.toml"
-        fi
-    fi
+if [[ -z "${OPENAI_BASE_URL:-}" || -z "${OPENAI_API_KEY:-}" ]]; then
+    echo "OPENAI_BASE_URL and OPENAI_API_KEY are required for the DeepSeek trajectory judge" \
+        >"$judge_stderr"
+    judge_status=78
 fi
 
 if (( judge_status == 0 )); then
     /usr/bin/timeout --signal=TERM --kill-after=30s "$JUDGE_TIMEOUT_SECONDS"s \
-        /opt/conda/bin/rewardkit \
+        /opt/conda/bin/python /tests/rewardkit_deepseek.py \
         /tests \
         --workspace /app \
         --output /logs/verifier/reward.json \
         --max-concurrent-agent 1 \
+        --judge deepseek-codex \
+        --model deepseek-flash \
         >"$judge_stdout" 2>"$judge_stderr"
     judge_status=$?
 fi

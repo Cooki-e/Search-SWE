@@ -108,9 +108,10 @@ contains `gold_recall_at_5`.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 No `ANSWER_JUDGE_*` or `VERIFIER_OPENAI_*` settings are required for this task.
@@ -139,7 +140,8 @@ python scripts/download_assets.py --task task-2-4
 bash scripts/run_task.sh --task task-2-4 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-2-4/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-2-4/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

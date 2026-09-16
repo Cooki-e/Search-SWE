@@ -52,8 +52,10 @@ datasets, labels, and answer mappings are not permitted; see the
 
 The runtime uses Python 3.12 with CUDA-enabled PyTorch. It is configured for
 8 CPUs, 32 GiB memory, and 100 GiB storage. The environment and verifier
-Compose files explicitly request **one NVIDIA GPU**. Their GPU request is
-important even though the generic `task.toml` field currently reads `gpus = 0`.
+Compose files and `task.toml` explicitly request **one NVIDIA GPU**.
+For local Docker, the shared launcher works around Harbor 0.22.0's GPU
+capability preflight with `--override-gpus 0`; the Compose reservations still
+provide the GPU to both containers.
 
 The agent phase has 12 hours. Task-specific verification has one hour,
 followed by a separately bounded integrity check, within an 85-minute Harbor
@@ -96,12 +98,15 @@ validation results do not replace the verifier's independent comparison.
 
 A trajectory audit gates the nonnegative quality gain. A failed audit or
 invalid evaluation produces zero, regardless of the apparent training result.
+The audit uses `deepseek-flash` through pinned RewardKit 0.2.0 with
+verifier-only DeepSeek endpoint and key settings.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 Prepare an NVIDIA-capable Docker host and the GPU base image referenced by the
@@ -113,7 +118,8 @@ python scripts/download_assets.py --task task-2-2
 bash scripts/run_task.sh --task task-2-2 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-2-2/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-2-2/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

@@ -87,6 +87,8 @@ The answer judge and trajectory audit are separate. The first evaluates answer
 equivalence; the second checks task compliance and can set the whole reward
 to zero. Their credentials are isolated from submission processes and from
 each other.
+The trajectory audit uses `deepseek-flash` through pinned RewardKit 0.2.0;
+the answer judge keeps its independently configured model.
 
 The package retains its source task's PDF and question data. Current task
 identity and execution settings are recorded in `task.toml`; historical
@@ -94,14 +96,15 @@ migration identifiers are not needed to run it.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 This task needs both `ANSWER_JUDGE_*` settings for answer scoring and
 `VERIFIER_OPENAI_*` settings for the trajectory audit. Optional submission APIs
-use shared `OPENROUTER_API_KEY` and `JINA_API_KEY`. The launcher guide explains
+use shared `OPENROUTER_API_KEY` and `JINA_API_KEY`. The evaluation guide explains
 the separate credential groups and their API requirements.
 
 ```bash
@@ -109,7 +112,8 @@ python scripts/download_assets.py --task task-1-3
 bash scripts/run_task.sh --task task-1-3 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-1-3/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-1-3/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

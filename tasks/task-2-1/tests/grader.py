@@ -28,7 +28,20 @@ BUILD_TIMEOUT = 1800.0
 RUN_TIMEOUT = 3600.0
 MAX_CANDIDATES = 100
 METRIC_K = 5
-SUBMISSION_PREFIX = ["/usr/sbin/runuser", "-u", "submission", "--"]
+SUBMISSION_PREFIX = [
+    "/usr/sbin/runuser",
+    "-u",
+    "submission",
+    "--",
+    "/usr/bin/env",
+    "-i",
+    "HOME=/home/submission",
+    "USER=submission",
+    "LOGNAME=submission",
+    "PATH=/opt/conda/bin:/usr/local/bin:/usr/bin:/bin",
+    "LANG=C.UTF-8",
+    "PYTHONUNBUFFERED=1",
+]
 
 
 def finite_number(value: object) -> bool:

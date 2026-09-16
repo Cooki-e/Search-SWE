@@ -17,6 +17,10 @@ The submission must keep all required runtime state under the index directory
 provided to `build.sh`. It must not depend on credentials, undeclared files,
 background services, or files outside the task inputs and its own index.
 
+The coding agent's own model connection is a Harbor phase-scoped exception and
+does not grant the formal build or search process access to that model or to the
+internet.
+
 See `environment.md` for runtime limits and `index_format.md` for the starter
 index layout. The formal quality gates and latency reward are defined in
 `/task/instruction.md`.

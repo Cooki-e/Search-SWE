@@ -83,12 +83,15 @@ and the execution budgets must all pass.
 A separate trajectory judge checks task and resource compliance. Final reward
 is `1` only when all hidden cases and the integrity gate pass; otherwise `0`.
 The judge assesses the agent's trajectory, not answer quality.
+It uses `deepseek-flash` through pinned RewardKit 0.2.0; configure its
+verifier-only DeepSeek endpoint and key as described in the evaluation guide.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 Configure the verifier's integrity-judge credentials independently of the coding
@@ -100,7 +103,8 @@ python scripts/download_assets.py --task task-1-1
 bash scripts/run_task.sh --task task-1-1 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-1-1/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-1-1/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

@@ -27,24 +27,25 @@ user = "root"
 network_mode = "allowlist"
 allowed_hosts = [
     "openrouter.ai",
-    "*.openrouter.ai",
     "api.jina.ai",
-    "*.jina.ai",
 ]
 
 [verifier]
 timeout_sec = 10800.0
 user = "root"
 environment_mode = "separate"
-network_mode = "public"
+network_mode = "allowlist"
+allowed_hosts = [
+    "openrouter.ai",
+    "api.jina.ai",
+    "api.deepseek.com",
+]
 
 [environment]
 network_mode = "allowlist"
 allowed_hosts = [
     "openrouter.ai",
-    "*.openrouter.ai",
     "api.jina.ai",
-    "*.jina.ai",
 ]
 build_timeout_sec = 1800.0
 workdir = "/app"
