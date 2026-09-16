@@ -1,145 +1,105 @@
-# Running a task
+# Quick start
 
-The shared launcher, `scripts/run_task.sh`, runs tasks with the Codex agent.
-Agent credentials, verifier credentials, and optional container proxy settings
-are configured locally.
+This guide runs one CPU task with the Codex coding agent. It keeps the first
+setup small; other tasks, Pi providers, GPU requirements, optional submission
+APIs, Claude Code, proxies, and custom Codex providers are covered in the
+[full evaluation guide](evaluation.md).
 
-## Prerequisites
+Run every command below from the Search-SWE repository root.
 
-With Python 3.12 or newer, install the pinned Harbor version in the environment
-you will use to launch tasks:
+## 1. Install the launcher
+
+Search-SWE requires Python 3.12+, Docker, and enough CPU, memory, and storage
+for the selected task. In any existing Python 3.12+ environment, install the
+launcher and asset-downloader dependencies directly:
 
 ```bash
-python -m pip install -r scripts/requirements-run.txt
+python -m pip install -r scripts/requirements.txt
 ```
 
-This installs Harbor and its `python-dotenv` dependency. The tasks use schema
-1.4, separate verifier environments, and native Codex configuration.
+An isolated venv or Conda environment is recommended if you do not already use
+one, but Search-SWE does not require a particular environment manager.
+Task-specific Python packages are installed in Docker images, not in this host
+environment. Confirm that Docker is available before continuing:
 
-Prepare Docker, the base images referenced by the task Dockerfiles, and the
-CPU/GPU resources required by the task configuration. Restore the task's `data/`
-and, where required, `models/` using the [asset download scripts](assets.md).
-The launcher checks file presence and size. Use the downloader's `--verify-only`
-option for full SHA-256 verification.
+```bash
+docker info
+```
 
-## Configure services
+## 2. Restore one task
 
-From the repository root:
+Start with `task-1-1`, a CPU task with a small asset bundle. Do not download
+every task for a first run:
+
+```bash
+python scripts/download_assets.py --task task-1-1
+python scripts/download_assets.py --task task-1-1 --verify-only
+```
+
+The second command verifies file sizes and SHA-256 checksums. See the
+[asset guide](assets.md) for cache, offline, and per-kind options.
+
+## 3. Configure the two services
+
+Copy the complete environment template, then fill only the Codex-agent and
+RewardKit-verifier sections used by this walkthrough:
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and fill in:
+For `task-1-1`, fill in these two credential pairs:
 
-| Variable | Purpose |
-| --- | --- |
-| `AGENT_MODEL` | Model used by the coding agent; `--model` overrides it |
-| `AGENT_OPENAI_BASE_URL` | Agent API base URL supplied by your provider |
-| `AGENT_OPENAI_API_KEY` | Agent API key |
-| `VERIFIER_OPENAI_BASE_URL` | Integrity-judge API base URL |
-| `VERIFIER_OPENAI_API_KEY` | Integrity-judge API key |
-| `ANSWER_JUDGE_MODEL_NAME`, `ANSWER_JUDGE_BASE_URL`, `ANSWER_JUDGE_API_KEY` | Independent answer judge for task 1-3; Chat Completions API |
-| `OPENROUTER_API_KEY` | Shared submission resource key for tasks 1-3, 1-4, and 2-4 |
-| `JINA_API_KEY` | Shared submission resource key for tasks 1-1, 1-3, 1-4, and 2-4 |
-| `TASK_1_1_OPENROUTER_API_KEY` | Task 1-1's separate OpenRouter key, restricted to its permitted models |
+- `AGENT_OPENAI_BASE_URL` and `AGENT_OPENAI_API_KEY` run the coding agent.
+- `VERIFIER_OPENAI_BASE_URL=https://api.deepseek.com/` and
+  `VERIFIER_OPENAI_API_KEY` run the independent `deepseek-flash` trajectory
+  judge through RewardKit 0.2.0.
 
-The launcher maps the `AGENT_` pair to the agent's `OPENAI_BASE_URL` and
-`OPENAI_API_KEY`, and the `VERIFIER_` pair to the verifier's variables of the same
-names. They can use different services. To share a service, fill in the same
-values in both sections.
+Set `AGENT_MODEL` in `.env`, or pass `--model` on the command line. The agent
+and verifier may use the same DeepSeek account, but they remain separate
+configuration groups and only the verifier receives the `VERIFIER_*` values.
+`task-1-1` also permits OpenRouter and Jina as submission resources;
+their keys are optional and are not needed for an implementation that uses only
+the provided corpus and local runtime.
 
-Choose a verifier service that supports the Responses API and the judge model
-specified in the task's `tests/jailbreak_judge/codex.toml`. Tasks 1-3 and 1-4
-use `gpt-5.6-sol`, matching task 1-1. `--model` selects
-the coding agent; it does not change the task's judge model.
-
-Task 1-3 requires both judge groups. Task 1-4 requires only the trajectory
-judge; page Recall@5 is deterministic. Task 2-4 uses Gold Recall@5 and requires
-neither judge group. The launcher requires and forwards judge settings only
-for tasks that use them. Submission commands receive only their permitted
-task-resource keys. Task 1-1 maps its dedicated OpenRouter key to
-`OPENROUTER_API_KEY` inside the container and uses the shared Jina key. Tasks
-1-3, 1-4, and 2-4 use the shared OpenRouter and Jina keys directly. Task 2-4
-does not use SiliconFlow.
-
-The repository `.env` is loaded automatically if present. `--env-file` selects
-another file. Exported shell variables override file values. Values in the file
-are literal: shell commands and variable substitutions are not executed. The
-launcher does not read `~/.codex/auth.json`. Git ignores `.env`, `.env.*` (except
-the template), `*.local.toml`, and `jobs/`.
-
-## Optional proxy
-
-Leave `CONTAINER_PROXY` empty when a container proxy is unnecessary. When needed,
-set it to your own proxy URL reachable from inside Docker. The launcher forwards
-it as both lowercase and uppercase HTTP/HTTPS proxy variables to the agent and
-verifier, with the exclusions in `CONTAINER_NO_PROXY`.
-
-The launcher does not copy the host's ordinary `HTTP_PROXY` or `HTTPS_PROXY`
-variables into the container arguments. Host-side proxy settings and Docker
-image-pull/build networking are configured separately. A host-only address such
-as `127.0.0.1` refers to the container itself when used inside that container.
-
-## Preview and launch
-
-Preview command construction without launching containers or making API calls:
+The local `.env` is ignored by Git. Do not commit or print credentials. On a
+multi-user Unix host, restrict it after adding credentials:
 
 ```bash
-bash scripts/run_task.sh --task task-1-1 --model gpt-5.6-sol --dry-run
+chmod 600 .env
 ```
 
-The preview prints environment-variable references instead of their values. It
-does not validate credentials, assets, hardware, or API availability. After
-preparing those prerequisites, launch:
+## 4. Preview, then run
+
+First inspect the Harbor command without starting containers or making API
+calls:
+
+```bash
+bash scripts/run_task.sh --task task-1-1 --dry-run
+```
+
+The preview checks command construction only; it does not validate credentials,
+assets, Docker, hardware, or service availability. Start a fresh evaluation
+after those prerequisites are ready:
 
 ```bash
 bash scripts/run_task.sh \
   --task task-1-1 \
-  --model gpt-5.6-sol \
-  --reasoning-effort xhigh \
-  --output jobs/task-1-1-sol
+  --reasoning-effort high \
+  --output jobs/task-1-1-codex
 ```
 
-The launcher uses Docker, forced image rebuild, setup timeout multiplier 3,
-concurrency 1, one attempt, and no retries. It invokes
-Harbor with `--yes` after checking required configuration and asset presence.
-Harbor writes results below the selected output directory, defaulting to
-`jobs/<task-id>/`. Task resource budgets and scoring remain in the task package.
+Omit `--reasoning-effort` when the selected model or provider does not support
+it. Results are written below the output directory as Harbor job records.
+Inspect the job reward, verifier logs, and transferred artifacts before treating
+the run as successful.
 
-## Custom Codex provider
+## Next steps
 
-For a custom provider, keep native Codex settings in a local TOML file and pass
-`--codex-config`. For example, save this DeepSeek configuration as
-`deepseek.local.toml`:
-
-```toml
-model = "deepseek-v4-flash"
-model_provider = "deepseek"
-model_reasoning_effort = "high"
-model_context_window = 1048576
-
-[model_providers.deepseek]
-name = "deepseek"
-base_url = "https://api.deepseek.com/"
-wire_api = "responses"
-env_key = "OPENAI_API_KEY"
-requires_openai_auth = false
-```
-
-Set `AGENT_OPENAI_BASE_URL` to the matching provider URL and
-`AGENT_OPENAI_API_KEY` to your own key. Keep the verifier pair configured for its
-fixed judge model. Then run:
-
-```bash
-bash scripts/run_task.sh \
-  --task task-1-1 \
-  --model deepseek-v4-flash \
-  --codex-config deepseek.local.toml \
-  --output jobs/task-1-1-deepseek
-```
-
-Clear `AGENT_REASONING_EFFORT` to use the native configuration's effort, or set
-`--reasoning-effort` to override it. `--codex-config` paths are relative to your
-current directory; `AGENT_CODEX_CONFIG` paths in `.env` are relative to the
-repository root. The provider block's URL must agree with your agent endpoint.
+- Read the [full evaluation guide](evaluation.md) before selecting another task
+  or agent. It documents Codex, Pi, and the pinned Claude Code 2.1.273 launcher,
+  and its task matrix lists exactly which additional credentials and hardware
+  each task uses.
+- Read the selected task's `README.md` and `instruction.md` for its resource
+  budget, submission contract, and scoring rules.
+- Use the [asset guide](assets.md) to restore only that task's fixed inputs.
