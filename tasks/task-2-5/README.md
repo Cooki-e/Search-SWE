@@ -103,12 +103,15 @@ If either quality threshold, output and execution checks, or the trajectory
 audit fails, final reward is `0`. Otherwise the final reward is the latency
 reward described above. The corrected starter is a measured runtime reference,
 not a fixed published timing that submissions can assume on every machine.
+The audit uses `deepseek-flash` through pinned RewardKit 0.2.0 with
+verifier-only DeepSeek endpoint and key settings.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 Configure the verifier's integrity-judge credentials independently of the coding
@@ -121,7 +124,8 @@ python scripts/download_assets.py --task task-2-5
 bash scripts/run_task.sh --task task-2-5 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-2-5/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-2-5/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

@@ -51,8 +51,11 @@ results. The final submission must be self-contained and offline.
 ### Environment and Resource Limits
 
 The Python 3.12 runtime uses CUDA-enabled PyTorch, 8 CPUs, 32 GiB memory, and
-100 GiB storage. Both Compose configurations request **one NVIDIA GPU**,
-despite the generic `task.toml` field currently reading `gpus = 0`.
+100 GiB storage. Both Compose configurations and `task.toml` request **one
+NVIDIA GPU**.
+For local Docker, the shared launcher works around Harbor 0.22.0's GPU
+capability preflight with `--override-gpus 0`; the Compose reservations still
+provide the GPU to both containers.
 
 The agent has 12 hours. Task-specific verification has 70 minutes inside
 the 95-minute Harbor verifier phase, with the integrity check bounded separately.
@@ -94,12 +97,15 @@ clean process termination are also checked.
 
 The normalized quality reward is accepted only after runtime and validity gates
 and the independent trajectory audit pass. Failure at any gate produces zero.
+The audit uses `deepseek-flash` through pinned RewardKit 0.2.0 with
+verifier-only DeepSeek endpoint and key settings.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 Prepare the GPU runtime and configure the independent integrity judge. Download
@@ -111,7 +117,8 @@ python scripts/download_assets.py --task task-2-3
 bash scripts/run_task.sh --task task-2-3 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-2-3/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-2-3/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

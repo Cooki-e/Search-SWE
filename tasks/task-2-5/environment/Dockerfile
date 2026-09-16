@@ -1,24 +1,22 @@
-FROM search-swe-base:cpu-py3.12-1.0.0-codex-npm-0.151.0
+FROM docker.io/hanhainebula/search-swe-base:cpu-py3.12-1.0.0
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_NO_CACHE_DIR=1
-
-WORKDIR /app
-
-COPY requirements.txt /tmp/requirements.txt
-RUN if grep -q '[^[:space:]]' /tmp/requirements.txt; then \
-        python -m pip install --no-cache-dir -r /tmp/requirements.txt; \
-    fi \
-    && rm -f /tmp/requirements.txt
+ARG SEARCH_SWE_CODEX_VERSION=0.147.0
+ARG SEARCH_SWE_CLAUDE_CODE_VERSION=2.1.273
+ARG SEARCH_SWE_PI_VERSION=0.85.1
+RUN npm install --global --ignore-scripts \
+        --registry=https://registry.npmmirror.com \
+        "@openai/codex@${SEARCH_SWE_CODEX_VERSION}" \
+        "@earendil-works/pi-coding-agent@${SEARCH_SWE_PI_VERSION}" \
+    && npm install --global \
+        --registry=https://registry.npmmirror.com \
+        "@anthropic-ai/claude-code@${SEARCH_SWE_CLAUDE_CODE_VERSION}" \
+    && codex --version | grep -Fx "codex-cli ${SEARCH_SWE_CODEX_VERSION}" \
+    && test "$(pi --version)" = "${SEARCH_SWE_PI_VERSION}" \
+    && test "$(claude --version)" = "${SEARCH_SWE_CLAUDE_CODE_VERSION} (Claude Code)"
+RUN claude --help | grep -F "(low, medium, high, xhigh, max)" >/dev/null
 
 COPY starter/ /app/
 
 RUN test -x /app/build.sh \
     && test -x /app/run.sh \
-    && python3 -m py_compile /app/src/sparse_retrieval.py \
-    && mkdir -p /app /logs /cache/huggingface \
-    && (id -u submission >/dev/null 2>&1 || useradd --create-home --uid 10001 submission)
-
-CMD ["sleep", "infinity"]
+    && python3 -m py_compile /app/src/sparse_retrieval.py

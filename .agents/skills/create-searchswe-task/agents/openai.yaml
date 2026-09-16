@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Search-SWE Task"
+  short_description: "Create and validate a new Search-SWE task package"
+  default_prompt: "Use $create-searchswe-task to add a validated Search-SWE task package to this repository."

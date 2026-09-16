@@ -11,7 +11,7 @@ The objective is to maximize retrieval quality on held-out queries under the eva
 - Create or modify submission files only under `/app`.
 - Treat `/task` as read-only.
 - Use only the supplied precomputed vectors and task data for retrieval. Do not use external models, retrieval services, external datasets containing evaluation results, or precomputed query-to-result mappings.
-- Read `/task/docs/environment.md` for the installed runtime, packages, and system tools available in the container.
+- Read `/task/docs/environment.md` and `/task/docs/available_resources.md` for the installed runtime, local resources, and network restrictions.
 - `build.sh` and `run.sh` must be executable files under `/app`.
 - During verification, `/app` is read-only and the submission runs as a non-root user. Only the supplied `--index-dir` is writable for persistent and runtime-generated artifacts.
 - The evaluator allows up to 120 minutes for the Agent to complete this task; plan implementation, validation, and debugging within this time budget.

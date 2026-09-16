@@ -1,97 +1,247 @@
-# Search-SWE
+<p align="center">
+  <img src="assets/hero.png" alt="Search-SWE — Benchmarking coding agents on search-system engineering">
+</p>
 
-[English](README.md) | [Chinese](README_zh.md)
+<h1 align="center">
+  Search-SWE
+  <br>
+  <sub>🔍 Benchmarking coding agents on search-system engineering. 🤖</sub>
+</h1>
 
-**Benchmarking coding agents on search-system engineering.**
+<p align="center">
+  <a href="https://search-swe.github.io/"><img src="https://img.shields.io/badge/Homepage-Search--SWE-0E9B9B?style=for-the-badge&logo=githubpages&logoColor=white" alt="Search-SWE homepage"></a>
+  <a href="https://search-swe.github.io/tasks.html"><img src="https://img.shields.io/badge/Task_Gallery-Browse-5865F2?style=for-the-badge" alt="Search-SWE task gallery"></a>
+  <a href="https://huggingface.co/datasets/search-swe/Search-SWE"><img src="https://img.shields.io/badge/HuggingFace-Search--SWE-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black" alt="Search-SWE dataset on Hugging Face"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-lightgrey?style=for-the-badge&logo=apache&logoColor=white" alt="License: Apache 2.0"></a>
+</p>
 
-[![Project Website](https://img.shields.io/badge/github-Search--SWE-blue?logo=github)](https://search-swe.github.io/) [![Task Gallery](https://img.shields.io/badge/github-Task_Gallery-blue?logo=github)](https://search-swe.github.io/tasks.html) [![Data](https://img.shields.io/badge/HuggingFace-Search--SWE-blue?logo=huggingface)](https://huggingface.co/datasets/search-swe/Search-SWE) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  <b>English</b> · <a href="README_zh.md">简体中文</a>
+</p>
 
+> *Note: Search-SWE is an ongoing project; tasks, documentation, and results
+> are still evolving.*
 
-Search-SWE evaluates whether coding agents can **implement, optimize, and repair** search systems under fixed resource constraints. Agents inspect an environment, write and run code, test their systems, and iterate toward an executable submission. Evaluation measures the behavior of the resulting system, including retrieval quality, functional correctness, and resource use.
+## 📖 Overview
 
-> In progress
+Search-SWE evaluates whether coding agents can **implement and optimize** real
+search systems under fixed resource constraints. Agents inspect an environment,
+write and run code, test their systems, and iterate toward an executable
+submission. Evaluation measures the behavior of the resulting system, including
+retrieval quality, functional correctness, and resource use.
 
-## 📝 Task Categories
-
-| Category | Agent objective | Example problems |
+| Mode | Agent objective | Example problems |
 | --- | --- | --- |
-| Implementation | Build a search capability from a task specification. | Reasoning-assisted retrieval; memory-constrained vector search. |
-| Optimization | Improve an existing system within task-specific constraints. | Long-document reranking; embedding fine-tuning; query-encoder optimization. |
-| Repair | Diagnose and fix failures in a search system. | Retrieval pipeline bugs; model inference compatibility. |
+| Implementation | Build a working search capability from a task specification. | Reasoning-assisted retrieval; memory-constrained vector search. |
+| Optimization | Improve search quality or efficiency within fixed constraints. | Long-document reranking; embedding fine-tuning; query-encoder optimization. |
 
-Each task specifies its inputs, submission interface, evaluation criteria, and resource budget. Depending on the task, agents receive a corpus, public validation examples, starter code, or fixed model assets. Task-specific rules govern access to models, tools, and network services.
+Each task specifies its inputs, submission interface, evaluation criteria, and
+resource budget. See the [benchmark design](docs/benchmark.md) for how
+evaluation works, how the repository is organized, and where fixed data and
+models come from.
 
-## 📊 Evaluation
+## 🚀 Quick Start
 
-Tasks use sandboxed environments and a separate verifier. Depending on the task, verification checks:
+This walkthrough runs `task-1-1` on CPU with the Pi coding agent and DeepSeek
+Flash. Search-SWE requires Python 3.12 or newer and Docker with the CPU, memory,
+storage, and optional GPU capacity of the task you select.
 
-- **Functionality:** required interfaces, valid outputs, and successful execution.
-- **Retrieval quality:** performance on held-out queries, using the task's specified metric and thresholds.
-- **Efficiency:** build time, query latency, memory use, or other resource limits.
-- **Integrity:** compliance with task rules, including restrictions on hidden evaluation data and permitted resources.
-
-Scoring is defined per task. Some tasks require all correctness and resource checks to pass; others measure improvement over a supplied baseline.
-
-## 🧩 Repository Structure
-
-The repository separates task code from downloadable data and model assets.
-
-```text
-Search-SWE/
-├── README.md
-├── README_zh.md
-├── LICENSE
-├── tasks/
-│   ├── <task-id>/                # Task package
-│   │   ├── instruction.md        # Agent-facing task specification
-│   │   ├── task.toml             # Task and environment configuration
-│   │   ├── assets.json           # Fixed input file sizes and checksums
-│   │   ├── environment/          # Dockerfile, starter code, and environment docs
-│   │   └── tests/                # Verifier and grading code
-│   └── ...                       # Additional task packages
-├── scripts/
-│   ├── download_assets.py        # Download and verify fixed data/model inputs
-│   ├── download_models.py        # Download fixed models only
-│   ├── check_release.py          # Check package structure and asset mappings
-│   ├── run_task.sh               # Shared Harbor launcher (Codex agent)
-│   └── run_task.py               # Configuration loading and command construction
-└── docs/                         # Installation and evaluation guides
-```
-
-## 🧠 Data and Models
-
-Task data is hosted on Hugging Face in [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE). Pretrained weights are downloaded from their original model repositories.
-
-Each task's `assets.json` records its fixed input files, sizes, SHA-256 checksums, and download sources. Runtime data belongs in `tasks/<task-id>/data/` and fixed models in `tasks/<task-id>/models/`; these directories are excluded from Git. Dataset and model revisions are pinned to immutable commits. See the [asset guide](docs/assets.md) for the directory layout, downloads, and local restoration options.
-
-Dataset provenance, processing details, and licensing information are documented in the Hugging Face dataset card. Hidden evaluation queries and labels belong in the task package's `tests/data/` and are kept separate from the downloadable task data.
-
-## 🚀 Getting Started
-
-Clone the repository:
+### 1. Install the host tools
 
 ```bash
 git clone https://github.com/VectorSpaceLab/Search-SWE.git
 cd Search-SWE
+python -m pip install -r scripts/requirements.txt
 ```
 
-With Python 3.12 or newer, install the download dependency and restore fixed inputs:
+`scripts/requirements.txt` provides the pinned Harbor launcher and the Hugging
+Face asset client. Run the command in any existing Python 3.12+ environment;
+an isolated venv or Conda environment is recommended if you do not already use
+one, but no particular environment manager is required. Task-specific Python
+packages are installed inside Docker.
+
+### 2. Restore the task inputs
 
 ```bash
-python -m pip install -r scripts/requirements-assets.txt
-python scripts/download_assets.py --task all --kind data
-python scripts/download_models.py --task all
+python scripts/download_assets.py --task task-1-1
+python scripts/download_assets.py --task task-1-1 --verify-only
 ```
 
-Use `--task task-2-1`, for example, to download one task. The downloader verifies sizes and SHA-256 checksums and reuses valid existing files. See the [asset guide](docs/assets.md) for verification and cache options.
+The downloader checks sizes and SHA-256 checksums and reuses valid files.
 
-Running the benchmark also requires a compatible Harbor installation, Docker, the referenced base images, and task-specific CPU/GPU resources.
+### 3. Configure the agent and verifier
 
-The [launcher guide](docs/quickstart.md) describes the prerequisites, independent agent and verifier API configuration, optional container proxies, and launch commands.
+The tracked template lists every supported credential and explains when each
+one is needed. Copy it once; put real secrets only in the ignored `.env` file:
 
-For task descriptions, visit the [project website](https://search-swe.github.io/). The website is maintained in a [separate repository](https://github.com/search-swe/search-swe.github.io).
+```bash
+cp .env.example .env
+chmod 600 .env
+```
+
+For this Pi + DeepSeek walkthrough, set these four values in `.env` and leave
+unneeded groups empty:
+
+```dotenv
+AGENT_MODEL=deepseek/deepseek-flash
+DEEPSEEK_API_KEY=YOUR_DEEPSEEK_KEY
+VERIFIER_OPENAI_BASE_URL=https://api.deepseek.com/
+VERIFIER_OPENAI_API_KEY=YOUR_DEEPSEEK_KEY
+```
+
+`DEEPSEEK_API_KEY` authenticates the Pi agent for `deepseek/deepseek-flash`.
+The `VERIFIER_*` pair runs the independent `deepseek-flash` trajectory judge
+through RewardKit 0.2.0 and is required by every task except `task-2-4`. The
+same DeepSeek key may be assigned to both variables, but the launcher passes
+the verifier copy only to the verifier container.
+
+For other runs, fill only the matching sections already present in `.env`:
+
+- Pi + GLM-5.3-Flash: `AGENT_MODEL=zai/glm-5.3-flash` and `ZAI_API_KEY`.
+- Codex: `AGENT_MODEL`, `AGENT_OPENAI_BASE_URL`, and `AGENT_OPENAI_API_KEY`.
+- Claude Code: `AGENT_MODEL` and `AGENT_ANTHROPIC_API_KEY`; the launcher uses
+  only Anthropic's official API.
+- Task 1-3: the three `ANSWER_JUDGE_*` values are also required.
+- Optional submission APIs: use `TASK_1_1_OPENROUTER_API_KEY`,
+  `OPENROUTER_API_KEY`, or `JINA_API_KEY` only for the tasks identified by the
+  comments in `.env.example`.
+
+The [evaluation guide](docs/evaluation.md) documents credential isolation,
+custom endpoints, proxies, and the complete per-task matrix.
+
+### 4. Run with Pi and DeepSeek Flash
+
+```bash
+bash scripts/run_task.sh --task task-1-1 --agent pi \
+  --thinking xhigh --dry-run
+
+bash scripts/run_task.sh --task task-1-1 --agent pi \
+  --thinking xhigh \
+  --output jobs/task-1-1-pi-deepseek
+```
+
+The dry run only prints the Harbor command. The second command builds the task
+images, runs the agent and the separate verifier, and writes the reward and job
+records under `jobs/task-1-1-pi-deepseek`.
+
+<details>
+<summary><strong>Alternative agent examples</strong></summary>
+
+These examples reuse the downloaded task inputs and the `VERIFIER_*` pair above.
+Configure only the coding-agent credential group for the option you choose.
+
+#### Pi and Z.AI GLM-5.3-Flash
+
+In `.env`, change the agent model and fill its matching key. Keep the
+`VERIFIER_*` DeepSeek settings because the RewardKit judge does not change:
+
+```dotenv
+AGENT_MODEL=zai/glm-5.3-flash
+ZAI_API_KEY=YOUR_ZAI_KEY
+```
+
+```bash
+bash scripts/run_task.sh --task task-1-1 --agent pi \
+  --thinking xhigh \
+  --output jobs/task-1-1-pi-glm
+```
+
+#### Codex and a GPT model
+
+Set the model name accepted by your GPT-compatible endpoint and its credentials:
+
+```dotenv
+AGENT_MODEL=YOUR_GPT_MODEL
+AGENT_OPENAI_BASE_URL=https://your-agent-endpoint.example/v1
+AGENT_OPENAI_API_KEY=YOUR_AGENT_KEY
+```
+
+```bash
+bash scripts/run_task.sh --task task-1-1 --agent codex \
+  --reasoning-effort xhigh --output jobs/task-1-1-codex
+```
+
+Omit `--reasoning-effort` when the selected model or provider does not support
+it.
+
+#### Claude Code and the official Anthropic API
+
+Claude Code 2.1.273 is preinstalled in every task image. Set an Anthropic model
+available to your API account and the dedicated coding-agent key:
+
+```dotenv
+AGENT_MODEL=claude-sonnet-4-6
+AGENT_ANTHROPIC_API_KEY=YOUR_ANTHROPIC_KEY
+```
+
+```bash
+bash scripts/run_task.sh --task task-1-1 --agent claude-code \
+  --reasoning-effort high --output jobs/task-1-1-claude
+```
+
+The shared launcher supports API-key authentication to `api.anthropic.com`;
+custom gateways, subscription OAuth, Bedrock, Vertex, ACP, and custom Claude
+settings are intentionally outside the initial support scope. The
+[quick start guide](docs/quickstart.md) covers the default Codex path;
+the [evaluation guide](docs/evaluation.md) covers the per-task credential and
+hardware matrix plus GPU, network-policy, and custom-provider options.
+
+</details>
+
+## 📚 Documentation
+
+| Document | Contents |
+| --- | --- |
+| [Quick start guide](docs/quickstart.md) | A first CPU evaluation, end to end |
+| [Evaluation guide](docs/evaluation.md) | Per-task credentials, coding agents, GPU, network policy, and custom providers |
+| [Network policy](docs/network-policy.md) | Harbor egress modes and exact per-task host allowlists |
+| [Asset guide](docs/assets.md) | Downloading, verifying, and restoring fixed data and models |
+| [Benchmark design](docs/benchmark.md) | Evaluation, repository layout, and data provenance |
+
+For task descriptions and results, visit the
+[project website](https://search-swe.github.io/), maintained in a
+[separate repository](https://github.com/search-swe/search-swe.github.io).
+
+## 🤝 Contributing
+
+Contributions to task packages, shared images, launchers, tests, and
+documentation are welcome. Keep each change focused and include evidence for
+the validation layers you actually ran.
+
+For a new task or a substantial task revision, start with the repository-local
+[contributor workflow](.agents/AGENTS.md) and the
+[`create-searchswe-task` skill](.agents/skills/create-searchswe-task/SKILL.md).
+The `.agents/` directory contains skills, references, and helpers for
+agent-assisted contributions. A compatible agent harness can invoke
+`$create-searchswe-task`; otherwise, read the skill file directly. It covers
+task design, CPU/GPU scaffolding, fixed inputs, verifier isolation, and staged
+validation.
+
+Reuse the shared images described in [`docker/README.md`](docker/README.md),
+and never commit API keys, downloaded task inputs, hidden verifier data, or job
+outputs. Keep `README.md` and `README_zh.md` aligned when changing shared user
+documentation.
+
+Before opening a pull request, run at least the repository-level checks:
+
+```bash
+python scripts/check_release.py
+python -m unittest discover -s scripts/tests -p 'test_*.py'
+git diff --check
+```
+
+Task changes also need the task-specific and runtime checks described in the
+skill's [validation guide](.agents/skills/create-searchswe-task/references/validation.md).
+If you modify the skill or its scaffolder, run:
+
+```bash
+python .agents/skills/create-searchswe-task/scripts/test_scaffold_task.py
+```
+
+In the pull request, summarize the scope, list the commands and results, and
+identify any checks that were not run because they require external data, GPU
+hardware, credentials, or paid APIs.
 
 ## Citation
 
-## Acknowledgments
-This repository and documentation page are maintained by the VectorSpaceLab.
+TBA

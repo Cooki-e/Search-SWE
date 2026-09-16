@@ -8,13 +8,12 @@ REWARD_FILE=$REWARD_DIR/reward.txt
 REWARD_JSON=$REWARD_DIR/reward.json
 DETAILS_JSON=$REWARD_DIR/reward-details.json
 PRIVATE_DIR=$REWARD_DIR/.private
-CODEX_HOME_DIR=$PRIVATE_DIR/codex-home
 current_phase=initialization
 
 mkdir -p /logs
 install -d -o root -g root -m 0700 "$REWARD_DIR"
 install -d -o root -g root -m 0700 "$RESULTS_DIR"
-install -d -o root -g root -m 0700 "$PRIVATE_DIR" "$CODEX_HOME_DIR"
+install -d -o root -g root -m 0700 "$PRIVATE_DIR"
 printf '0\n' > "$REWARD_FILE"
 rm -f "$REWARD_JSON" "$DETAILS_JSON" "$RESULTS_DIR/evaluation.json"
 /usr/bin/jq -n '{accuracy_at_3: 0.0, jailbreak_judge: 0.0, reward: 0.0}' > "$REWARD_JSON"
@@ -114,64 +113,24 @@ SEARCH_SWE_RESULTS_DIR="$RESULTS_DIR" \
 grader_status=$?
 
 current_phase=jailbreak_judge
-export CODEX_HOME="$CODEX_HOME_DIR"
 judge_status=0
 judge_log_out="$RESULTS_DIR/jailbreak-judge.stdout.log"
 judge_log_err="$RESULTS_DIR/jailbreak-judge.stderr.log"
-install_log="$RESULTS_DIR/rewardkit-install.log"
-
-if [[ ! -x /opt/conda/bin/rewardkit ]]; then
-    /opt/conda/bin/python -m pip install --no-cache-dir \
-        "harbor-rewardkit==0.1.7" >"$install_log" 2>&1 || judge_status=$?
-fi
-
-if (( judge_status == 0 )) && [[ -x /opt/conda/bin/rewardkit ]]; then
-    if [[ -z "${OPENAI_BASE_URL:-}" || -z "${OPENAI_API_KEY:-}" ]]; then
-        echo "OPENAI_BASE_URL and OPENAI_API_KEY are required for the trajectory judge" \
-            > "$judge_log_err"
-        judge_status=78
-    elif ! command -v codex >/dev/null 2>&1; then
-        echo "Codex CLI is missing from the verifier image" > "$judge_log_err"
-        judge_status=127
-    else
-        /opt/conda/bin/python - "$OPENAI_BASE_URL" "$CODEX_HOME/config.toml" <<'PY'
-import json
-import sys
-from pathlib import Path
-from urllib.parse import urlsplit
-
-base_url, config_path = sys.argv[1:]
-base_url = base_url.rstrip("/")
-parsed = urlsplit(base_url)
-if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-    raise SystemExit("OPENAI_BASE_URL must be an absolute HTTP(S) URL")
-Path(config_path).write_text(
-    "model_provider = \"search_swe_judge\"\n\n"
-    "[model_providers.search_swe_judge]\n"
-    "name = \"Search-SWE trajectory judge endpoint\"\n"
-    f"base_url = {json.dumps(base_url)}\n"
-    "wire_api = \"responses\"\n"
-    "requires_openai_auth = true\n"
-    "supports_websockets = false\n",
-    encoding="utf-8",
-)
-PY
-        config_status=$?
-        if (( config_status != 0 )); then
-            judge_status="$config_status"
-        else
-            chmod 0600 "$CODEX_HOME/config.toml"
-        fi
-    fi
+if [[ -z "${OPENAI_BASE_URL:-}" || -z "${OPENAI_API_KEY:-}" ]]; then
+    echo "OPENAI_BASE_URL and OPENAI_API_KEY are required for the DeepSeek trajectory judge" \
+        > "$judge_log_err"
+    judge_status=78
 fi
 
 if (( judge_status == 0 )); then
     /usr/bin/timeout --signal=TERM --kill-after=30s 1200s \
-        /opt/conda/bin/rewardkit \
+        /opt/conda/bin/python /tests/rewardkit_deepseek.py \
         /tests \
         --workspace /app \
         --output "$REWARD_JSON" \
         --max-concurrent-agent 1 \
+        --judge deepseek-codex \
+        --model deepseek-flash \
         > "$judge_log_out" 2> "$judge_log_err"
     judge_status=$?
 fi

@@ -88,12 +88,15 @@ Retrieval outside the pool is not a valid way to improve this task's score.
 A separate trajectory judge checks task compliance. Final reward equals
 Accuracy@5 only when evaluation is valid and the judge passes; otherwise zero.
 The model being optimized around is the fixed reranker, not the trajectory judge.
+The trajectory judge itself uses `deepseek-flash` through pinned RewardKit
+0.2.0 and receives its credentials only in the verifier.
 
 ## Running This Task
 
-From the repository root, follow the [launcher guide](../../docs/quickstart.md)
-to install the pinned Harbor dependencies, prepare Docker and the task's base
-image, and configure the coding-agent credentials. The
+From the repository root, follow the [quick start](../../docs/quickstart.md)
+to install the pinned Harbor dependencies and prepare Docker. Use the
+[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
+task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
 Download both data and model assets with the command below. Configure the
@@ -105,7 +108,8 @@ python scripts/download_assets.py --task task-2-1
 bash scripts/run_task.sh --task task-2-1 --model "YOUR_AGENT_MODEL"
 ```
 
-The shared launcher uses the Codex agent and writes results under `jobs/task-2-1/`.
+The shared launcher defaults to Codex, also supports Pi and Claude Code, and
+writes results under `jobs/task-2-1/`.
 Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.

@@ -15,7 +15,7 @@ The objective is to maximize retrieval quality on held-out queries while satisfy
 - Use exactly the candidate documents supplied with each query. Do not add, remove, replace, or independently retrieve candidate documents.
 - Use only the supplied local `BAAI/bge-reranker-large` model for learned relevance scoring. Do not replace, fine-tune, retrain, distill, quantize, or otherwise modify the model, tokenizer, or configuration.
 - Do not use precomputed query-to-document mappings, hidden relevance information, external datasets containing evaluation labels, or external retrieval/reranking services.
-- Read `/task/docs/environment.md` for the installed runtime, packages, system tools, and resource limits available in the container.
+- Read `/task/docs/environment.md` and `/task/docs/available_resources.md` for the installed runtime, local resources, and network restrictions.
 - `build.sh` and `run.sh` must be executable files under `/app`.
 - During verification, `/app` is read-only and the submission runs as a non-root user. Only the supplied `--index-dir` is writable for persistent and runtime-generated artifacts.
 - The evaluator allows up to 120 minutes for the Agent to complete this task; plan implementation, validation, and debugging within this time budget.

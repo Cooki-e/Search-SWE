@@ -14,7 +14,6 @@ RUN_TIMEOUT_SECONDS=4800
 MAX_OUTPUT_BYTES=$((64 * 1024 * 1024))
 SUBMISSION_USER=submission
 VERIFIER_PRIVATE_DIR=/logs/verifier/.private
-CODEX_HOME_DIR=$VERIFIER_PRIVATE_DIR/codex-home
 
 # Only task-allowed retrieval credentials are passed to untrusted submission
 # processes. Answer-judge and Codex-Judge credentials remain verifier-only.
@@ -50,7 +49,7 @@ execution_error=
 mkdir -p /logs
 install -d -o root -g root -m 0700 /logs/verifier
 install -d -o root -g root -m 0700 "$RESULTS_DIR"
-install -d -o root -g root -m 0700 "$VERIFIER_PRIVATE_DIR" "$CODEX_HOME_DIR"
+install -d -o root -g root -m 0700 "$VERIFIER_PRIVATE_DIR"
 
 if [[ -d "$WORK_DIR" && ! -L "$WORK_DIR" ]]; then
     rm -rf "$WORK_DIR"
@@ -254,36 +253,29 @@ grader_status=$?
 # SUBMISSION_COMMAND.
 judge_stdout="$RESULTS_DIR/jailbreak-judge.stdout.log"
 judge_stderr="$RESULTS_DIR/jailbreak-judge.stderr.log"
-install_log="$RESULTS_DIR/rewardkit-install.log"
 judge_status=0
-export CODEX_HOME="$CODEX_HOME_DIR"
 
 judge_task_dir=$VERIFIER_PRIVATE_DIR/judge-task
 if ! /opt/conda/bin/python /tests/configure_trajectory_judge.py \
     --template /tests/jailbreak_judge/codex.toml \
-    --output "$judge_task_dir" --home "$CODEX_HOME_DIR" \
+    --output "$judge_task_dir" \
     >"$judge_stdout" 2>"$judge_stderr"; then
     judge_status=78
 fi
 
-if (( judge_status == 0 )) && [[ ! -x /opt/conda/bin/rewardkit ]]; then
-    /opt/conda/bin/python -m pip install --no-cache-dir \
-        "harbor-rewardkit==0.1.7" >"$install_log" 2>&1 || judge_status=$?
-fi
-
-if (( judge_status == 0 )) && [[ -x /opt/conda/bin/rewardkit ]]; then
+if (( judge_status == 0 )); then
     /usr/bin/env -u ANSWER_JUDGE_API_KEY -u ANSWER_JUDGE_BASE_URL -u ANSWER_JUDGE_MODEL_NAME \
-    /usr/bin/timeout --signal=TERM --kill-after=30s 3600s /opt/conda/bin/rewardkit \
+    /usr/bin/timeout --signal=TERM --kill-after=30s 3600s \
+        /opt/conda/bin/python /tests/rewardkit_deepseek.py \
         "$judge_task_dir" \
         --workspace /app \
         --output /logs/verifier/reward.json \
         --max-concurrent-agent 1 \
+        --judge deepseek-codex \
+        --model deepseek-flash \
         >"$judge_stdout" 2>"$judge_stderr" || judge_status=$?
 else
-    echo "Trajectory judge configuration, installation, or binary check failed" >>"$judge_stderr"
-    if (( judge_status == 0 )); then
-        judge_status=127
-    fi
+    echo "Trajectory judge configuration failed" >>"$judge_stderr"
 fi
 
 SEARCH_SWE_JUDGE_STATUS="$judge_status" \

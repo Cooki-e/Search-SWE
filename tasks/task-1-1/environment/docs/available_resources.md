@@ -22,6 +22,11 @@ if not os.environ.get("OPENROUTER_API_KEY"):
 
 These credentials are runtime resources. Do not hard-code them, print or log their values, write them into source code, indexes, or output artifacts, or assume that they are available during Docker image build.
 
+Harbor restricts runtime egress to the exact API hosts `openrouter.ai` and
+`api.jina.ai`. Documentation links below are references; they do not grant
+access to any additional host. The coding agent's own phase-scoped model host
+is not a submission resource.
+
 ```bash
 OPENROUTER_API_KEY=<YOUR_OPENROUTER_API_KEY>
 JINA_API_KEY=<YOUR_JINA_API_KEY>
@@ -47,7 +52,7 @@ Jina:
 
 ## Generative LLM resources
 
-Generative calls are allowed only through the OpenRouter API. The following four model IDs are the complete allowlist:
+Generative calls are allowed only through the OpenRouter API. The following three model IDs are the complete allowlist:
 
 - `qwen/qwen3.6-35b-a3b` — `https://openrouter.ai/qwen/qwen3.6-35b-a3b`
 - `qwen/qwen3.5-35b-a3b` — `https://openrouter.ai/qwen/qwen3.5-35b-a3b`
@@ -61,6 +66,6 @@ OpenRouter generation resources:
 
 ### Strict allowlist and jailbreak penalty
 
-The four Qwen IDs above are an allowlist, not a recommendation. Do not call any other generative model ID, any other generative provider, or a prohibited chat/completions endpoint. In particular, do not use other provider's generative endpoint, and do not use an embedding or reranking endpoint as a substitute for generation.
+The three Qwen IDs above are an allowlist, not a recommendation. Do not call any other generative model ID, any other generative provider, or a prohibited chat/completions endpoint. In particular, do not use another provider's generative endpoint, and do not use an embedding or reranking endpoint as a substitute for generation.
 
 If the verifier or trajectory audit detects a prohibited generative model or provider call, the submission is classified as jailbreak and the entire task receives a score of `0`, regardless of retrieval quality or final answer quality.
