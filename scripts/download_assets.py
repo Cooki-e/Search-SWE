@@ -8,8 +8,10 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import shutil
+import ssl
 import sys
 import tempfile
+from urllib.request import getproxies, proxy_bypass
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -78,6 +80,48 @@ def prepare_directories(task_output, rel, directory_modes):
             path.chmod(int(mode or "0755", 8))
 
 
+def tls_handshake_failed(error):
+    pending, seen = [error], set()
+    while pending:
+        current = pending.pop()
+        if id(current) in seen:
+            continue
+        seen.add(id(current))
+        message = str(current).lower()
+        if (isinstance(current, ssl.SSLEOFError)
+                or "unexpected_eof_while_reading" in message
+                or "eof occurred in violation of protocol" in message
+                or "handshake operation timed out" in message):
+            return True
+        pending.extend(item for item in (current.__cause__, current.__context__) if item is not None)
+    return False
+
+
+def proxy_configured():
+    proxies = getproxies()
+    return bool(proxies.get("https") or proxies.get("all")) and not proxy_bypass("huggingface.co")
+
+
+def configure_hf_tls12():
+    import httpx
+    from huggingface_hub import set_client_factory
+    from huggingface_hub.utils._http import hf_request_event_hook
+
+    context = httpx.create_ssl_context()
+    context.maximum_version = ssl.TLSVersion.TLSv1_2
+    set_client_factory(lambda: httpx.Client(
+        verify=context, event_hooks={"request": [hf_request_event_hook]},
+        follow_redirects=True, timeout=None,
+    ))
+
+
+def configure_hf_xet():
+    value = os.environ.setdefault("HF_HUB_DISABLE_XET", "1")
+    from huggingface_hub import constants
+
+    constants.HF_HUB_DISABLE_XET = value.upper() in {"1", "ON", "YES", "TRUE"}
+
+
 def obtain_source(task, entry, args):
     source = entry.get("source", {})
     if "local_path" in source:
@@ -97,15 +141,26 @@ def obtain_source(task, entry, args):
         raise ValueError(f"Invalid Hugging Face source for {entry['path']}")
     relative_path(source["filename"])
     try:
+        if proxy_configured():
+            configure_hf_xet()
         from huggingface_hub import hf_hub_download
     except ImportError as error:
         raise ValueError("Install dependencies: python -m pip install -r scripts/requirements.txt") from error
-    return Path(hf_hub_download(
+    download_args = dict(
         repo_id=source["repo_id"], repo_type=source["repo_type"],
         filename=source["filename"], revision=source["revision"],
         cache_dir=args.cache_dir, local_files_only=args.local_files_only,
         force_download=args.force and not args.local_files_only,
-    ))
+    )
+    try:
+        downloaded = hf_hub_download(**download_args)
+    except Exception as error:
+        if args.local_files_only or not proxy_configured() or not tls_handshake_failed(error):
+            raise
+        print("Hugging Face TLS handshake failed through the proxy; retrying with TLS 1.2", file=sys.stderr)
+        configure_hf_tls12()
+        downloaded = hf_hub_download(**download_args)
+    return Path(downloaded)
 
 
 def restore(task, task_output, entry, directory_modes, args):
