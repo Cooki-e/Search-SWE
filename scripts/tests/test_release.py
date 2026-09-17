@@ -166,6 +166,63 @@ class ReleasePackage(unittest.TestCase):
         self.assertIn("OPENAI_API_KEY=${AGENT_OPENAI_API_KEY}", argv)
         self.assertIn("OPENAI_API_KEY=${VERIFIER_OPENAI_API_KEY}", argv)
 
+    def test_launcher_makes_repository_agents_importable(self):
+        # A console script starts with its bin directory on sys.path, not cwd.
+        # Import the real adapter in a new interpreter, not just inspect argv.
+        bin_dir = self.root / "bin"
+        bin_dir.mkdir()
+        fake_harbor = bin_dir / "harbor"
+        fake_harbor.write_text(
+            f"#!{sys.executable}\n"
+            "import importlib, json, os, sys\n"
+            "from pathlib import Path\n"
+            "module_name, class_name = sys.argv[sys.argv.index('--agent') + 1].split(':')\n"
+            "module = importlib.import_module(module_name)\n"
+            f"assert Path(module.__file__).resolve() == Path({str(self.repo / 'scripts/harbor_agents.py')!r})\n"
+            "assert getattr(module, class_name).__module__ == module_name\n"
+            f"assert os.environ['PYTHONPATH'] == {str(self.repo)!r} + os.environ['EXPECTED_PATH_SUFFIX']\n"
+            "assert 'CODEX_AUTH_JSON_PATH' not in os.environ\n"
+            "assert 'CODEX_FORCE_AUTH_JSON' not in os.environ\n"
+            "print(json.dumps(sys.argv[1:]))\n"
+        )
+        fake_harbor.chmod(0o755)
+        old_paths = os.pathsep.join((str(self.root / "existing-a"), str(self.root / "existing-b")))
+        for agent, model in (("pi", "deepseek/deepseek-flash"),
+                             ("codex", "example-model"),
+                             ("claude-code", "claude-sonnet-4-6")):
+            for existing in (None, "", old_paths):
+                with self.subTest(agent=agent, pythonpath=existing):
+                    env = self.launcher_env()
+                    env.pop("PYTHONPATH", None)
+                    if existing is not None:
+                        env["PYTHONPATH"] = existing
+                    env.update({
+                        "PATH": str(bin_dir) + os.pathsep + env.get("PATH", ""),
+                        "EXPECTED_PATH_SUFFIX": os.pathsep + existing if existing else "",
+                        "AGENT_OPENAI_BASE_URL": "https://agent.example/v1",
+                        "AGENT_OPENAI_API_KEY": "fixture-agent-secret",
+                        "AGENT_ANTHROPIC_API_KEY": "fixture-anthropic-secret",
+                        "DEEPSEEK_API_KEY": "fixture-provider-secret",
+                        "VERIFIER_OPENAI_BASE_URL": "https://judge.example/v1",
+                        "VERIFIER_OPENAI_API_KEY": "fixture-judge-secret",
+                        "CODEX_AUTH_JSON_PATH": "/unused/auth.json",
+                        "CODEX_FORCE_AUTH_JSON": "1",
+                        # Real Harbor imports LiteLLM; keep this regression offline.
+                        "LITELLM_LOCAL_MODEL_COST_MAP": "True",
+                    })
+                    result = subprocess.run(
+                        [sys.executable, str(self.repo / "scripts/run_task.py"),
+                         "--task", "task-new", "--agent", agent, "--model", model],
+                        cwd=self.root, env=env, capture_output=True, text=True, timeout=60,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    for secret in ("fixture-agent-secret", "fixture-anthropic-secret",
+                                   "fixture-provider-secret", "fixture-judge-secret"):
+                        self.assertNotIn(secret, result.stdout + result.stderr)
+                    argv = json.loads(result.stdout.splitlines()[-1])
+                    self.assertEqual(argv[argv.index("-m") + 1], model)
+                    self.assertIn("OPENAI_API_KEY=${VERIFIER_OPENAI_API_KEY}", argv)
+
     def test_codex_options_remain_supported(self):
         config = self.root / "codex.local.toml"
         config.write_text('model_provider = "fixture"\n')

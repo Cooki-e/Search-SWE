@@ -307,6 +307,13 @@ def main():
     if shutil.which("harbor", path=env.get("PATH")) is None:
         parser.error("harbor was not found; activate the supported Harbor environment")
 
+    # Harbor is a console script: changing cwd alone does not put this checkout
+    # on its interpreter's search path for scripts.harbor_agents.
+    existing_pythonpath = env.get("PYTHONPATH")
+    env["PYTHONPATH"] = str(REPO)
+    if existing_pythonpath:
+        env["PYTHONPATH"] += os.pathsep + existing_pythonpath
+
     print(f"Launching {task_key(REPO, task)}; job output: {output}", flush=True)
     # All task and output paths are absolute, so launching works from any directory.
     os.chdir(REPO)
