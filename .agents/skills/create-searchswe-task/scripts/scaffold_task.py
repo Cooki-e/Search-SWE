@@ -258,6 +258,8 @@ def parse_args() -> argparse.Namespace:
         default=Path.cwd(),
         help="Search-SWE repository root; defaults to the current directory",
     )
+    parser.add_argument("--submission-first-name", help="Explicit ASCII first name, not a username")
+    parser.add_argument("--author", action="append", help="Actual author name; repeat for coauthors (required for submissions)")
     return parser.parse_args()
 
 
@@ -275,12 +277,47 @@ def main() -> int:
         print(f"error: not a Search-SWE repository root: {root}", file=sys.stderr)
         return 2
 
+    if (root / "tasks").is_symlink() or (root / "task-submissions").is_symlink():
+        print("error: task roots must not be symlinks", file=sys.stderr)
+        return 2
     destination = root / "tasks" / args.task_id
+    if args.submission_first_name is not None:
+        first_name = args.submission_first_name
+        if (not first_name.isascii() or any(c in first_name for c in "/\\.")
+                or not re.fullmatch(r"task-[12]-x", args.task_id)):
+            print("error: use an ASCII first name and task-1-x or task-2-x", file=sys.stderr)
+            return 2
+        expected_mode = {"task-1-x": "implementation", "task-2-x": "optimization"}[args.task_id]
+        if args.mode != expected_mode:
+            print(f"error: {args.task_id} requires --mode {expected_mode}; hardware is independent", file=sys.stderr)
+            return 2
+        slug = re.sub(r"[^a-z0-9]+", "-", first_name.lower()).strip("-")
+        if not re.fullmatch(r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*", slug):
+            print("error: provide an ASCII transliteration beginning with a letter", file=sys.stderr)
+            return 2
+        if not args.author or any(not name.strip() or name.strip().lower() in
+                                  ("search-swe", "your name", "author") for name in args.author):
+            print("error: submissions require actual --author names", file=sys.stderr)
+            return 2
+        parent = root / "task-submissions"
+        parent.mkdir(exist_ok=True)
+        base, suffix = slug, 2
+        while (parent / slug).exists() or (parent / slug).is_symlink():
+            slug = f"{base}-{suffix}"
+            suffix += 1
+        # Reserve an entire active namespace, not only one category.
+        (parent / slug).mkdir()
+        destination = parent / slug / args.task_id.removeprefix("task-")
     if destination.exists() or destination.is_symlink():
         print(f"error: refusing to overwrite existing path: {destination}", file=sys.stderr)
         return 1
 
     generated = files_for(args.task_id, args.hardware, args.mode)
+    if args.author:
+        authors = ", ".join('{ name = ' + json.dumps(name.strip(), ensure_ascii=False) + ' }'
+                            for name in args.author)
+        generated["task.toml"] = generated["task.toml"].replace(
+            'authors = [{ name = "Search-SWE" }]', f"authors = [{authors}]")
     # Reserve the directory before writing; never merge into an existing task.
     destination.mkdir()
     try:

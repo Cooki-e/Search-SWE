@@ -47,8 +47,13 @@ or access to a reference solution.
 
 ## Required package contract
 
-Create the package at `tasks/<task-id>/`. `scripts/check_release.py` currently
-requires every task to contain these non-empty files:
+Create a new package at `task-submissions/<first-name-slug>/<1|2>-x/`, with
+canonical ID `task-1-x` or `task-2-x` and actual `task.toml` authors. Use a supplied
+ASCII first name, not a username; suffix active collisions with `-2`, `-3`.
+Formal `tasks/<task-id>/` paths below describe the layout after maintainer
+promotion in the same PR (pure rename commit, then finalization, merge commit
+only). Existing-task edits stay in place. Submission checks reuse
+`scripts/check_release.py`, which requires these non-empty files:
 
 ```text
 tasks/<task-id>/

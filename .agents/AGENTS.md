@@ -1,4 +1,4 @@
-# Search-SWE Contributor Workflow
+# Search-SWE Task Workflow
 
 This is the contributor workflow entry point. Detailed task-authoring knowledge
 lives inside the skill, not here. Paths below are relative to the repository
@@ -11,6 +11,10 @@ root unless expressed as Markdown links.
   workflow, references, and validation gates. If no native skill loader is
   available, open that `SKILL.md` directly. It can also be invoked independently
   as `$create-searchswe-task`; it does not need this file.
+- **Review, promote or finalize a task PR as maintainer:** load
+  [maintain-searchswe-task](skills/maintain-searchswe-task/SKILL.md), independently
+  invocable as `$maintain-searchswe-task`. Default to read-only gh evidence review;
+  use its bundled offline promotion/HF staging helpers only at approved stages.
 - **Run an existing task:** use `docs/quickstart.md`; do not scaffold a task.
 - **Restore fixed inputs:** use `docs/assets.md` and the existing download tools.
 - **Edit project documentation:** keep `README.md` and `README_zh.md` aligned.
@@ -24,6 +28,10 @@ root unless expressed as Markdown links.
    contributors' changes. Ask about uncertainties that affect task design or
    authorization, not information already supplied by the user.
 2. For task contributions, let the skill drive design → authoring → validation.
+   New tasks use `task-submissions/<first-name-slug>/<1|2>-x`, not usernames or
+   guessed formal IDs. Follow `CONTRIBUTING.md` and `docs/contributing.md`:
+   one new task per PR, actual authors, explicit `--task-path` for local trials,
+   and same-PR pure rename then finalization before a merge commit (no squash/rebase).
    Track which stage is complete and which inputs or approvals are missing.
    Do not duplicate the skill's specifications in this file.
 3. Keep changes within the selected task plus directly necessary integration

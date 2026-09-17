@@ -194,8 +194,19 @@ gateway、订阅 OAuth、Bedrock、Vertex、ACP 和自定义 Claude settings。�
 
 欢迎参与贡献。创建新任务或大幅修改已有任务时，请先使用 [`.agents/`](.agents/AGENTS.md)
 中的工作流和 skills，包括
-[`create-searchswe-task`](.agents/skills/create-searchswe-task/SKILL.md)。验证要求和
-PR 说明见[贡献指南](docs/contributing.md)。
+[`create-searchswe-task`](.agents/skills/create-searchswe-task/SKILL.md)（任务投稿）和
+[`maintain-searchswe-task`](.agents/skills/maintain-searchswe-task/SKILL.md)（PR 审查与正式化）。验证要求和
+PR 说明见[贡献入口](CONTRIBUTING.md)与[贡献指南](docs/contributing.md)。
+
+新任务放在 `task-submissions/<first-name-slug>/1-x` 或 `2-x`：使用贡献者提供的
+ASCII 小写 first name，**不是用户名**；活跃贡献者重名时追加 `-2`、`-3`。
+每个 PR 只新增一个任务。Maintainer 在即将合并时分配正式编号，并在**同一 PR**
+内依次提交纯 `git mv` commit 和 finalization commit。新任务必须使用 **merge
+commit**，不使用 squash/rebase；未完成的 submission 不进入 main。
+开发资产可使用个人公开的临时 HF dataset，并固定到 commit SHA。正式编号确定后，
+通过 HF community PR 或 maintainer mirror 发布官方资产；先合并官方 HF 变更、
+固定官方 SHA，再合并 GitHub PR。禁止共享官方 token。下载器和 launcher 支持显式
+`--task-path` 验证 submission，自动任务发现仍只包含正式任务。
 
 ## 引用
 

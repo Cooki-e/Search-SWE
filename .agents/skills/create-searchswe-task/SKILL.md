@@ -23,7 +23,7 @@ Record a short design summary before writing the package:
 
 | Decision | What must be known |
 | --- | --- |
-| Identity | Unique task ID and name, author, version |
+| Identity | Temporary category ID (`task-1-x` or `task-2-x`), first-name slug, actual authors, version |
 | Mode | Implementation → `metadata.task_type = "create"`; Optimization → `"optimize"` |
 | Goal | What working capability or quality/efficiency improvement is measured |
 | Interface | Container input paths, commands, output paths/formats, artifact transfer |
@@ -45,13 +45,38 @@ For a new task, run the bundled helper using its **actual installed path**:
 # Set these to real absolute paths; neither depends on the current directory.
 SKILL_DIR=/path/to/create-searchswe-task
 REPO=/path/to/Search-SWE
-python "$SKILL_DIR/scripts/scaffold_task.py" task-1-new \
-  --repo-root "$REPO" --mode implementation --hardware cpu
+python "$SKILL_DIR/scripts/scaffold_task.py" task-1-x \
+  --repo-root "$REPO" --submission-first-name Alice --author 'Alice Example' \
+  --mode implementation --hardware cpu
 ```
 
-Use `--mode optimization` for optimization and `--hardware gpu` for GPU work.
-The flags are independent. The helper refuses existing paths. Edit an existing
+Category 1 is Implementation (`create`); category 2 is Optimization (`optimize`).
+The temporary ID and mode must agree. For optimization:
+
+```bash
+python "$SKILL_DIR/scripts/scaffold_task.py" task-2-x \
+  --repo-root "$REPO" --submission-first-name Alice --author 'Alice Example' \
+  --mode optimization --hardware cpu
+```
+
+Hardware is independent of category/mode; use `--hardware gpu` only for GPU work.
+New tasks belong in
+`task-submissions/<first-name-slug>/<1|2>-x`, not formal `tasks/` directories.
+Use a supplied ASCII first name, not a username; non-Latin names need an explicit
+transliteration. Local collisions receive `-2`, `-3`; inspect active PRs too and
+supply that suffix explicitly when needed. Repeat `--author` for coauthors.
+The helper refuses overwrites and symlink roots. Regular mode without
+`--submission-first-name` remains compatible for maintainers. Edit an existing
 task in place instead; do not delete it to make the helper succeed.
+
+One new task per PR. Read the bundled
+[submission and PR workflow](references/submission-and-pr.md) for branch,
+review gates, maintainer handoff and author identity. A maintainer assigns the final ID close to
+merge and performs pure rename then finalization in **the same PR**, using
+`scripts/promote_task.py`. Preserve both commits and original author commits:
+**merge commit only**, never squash/rebase. No submission task package enters
+final main. Missing workflow tools in an older checkout are a prerequisite to
+report, not a reason to invent a formal ID.
 
 The scaffold is **not a finished task**: its verifier always fails, its asset
 manifest is empty, data/model mounts are absent, and instructions are writing
@@ -85,7 +110,8 @@ checks. Stop advancing to expensive runtime tests when inputs, permissions,
 hardware, or required configuration are missing. Record the failed command and
 diagnosis; retry after a relevant fix, not in an unbounded loop.
 
-Task authoring does not itself authorize publishing data/images, modifying host
+Local task authoring/validation is the default authorization boundary. It does
+not itself authorize commits, pushes, PR creation/comments, publishing data/images, modifying host
 network/proxy configuration, or spending on model APIs/GPU jobs. Obtain missing
 authorization for those actions; ordinary local checks may proceed.
 

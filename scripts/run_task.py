@@ -2,7 +2,6 @@
 """Launch a Search-SWE task with separately configured agent and judge services."""
 
 import argparse
-import json
 import os
 from pathlib import Path
 import shlex
@@ -10,6 +9,13 @@ import shutil
 import sys
 import tomllib
 from urllib.parse import urlsplit
+
+if __package__:
+    from .task_paths import select_task, task_key
+    from .download_assets import destination_path, read_manifest, relative_path
+else:
+    from task_paths import select_task, task_key
+    from download_assets import destination_path, read_manifest, relative_path
 
 
 REPO = Path(__file__).resolve().parents[1]
@@ -86,7 +92,9 @@ def host_is_allowed(host, allowed_hosts):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--task", required=True, choices=TASKS)
+    selection = parser.add_mutually_exclusive_group(required=True)
+    selection.add_argument("--task", choices=TASKS)
+    selection.add_argument("--task-path", help="Explicit repository-relative package, including a reviewed submission")
     parser.add_argument("--agent", default="codex", choices=tuple(AGENT_IMPORTS))
     parser.add_argument("--model", help="Agent model; defaults to AGENT_MODEL")
     parser.add_argument("--env-file", type=Path, help="Defaults to the repository .env if present")
@@ -140,10 +148,13 @@ def main():
                     + ", ".join(CLAUDE_CODE_EFFORT_LEVELS)
                 )
 
-    task = REPO / "tasks" / args.task
+    try:
+        task = select_task(REPO, args.task_path or f"tasks/{args.task}")
+    except ValueError as error:
+        parser.error(str(error))
     task_config = tomllib.loads((task / "task.toml").read_text())
     verifier_env = task_config.get("verifier", {}).get("env", {})
-    output = args.output.resolve() if args.output else REPO / "jobs" / args.task
+    output = args.output.resolve() if args.output else REPO / "jobs" / task_key(REPO, task)
     command = [
         "harbor", "run", "--path", str(task), "--env", "docker",
         "--agent", AGENT_IMPORTS[args.agent], "--force-build", "--yes", "-o", str(output),
@@ -284,18 +295,19 @@ def main():
     missing = [name for name in required if not env.get(name)]
     if missing:
         parser.error("Set the following variables in .env or the shell: " + ", ".join(missing))
-    manifest = json.loads((task / "assets.json").read_text())
+    manifest = read_manifest(task)
     unavailable = []
     for entry in manifest["files"]:
-        path = task / entry["path"]
+        path = destination_path(task, relative_path(entry["path"]))
         if not path.is_file() or path.stat().st_size != entry["size_bytes"]:
             unavailable.append(entry["path"])
     if unavailable:
-        parser.error(f"Run python scripts/download_assets.py --task {args.task} to restore the missing or incomplete assets: " + ", ".join(unavailable))
+        selection_flag = f"--task-path {args.task_path}" if args.task_path else f"--task {args.task}"
+        parser.error(f"Run python scripts/download_assets.py {selection_flag} to restore the missing or incomplete assets: " + ", ".join(unavailable))
     if shutil.which("harbor", path=env.get("PATH")) is None:
         parser.error("harbor was not found; activate the supported Harbor environment")
 
-    print(f"Launching {args.task}; job output: {output}", flush=True)
+    print(f"Launching {task_key(REPO, task)}; job output: {output}", flush=True)
     # All task and output paths are absolute, so launching works from any directory.
     os.chdir(REPO)
     os.execvpe(command[0], command, env)

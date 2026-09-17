@@ -207,8 +207,21 @@ For task descriptions and results, visit the
 
 Contributions are welcome. For new or substantially revised tasks, start with
 the workflow and skills in [`.agents/`](.agents/AGENTS.md), including
-[`create-searchswe-task`](.agents/skills/create-searchswe-task/SKILL.md). See the
-[contributing guide](docs/contributing.md) for validation and PR requirements.
+[`create-searchswe-task`](.agents/skills/create-searchswe-task/SKILL.md) for submissions
+and [`maintain-searchswe-task`](.agents/skills/maintain-searchswe-task/SKILL.md) for
+PR review and promotion. See the
+[contribution entry](CONTRIBUTING.md) and [guide](docs/contributing.md) for validation and PR requirements.
+
+New tasks use `task-submissions/<first-name-slug>/1-x` or `2-x` (your ASCII
+first name, **not** username; add `-2`, `-3` for active name collisions). One new
+task per PR. Maintainers assign the final ID near merge, then make a pure
+`git mv` commit and a finalization commit **in that same PR**. Use **merge
+commit only**, not squash/rebase; no unfinished submission enters main.
+Development assets may use a personal public HF dataset pinned to a commit SHA.
+After final ID assignment, official assets go through an HF community PR or
+maintainer mirror; official HF merge and SHA pinning precede the GitHub merge.
+Never share official tokens. Explicit `--task-path` supports submission downloads
+and local trials; automatic task discovery remains formal-only.
 
 ## Citation
 

@@ -13,6 +13,11 @@ import sys
 import tempfile
 from urllib.request import getproxies, proxy_bypass
 
+try:  # Support both direct CLI execution and import through scripts.*.
+    from task_paths import select_task, task_key
+except ModuleNotFoundError:
+    from scripts.task_paths import select_task, task_key
+
 
 REPO = Path(__file__).resolve().parents[1]
 TASKS = tuple(sorted(path.parent.name for path in (REPO / "tasks").glob("*/task.toml")))
@@ -62,7 +67,8 @@ def read_manifest(task):
 
 def destination_path(task_output, rel):
     target = task_output / rel
-    if target.is_symlink() or not target.resolve().is_relative_to(task_output.resolve()):
+    if (any(path.is_symlink() for path in (target, *target.parents))
+            or not target.resolve().is_relative_to(task_output.resolve())):
         raise ValueError(f"Asset destination must stay inside its task directory: {rel}")
     return target
 
@@ -197,9 +203,11 @@ def restore(task, task_output, entry, directory_modes, args):
 
 def main(default_kind="all"):
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--task", nargs="+", required=True, choices=("all", *TASKS))
+    selection = parser.add_mutually_exclusive_group(required=True)
+    selection.add_argument("--task", nargs="+", choices=("all", *TASKS))
+    selection.add_argument("--task-path", help="Explicit repository-relative package, including a submission")
     parser.add_argument("--kind", choices=("all", "data", "models"), default=default_kind)
-    parser.add_argument("--output-dir", type=Path, default=REPO / "tasks", help="Parent of task directories")
+    parser.add_argument("--output-dir", type=Path, help="Alternate parent; submission namespace is preserved")
     parser.add_argument("--cache-dir", type=Path, help="Hugging Face cache directory")
     parser.add_argument("--local-data-dir", type=Path, help="Restore Search-SWE dataset files from a local hf-data directory, with size/SHA-256 checks")
     parser.add_argument("--force", action="store_true", help="Replace files whose checksums differ")
@@ -208,10 +216,16 @@ def main(default_kind="all"):
     mode.add_argument("--dry-run", action="store_true", help="List selected assets without reading or downloading their contents")
     mode.add_argument("--verify-only", action="store_true", help="Check local file sizes and SHA-256 without downloading")
     args = parser.parse_args()
-    tasks = TASKS if "all" in args.task else tuple(dict.fromkeys(args.task))
+    try:
+        tasks = ([select_task(REPO, args.task_path)] if args.task_path else
+                 [select_task(REPO, f"tasks/{name}") for name in
+                  (TASKS if "all" in args.task else tuple(dict.fromkeys(args.task)))])
+    except ValueError as error:
+        parser.error(str(error))
     count, size, failures = 0, 0, []
-    for name in tasks:
-        task = REPO / "tasks" / name
+    for task in tasks:
+        name = task_key(REPO, task).as_posix()
+        task_output = args.output_dir / name if args.output_dir else task
         manifest = read_manifest(task)
         for entry in manifest["files"]:
             kind = "data" if entry["path"].startswith("data/") else "models"
@@ -226,7 +240,7 @@ def main(default_kind="all"):
                 print(f"{label}  {entry['size_bytes']} bytes  {origin}")
                 continue
             try:
-                status = restore(task, args.output_dir / name, entry, manifest.get("directory_modes", {}), args)
+                status = restore(task, task_output, entry, manifest.get("directory_modes", {}), args)
                 print(f"{status}: {label}", flush=True)
             except Exception as error:
                 failures.append(label)
