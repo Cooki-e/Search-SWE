@@ -2,11 +2,14 @@
 
 ## Assign and rename, preserving authors
 
-Complete the audit and resolve allowed branch editing first. Keep one task in the
-same PR throughout. Near merge, refresh the exact upstream base/head and serialize
-ID assignment with other queued PRs: inspect `tasks/` on the current base, choose
-the next free positive number in the same category, and recheck immediately before
-merge. Never infer a number from these examples or reserve it long-term. Update
+Complete the audit and resolve allowed branch editing first. A PR may contain
+multiple tasks only under exactly one contributor first-name namespace. Keep all
+of them in the same PR throughout. Near merge, refresh the exact upstream
+base/head and serialize each ID assignment with other queued PRs: inspect
+`tasks/` on the current base, choose the next free positive number in the same
+category, and recheck immediately before merge. Temporary category-local
+ordinals are not final IDs. Never infer a number from examples or reserve it
+long-term. Update
 against the current base without rebasing away original contributor commits.
 If base/head moves, re-review/revalidate affected work; a collision blocks merge.
 
@@ -18,14 +21,16 @@ imports or sibling skill. They never commit, push, publish or allocate an ID.
 
 ```bash
 python "$SKILL_DIR/scripts/promote_task.py" --repo-root "$REPO" \
-  rename task-submissions/alice/1-x "$FINAL_ID" --dry-run
+  rename task-submissions/alice/1-x-1 "$FINAL_ID" --dry-run
 python "$SKILL_DIR/scripts/promote_task.py" --repo-root "$REPO" \
-  rename task-submissions/alice/1-x "$FINAL_ID"
+  rename task-submissions/alice/1-x-1 "$FINAL_ID"
 git -C "$REPO" diff --cached --summary
 ```
 
-Rename performs **only `git mv`** and refuses dirty worktrees, collisions,
-traversal, symlinks and category mismatches. Review the staged diff: every package
+Repeat rename and finalize independently for every task, using separate commits;
+a rename for one task must not include another. Rename performs **only `git mv`**
+and refuses dirty worktrees, collisions, traversal, symlinks and category
+mismatches. Review the staged diff: every package
 file must be R100 identical, with no incidental changes. Stop for the operator's
 explicitly authorized separate pure-rename commit; never auto-commit. Retain the
 contributor's existing commits/authors; use the maintainer's real identity for
@@ -34,9 +39,9 @@ maintainer changes, not forged author flags or global identity changes.
 ```bash
 # Only after the operator creates that separate pure-rename HEAD commit:
 python "$SKILL_DIR/scripts/promote_task.py" --repo-root "$REPO" \
-  finalize task-submissions/alice/1-x "$FINAL_ID" --dry-run
+  finalize task-submissions/alice/1-x-1 "$FINAL_ID" --dry-run
 python "$SKILL_DIR/scripts/promote_task.py" --repo-root "$REPO" \
-  finalize task-submissions/alice/1-x "$FINAL_ID"
+  finalize task-submissions/alice/1-x-1 "$FINAL_ID"
 ```
 
 Finalize requires the entire package to have moved in a single-parent pure-rename
@@ -60,9 +65,9 @@ PR SHA or mutable `main`. Verify clean downloads at that pin.
 Run the audited target tools and relevant runtime layers, with approvals:
 `check_release.py`, `check_submission.py --merge-ready`, full scripts/tests,
 scaffold regression tests if changed, task-specific cases and `git diff --check`.
-Confirm no submission `task.toml` or temporary references remain. Review and let
-the authorized operator create the separate finalization commit in **the same
-PR**. Helpers do not commit. Before an authorized push, verify remote head still
+HF migration is per task. Confirm no submission `task.toml` or temporary
+references remain for any task. Review and let the authorized operator create
+each separate finalization commit in **the same PR**. Helpers do not commit. Before an authorized push, verify remote head still
 matches the reviewed starting head, branch/permissions and intended commits;
 use a normal push, not force. Any new head requires fresh review/check evidence.
 

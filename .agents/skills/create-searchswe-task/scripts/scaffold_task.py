@@ -238,7 +238,7 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "task_id",
-        help="Lowercase task directory name, for example task-1-new",
+        help="Lowercase task directory name, for example task-1-x-1",
     )
     parser.add_argument(
         "--mode",
@@ -283,11 +283,12 @@ def main() -> int:
     destination = root / "tasks" / args.task_id
     if args.submission_first_name is not None:
         first_name = args.submission_first_name
+        temporary = re.fullmatch(r"task-([12])-x-([1-9][0-9]*)", args.task_id)
         if (not first_name.isascii() or any(c in first_name for c in "/\\.")
-                or not re.fullmatch(r"task-[12]-x", args.task_id)):
-            print("error: use an ASCII first name and task-1-x or task-2-x", file=sys.stderr)
+                or not temporary):
+            print("error: use an ASCII first name and task-<1|2>-x-<positive-ordinal>", file=sys.stderr)
             return 2
-        expected_mode = {"task-1-x": "implementation", "task-2-x": "optimization"}[args.task_id]
+        expected_mode = {"1": "implementation", "2": "optimization"}[temporary[1]]
         if args.mode != expected_mode:
             print(f"error: {args.task_id} requires --mode {expected_mode}; hardware is independent", file=sys.stderr)
             return 2
@@ -301,13 +302,12 @@ def main() -> int:
             return 2
         parent = root / "task-submissions"
         parent.mkdir(exist_ok=True)
-        base, suffix = slug, 2
-        while (parent / slug).exists() or (parent / slug).is_symlink():
-            slug = f"{base}-{suffix}"
-            suffix += 1
-        # Reserve an entire active namespace, not only one category.
-        (parent / slug).mkdir()
-        destination = parent / slug / args.task_id.removeprefix("task-")
+        namespace = parent / slug
+        if namespace.is_symlink() or (namespace.exists() and not namespace.is_dir()):
+            print(f"error: contributor namespace must be a real directory: {namespace}", file=sys.stderr)
+            return 2
+        namespace.mkdir(exist_ok=True)
+        destination = namespace / args.task_id.removeprefix("task-")
     if destination.exists() or destination.is_symlink():
         print(f"error: refusing to overwrite existing path: {destination}", file=sys.stderr)
         return 1

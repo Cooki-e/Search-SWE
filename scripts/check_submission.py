@@ -21,6 +21,72 @@ def discover(repo):
     return sorted(set(root.glob("*/*/")) | {p.parent for p in root.rglob("task.toml")})
 
 
+def submission_namespace(path):
+    """Return a namespace from a canonical package path, rejecting unsafe history names."""
+    if "\\" in path:
+        raise ValueError(f"Unsafe task-submissions path: {path!r}")
+    parts = path.split("/")
+    if any(part in ("", ".", "..") for part in parts):
+        raise ValueError(f"Unsafe task-submissions path: {path!r}")
+    if parts[0] != "task-submissions":
+        raise ValueError(f"Expected task-submissions path: {path!r}")
+    if len(parts) == 2 and parts[1] == "README.md":
+        return None
+    if len(parts) < 4 or not re.fullmatch(SUBMISSION, "/".join(parts[:3])):
+        raise ValueError(f"Malformed task submission path in PR history: {path!r}")
+    return parts[1]
+
+
+def git_names(repo, *args):
+    """Run a NUL-delimited Git pathname query without shell interpolation."""
+    return [name for name in subprocess.run(
+        ["git", *args], cwd=repo, check=True, capture_output=True,
+    ).stdout.decode("utf-8", errors="surrogateescape").split("\0") if name]
+
+
+def git_object_exists(repo, commit, path):
+    return subprocess.run(
+        ["git", "cat-file", "-e", f"{commit}:{path}"], cwd=repo,
+        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+    ).returncode == 0
+
+
+def history_submission_audit(repo, base):
+    """Inspect every commit and merge parent; return namespaces and reused task roots."""
+    commits = subprocess.run(
+        ["git", "rev-list", "--reverse", "--topo-order", f"{base}..HEAD"],
+        cwd=repo, check=True, capture_output=True, text=True,
+    ).stdout.splitlines()
+    namespaces = set()
+    additions = {}
+    for commit in commits:
+        parents = subprocess.run(
+            ["git", "show", "-s", "--format=%P", commit], cwd=repo,
+            check=True, capture_output=True, text=True,
+        ).stdout.split()
+        changed = set()
+        if parents:
+            for parent in parents:
+                changed.update(git_names(
+                    repo, "diff-tree", "--no-commit-id", "-r", "--name-only",
+                    "-z", "--no-renames", parent, commit, "--", "task-submissions",
+                ))
+        else:
+            changed.update(git_names(
+                repo, "diff-tree", "--root", "--no-commit-id", "-r",
+                "--name-only", "-z", "--no-renames", commit, "--", "task-submissions",
+            ))
+        for name in changed:
+            namespace = submission_namespace(name)
+            if namespace is not None:
+                namespaces.add(namespace)
+            if (name.endswith("/task.toml") and git_object_exists(repo, commit, name)
+                    and all(not git_object_exists(repo, parent, name) for parent in parents)):
+                additions[name] = additions.get(name, 0) + 1
+    return namespaces, sorted(name.rsplit("/", 1)[0]
+                              for name, count in additions.items() if count > 1)
+
+
 def check_package(repo, task, *, formal=False, require_authors=True):
     errors = []
     try:
@@ -29,8 +95,8 @@ def check_package(repo, task, *, formal=False, require_authors=True):
         if not formal and not match:
             raise ValueError("Not a submission path")
         config = tomllib.loads((task / "task.toml").read_text())
-        expected = task.name if formal else f"task-{match[2]}-x"
-        category = re.fullmatch(r"task-([12])-(?:x|[1-9][0-9]*)", expected)
+        expected = task.name if formal else f"task-{match[2]}-x-{match[3]}"
+        category = re.fullmatch(r"task-([12])-(?:x-[1-9][0-9]*|[1-9][0-9]*)", expected)
         if category:
             kind = {"1": "create", "2": "optimize"}[category[1]]
             if config.get("metadata", {}).get("task_type") != kind:
@@ -58,12 +124,12 @@ def check_package(repo, task, *, formal=False, require_authors=True):
                 text = path.read_text()
             except UnicodeError:
                 continue
-            ids = set(re.findall(r"\btask-[12]-(?:[0-9]+|x)\b", text))
+            ids = set(re.findall(r"\btask-[12]-(?:[1-9][0-9]*|x-[1-9][0-9]*)\b", text))
             if not formal and ids - {expected}:
                 errors.append(f"{name}: unexpected task IDs {sorted(ids - {expected})}")
-            if formal and ids & {"task-1-x", "task-2-x"}:
+            if formal and any(re.fullmatch(r"task-[12]-x-[1-9][0-9]*", value) for value in ids):
                 errors.append(f"{name}: temporary task ID remains")
-            for ref in re.findall(r"task-submissions/[a-z0-9-]+/[12]-x", text):
+            for ref in re.findall(r"task-submissions/[a-z0-9-]+/[12]-x-[1-9][0-9]*", text):
                 if formal or ref != task.relative_to(repo).as_posix():
                     errors.append(f"{name}: another submission path: {ref}")
             if path.suffix == ".py":
@@ -96,7 +162,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("task_path", nargs="?", help="Repository-relative submission; otherwise check all")
     parser.add_argument("--merge-ready", action="store_true", help="Fail if any submission task.toml remains")
-    parser.add_argument("--base", help="PR base commit for the one-new-task-per-PR check")
+    parser.add_argument("--base", help="Full PR base commit for contributor-namespace and new-formal-package checks")
     args = parser.parse_args()
     errors = []
     try:
@@ -104,6 +170,18 @@ def main():
         for task in tasks:
             errors.extend(f"{task.relative_to(REPO)}: {error}" for error in check_submission(REPO, task))
         remaining = list((REPO / "task-submissions").rglob("task.toml"))
+        current_namespaces = set()
+        for task in discover(REPO):
+            rel = task.relative_to(REPO).as_posix()
+            if rel.startswith("task-submissions/"):
+                try:
+                    namespace = submission_namespace(rel + "/task.toml")
+                    if namespace:
+                        current_namespaces.add(namespace)
+                except ValueError as error:
+                    errors.append(str(error))
+        if len(current_namespaces) > 1:
+            errors.append(f"Submission tasks must use exactly one contributor namespace: {sorted(current_namespaces)}")
         if args.merge_ready and remaining:
             errors.append("Not merge-ready: submission task.toml remains; promote in the same PR")
         # Promotion must not remove the package's static validation coverage.
@@ -114,14 +192,21 @@ def main():
         if args.base:
             if not re.fullmatch(r"[0-9a-f]{40}", args.base):
                 raise ValueError("--base requires a full commit SHA")
-            added = subprocess.run(["git", "diff", "--no-renames", "--diff-filter=A", "--name-only",
+            added = subprocess.run(["git", "diff", "--no-renames", "--diff-filter=A", "--name-only", "-z",
                                     f"{args.base}...HEAD", "--", "tasks", "task-submissions"],
-                                   cwd=REPO, check=True, capture_output=True, text=True).stdout.splitlines()
-            if sum(name.endswith("/task.toml") for name in added) > 1:
-                errors.append("One new task per PR is required")
-            for name in added:
-                if name.startswith("tasks/") and name.endswith("/task.toml"):
-                    errors.extend(check_package(REPO, (REPO / name).parent, formal=True))
+                                   cwd=REPO, check=True, capture_output=True).stdout.decode(
+                                       "utf-8", errors="surrogateescape").split("\0")
+            history_namespaces, reused_tasks = history_submission_audit(REPO, args.base)
+            if len(history_namespaces) > 1:
+                errors.append(f"PR task submissions must use exactly one contributor namespace: {sorted(history_namespaces)}")
+            if reused_tasks:
+                errors.append(f"Temporary task ordinals must not be reused in one PR: {reused_tasks}")
+            added_formal = [name for name in filter(None, added)
+                            if name.startswith("tasks/") and name.endswith("/task.toml")]
+            if added_formal and len(history_namespaces) != 1:
+                errors.append("New formal tasks require exactly one contributor submission namespace in PR history")
+            for name in added_formal:
+                errors.extend(check_package(REPO, (REPO / name).parent, formal=True))
     except (OSError, ValueError, subprocess.CalledProcessError) as error:
         errors.append(str(error))
     for error in errors:

@@ -8,7 +8,7 @@ task. Nothing in this reference grants permission to publish or use paid APIs.
 
 Keep downloadable fixed files outside the build contexts, under
 `data/` or `models/` in the selected package (initially
-`task-submissions/<first-name-slug>/<1|2>-x`, later `tasks/<final-id>`).
+`task-submissions/<first-name-slug>/<1|2>-x-<positive-ordinal>`, later `tasks/<final-id>`).
 Ignore both directories in Git. Hidden
 queries/labels and grading code go in `tests/`, not the public asset bundle.
 For a verifier-only corpus stored in `data/verifier/`, mount only public
@@ -53,8 +53,8 @@ dataset** with manifest, provenance and license; pin its immutable 40-hex SHA in
 submission `assets.json`. The downloader accepts arbitrary HF repositories:
 
 ```bash
-python scripts/download_assets.py --task-path task-submissions/alice/1-x
-python scripts/download_assets.py --task-path task-submissions/alice/1-x --verify-only
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1 --verify-only
 ```
 
 After the maintainer assigns the final ID in the same PR, prepare new official

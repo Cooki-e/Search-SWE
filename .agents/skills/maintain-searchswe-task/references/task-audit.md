@@ -6,7 +6,8 @@ workflow/tool modifications need independent scrutiny, not implicit acceptance.
 
 | Area | Evidence required |
 | --- | --- |
-| Identity/scope | One new task per PR; initial `task-submissions/<first-name-slug>/<1|2>-x`, `task-1-x`/`task-2-x`, first name not username, actual `task.toml` authors and preserved original commits. No guessed/reserved final IDs. Existing-task revisions stay in place. |
+| Identity/scope | A PR may add multiple tasks, all under exactly one `task-submissions/<first-name-slug>/` namespace. Each `<1|2>-x-<positive-ordinal>` path has the exactly matching canonical ID (for example `task-1-x-1`), with ordinals unique within category in the PR/checkout and never reused after promotion. Reject new tasks added directly under `tasks/`. First name, not username; explicit `alice-2` for a different same-name contributor; actual `task.toml` authors and preserved original commits. No guessed/reserved final IDs. Existing-task revisions stay in place. |
+| Repository precedent | For each new task, the contributor names one or two closest formal `tasks/` packages or states that none is close, and explains matching dimensions, structural reuse and intentional differences. Independently inspect the closest analogue by mode, grading/judge shape, resources, hardware and data/artifact layout. Current contracts and validators override legacy examples. Reject unexplained copying of task-specific IDs/authors, datasets or HF pins, thresholds/baselines, allowlists, budgets, licenses/provenance or hidden evaluation design. Merely existing on main is not proof that a pattern remains valid. |
 | Instructions | Goal, starting state, input/output schema and absolute paths, submission command/interface, artifacts, public gates/thresholds and constraints match every graded requirement. No secret-only correctness requirement or hidden solution hints. |
 | Mode/resources | Only Implementation (`create`) or Optimization (`optimize`); meaningful optimization baseline. CPU default, GPU only for execution. Both Dockerfiles, both Compose reservations and `gpus` agree. Visible tools/API/model docs match injected resources and budgets. Pin dependencies/images; inspect build contexts. |
 | Solvability | Real known-good submission through the same separate verifier/artifact-transfer interface, expected vs observed reward and an authorized coding-agent trial. A scaffold's always-zero test, empty manifest, dry-run or static pass is not a working benchmark. No public author-only solution without approval. |
@@ -31,7 +32,7 @@ image access and appropriate GPU driver/Container Toolkit are needed for runtime
 After code-execution authorization, from the isolated checkout with trusted tools:
 
 ```bash
-task_path=task-submissions/alice/1-x  # Actual reviewed path; final tasks/<ID> later
+task_path=task-submissions/alice/1-x-1  # Actual reviewed path; final tasks/<ID> later
 python scripts/check_submission.py "$task_path"
 python scripts/check_release.py
 python -m unittest discover -s scripts/tests -p 'test_*.py'

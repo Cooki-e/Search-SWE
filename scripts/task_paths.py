@@ -4,7 +4,7 @@ from pathlib import Path
 import re
 
 SLUG = r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*"
-SUBMISSION = re.compile(rf"task-submissions/({SLUG})/([12])-x")
+SUBMISSION = re.compile(rf"task-submissions/({SLUG})/([12])-x-([1-9][0-9]*)")
 FORMAL = re.compile(r"task-[12]-[1-9][0-9]*")
 
 
@@ -33,7 +33,7 @@ def select_task(root, value):
     task = safe_path(root, value)
     rel = task.relative_to(root.resolve()).as_posix()
     if not SUBMISSION.fullmatch(rel) and not re.fullmatch(r"tasks/task-[a-z0-9]+(?:-[a-z0-9]+)*", rel):
-        raise ValueError("--task-path must name tasks/<task-id> or task-submissions/<first-name-slug>/<1|2>-x")
+        raise ValueError("--task-path must name tasks/<task-id> or task-submissions/<first-name-slug>/<1|2>-x-<positive-ordinal>")
     if not (task / "task.toml").is_file():
         raise ValueError(f"Missing task.toml: {rel}")
     no_symlinks(task)

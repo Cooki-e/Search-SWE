@@ -76,24 +76,39 @@ class RelocatedSkill(unittest.TestCase):
         self.assertNotEqual(self.scaffold("task-other", "--mode", "repair").returncode, 0)
         self.assertFalse((self.repo / "tasks/task-other").exists())
 
-    def test_submission_mode_authors_collisions_and_safety(self):
-        self.assertNotEqual(self.scaffold("task-1-x", "--submission-first-name", "Alice").returncode, 0)
-        for slug in ("alice", "alice-2"):
-            result = self.scaffold("task-1-x", "--submission-first-name", "Alice", "--author", "Alice Example",
-                                   "--author", "Coauthor Example")
+    def test_submission_mode_reuses_namespace_and_explicit_name_suffix(self):
+        self.assertNotEqual(self.scaffold("task-1-x-1", "--submission-first-name", "Alice").returncode, 0)
+        for task_id in ("task-1-x-1", "task-1-x-2", "task-2-x-1"):
+            mode = "optimization" if task_id.startswith("task-2") else "implementation"
+            result = self.scaffold(task_id, "--submission-first-name", "Alice", "--author", "Alice Example",
+                                   "--author", "Coauthor Example", "--mode", mode)
             self.assertEqual(result.returncode, 0, result.stderr)
-            task = self.repo / "task-submissions" / slug / "1-x"
+            task = self.repo / "task-submissions/alice" / task_id.removeprefix("task-")
             config = tomllib.loads((task / "task.toml").read_text())
-            self.assertEqual(config["task"]["name"], "search-swe/task-1-x")
+            self.assertEqual(config["task"]["name"], f"search-swe/{task_id}")
             self.assertEqual([a["name"] for a in config["task"]["authors"]], ["Alice Example", "Coauthor Example"])
+        duplicate = self.scaffold("task-1-x-1", "--submission-first-name", "Alice",
+                                  "--author", "Alice Example")
+        self.assertNotEqual(duplicate.returncode, 0)
+        result = self.scaffold("task-1-x-1", "--submission-first-name", "Alice-2",
+                               "--author", "Another Alice")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertTrue((self.repo / "task-submissions/alice-2/1-x-1/task.toml").is_file())
+
+    def test_submission_names_and_roots_are_safe(self):
         for name in ("../escape", "/absolute", "Élodie", "123"):
-            self.assertNotEqual(self.scaffold("task-1-x", "--submission-first-name", name,
+            self.assertNotEqual(self.scaffold("task-1-x-1", "--submission-first-name", name,
                                              "--author", "Real Author").returncode, 0)
-        self.assertNotEqual(self.scaffold("task-1-6", "--submission-first-name", "Alice",
+        for task_id in ("task-1-x", "task-1-x-0", "task-1-6"):
+            self.assertNotEqual(self.scaffold(task_id, "--submission-first-name", "Alice",
+                                             "--author", "Alice").returncode, 0)
+        (self.repo / "task-submissions").mkdir()
+        (self.repo / "task-submissions/alice").symlink_to(self.root)
+        self.assertNotEqual(self.scaffold("task-1-x-1", "--submission-first-name", "Alice",
                                          "--author", "Alice").returncode, 0)
         shutil.rmtree(self.repo / "task-submissions")
         (self.repo / "task-submissions").symlink_to(self.root)
-        self.assertNotEqual(self.scaffold("task-1-x", "--submission-first-name", "Alice",
+        self.assertNotEqual(self.scaffold("task-1-x-1", "--submission-first-name", "Alice",
                                          "--author", "Alice").returncode, 0)
         shutil.rmtree(self.repo / "tasks")
         (self.repo / "tasks").symlink_to(self.root)
@@ -113,15 +128,17 @@ class RelocatedSkill(unittest.TestCase):
     def test_submission_category_matches_mode_independent_of_hardware(self):
         for category, mode in ((1, "implementation"), (2, "optimization")):
             wrong = "optimization" if category == 1 else "implementation"
-            result = self.scaffold(f"task-{category}-x", "--submission-first-name", "Alice",
+            result = self.scaffold(f"task-{category}-x-1", "--submission-first-name", "Alice",
                                    "--author", "Alice", "--mode", wrong)
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse((self.repo / "task-submissions").exists())
+        ordinal = 1
         for category, mode in ((1, "implementation"), (2, "optimization")):
             for hardware in ("cpu", "gpu"):
-                result = self.scaffold(f"task-{category}-x", "--submission-first-name", "Alice",
+                result = self.scaffold(f"task-{category}-x-{ordinal}", "--submission-first-name", "Alice",
                                        "--author", "Alice", "--mode", mode, "--hardware", hardware)
                 self.assertEqual(result.returncode, 0, result.stderr)
+                ordinal += 1
 
 
 if __name__ == "__main__":

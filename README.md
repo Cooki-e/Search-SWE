@@ -212,11 +212,15 @@ and [`maintain-searchswe-task`](.agents/skills/maintain-searchswe-task/SKILL.md)
 PR review and promotion. See the
 [contribution entry](CONTRIBUTING.md) and [guide](docs/contributing.md) for validation and PR requirements.
 
-New tasks use `task-submissions/<first-name-slug>/1-x` or `2-x` (your ASCII
-first name, **not** username; add `-2`, `-3` for active name collisions). One new
-task per PR. Maintainers assign the final ID near merge, then make a pure
-`git mv` commit and a finalization commit **in that same PR**. Use **merge
-commit only**, not squash/rebase; no unfinished submission enters main.
+New tasks use
+`task-submissions/<first-name-slug>/<category>-x-<positive-ordinal>` (your ASCII
+first name, **not** username). One PR may add multiple tasks, all under exactly
+one contributor namespace; temporary ordinals are unique within category and
+are not final IDs or reusable after promotion in that PR. A different same-name
+contributor explicitly chooses `alice-2`. Maintainers assign final IDs near
+merge, then make separate pure
+`git mv` and finalization commits for every task **in that same PR**. Use
+**merge commit only**, not squash/rebase; no unfinished submission enters main.
 Development assets may use a personal public HF dataset pinned to a commit SHA.
 After final ID assignment, official assets go through an HF community PR or
 maintainer mirror; official HF merge and SHA pinning precede the GitHub merge.

@@ -1,7 +1,7 @@
 # Validation and completion evidence
 
 Run commands from the target repository root, using Python 3.12+. For a new
-task set `task_path=task-submissions/alice/1-x` (your actual first-name slug and
+task set `task_path=task-submissions/alice/1-x-1` (your actual first-name slug and
 category); after promotion set `task_path=tasks/<final-id>`. These checks use
 the checkout's tools; the skill does not bundle a second checker or runtime.
 
@@ -21,6 +21,11 @@ for an authorized remote inspection or PR handoff, not local task authoring.
 
 ## 1. Inspect the package before execution
 
+- Revisit the recorded formal reference task(s), or the recorded absence of a
+  close precedent. Compare only the intended structural patterns and explain
+  meaningful deviations; current contracts override legacy behavior. Check that
+  no task-specific IDs, data/pins, thresholds, allowlists, licenses or resource
+  assumptions were inherited without independent evidence.
 - Compare each instruction requirement to an observable verifier check and a
   public self-test. Public limits must not exist only in hidden tests.
 - Parse `task.toml` and `assets.json`; verify unique identity, correct mode,
@@ -32,7 +37,7 @@ for an authorized remote inspection or PR handoff, not local task authoring.
   without actually using that UID when launching code is insufficient.
 
 ```bash
-task_path=task-submissions/alice/1-x
+task_path=task-submissions/alice/1-x-1
 python scripts/check_submission.py "$task_path" # Before promotion; requires PyYAML
 python scripts/check_release.py
 python -m unittest discover -s scripts/tests -p 'test_*.py'
@@ -67,7 +72,7 @@ Compose files are Harbor overlays. Direct `docker compose config` needs a
 temporary base service with an image (this check does not pull that image):
 
 ```bash
-task_path=task-submissions/alice/1-x
+task_path=task-submissions/alice/1-x-1
 (
   set -eu
   base=$(mktemp)
@@ -126,7 +131,7 @@ is version-specific in `scripts/run_task.py`. Export values or use an ignored
 local `.env`; never commit them. The launcher does not support `--agent oracle`.
 
 After prerequisites and authorization are satisfied, remove `--dry-run` and
-set a fresh `--output jobs/alice-1-x-validation-1`. The launcher uses one attempt
+set a fresh `--output jobs/alice-1-x-1-validation-1`. The launcher uses one attempt
 and no retries; its output directory is a jobs root, not a resume target.
 Inspect the trial's actual reward, verifier logs, artifacts and setup failures.
 After a failure, record the command and cause, make a relevant correction, then
@@ -136,7 +141,9 @@ blockers rather than repeatedly consuming APIs or GPUs.
 ## Handoff
 
 Report changed paths, mode, hardware/image selection, input provenance,
-commands/results for each completed layer, expected versus observed scores,
-and unrun layers with their blockers. Distinguish static, asset, build,
-grader, known-good and coding-agent E2E results. Do not label the task ready
-for release while placeholders or required runtime checks remain unresolved.
+formal reference task paths (or no close precedent), structural reuse and
+intentional deviations, commands/results for each completed layer, expected
+versus observed scores, and unrun layers with their blockers. Distinguish
+static, asset, build, grader, known-good and coding-agent E2E results. Do not
+label the task ready for release while placeholders or required runtime checks
+remain unresolved.

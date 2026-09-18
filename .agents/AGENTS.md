@@ -28,11 +28,19 @@ root unless expressed as Markdown links.
    contributors' changes. Ask about uncertainties that affect task design or
    authorization, not information already supplied by the user.
 2. For task contributions, let the skill drive design → authoring → validation.
-   New tasks use `task-submissions/<first-name-slug>/<1|2>-x`, not usernames or
-   guessed formal IDs. Follow `CONTRIBUTING.md` and `docs/contributing.md`:
-   one new task per PR, actual authors, explicit `--task-path` for local trials,
-   and same-PR pure rename then finalization before a merge commit (no squash/rebase).
-   Track which stage is complete and which inputs or approvals are missing.
+   Before scaffolding, inspect one or two closest reviewed packages under
+   `tasks/` as read-only structural precedents, selected by mode, grading shape,
+   resources and hardware. Current repository contracts and validators override
+   older examples; never inherit task-specific data, thresholds, licenses or
+   access merely because another task uses them.
+   A PR may add multiple tasks, all under exactly one first-name namespace, at
+   `task-submissions/<first-name-slug>/<1|2>-x-<positive-ordinal>`; do not use
+   usernames, reuse a promoted temporary ordinal, or guess formal IDs. Follow
+   `CONTRIBUTING.md` and `docs/contributing.md`: require actual authors and
+   explicit `--task-path` for local trials, then promote every task with its own
+   same-PR pure rename and finalization commits before a merge commit (no
+   squash/rebase). Track which stage is complete and which inputs or approvals
+   are missing.
    Do not duplicate the skill's specifications in this file.
 3. Keep changes within the selected task plus directly necessary integration
    changes. Updating a website, publishing a dataset, pushing images, and opening

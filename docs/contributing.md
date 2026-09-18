@@ -8,7 +8,7 @@ Reuse the [shared CPU/GPU images](../docker/README.md). Keep the English and
 Chinese README overviews aligned. Publication, remote configuration, and merges
 require separate authorization; local task creation does not authorize them.
 
-## 1. Start one new task in one PR
+## 1. Start one or more tasks in one contributor namespace
 
 Fork the repository, clone your fork, and create a task branch. From the
 checkout root, use Python 3.12+ and install the host tools and static-test dependencies:
@@ -19,24 +19,32 @@ source .venv/bin/activate
 python -m pip install -r scripts/requirements.txt PyYAML python-dotenv
 ```
 
-Do not guess or reserve a final task number. Use:
+Do not guess or reserve final task numbers. Use:
 
 ```text
-task-submissions/<first-name-slug>/1-x/   # internal ID: task-1-x
-task-submissions/<first-name-slug>/2-x/   # internal ID: task-2-x
+task-submissions/<first-name-slug>/1-x-1/   # internal ID: task-1-x-1
+task-submissions/<first-name-slug>/1-x-2/   # second category 1 task
+task-submissions/<first-name-slug>/2-x-1/   # internal ID: task-2-x-1
 ```
+
+A PR may add multiple tasks, but all must use exactly one contributor first-name
+namespace. The positive ordinal is temporary and unique within its category in
+that PR/checkout; it is not the final task number. Do not delete a promoted
+temporary path and reuse its ordinal later in the same PR. The canonical ID must
+exactly match the directory with a `task-` prefix.
 
 Supply your **first name, not your GitHub username**. ASCII lowercase slugs
 match `[a-z][a-z0-9]*(?:-[a-z0-9]+)*`; spaces/separators become `-`.
 `Alice` becomes `alice`; a compound first name `Mary Jane` becomes `mary-jane`.
-For non-Latin names, choose an ASCII transliteration. Check active PRs for
-collisions: subsequent active Alices use `alice-2`, `alice-3`, etc. The helper
-reserves a free local namespace but cannot inspect remote PRs; pass `Alice-2`
-explicitly if another PR already occupies `alice`. This is a temporary readable
-namespace, not proof of identity or permanent attribution.
+For non-Latin names, choose an ASCII transliteration. The scaffolder reuses the
+same local contributor directory for additional task ordinals. Check active PRs
+for a *different person* with the same first name: that contributor explicitly
+passes `Alice-2`, then `Alice-3`; suffixes are not generated automatically from
+task collisions. This is a temporary readable namespace, not proof of identity
+or permanent attribution.
 
 ```bash
-python .agents/skills/create-searchswe-task/scripts/scaffold_task.py task-1-x \
+python .agents/skills/create-searchswe-task/scripts/scaffold_task.py task-1-x-1 \
   --submission-first-name Alice --author 'Alice Example' \
   --mode implementation --hardware cpu
 ```
@@ -62,24 +70,24 @@ Do not publish temporary IDs as permanent official dataset paths or image tags.
 See [asset contribution and publication](#asset-contribution-and-publication).
 
 ```bash
-python scripts/check_submission.py task-submissions/alice/1-x
+python scripts/check_submission.py task-submissions/alice/1-x-1
 python scripts/check_release.py
 python -m unittest discover -s scripts/tests -p 'test_*.py'
 python .agents/skills/create-searchswe-task/scripts/test_scaffold_task.py
 git diff --check
-python scripts/download_assets.py --task-path task-submissions/alice/1-x --dry-run
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1 --dry-run
 # After approving the download budget:
-python scripts/download_assets.py --task-path task-submissions/alice/1-x
-python scripts/download_assets.py --task-path task-submissions/alice/1-x --verify-only
-python scripts/run_task.py --task-path task-submissions/alice/1-x \
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1 --verify-only
+python scripts/run_task.py --task-path task-submissions/alice/1-x-1 \
   --agent pi --model deepseek/deepseek-flash --dry-run
 ```
 
 Both downloader and launcher require canonical repository-relative paths with
 no traversal or symlinks. `--task all` remains formal-only (downloader); the
 launcher still runs one selected task. Default submission outputs are under
-`jobs/task-submissions/alice/1-x`, not a shared `jobs/1-x`. Alternate downloader
-`--output-dir` also retains `task-submissions/alice/1-x`. The launcher uses the
+`jobs/task-submissions/alice/1-x-1`, not a shared `jobs/1-x-1`. Alternate downloader
+`--output-dir` also retains `task-submissions/alice/1-x-1`. The launcher uses the
 original package's local assets, not an alternate download directory.
 
 Follow the skill's [validation layers](../.agents/skills/create-searchswe-task/references/validation.md):
@@ -97,8 +105,12 @@ promotion commits after the maintainer assigns the number.
 
 The unprivileged `pull_request` and `push` workflow checks formal packages and
 **all** submission packages, including malformed/incomplete package paths.
-For PRs it also checks at most one newly added `task.toml` relative to the base,
-including after promotion. The submission validator reuses release structure,
+For PRs it permits multiple newly added `task.toml` files but requires all
+submission paths touched anywhere between the full base SHA and HEAD—including
+packages already promoted and both sides of merge commits—to use exactly one
+contributor namespace. It rejects reused temporary paths and newly added formal
+tasks without submission history. The current submission tree is checked too.
+The submission validator reuses release structure,
 asset pin/hash, secret, file-size, and Git-ignore checks and parses Python,
 shell, and Compose YAML without running task code. Install `PyYAML` for its
 Compose syntax layer; full Docker Compose rendering remains a separate check.
@@ -108,8 +120,8 @@ before merge**: `python scripts/check_submission.py --merge-ready` refuses any
 remaining submission `task.toml` and repeats static checks on formal packages,
 including syntax and temporary-reference checks. The PR base check also requires
 actual authors on newly added formal packages; legacy author records are unchanged.
-A submission is never first merged unfinished
-and promoted later. No GPU/API/container task execution occurs in CI. Never use
+Every submission is promoted in this PR before merge; merge-ready passes only
+after all temporary packages are gone. No GPU/API/container task execution occurs in CI. Never use
 `pull_request_target` to run contributor code with secrets, share an official
 HF token, or run an unreviewed task with maintainer credentials. Even repository
 unit tests are PR-controlled code: CI has no secrets, read-only permissions,
@@ -126,25 +138,28 @@ copying only the skill, invoke its scripts with explicit `--repo-root /path/to/c
 
 Finish design, provenance/license, environment, verifier-isolation and runtime
 review first; explicitly approve any missing validation. Update the PR to the
-latest main. Serialize final ID assignment and merging (or use a separately
-configured merge queue); inspect other queued PRs before selecting the next
-free number in the same category. Do not reserve numbers long-term.
+latest main. Serialize each final ID assignment and merging (or use a separately
+configured merge queue); inspect other queued PRs before selecting each next
+free number in the same category. Temporary ordinals do not influence final
+numbers. Do not reserve numbers long-term.
 
 Start with a clean worktree/index. The helper never commits, pushes or publishes.
 Example only: replace `task-1-6` with the actual free final ID.
 
 ```bash
-python scripts/promote_task.py rename task-submissions/alice/1-x task-1-6 --dry-run
-python scripts/promote_task.py rename task-submissions/alice/1-x task-1-6
+python scripts/promote_task.py rename task-submissions/alice/1-x-1 task-1-6 --dry-run
+python scripts/promote_task.py rename task-submissions/alice/1-x-1 task-1-6
 git diff --cached --summary
 # Operator creates the separate pure-rename commit:
 git commit -m 'Promote submission as task-1-6'
-python scripts/promote_task.py finalize task-submissions/alice/1-x task-1-6 --dry-run
-python scripts/promote_task.py finalize task-submissions/alice/1-x task-1-6
+python scripts/promote_task.py finalize task-submissions/alice/1-x-1 task-1-6 --dry-run
+python scripts/promote_task.py finalize task-submissions/alice/1-x-1 task-1-6
 ```
 
-Rename does **only `git mv`**. Finalize requires HEAD to be the operator's
-single-parent, 100%-identical rename commit for the entire package. It updates
+Repeat the rename/finalize sequence independently for every task, with a
+separate pure rename and finalization commit for each. Rename does **only
+`git mv`**. Finalize requires HEAD to be the operator's single-parent,
+100%-identical rename commit for that entire package. It updates
 canonical temporary IDs and the old submission path only in tracked package
 text files, prints changed lines, and refuses nonstandard/binary reference
 rewrites. It does not edit downloaded data. Review all replacements, filenames,
@@ -155,10 +170,11 @@ number becomes occupied, stop; coordinate a separately reviewed pure rename
 and finalization to a new free ID without overwriting another task or flattening
 history. Keep the PR up to date and recheck serially immediately before merging.
 
-Finish official asset publication below, pin the merged official SHA, then run
-full checks and applicable task-specific checks. Confirm no temporary reference
-remains in the formal package and no submission `task.toml` remains. Review and
-commit finalization separately **in this same PR**. Merge with a **merge commit
+Finish official asset publication separately for each task, pin each merged
+official SHA, then run full checks and applicable task-specific checks. Confirm
+no temporary reference remains in any formal package and no submission
+`task.toml` remains. Review and commit each finalization separately **in this
+same PR**. Merge with a **merge commit
 only**, not squash or rebase merge.
 
 ```bash

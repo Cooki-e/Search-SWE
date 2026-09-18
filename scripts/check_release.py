@@ -101,7 +101,7 @@ def check_release(repo, hf_data=None, verify_data=False, allow_unpublished=False
                 text = path.read_text()
             except UnicodeError:
                 continue
-            if name.startswith("tasks/") and re.search(r"task-[12]-x\b", text):
+            if name.startswith("tasks/") and re.search(r"task-[12]-x-[1-9][0-9]*\b", text):
                 errors.append(f"Unfinalized temporary task ID in formal package: {name}")
             if secret.search(text):
                 errors.append(f"Possible credential in Git file: {name} (value omitted)")

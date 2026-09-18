@@ -19,17 +19,29 @@ Read [references/task-authoring.md](references/task-authoring.md). Inspect the
 target checkout's status and preserve unrelated changes. Resolve its root
 explicitly; do not infer it from where this skill was installed.
 
+Before scaffolding, inspect one or two closest **formal** packages under the
+target checkout's `tasks/`. Choose them by engineering mode, evaluation/judge
+shape, resources/APIs, hardware and input/artifact layout—not merely by task
+number. Record their exact paths and why they are relevant. Treat them as
+read-only structural precedents: the current skill, repository validators,
+schema and shared-image documentation take priority. Do not copy task-specific
+IDs, authors, datasets, thresholds, pins, licenses or access policy without
+independently establishing them for the new task. If no close precedent exists,
+say so rather than forcing an analogy. See the bounded-reference procedure in
+`references/task-authoring.md`.
+
 Record a short design summary before writing the package:
 
 | Decision | What must be known |
 | --- | --- |
-| Identity | Temporary category ID (`task-1-x` or `task-2-x`), first-name slug, actual authors, version |
+| Identity | Temporary ID (`task-<1|2>-x-<positive-ordinal>`), one PR-wide first-name slug, actual authors, version |
 | Mode | Implementation → `metadata.task_type = "create"`; Optimization → `"optimize"` |
 | Goal | What working capability or quality/efficiency improvement is measured |
 | Interface | Container input paths, commands, output paths/formats, artifact transfer |
 | Evaluation | Metric, public gates, baseline if needed, failure/timeout behavior |
 | Inputs | Public/hidden split, actual files, provenance, redistribution rights |
 | Resources | CPU/GPU, memory/storage/time, network, permitted APIs/models |
+| Precedent | Formal task path(s), matching dimensions, structural patterns reused, intentional differences |
 
 Only these two engineering modes exist. CPU is the default; choose GPU for
 actual GPU execution, not merely because model files are involved. Ask for
@@ -45,7 +57,7 @@ For a new task, run the bundled helper using its **actual installed path**:
 # Set these to real absolute paths; neither depends on the current directory.
 SKILL_DIR=/path/to/create-searchswe-task
 REPO=/path/to/Search-SWE
-python "$SKILL_DIR/scripts/scaffold_task.py" task-1-x \
+python "$SKILL_DIR/scripts/scaffold_task.py" task-1-x-1 \
   --repo-root "$REPO" --submission-first-name Alice --author 'Alice Example' \
   --mode implementation --hardware cpu
 ```
@@ -54,26 +66,33 @@ Category 1 is Implementation (`create`); category 2 is Optimization (`optimize`)
 The temporary ID and mode must agree. For optimization:
 
 ```bash
-python "$SKILL_DIR/scripts/scaffold_task.py" task-2-x \
+python "$SKILL_DIR/scripts/scaffold_task.py" task-2-x-1 \
   --repo-root "$REPO" --submission-first-name Alice --author 'Alice Example' \
   --mode optimization --hardware cpu
 ```
 
 Hardware is independent of category/mode; use `--hardware gpu` only for GPU work.
 New tasks belong in
-`task-submissions/<first-name-slug>/<1|2>-x`, not formal `tasks/` directories.
+`task-submissions/<first-name-slug>/<1|2>-x-<positive-ordinal>`, not formal `tasks/` directories.
 Use a supplied ASCII first name, not a username; non-Latin names need an explicit
-transliteration. Local collisions receive `-2`, `-3`; inspect active PRs too and
-supply that suffix explicitly when needed. Repeat `--author` for coauthors.
+transliteration. Reuse that contributor directory for every task in the PR.
+Ordinals are temporary, category-local, positive, and unique in the PR/checkout;
+they are not final IDs; never reuse one after promoting its earlier task in the
+same PR. If a different contributor with the same first name needs a namespace,
+explicitly supply `Alice-2` (then `Alice-3`), including after
+checking active PRs; the scaffolder never derives name suffixes from task
+collisions. Repeat `--author` for coauthors.
 The helper refuses overwrites and symlink roots. Regular mode without
 `--submission-first-name` remains compatible for maintainers. Edit an existing
 task in place instead; do not delete it to make the helper succeed.
 
-One new task per PR. Read the bundled
+One PR may add multiple tasks, but every task must use exactly one contributor
+first-name namespace. Read the bundled
 [submission and PR workflow](references/submission-and-pr.md) for branch,
-review gates, maintainer handoff and author identity. A maintainer assigns the final ID close to
-merge and performs pure rename then finalization in **the same PR**, using
-`scripts/promote_task.py`. Preserve both commits and original author commits:
+review gates, maintainer handoff and author identity. A maintainer assigns each final ID close to
+merge and performs a separate pure rename then finalization for each task in
+**the same PR**, using `scripts/promote_task.py`. All tasks must be promoted
+before merge. Preserve every promotion commit and original author commit:
 **merge commit only**, never squash/rebase. No submission task package enters
 final main. Missing workflow tools in an older checkout are a prerequisite to
 report, not a reason to invent a formal ID.
@@ -116,7 +135,8 @@ network/proxy configuration, or spending on model APIs/GPU jobs. Obtain missing
 authorization for those actions; ordinary local checks may proceed.
 
 Report the task path, mode/hardware, commands actually executed and their
-results, known-good/negative-case evidence, and every unrun validation layer.
+results, formal reference tasks consulted (or that none was close), intentional
+reuse/deviations, known-good/negative-case evidence, and every unrun validation layer.
 Never equate a scaffold, a dry-run, or a static release check with a solvable
 end-to-end task.
 

@@ -41,16 +41,16 @@ Hugging Face cache; the downloader copies cached files into the task directories
 Contributors can validate before final numbering with an explicit package:
 
 ```bash
-python scripts/download_assets.py --task-path task-submissions/alice/1-x --dry-run
-python scripts/download_assets.py --task-path task-submissions/alice/1-x
-python scripts/download_assets.py --task-path task-submissions/alice/1-x --verify-only
-python scripts/run_task.py --task-path task-submissions/alice/1-x \
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1 --dry-run
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1
+python scripts/download_assets.py --task-path task-submissions/alice/1-x-1 --verify-only
+python scripts/run_task.py --task-path task-submissions/alice/1-x-1 \
   --agent pi --model deepseek/deepseek-flash --dry-run
 ```
 
 `--task all` stays formal-only. Paths must be canonical repository-relative
 paths without traversal or symlinks. An alternate `--output-dir` preserves the
-submission namespace; launcher jobs default to `jobs/task-submissions/alice/1-x`
+submission namespace; launcher jobs default to `jobs/task-submissions/alice/1-x-1`
 to avoid collisions between contributors sharing a temporary task ID.
 
 For development, use a personal public temporary dataset with a manifest,

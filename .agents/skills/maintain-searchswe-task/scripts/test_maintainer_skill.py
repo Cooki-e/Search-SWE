@@ -104,11 +104,11 @@ class MaintainerSkill(unittest.TestCase):
         (self.repo / ".gitignore").write_text("__pycache__/\n*.py[cod]\n")
         (self.repo / "base.txt").write_text("base\n")
         self.git("add", "."); self.git("commit", "-qm", "base")
-        self.source = "task-submissions/alice/1-x"
+        self.source = "task-submissions/alice/1-x-1"
         task = self.repo / self.source
         task.mkdir(parents=True)
-        (task / "task.toml").write_text('[task]\nname = "search-swe/task-1-x"\nauthors = ["Alice Example", "Bob Example"]\n')
-        (task / "instruction.md").write_text("# task-1-x\n\nOriginal contributor content\n")
+        (task / "task.toml").write_text('[task]\nname = "search-swe/task-1-x-1"\nauthors = ["Alice Example", "Bob Example"]\n')
+        (task / "instruction.md").write_text("# task-1-x-1\n\nOriginal contributor content\n")
         (task / "assets.json").write_text('{"schema_version":1,"files":[]}\n')
         self.git("add", ".")
         self.git("commit", "-qm", "Write submission", "--author", "Alice Example <alice@example.test>")

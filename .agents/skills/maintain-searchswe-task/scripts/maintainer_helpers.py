@@ -13,7 +13,7 @@ import subprocess
 import tomllib
 
 SLUG = r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*"
-SUBMISSION = re.compile(rf"task-submissions/({SLUG})/([12])-x")
+SUBMISSION = re.compile(rf"task-submissions/({SLUG})/([12])-x-([1-9][0-9]*)")
 FORMAL = re.compile(r"task-[12]-[1-9][0-9]*")
 
 def safe_path(root, value):
@@ -84,12 +84,12 @@ def promote(repo, source, target_id, phase, dry_run=False):
         raise ValueError("Unknown promotion phase")
     match = SUBMISSION.fullmatch(source)
     if not match or not FORMAL.fullmatch(target_id):
-        raise ValueError("Use task-submissions/<first-name-slug>/<1|2>-x and task-<1|2>-<positive-number>")
+        raise ValueError("Use task-submissions/<first-name-slug>/<1|2>-x-<positive-ordinal> and task-<1|2>-<positive-number>")
     if target_id.split("-")[1] != match[2]:
         raise ValueError("Task category mismatch")
     src = safe_path(repo, source)
     target = safe_path(repo, f"tasks/{target_id}")
-    old_id = f"task-{match[2]}-x"
+    old_id = f"task-{match[2]}-x-{match[3]}"
     if git(repo, "status", "--porcelain"):
         raise ValueError("Promotion requires a clean worktree and index; commit reviewed work first")
     if phase == "rename":
