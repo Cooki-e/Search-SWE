@@ -73,3 +73,30 @@ restricted task policies.
 Image pulls and Docker build downloads happen before untrusted task execution
 and are configured at the Docker daemon/build layer; they are not task runtime
 egress permissions.
+
+## Optional upstream DNS for isolated Docker runs
+
+If Docker's embedded resolver intermittently times out forwarding to the host
+DNS stub (for example, `127.0.0.53`), configure reachable upstream IPv4 DNS
+servers in the local `.env`:
+
+```dotenv
+CONTAINER_DNS=198.18.254.30,198.18.254.31
+```
+
+These example addresses belong to the diagnosed host's network; do not assume
+they work elsewhere. `--container-dns IP,IP` overrides the environment setting.
+Leave it unset to retain Harbor's default DNS behavior.
+
+The launcher generates a Docker Compose overlay for the isolation sidecar,
+shared by the task processes. It retains Harbor's original policy helper and
+adds only TCP/UDP port 53 exceptions to the configured DNS IPs during nonempty
+allowlist policies. `deny-all` removes those exceptions; ordinary API traffic
+still uses the original hostname allowlist. This is not an HTTP proxy and does
+not enable `CONTAINER_PROXY`. It neither changes host DNS nor restarts Docker.
+
+Overlays and a snapshot of the installed Harbor helper are retained in
+`/tmp/searchswe-dns-*` for the lifetime of the run. Do not remove them while a
+run is active (including its separate verifier); they may be removed afterward.
+Changing DNS does not fix unrelated TLS, API rate-limit, or authentication
+failures. Verify permitted and denied destinations after upgrading Harbor.

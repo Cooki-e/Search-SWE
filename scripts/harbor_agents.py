@@ -4,6 +4,12 @@ from harbor.agents.installed.codex import Codex
 from harbor.agents.installed.claude_code import ClaudeCode
 from harbor.agents.installed.pi import Pi
 from harbor.environments.base import BaseEnvironment
+import json
+import tempfile
+from pathlib import Path
+
+from harbor.models.trajectories.trajectory import Trajectory
+from scripts.pi_trajectory import convert_events
 
 
 CODEX_VERSION = "0.147.0"
@@ -61,6 +67,28 @@ class PreinstalledClaudeCode(ClaudeCode):
 
 class PreinstalledPi(Pi):
     """Run the pinned Pi CLI without runtime package downloads."""
+
+    async def run(self, instruction, environment, context):
+        try:
+            await super().run(instruction, environment, context)
+        finally:
+            # Export inside the agent phase, before Harbor collects artifacts
+            # and provisions the separate verifier. Preserve failed runs too.
+            with tempfile.TemporaryDirectory() as directory:
+                output = Path(directory) / "pi.txt"
+                await environment.download_file("/logs/agent/pi.txt", output)
+                trajectory, error = convert_events(
+                    output.read_text(), instruction, self.model_name, PI_VERSION
+                )
+                validated = Trajectory.model_validate(trajectory)
+                await self._upload_config_text(
+                    environment,
+                    content=json.dumps(validated.to_json_dict(), ensure_ascii=False),
+                    remote_path="/logs/agent/trajectory.json",
+                    filename="trajectory.json",
+                )
+        if error:
+            raise RuntimeError(f"Pi execution failed: {error}")
 
     async def install(self, environment: BaseEnvironment) -> None:
         if self._version != PI_VERSION:

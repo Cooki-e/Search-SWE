@@ -6,14 +6,17 @@ import os
 from pathlib import Path
 import shlex
 import shutil
+import subprocess
 import sys
 import tomllib
 from urllib.parse import urlsplit
 
 if __package__:
+    from .docker_dns import create_overlay, parse_servers
     from .task_paths import select_task, task_key
     from .download_assets import destination_path, read_manifest, relative_path
 else:
+    from docker_dns import create_overlay, parse_servers
     from task_paths import select_task, task_key
     from download_assets import destination_path, read_manifest, relative_path
 
@@ -90,6 +93,29 @@ def host_is_allowed(host, allowed_hosts):
     )
 
 
+def prepare_network_probe():
+    """Prepare Harbor's probe image outside its short kernel-test deadline."""
+    from harbor.environments.docker.docker import DockerEnvironment
+
+    image = DockerEnvironment._EGRESS_CONTROL_KERNEL_PROBE_IMAGE
+    inspected = subprocess.run(
+        ["docker", "image", "inspect", image], capture_output=True, timeout=30
+    )
+    if inspected.returncode:
+        print("Preparing Harbor network-isolation probe image...", flush=True)
+        subprocess.run(["docker", "pull", image], check=True, timeout=300)
+    result = subprocess.run(
+        ["docker", "run", "--rm", image, "sh", "-c",
+         DockerEnvironment._EGRESS_CONTROL_KERNEL_PROBE_SCRIPT],
+        capture_output=True, text=True, timeout=30,
+    )
+    if result.returncode:
+        raise RuntimeError(
+            "Docker network-isolation probe failed: "
+            + (result.stderr.strip() or "kernel lacks CONFIG_NFT_FIB_INET")
+        )
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     selection = parser.add_mutually_exclusive_group(required=True)
@@ -104,6 +130,7 @@ def main():
     )
     parser.add_argument("--codex-config", type=Path, help="Optional native Codex TOML configuration")
     parser.add_argument("--thinking", choices=PI_THINKING_LEVELS, help="Pi thinking level; overrides PI_THINKING")
+    parser.add_argument("--container-dns", help="Comma-separated upstream IPv4 DNS servers; overrides CONTAINER_DNS. Keeps Harbor's API allowlist.")
     parser.add_argument("--output", type=Path, help="Job output directory; relative to the current directory")
     parser.add_argument("--dry-run", action="store_true", help="Print the command with variable references; do not launch")
     args = parser.parse_args()
@@ -120,6 +147,12 @@ def main():
     elif args.env_file is not None:
         parser.error(f"Environment file does not exist: {env_file}")
     env = {**file_env, **os.environ}
+    dns_servers = None
+    if dns_value := (args.container_dns or env.get("CONTAINER_DNS")):
+        try:
+            dns_servers = parse_servers(dns_value)
+        except ValueError as error:
+            parser.error(f"Invalid CONTAINER_DNS: {error}")
     model = args.model or env.get("AGENT_MODEL")
     if not model:
         parser.error("Set --model or AGENT_MODEL")
@@ -290,6 +323,8 @@ def main():
         print("Preview only; credentials, assets, Docker, GPU, and API access are not checked.")
         print("Environment values are passed to Harbor separately from the command:")
         print(shlex.join(command))
+        if dns_servers:
+            print("Docker sidecar DNS override (allowlist preserved): " + ", ".join(dns_servers))
         return 0
 
     missing = [name for name in required if not env.get(name)]
@@ -306,6 +341,18 @@ def main():
         parser.error(f"Run python scripts/download_assets.py {selection_flag} to restore the missing or incomplete assets: " + ", ".join(unavailable))
     if shutil.which("harbor", path=env.get("PATH")) is None:
         parser.error("harbor was not found; activate the supported Harbor environment")
+    if any(effective_network_policy(task_config, phase)[0] != "public"
+           for phase in ("environment", "agent", "verifier")):
+        try:
+            prepare_network_probe()
+        except (OSError, subprocess.SubprocessError, RuntimeError) as error:
+            parser.error(f"Docker network preflight failed (allowlist remains enforced): {error}")
+    if dns_servers:
+        if all(effective_network_policy(task_config, phase)[0] == "public"
+               for phase in ("environment", "agent", "verifier")):
+            parser.error("CONTAINER_DNS currently requires Harbor's network-isolation sidecar")
+        command.extend(["--extra-docker-compose", str(create_overlay(dns_servers))])
+        print("Docker DNS upstreams (API allowlist unchanged): " + ", ".join(dns_servers), flush=True)
 
     # Harbor is a console script: changing cwd alone does not put this checkout
     # on its interpreter's search path for scripts.harbor_agents.
