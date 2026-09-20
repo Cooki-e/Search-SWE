@@ -176,6 +176,16 @@ levels are `off`, `minimal`, `low`, `medium`, `high`, and `xhigh`. Use
 `PI_THINKING` as a local default or `--thinking` for an explicit run. Pi's
 native provider key does not replace verifier or task-resource credentials.
 
+Pi records native events in `agent/pi.txt` and sessions in `agent/pi/sessions/`.
+Search-SWE's adapter converts those events to `agent/trajectory.json` (ATIF);
+this is not Pi's native HTML export. It preserves Pi's real `session_id` for
+traceability and compatibility with viewers such as ATIF Preview. If an
+incomplete log has no session header, the export instead carries a deterministic
+content-hash `trajectory_id` and an explanatory note, not a fabricated session ID.
+The conversion maps text, reasoning, timestamps and reported token/cost metrics
+to standard ATIF fields, retaining raw Pi messages in `extra.pi_message` on
+steps and observations. Failed runs are exported before the error is reported.
+
 ## Configure judges
 
 All current tasks except `task-2-4` use the trajectory judge. Add:
