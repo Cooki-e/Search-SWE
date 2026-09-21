@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/hero.png" alt="Search-SWE — Benchmarking coding agents on search-system engineering">
+  <img src="assets/hero.png" alt="Search-SWE — Benchmarking coding agents on building search engines">
 </p>
 
 <h1 align="center">

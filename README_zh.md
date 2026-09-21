@@ -1,11 +1,11 @@
 <p align="center">
-  <img src="assets/hero.png" alt="Search-SWE——面向搜索系统工程的编码智能体评测基准">
+  <img src="assets/hero.png" alt="Search-SWE——评测编码智能体构建搜索引擎的能力">
 </p>
 
 <h1 align="center">
   Search-SWE
   <br>
-  <sub>🔍 面向搜索系统工程的编码智能体评测基准。 🤖</sub>
+  <sub>🔍 评测编码智能体构建搜索引擎的能力。 🤖</sub>
 </h1>
 
 <p align="center">
