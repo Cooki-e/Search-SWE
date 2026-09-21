@@ -83,10 +83,9 @@ tasks/<task-id>/
 and `tests/` keeps large assets out of Harbor's build contexts and content hashes.
 Their contents are verified separately against `assets.json`.
 
-Task 1-4 also restores held-out PDFs to `data/verifier/corpus/`. Its Agent
-mounts only `data/corpus/` and `data/validation/`; only the verifier mounts the
-held-out corpus. These PDF files are downloadable assets, while held-out
-questions and relevance labels stay in `tests/data/`.
+Task 1-4 restores one shared PDF to `data/corpus/` and public queries and labels
+to `data/validation/`. Both environments use the same PDF; only the Agent mounts
+public validation. Hidden questions and relevance labels stay in `tests/data/`.
 
 Compose configurations mount the required data and models read-only. The agent
 receives public inputs; the verifier mounts the shared assets needed for

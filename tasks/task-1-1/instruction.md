@@ -88,7 +88,14 @@ After the Agent phase, the Harbor verifier runs the submission in the same task 
 1. **Retrieval integrity.** The submission must implement a genuine retrieval system over the supplied corpus. It must not obtain relevance judgments or results through hidden labels, hard-coded query-to-document mappings, precomputed answer files, external datasets containing evaluation judgments, or unauthorized retrieval services. The explicitly permitted resources in `available_resources.md` may be used only according to their documented retrieval or query-transformation roles.
 2. **Resource compliance.** The submission may use only the resources explicitly permitted in `/task/docs/available_resources.md` and must comply with all associated model, provider, endpoint, credential, and usage restrictions.
 3. **Executable and output validity.** The verifier checks that `build.sh` and `run.sh` exist and are executable, invokes them through the specified interfaces, and validates the JSONL output structure, query coverage, result count, duplicate handling, document IDs, scores, and ranking order. Invalid output or a failed executable gate receives a score of `0`.
-4. **Final retrieval score.** The submission must pass all hidden queries. For every hidden query, at least one relevant document must appear in the top three results. If any hidden query fails, the submission receives a score of 0.
+4. **Final retrieval score.** For a valid submission, the final task score is calculated only with `Accuracy@3`:
+
+```text
+score = 100 * average(Accuracy@3)
+```
+
+For an individual query, `Accuracy@3` is `1` when at least one relevant corpus document appears in the first three returned results, and `0` otherwise.
+
 
 ## Hidden Test Overview
 

@@ -60,13 +60,14 @@ For every valid query:
 - `query_id` must preserve the identifier of the corresponding input query;
 - `answer` must be a non-empty string that directly answers the question;
 - every result must contain a `answer` for the query and a `evidence` identifying the document for the answer from the supplied corpus.
+- `evidence` must be the PDF filename with the `.pdf` extension removed, e.g. `document-id.pdf` → `document-id`.
 
 ## Available Validation Data
 
 The following files are available in the task environment:
 
 - `/task/data/corpus` — the collection of 300 scientific-paper PDFs.
-- `/task/data/validation/queries.jsonl` — 25 public development queries. Each record follows the same schema used by hidden queries.
+- `/task/data/validation/queries.jsonl` — public development queries. Each record follows the same schema used by hidden queries.
 - `/task/data/validation/golden_answers.jsonl` — reference answers and evidence document IDs for the public queries.
 
 ## Expected Artifacts
@@ -100,7 +101,7 @@ An independent trajectory audit checks compliance with the task and resource res
 
 ## Hidden Test Overview
 
-The hidden evaluation contains 25 held-out queries with private relevance judgments. The hidden queries are disjoint from the public development examples and are not copied into the Agent-visible environment.
+The hidden evaluation contains held-out queries with private relevance judgments. The hidden queries are disjoint from the public development examples and are not copied into the Agent-visible environment.
 
 ## Environment and available resources
 

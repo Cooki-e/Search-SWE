@@ -10,6 +10,8 @@ The corpus is mounted read-only at `/task/data/corpus.jsonl`. It contains one JS
 {"id":"document-id","content":"short document text"}
 ```
 
-The three public development queries and public labels are mounted read-only under `/task/data/validation/`. The verifier's hidden data is not mounted there.
+Document IDs are opaque identifiers; preserve them exactly in retrieval output. Documents are shuffled, and equal-score results use their order in this corpus file as the tie-break.
+
+The 10 public development queries and public labels are mounted read-only under `/task/data/validation/`. The verifier's hidden data is not mounted there.
 
 The task is CPU-only (`gpus = 0`). A compact local lexical index is usually fast enough for this 57,359-document corpus. If using an embedding or reranking API, cache only non-secret model outputs and keep the API credential in the process environment; do not write it into an index or log.
