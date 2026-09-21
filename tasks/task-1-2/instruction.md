@@ -11,7 +11,7 @@ The objective is to maximize retrieval quality on held-out queries under the eva
 - Create or modify submission files only under `/app`.
 - Treat `/task` as read-only.
 - Use only the supplied precomputed vectors and task data for retrieval. Do not use external models, retrieval services, external datasets containing evaluation results, or precomputed query-to-result mappings.
-- Read `/task/docs/environment.md` and `/task/docs/available_resources.md` for the installed runtime, local resources, and network restrictions.
+- Read `/task/docs/environment.md` for the installed runtime, packages, and system tools available in the container.
 - `build.sh` and `run.sh` must be executable files under `/app`.
 - During verification, `/app` is read-only and the submission runs as a non-root user. Only the supplied `--index-dir` is writable for persistent and runtime-generated artifacts.
 - The evaluator allows up to 120 minutes for the Agent to complete this task; plan implementation, validation, and debugging within this time budget.
@@ -98,8 +98,8 @@ After the Agent phase, the Harbor verifier runs the submission in the same task 
 
 1. **Retrieval integrity.** The submission must implement a genuine vector retrieval system over the supplied corpus vectors. It must not obtain relevance judgments or results through hidden labels, hard-coded query-to-document mappings, precomputed answer files, external datasets containing the evaluation judgments, or external retrieval services.
 2. **Executable and runtime behavior.** The verifier checks that `build.sh` and `run.sh` exist and are executable. It invokes `build.sh` and requires it to complete successfully within 120 seconds, including index construction and service startup. It then invokes `run.sh` for the hidden query vectors and enforces the specified retrieval-latency limit.
-3. **Output validity.** The verifier checks the JSONL result structure, query coverage, result count, duplicate handling, document IDs, scores, and ranking output. Invalid output or a failed executable gate receives a zero score.
-4. **Final retrieval score.** The submission must pass all hidden queries. For every hidden query, at least one relevant document must appear in the top three results, and retrieval must complete within 0.5 seconds. If any hidden query fails either condition, the submission receives a score of 0.
+3. **Output validity.** The verifier checks the JSONL result structure, query coverage, result count, duplicate handling, document IDs, scores, and ranking output for each query. A query with invalid output or a failed `run.sh` invocation receives zero credit; the verifier continues with the remaining queries.
+4. **Final retrieval score.** Each hidden query receives 1 only if `run.sh` exits successfully within 0.5 seconds, its output is valid, and at least one relevant document appears in the top three results. Otherwise that query receives 0. The primary metric, latency-gated Accuracy@3, is the average of these per-query scores. The displayed score is `100 × average(query_score)`, and the normalized reward is `average(query_score)`. A failed build or retrieval-integrity check gives an overall score of 0.
 
 ## Hidden Test Overview
 
