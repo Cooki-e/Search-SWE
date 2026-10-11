@@ -10,10 +10,12 @@ verifier recompiles the source, rebuilds an empty index, and evaluates all
 quality floor has been measured, and an independently built author Rust
 implementation passed it on all dev queries (MRR@10 0.1872948219). A Harbor
 Oracle trial also passed the actual source-artifact transfer and independent
-verifier flow. Validation covers the author implementation and Harbor Oracle;
-an independent configured coding-model trial has not been run. This contribution
-requests review of that validation coverage. Official asset publication and
-terms review remain necessary before merge. See
+verifier flow. An independent GPT-5.6 Sol / max trial through Codex collaboration
+also completed the full verifier: MRR@10 0.1839805908 falls just below the exact
+floor, so it earns zero despite faster search and a smaller index. This was a
+context-free hosted agent using an isolated task container; Harbor's Codex API
+route remains untested because the API preflight found exhausted credits.
+Official asset publication and terms review remain necessary before merge. See
 [validation.md](authoring/validation.md) for the evidence and limitations.
 Author: MXueguang (`x93ma@edu.uwaterloo.ca`).
 

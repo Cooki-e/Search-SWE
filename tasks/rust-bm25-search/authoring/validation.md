@@ -1,10 +1,12 @@
 # Validation record
 
-This submission is supported by full author-implementation runs and a completed
-Harbor Oracle trial. No independent configured coding-model trial has been run;
-review of that validation coverage is requested. Nothing here should be
-interpreted as an API-model score. Official asset pins are still needed before
-the task can pass the merge-ready check.
+This submission is supported by full author-implementation runs, a completed
+Harbor Oracle trial and an independent GPT-5.6 Sol / max coding trial through
+Codex collaboration. The independent candidate completed the full verifier but
+scored zero because its MRR was slightly below the exact reference floor.
+Harbor's Codex API route remains untested after an exhausted-credit preflight;
+the hosted collaboration trial is documented separately below. Official asset
+pins are still needed before the task can pass the merge-ready check.
 
 The contribution branch is `add-rust-bm25-search`, based on
 `46197a43f8cbb364e72b6d63d5db873ae7d2cac8`. The contributor is
@@ -103,7 +105,8 @@ monitor fix only tolerates compiler temporary files disappearing during its
 directory walk; the specific regression and a fresh compile/command-failure
 container passed. It changes neither retrieval, measurement nor scoring.
 The full repeat's image fingerprint and any post-run source difference are
-recorded separately from the final image; model evaluation remains unperformed.
+recorded separately from the final image. Those author measurements are distinct
+from the later independent model trial below.
 
 The repeat completed successfully: MRR `0.18729482194023742`, reward
 `0.376796488284`, 696,567,340 index bytes, 308.297 seconds to build, 112.046
@@ -127,23 +130,20 @@ preserving their relevant artifacts and logs.
 
 ## Validation scope and merge follow-up
 
-The contribution is submitted with the completed author and Oracle evidence.
-An exception to the workflow's independent coding-model trial is requested for
-maintainer review. No model trajectory, model score or model-driven task feedback
-is claimed. Input redistribution review, official dataset publication and
-immutable official HF pins remain outstanding before merge-ready validation.
+The independent hosted-model trial below complements the author and Oracle
+evidence. Its deterministic measurement is valid even though it fails the
+quality gate. Maintainers should review the remaining harness coverage: it did
+not exercise Harbor invoking the pinned Codex CLI, and full provider trajectory
+and token/billing data were not exported. Input redistribution review, official
+dataset publication and immutable official HF pins remain outstanding before
+merge-ready validation.
 
-`.venv/bin/python scripts/run_task.py --task rust-bm25-search --dry-run`
-stopped with `Set --model or AGENT_MODEL`. This confirms the missing model
-configuration; it is not a completed trial or a model failure. The manual author
-trials supplied only the source artifact to a separate verifier. A subsequent
-Harbor Oracle integration trial checks the actual artifact path using the same
-private author source; its record below is separate from model evaluation.
-
-No paid trial was launched or substituted. This task's deterministic verifier
-needs no judge key. A future independently configured model trial, if requested
-during review, should follow the repository's evaluation guide and use a fresh
-output directory.
+At initial submission, the launcher dry-run stopped with
+`Set --model or AGENT_MODEL`; no coding-model trial had run. The later explicit
+request selected GPT-5.6 Sol. A minimal direct OpenAI Responses probe using that
+model and `max` returned HTTP 429, `credit_balance_exhausted`, before any Harbor
+trial started. The requested model was then run through the session's hosted
+collaboration capability. This task's deterministic verifier needs no judge key.
 
 ## Harbor integration follow-up
 
@@ -210,3 +210,72 @@ proposed task paths among 335 existing asset records. That existing SHA does not
 contain this task's assets and is not used as their source pin. No upload was
 made. The upstream terms were checked and recorded in [SOURCES.md](SOURCES.md);
 maintainer review and publication remain outstanding.
+
+## Independent GPT-5.6 Sol trial
+
+One independent `gpt-5.6-sol` / `max` agent completed this task through Codex
+collaboration with `fork_turns="none"`. It received the original instruction in
+a clean task-image container with four CPUs, 16 GiB memory, 256 PIDs, no network
+and read-only public data/docs. It received no conversation history, author
+solution, hidden queries/judgments or previous trajectories. Parent messages
+only requested progress reports. The evaluated task commit is
+`ae5a6f6c10283559953dfe90270b5ff659b88477`; the instruction hash remains
+`9f566cfdd7465d093da2c619a0d2ad6936ad39dcdbad0a630193b52328de8b62`.
+
+After the agent finished, exactly `Cargo.toml`, `Cargo.lock` and `src/main.rs`
+were collected and frozen. The Cargo files match the starter. Source review
+confirmed native Rust indexing, persistence, BM25 scoring and retrieval, with
+no existing retrieval-engine calls, answer tables or evaluation detection
+observed. The agent used the shared CPU image's Pyserini installation for
+development comparisons on public passages/queries and a synthetic corpus;
+that library is not used by its submitted implementation. Its document IDs
+are reconstructed from row order, an assumption specific to this fixed input;
+this run does not establish correctness for a shuffled corpus.
+
+The agent container was stopped before a fresh separate verifier recompiled
+the source, rebuilt all 8,841,823 passages, checked all 6,980 dev responses and
+cold/warm consistency, and rebuilt/measured the pinned Pyserini reference.
+Candidate execution used UID 10001 and the existing Landlock restrictions.
+The verifier finished with exit code 0 and status `quality_below_reference`.
+There were no unresolved runtime/reference/judge errors; no model judge is
+used. This is a valid completed measurement with reward **0**, not an
+infrastructure failure.
+
+| Metric | GPT-5.6 Sol submission | Same-run Pyserini reference |
+| --- | ---: | ---: |
+| MRR@10 | 0.1839805908036567 | 0.18398616227770956 |
+| Warm batch seconds | 17.215982 | 26.096032 |
+| Sequential queries/s | 405.437 | 267.474 |
+| Warm p50 / p95, ms | 1.824 / 6.460 | 2.234 / 11.578 |
+| Index bytes | 593,845,613 | 659,074,562 |
+| Process-cold median, ms | 45.732 | 6,107.460 |
+| Sampled peak search RSS, KiB | 634,356 | 1,444,812 |
+
+The candidate compiled in 19.242 seconds and built its index in 40.762 seconds.
+The reference indexing command took 111.222 seconds after a separate
+80.668-second corpus conversion. Cold samples include launch and first result
+without query warmup; OS file cache is not evicted. RSS covers the search
+process, not all container memory. These remain single-host observations.
+
+Candidate MRR is exactly `215743/1172640`, lower than the required reference by
+`7/1256400`, approximately `0.00000557147405`. Reciprocal rank is identical on
+6,976 queries, better on one and worse on three; 6,792 complete top-10 ID lists
+are identical. This comparison does not establish the cause of the ranking
+differences. In particular, the quality gap must not be dismissed as timing
+noise. The strict gate correctly yields zero despite approximately 52% higher
+throughput, 10% fewer index bytes and lower sampled RSS.
+
+This trial shows that an independent agent can implement and execute the full
+workflow within the budget, while the exact quality gate remains consequential.
+No task instruction, threshold, scoring, resource or runtime changes were made
+in response. The single valid result was retained without retrying for a pass.
+
+[model-observation.json](model-observation.json) records complete metrics,
+source/image/runtime hashes, model settings, terminal state and limitations.
+Source, agent notes, container command events, exact container/verifier launch
+arguments and raw deterministic grading logs are retained under ignored
+`jobs/evaluations/rust-bm25-search/collaboration/gpt-5.6-sol/max/attempt-01/`.
+Full hosted-model trajectory, token usage and billing were not exported; null
+cost fields mean unknown. This hosted trial does not validate Harbor's pinned
+Codex CLI or its API transport. The existing Oracle evidence covers Harbor's
+artifact transfer and separate-verifier integration independently.

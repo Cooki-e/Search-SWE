@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "scope": "full",
+  "kind": "Independent GPT-5.6 Sol coding trial through Codex collaboration, followed by the unmodified separate task verifier",
+  "task": "rust-bm25-search",
+  "evaluated_commit": "ae5a6f6c10283559953dfe90270b5ff659b88477",
+  "instruction_sha256": "9f566cfdd7465d093da2c619a0d2ad6936ad39dcdbad0a630193b52328de8b62",
+  "model": {
+    "id": "gpt-5.6-sol",
+    "reasoning_effort": "max",
+    "harness": "Codex collaboration spawn_agent",
+    "fork_turns": "none",
+    "agent_task_name": "/root/bm25_gpt56sol_trial",
+    "hosted_harness_version": null,
+    "codex_cli_invoked": false,
+    "full_raw_model_trajectory_exported": false,
+    "token_usage": null,
+    "billed_cost": null
+  },
+  "timestamps": {
+    "agent_started_at": "2026-10-11T23:32:56.419710+00:00",
+    "agent_finished_at": "2026-10-11T23:50:38.291663+00:00",
+    "verifier_started_at": "2026-10-11T23:50:38.291677+00:00",
+    "verifier_finished_at": "2026-10-11T23:56:21.289384+00:00"
+  },
+  "completion": {
+    "trial_status": "completed",
+    "agent_status": "completed",
+    "verifier_exit_code": 0,
+    "verifier_status": "quality_below_reference",
+    "reward": 0.0,
+    "quality_gate_passed": false,
+    "independent_agent_attempts": 1,
+    "completed_hidden_evaluations": 1,
+    "judge": "not used; deterministic verifier",
+    "unresolved_infrastructure_errors": false
+  },
+  "execution": {
+    "agent_image": "sha256:62398a6399748bdf1015b719c8f4a27a72d06bcc1d1aa28e48d27d2d3c55007b",
+    "verifier_image": "sha256:b96b3a9395d2b4c865b95627cfd09a8ece576ea64e7f09c03f6e23b4fc56e28c",
+    "limits": {
+      "cpus": 4,
+      "memory_bytes": 17179869184,
+      "pids": 256,
+      "agent_timeout_seconds": 10800,
+      "network": "none"
+    },
+    "candidate_commands_run_as_uid": 10001,
+    "search_confinement": "Landlock and immutable root-owned index",
+    "source_collection": "Copied /app/submission once after agent completion; stopped agent container before evaluation",
+    "agent_inputs": "Original instruction, starter, public corpus, warmup and resource docs only; no inherited conversation, author solution, hidden queries/qrels or previous trajectories supplied",
+    "parent_messages": "Operational progress requests only; no implementation guidance or hidden evaluation feedback",
+    "api_preflight": {
+      "provider": "OpenAI",
+      "model": "gpt-5.6-sol",
+      "reasoning_effort": "max",
+      "http_status": 429,
+      "error_type": "insufficient_quota",
+      "error_code": "credit_balance_exhausted",
+      "harbor_trial_started": false
+    },
+    "api_route_limitation": "The direct OpenAI probe returned credit_balance_exhausted before a Harbor coding-agent trial started. This hosted collaboration trial does not validate Harbor/Codex CLI API transport."
+  },
+  "submission": {
+    "source_sha256": {
+      "Cargo.lock": "f0a47855447f5a3e2ee42ea53adc4cd2f1438c1b9b015a459d80310b3ef7157a",
+      "Cargo.toml": "21bcf9dd8b20e512b4cf5c490bc7124f67c00382799998279d00876a18b66b18",
+      "src/main.rs": "d375a78b65d9d08a95f4694cc270a907087b99b84840cd44e6c47d692143bc84"
+    },
+    "source_bytes": 48913,
+    "cargo_files_match_starter": {
+      "Cargo.toml": true,
+      "Cargo.lock": true
+    },
+    "review": {
+      "reviewed": "entire src/main.rs",
+      "indexing": "Native Rust corpus parsing, per-shard inverted posting construction, gap/TF varint serialization, merged dictionary, persisted byte4 document norms.",
+      "search": "Native Rust mmap index loading, global BM25 statistics with k1=0.9 b=0.4, four persistent scoring workers, deterministic top-10 merge.",
+      "external_retrieval_engine_runtime": false,
+      "query_answer_tables_or_evaluation_detection_observed": false,
+      "development_reference_use": "Agent reported Pyserini analyzer comparisons on public corpus/queries and a synthetic-document scoring comparison; no engine calls in submitted source.",
+      "fixed_input_assumption": "Document IDs are reconstructed from corpus row order; no docid field is parsed. Evaluation uses the fixed corpus, so final retrieval metrics determine correctness for this input. No general shuffled-corpus correctness claim."
+    }
+  },
+  "candidate": {
+    "status": "quality_below_reference",
+    "reward": 0.0,
+    "weights": {
+      "quality": 1.0,
+      "time": 1.0,
+      "disk": 1.0
+    },
+    "compile_seconds": 19.242446894058958,
+    "build_seconds": 40.76195521000773,
+    "index_bytes": 593845613,
+    "query_count": 6980,
+    "warmup_query_count": 54,
+    "warm_seconds": 17.215982267051004,
+    "warm_qps": 405.4372205853598,
+    "warm_latency_p50_seconds": 0.0018244810635223985,
+    "warm_latency_p95_seconds": 0.006459641037508845,
+    "cold_start_to_first_result_seconds": [
+      0.04767116601578891,
+      0.042456086026504636,
+      0.04749197594355792,
+      0.04566459101624787,
+      0.0457321279682219
+    ],
+    "cold_start_p50_seconds": 0.0457321279682219,
+    "cold_start_p95_seconds": 0.04767116601578891,
+    "cold_samples": 5,
+    "cache_policy": "new process; no query warmup; OS file cache is not evicted",
+    "sampled_search_process_peak_rss_kib": 634356,
+    "rss_scope": "search process only; excludes unmapped page cache and child processes",
+    "request_concurrency": 1,
+    "quality": {
+      "mrr_at_10": 0.1839805908036567,
+      "mrr_numerator": 215743,
+      "mrr_denominator": 1172640,
+      "query_count": 6980,
+      "answered_query_count": 6980,
+      "complete": true
+    },
+    "quality_pass": false
+  },
+  "same_run_reference": {
+    "query_count": 6980,
+    "warmup_query_count": 54,
+    "warm_seconds": 26.096032483968884,
+    "warm_qps": 267.47360941889923,
+    "warm_latency_p50_seconds": 0.002233827020972967,
+    "warm_latency_p95_seconds": 0.011578463017940521,
+    "cold_start_to_first_result_seconds": [
+      6.23108392697759,
+      6.1442101809661835,
+      6.080930325901136,
+      6.107460074010305,
+      6.0901562250219285
+    ],
+    "cold_start_p50_seconds": 6.107460074010305,
+    "cold_start_p95_seconds": 6.23108392697759,
+    "cold_samples": 5,
+    "cache_policy": "new process; no query warmup; OS file cache is not evicted",
+    "sampled_search_process_peak_rss_kib": 1444812,
+    "rss_scope": "search process only; excludes unmapped page cache and child processes",
+    "request_concurrency": 1,
+    "schema_version": 1,
+    "scope": "full",
+    "reference": {
+      "pyserini": "1.4.0",
+      "k1": 0.9,
+      "b": 0.4,
+      "top_k": 10
+    },
+    "quality": {
+      "mrr_at_10": 0.18398616227770956,
+      "mrr_numerator": 3236243,
+      "mrr_denominator": 17589600,
+      "query_count": 6980,
+      "answered_query_count": 6980,
+      "complete": true
+    },
+    "index_bytes": 659074562,
+    "document_count": 8841823,
+    "inputs": {
+      "queries_sha256": "1a271ae784b2f518c42902fcb38a53331e19a13ea58edb9996f6e070e14ec174",
+      "qrels_sha256": "34ef51a24e049b3dd19b0a448b764f26b0def22ec42f421ecba2db91f82e7042",
+      "warmup_sha256": "331e829922e2bd8ee1f01766fb7253c0d672ef79498011e91ad5e3e93f17a54a",
+      "corpus_sha256": "634543cee77a992613bbf32d0aa4863659dffd064c405f062454400aa80aea3f"
+    },
+    "scoring_status": "measurement only; production calibration remains separate",
+    "index_build_seconds": 111.22172616701573,
+    "corpus_conversion_seconds": 80.66759173595347
+  },
+  "ranking_comparison": {
+    "query_count": 6980,
+    "counts": {
+      "different_top10_ids": 188,
+      "rr_equal": 6976,
+      "identical_top10_ids": 6792,
+      "rr_worse": 3,
+      "rr_better": 1
+    },
+    "mrr_difference_fraction": "-7/1256400",
+    "mrr_difference": -5.571474052849411e-06,
+    "cause": "Not established by this comparison; do not attribute to timing noise or a specific analyzer/rounding difference without further evidence."
+  },
+  "ratios": {
+    "warm_qps_vs_reference": 1.5158027046712905,
+    "index_bytes_vs_reference": 0.9010294847337773,
+    "sampled_rss_vs_reference": 0.43905781513442577
+  },
+  "artifact_sha256": {
+    "verifier_report": "dec8780fba2f24b8af74d16ef280bfc7f5821f78044402a0dd502ae0c754334f",
+    "candidate_responses": "808c183a06056fbb64328399550452888c33f324dbddc0a49518d2d9aa9263d8",
+    "reference_responses": "df47847bd291c1cee755ce414d0d3b5bac239294866d23f2cbc91650753febce"
+  },
+  "task_runtime_sha256": {
+    "assets.json": "9924114a413ffb3e4925f601f9ebe09f8fed212262ad603ea0192d54e879211a",
+    "environment/Dockerfile": "5355dc94736169968fba83bd8bb33e4827d5e78dff81dc7e651d6cec8d2004ed",
+    "environment/docker-compose.yaml": "c1e48582a25e91c274432103bc431b31a05bf7f519d71491dd82aff37df4c192",
+    "environment/docs/available_resources.md": "b40fc825d1e4f8a81d4cd21fc4c8e7dd3404de36e898e67f48bd23e7f8e139e8",
+    "environment/docs/environment.md": "09f112fd03aee1ad88627896cdd7fcd6a39a9ed4bd3110aee52133421a314765",
+    "environment/install-rust.sh": "0c8a93508f19fe1608c27224f0ee1bd31e67ad7cb483abdf4e7cf218580be20d",
+    "environment/smoke.py": "680c17ddf22bf7cd111645309963460608fb86c5dcc135ee885310f5774a7d36",
+    "environment/starter/Cargo.lock": "f0a47855447f5a3e2ee42ea53adc4cd2f1438c1b9b015a459d80310b3ef7157a",
+    "environment/starter/Cargo.toml": "21bcf9dd8b20e512b4cf5c490bc7124f67c00382799998279d00876a18b66b18",
+    "environment/starter/src/main.rs": "2d007b77608cd53984bcffae8d042f80ffe61d8aa14def3e094fad4f0dccb21b",
+    "instruction.md": "9f566cfdd7465d093da2c619a0d2ad6936ad39dcdbad0a630193b52328de8b62",
+    "raw-instruction.md": "cd859aac8edb1f3e1574756ccfc6109af8231d7b1b25d69338d3e1ffd52eba5f",
+    "task.toml": "46b4ee6f8c1dbaf6e250842f7cdd3217fa9b930f44d29a5323c06fabb0f80a00",
+    "tests/.dockerignore": "6feaded4e28ea86e001a6751b4e3d960e8b7c31b9616ff9936b79297086e809b",
+    "tests/Dockerfile": "59a049dbba4885f2cd15e17f227abddc6c1e788a4a0e62e912caa33a8be68026",
+    "tests/benchmark.py": "693a04c471f7188cca41471e557d76deea90a54279ab31e86f9b856e4e5ea387",
+    "tests/data/dev.qrels.tsv": "34ef51a24e049b3dd19b0a448b764f26b0def22ec42f421ecba2db91f82e7042",
+    "tests/data/dev.queries.jsonl": "1a271ae784b2f518c42902fcb38a53331e19a13ea58edb9996f6e070e14ec174",
+    "tests/data/sources.json": "2f3455950563937209576181423efc26a522ffddec674ccea87d3336240bfed2",
+    "tests/docker-compose.yaml": "3d7ab19438f87d2683903bece00eda93201182173f3d4c47b4055b02aa2b8a27",
+    "tests/evaluate.py": "9ad06bc52e2cdb220e87efe4f945ffbb48a7886719d817b4044f7eb95ca1e6bb",
+    "tests/grader.py": "a50673318259d517a1f287cf8cf73106e7690eb0549c6a2761c464faddbf2009",
+    "tests/install-rust.sh": "0c8a93508f19fe1608c27224f0ee1bd31e67ad7cb483abdf4e7cf218580be20d",
+    "tests/isolate.py": "a7f35243a58a4579e940ad480492837a878468b6a236d4180da223c8659ae615",
+    "tests/prepare_corpus.py": "2a3aebcb3f9464bd4cd3ba57fa29d795609eaf0551116e56b128aa8c8ed8f8a3",
+    "tests/reference-quality.json": "3e29dc6a341683286b9a690e19ea0f3dd33772e1b5e1a22bdef85700f30cf9fd",
+    "tests/reference.py": "af6be1ac60a9767a38f617ff4bce936a3c30878053647fdc833359b799b2a5f4",
+    "tests/reference_worker.py": "cd2484b9923f93557bdf096334cb5977234e4d567545c5d159015bb1aa8b759a",
+    "tests/test.sh": "1e8a0fdfbb677a72067a468748e36693028932b45d85fd08d89405dcf1c2abe0",
+    "tests/toolchain/Cargo.lock": "f0a47855447f5a3e2ee42ea53adc4cd2f1438c1b9b015a459d80310b3ef7157a",
+    "tests/toolchain/Cargo.toml": "21bcf9dd8b20e512b4cf5c490bc7124f67c00382799998279d00876a18b66b18",
+    "tests/toolchain/src/main.rs": "2d007b77608cd53984bcffae8d042f80ffe61d8aa14def3e094fad4f0dccb21b"
+  },
+  "interpretation": {
+    "finding": "The independent agent completed a self-built Rust implementation and the full verifier. Candidate quality fell below the exact floor by 7/1256400, so the valid measurement earns zero despite lower warm time, index bytes and sampled search RSS.",
+    "changes_motivated": "No prompt, quality threshold, scoring, resource or runtime changes. Preserve this single valid near-threshold failure; do not rerun it to obtain a pass.",
+    "causality_limit": "The ranking comparison does not establish whether analyzer details, score arithmetic or tie handling caused the four reciprocal-rank differences.",
+    "coverage_limit": "This was a context-free hosted collaboration agent using a clean task container, not Harbor invoking the pinned Codex CLI. Full provider trajectory and token/billing data were not exported. Source, agent notes, container command events and deterministic evaluation logs are retained locally.",
+    "development_comparison": "The task image includes Pyserini from the shared CPU base. The agent used it for public analyzer/synthetic comparisons during development; the submitted indexer and searcher do not call an existing retrieval engine.",
+    "generalization_limit": "One model sample on one host does not establish universal difficulty or latency."
+  },
+  "local_evidence_directory": "jobs/evaluations/rust-bm25-search/collaboration/gpt-5.6-sol/max/attempt-01"
+}
