@@ -1,0 +1,165 @@
+{
+  "query_count": 6980,
+  "warmup_query_count": 54,
+  "warm_seconds": 28.028916195966303,
+  "warm_qps": 249.02853721488188,
+  "warm_latency_p50_seconds": 0.0025081089697778225,
+  "warm_latency_p95_seconds": 0.012160763028077781,
+  "cold_start_to_first_result_seconds": [
+    6.273486613063142,
+    6.079018290969543,
+    6.174929002998397,
+    6.19202714599669,
+    6.113305229926482
+  ],
+  "cold_start_p50_seconds": 6.174929002998397,
+  "cold_start_p95_seconds": 6.273486613063142,
+  "cold_samples": 5,
+  "cache_policy": "new process; no query warmup; OS file cache is not evicted",
+  "sampled_search_process_peak_rss_kib": 1379392,
+  "rss_scope": "search process only; excludes unmapped page cache and child processes",
+  "request_concurrency": 1,
+  "schema_version": 1,
+  "scope": "full",
+  "reference": {
+    "pyserini": "1.4.0",
+    "k1": 0.9,
+    "b": 0.4,
+    "top_k": 10
+  },
+  "quality": {
+    "mrr_at_10": 0.18398616227770956,
+    "mrr_numerator": 3236243,
+    "mrr_denominator": 17589600,
+    "query_count": 6980,
+    "answered_query_count": 6980,
+    "complete": true
+  },
+  "index_bytes": 660057576,
+  "document_count": 8841823,
+  "inputs": {
+    "queries_sha256": "1a271ae784b2f518c42902fcb38a53331e19a13ea58edb9996f6e070e14ec174",
+    "qrels_sha256": "34ef51a24e049b3dd19b0a448b764f26b0def22ec42f421ecba2db91f82e7042",
+    "warmup_sha256": "331e829922e2bd8ee1f01766fb7253c0d672ef79498011e91ad5e3e93f17a54a",
+    "corpus_sha256": "634543cee77a992613bbf32d0aa4863659dffd064c405f062454400aa80aea3f"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "platform": "Linux-5.15.0-1061-oracle-x86_64-with-glibc2.36",
+    "cpu_affinity": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ]
+  },
+  "reference_build": {
+    "command": [
+      "/opt/conda/bin/python",
+      "-m",
+      "pyserini.index.lucene",
+      "--collection",
+      "JsonCollection",
+      "--input",
+      "/task-package/authoring/output/collection",
+      "--index",
+      "/task-package/authoring/output/reference-index",
+      "--generator",
+      "DefaultLuceneDocumentGenerator",
+      "--threads",
+      "4"
+    ],
+    "build_seconds": 88.8911325779045,
+    "build_max_rss_kib": 2927980,
+    "index_bytes": 660057576,
+    "pyserini_version": "1.4.0",
+    "collection": {
+      "schema_version": 1,
+      "corpus_sha256": "634543cee77a992613bbf32d0aa4863659dffd064c405f062454400aa80aea3f",
+      "document_count": 8841823,
+      "scope": "full",
+      "content_field": "text",
+      "title_field_indexed": false,
+      "conversion_seconds": 76.57724482391495,
+      "source_files": [
+        {
+          "name": "part-00.jsonl",
+          "size_bytes": 368375770,
+          "sha256": "e34c4e9e44bf5191422141496158addf4e5192e99b37923fbc9a4a3dc11830ca"
+        },
+        {
+          "name": "part-01.jsonl",
+          "size_bytes": 371692953,
+          "sha256": "0bfd39f7e176e3422707456e92131311311e2d7553fc389e9759a62349473f00"
+        },
+        {
+          "name": "part-02.jsonl",
+          "size_bytes": 369369292,
+          "sha256": "129e7a301c7620a5fb6d5feceabc238648056d373a0690f60647a7b5d5c2c4ac"
+        },
+        {
+          "name": "part-03.jsonl",
+          "size_bytes": 371006387,
+          "sha256": "dfbc10d22fbd69619512a6295424398d3f07f93d5f88d649db261aaca0c90f95"
+        },
+        {
+          "name": "part-04.jsonl",
+          "size_bytes": 371848112,
+          "sha256": "2403a2e8d68cb2d01bb2c8b9b02edde7316533eb35c38f7b1345845919207e02"
+        },
+        {
+          "name": "part-05.jsonl",
+          "size_bytes": 377446609,
+          "sha256": "c9e20010f36905c9ee9996e3043cb6e6617f4e4ce9e53e7a44641ded68f7db64"
+        },
+        {
+          "name": "part-06.jsonl",
+          "size_bytes": 393830108,
+          "sha256": "b342f8ec5823ced164ad54812eb37e0a8d0bf74f64dde06a402323f04b4fff11"
+        },
+        {
+          "name": "part-07.jsonl",
+          "size_bytes": 358329627,
+          "sha256": "3e9cfd30b19a2105721630f380767e0aa91f942d6b96062051eb0ec18939af10"
+        },
+        {
+          "name": "part-08.jsonl",
+          "size_bytes": 300773881,
+          "sha256": "795522170e3e5d2673e5e96de9891fc0ada6bc1f08dea0daaa0658b8e86cbb1b"
+        }
+      ]
+    },
+    "stored_raw": false,
+    "stored_positions": false,
+    "stored_docvectors": false
+  },
+  "scoring_status": "measurement only; production calibration remains separate"
+}

@@ -1,0 +1,18 @@
+{
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/castorini/anserini-tools/8f1bc80988c2483d9519bc2519862b54ab730986/topics/topics.msmarco-passage.dev-subset.txt",
+      "source_sha256": "f4f71fa87b6be4fb968cca2b8f8554c4ebd003e6c3488af3ac1cc5629c3de189",
+      "path": "dev.queries.jsonl",
+      "size_bytes": 478653,
+      "sha256": "1a271ae784b2f518c42902fcb38a53331e19a13ea58edb9996f6e070e14ec174"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/castorini/anserini-tools/8f1bc80988c2483d9519bc2519862b54ab730986/qrels/qrels.msmarco-passage.dev-subset.txt",
+      "source_sha256": "34ef51a24e049b3dd19b0a448b764f26b0def22ec42f421ecba2db91f82e7042",
+      "path": "dev.qrels.tsv",
+      "size_bytes": 143300,
+      "sha256": "34ef51a24e049b3dd19b0a448b764f26b0def22ec42f421ecba2db91f82e7042"
+    }
+  ]
+}

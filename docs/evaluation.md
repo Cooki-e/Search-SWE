@@ -69,6 +69,7 @@ the shared images locally.
 | `query-encoder-alignment` | 1 NVIDIA GPU | Yes | — | — |
 | `agentic-search` | CPU | — | — | `OPENROUTER_API_KEY`, `JINA_API_KEY` |
 | `sparse-retrieval-pruning` | CPU | Yes | — | — |
+| `rust-bm25-search` | CPU | — | — | — |
 
 The table identifies credential groups, not the complete resource budget. Read
 `tasks/TASK_NAME/README.md` and `task.toml` before launching. In particular,
@@ -213,7 +214,7 @@ steps and observations. Failed runs are exported before the error is reported.
 
 ## Configure judges
 
-All current tasks except `agentic-search` use the trajectory judge. Add:
+All current tasks except `agentic-search` and `rust-bm25-search` use the trajectory judge. Add:
 
 ```dotenv
 VERIFIER_OPENAI_BASE_URL=https://openrouter.ai/api/v1

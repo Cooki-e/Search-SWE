@@ -1,0 +1,19 @@
+services:
+  main:
+    cpus: 4.0
+    mem_limit: 16g
+    memswap_limit: 16g
+    pids_limit: 256
+    volumes:
+      - type: bind
+        source: ../data/corpus.jsonl.gz
+        target: /task/data/corpus.jsonl.gz
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../data/warmup.jsonl.gz
+        target: /task/data/warmup.jsonl.gz
+        read_only: true
+        bind:
+          create_host_path: false

@@ -1,0 +1,259 @@
+{
+  "status": "ok",
+  "reward": 0.3767964882839702,
+  "weights": {
+    "quality": 1.0,
+    "time": 1.0,
+    "disk": 1.0
+  },
+  "compile_seconds": 19.27246336697135,
+  "build_seconds": 308.29686946293805,
+  "index_bytes": 696567340,
+  "query_count": 6980,
+  "warmup_query_count": 54,
+  "warm_seconds": 112.04593061690684,
+  "warm_qps": 62.29588135480909,
+  "warm_latency_p50_seconds": 0.013617557007819414,
+  "warm_latency_p95_seconds": 0.03639287408441305,
+  "cold_start_to_first_result_seconds": [
+    0.42053138196934015,
+    0.4286808690521866,
+    0.43139030202291906,
+    0.4452892820117995,
+    0.4524968520272523
+  ],
+  "cold_start_p50_seconds": 0.43139030202291906,
+  "cold_start_p95_seconds": 0.4524968520272523,
+  "cold_samples": 5,
+  "cache_policy": "new process; no query warmup; OS file cache is not evicted",
+  "sampled_search_process_peak_rss_kib": 790120,
+  "rss_scope": "search process only; excludes unmapped page cache and child processes",
+  "request_concurrency": 1,
+  "quality": {
+    "mrr_at_10": 0.18729482194023742,
+    "mrr_numerator": 366049,
+    "mrr_denominator": 1954400,
+    "query_count": 6980,
+    "answered_query_count": 6980,
+    "complete": true
+  },
+  "reference": {
+    "query_count": 6980,
+    "warmup_query_count": 54,
+    "warm_seconds": 25.700666244956665,
+    "warm_qps": 271.58829010394663,
+    "warm_latency_p50_seconds": 0.0021868409821763635,
+    "warm_latency_p95_seconds": 0.01142639690078795,
+    "cold_start_to_first_result_seconds": [
+      6.192289131926373,
+      6.050568872014992,
+      6.080838377005421,
+      6.086367544019595,
+      6.076939802034758
+    ],
+    "cold_start_p50_seconds": 6.080838377005421,
+    "cold_start_p95_seconds": 6.192289131926373,
+    "cold_samples": 5,
+    "cache_policy": "new process; no query warmup; OS file cache is not evicted",
+    "sampled_search_process_peak_rss_kib": 1441892,
+    "rss_scope": "search process only; excludes unmapped page cache and child processes",
+    "request_concurrency": 1,
+    "schema_version": 1,
+    "scope": "full",
+    "reference": {
+      "pyserini": "1.4.0",
+      "k1": 0.9,
+      "b": 0.4,
+      "top_k": 10
+    },
+    "quality": {
+      "mrr_at_10": 0.18398616227770956,
+      "mrr_numerator": 3236243,
+      "mrr_denominator": 17589600,
+      "query_count": 6980,
+      "answered_query_count": 6980,
+      "complete": true
+    },
+    "index_bytes": 659333387,
+    "document_count": 8841823,
+    "inputs": {
+      "queries_sha256": "1a271ae784b2f518c42902fcb38a53331e19a13ea58edb9996f6e070e14ec174",
+      "qrels_sha256": "34ef51a24e049b3dd19b0a448b764f26b0def22ec42f421ecba2db91f82e7042",
+      "warmup_sha256": "331e829922e2bd8ee1f01766fb7253c0d672ef79498011e91ad5e3e93f17a54a",
+      "corpus_sha256": "634543cee77a992613bbf32d0aa4863659dffd064c405f062454400aa80aea3f"
+    },
+    "runtime": {
+      "python": "3.12.14",
+      "platform": "Linux-5.15.0-1061-oracle-x86_64-with-glibc2.36",
+      "cpu_affinity": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ]
+    },
+    "reference_build": {
+      "command": [
+        "/opt/conda/bin/python",
+        "-m",
+        "pyserini.index.lucene",
+        "--collection",
+        "JsonCollection",
+        "--input",
+        "/work/reference/collection",
+        "--index",
+        "/work/reference/index",
+        "--generator",
+        "DefaultLuceneDocumentGenerator",
+        "--threads",
+        "4"
+      ],
+      "build_seconds": 96.2445133079309,
+      "build_max_rss_kib": 2794160,
+      "index_bytes": 659333387,
+      "pyserini_version": "1.4.0",
+      "collection": {
+        "schema_version": 1,
+        "corpus_sha256": "634543cee77a992613bbf32d0aa4863659dffd064c405f062454400aa80aea3f",
+        "document_count": 8841823,
+        "scope": "full",
+        "content_field": "text",
+        "title_field_indexed": false,
+        "conversion_seconds": 80.9190060129622,
+        "source_files": [
+          {
+            "name": "part-00.jsonl",
+            "size_bytes": 368375770,
+            "sha256": "e34c4e9e44bf5191422141496158addf4e5192e99b37923fbc9a4a3dc11830ca"
+          },
+          {
+            "name": "part-01.jsonl",
+            "size_bytes": 371692953,
+            "sha256": "0bfd39f7e176e3422707456e92131311311e2d7553fc389e9759a62349473f00"
+          },
+          {
+            "name": "part-02.jsonl",
+            "size_bytes": 369369292,
+            "sha256": "129e7a301c7620a5fb6d5feceabc238648056d373a0690f60647a7b5d5c2c4ac"
+          },
+          {
+            "name": "part-03.jsonl",
+            "size_bytes": 371006387,
+            "sha256": "dfbc10d22fbd69619512a6295424398d3f07f93d5f88d649db261aaca0c90f95"
+          },
+          {
+            "name": "part-04.jsonl",
+            "size_bytes": 371848112,
+            "sha256": "2403a2e8d68cb2d01bb2c8b9b02edde7316533eb35c38f7b1345845919207e02"
+          },
+          {
+            "name": "part-05.jsonl",
+            "size_bytes": 377446609,
+            "sha256": "c9e20010f36905c9ee9996e3043cb6e6617f4e4ce9e53e7a44641ded68f7db64"
+          },
+          {
+            "name": "part-06.jsonl",
+            "size_bytes": 393830108,
+            "sha256": "b342f8ec5823ced164ad54812eb37e0a8d0bf74f64dde06a402323f04b4fff11"
+          },
+          {
+            "name": "part-07.jsonl",
+            "size_bytes": 358329627,
+            "sha256": "3e9cfd30b19a2105721630f380767e0aa91f942d6b96062051eb0ec18939af10"
+          },
+          {
+            "name": "part-08.jsonl",
+            "size_bytes": 300773881,
+            "sha256": "795522170e3e5d2673e5e96de9891fc0ada6bc1f08dea0daaa0658b8e86cbb1b"
+          }
+        ]
+      },
+      "stored_raw": false,
+      "stored_positions": false,
+      "stored_docvectors": false
+    },
+    "scoring_status": "measurement only; production calibration remains separate"
+  },
+  "quality_pass": true,
+  "validation": {
+    "kind": "author-written Rust submission; not a configured coding-model trial",
+    "base_revision": "46197a43f8cbb364e72b6d63d5db873ae7d2cac8",
+    "full_run_verifier_image": "sha256:b3e94ebc39539de9e590b944fa0504a270d1f03e59fd22c0cfc46ae358f57899",
+    "full_run_source_sha256": {
+      "tests/benchmark.py": "693a04c471f7188cca41471e557d76deea90a54279ab31e86f9b856e4e5ea387",
+      "tests/evaluate.py": "9ad06bc52e2cdb220e87efe4f945ffbb48a7886719d817b4044f7eb95ca1e6bb",
+      "tests/grader.py": "836a1296768a614751c3569676afd6d5ddeede6d9192b1408bd7fc40e480dbac",
+      "tests/isolate.py": "a7f35243a58a4579e940ad480492837a878468b6a236d4180da223c8659ae615",
+      "tests/reference.py": "af6be1ac60a9767a38f617ff4bce936a3c30878053647fdc833359b799b2a5f4",
+      "tests/reference_worker.py": "cd2484b9923f93557bdf096334cb5977234e4d567545c5d159015bb1aa8b759a",
+      "tests/prepare_corpus.py": "2a3aebcb3f9464bd4cd3ba57fa29d795609eaf0551116e56b128aa8c8ed8f8a3",
+      "tests/reference-quality.json": "3e29dc6a341683286b9a690e19ea0f3dd33772e1b5e1a22bdef85700f30cf9fd",
+      "instruction.md": "9f566cfdd7465d093da2c619a0d2ad6936ad39dcdbad0a630193b52328de8b62",
+      "raw-instruction.md": "cd859aac8edb1f3e1574756ccfc6109af8231d7b1b25d69338d3e1ffd52eba5f",
+      "task.toml": "2bffc32daab80852f9db5fed1fb5c618cfb20f26ad3bea5d453999d57b906235",
+      "assets.json": "9924114a413ffb3e4925f601f9ebe09f8fed212262ad603ea0192d54e879211a"
+    },
+    "post_run_changes": [
+      "tests/grader.py"
+    ],
+    "post_run_validation": "grader.py only adds FileNotFoundError handling for removed compiler temporary files. Regression test and a fresh source compilation/expected index-command failure passed in the recorded image after the monitor fix.",
+    "author_source_sha256": "19d63ccfe98f5a71a9ae460cc54cbcbf3058f5af39ef2a04b0e32bfe3b4dc04e",
+    "result_jsonl_sha256": "c8483498457948202f20419ac78dd9fb18933a741803efc94c66cc00ef06baab",
+    "resource_profile": {
+      "cpus": 4,
+      "memory_bytes": 17179869184,
+      "memory_swap_bytes": 17179869184,
+      "pids_limit": 256,
+      "network": "none"
+    },
+    "coding_model": null,
+    "reasoning_effort": null,
+    "judge": "none; deterministic grading",
+    "harbor_model_trial": "not run; model/provider/credentials not configured",
+    "repeat_outputs_identical": true,
+    "verifier_image_after_monitor_fix": "sha256:ee5f3925ccf758a5756b4c6919230d8350dd41a4e431c1f77fccd0b915d5a929",
+    "source_sha256_after_monitor_fix": {
+      "tests/benchmark.py": "693a04c471f7188cca41471e557d76deea90a54279ab31e86f9b856e4e5ea387",
+      "tests/evaluate.py": "9ad06bc52e2cdb220e87efe4f945ffbb48a7886719d817b4044f7eb95ca1e6bb",
+      "tests/grader.py": "c9dcb9d3cf28fa5c84abff5166d4c62d92dd68ba1f2df2f1e952418e84fb85da",
+      "tests/isolate.py": "a7f35243a58a4579e940ad480492837a878468b6a236d4180da223c8659ae615",
+      "tests/reference.py": "af6be1ac60a9767a38f617ff4bce936a3c30878053647fdc833359b799b2a5f4",
+      "tests/reference_worker.py": "cd2484b9923f93557bdf096334cb5977234e4d567545c5d159015bb1aa8b759a",
+      "tests/prepare_corpus.py": "2a3aebcb3f9464bd4cd3ba57fa29d795609eaf0551116e56b128aa8c8ed8f8a3",
+      "tests/reference-quality.json": "3e29dc6a341683286b9a690e19ea0f3dd33772e1b5e1a22bdef85700f30cf9fd",
+      "instruction.md": "9f566cfdd7465d093da2c619a0d2ad6936ad39dcdbad0a630193b52328de8b62",
+      "raw-instruction.md": "cd859aac8edb1f3e1574756ccfc6109af8231d7b1b25d69338d3e1ffd52eba5f",
+      "task.toml": "2bffc32daab80852f9db5fed1fb5c618cfb20f26ad3bea5d453999d57b906235",
+      "assets.json": "9924114a413ffb3e4925f601f9ebe09f8fed212262ad603ea0192d54e879211a"
+    },
+    "observation_scope": "Manual Docker author-final-03, before the Harbor integration follow-up recorded in validation.md."
+  }
+}

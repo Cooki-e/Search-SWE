@@ -90,7 +90,7 @@ VERIFIER_OPENAI_API_KEY=YOUR_OPENROUTER_KEY
 `DEEPSEEK_API_KEY` authenticates the Pi agent for `deepseek/deepseek-flash`.
 The `VERIFIER_*` pair runs the independent `deepseek/deepseek-v4.1-flash` trajectory judge
 through OpenRouter and RewardKit 0.2.0 and is required by every task except
-`agentic-search`. Use an OpenRouter key for `VERIFIER_OPENAI_API_KEY`; the Pi agent
+`agentic-search` and `rust-bm25-search`. Use an OpenRouter key for `VERIFIER_OPENAI_API_KEY`; the Pi agent
 uses its separate DeepSeek key. The launcher passes verifier credentials only
 to the verifier container.
 

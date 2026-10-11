@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "full",
+  "reference": {
+    "pyserini": "1.4.0",
+    "k1": 0.9,
+    "b": 0.4,
+    "top_k": 10
+  },
+  "quality": {
+    "mrr_at_10": 0.18398616227770956,
+    "mrr_numerator": 3236243,
+    "mrr_denominator": 17589600,
+    "query_count": 6980,
+    "answered_query_count": 6980,
+    "complete": true
+  },
+  "document_count": 8841823,
+  "inputs": {
+    "queries_sha256": "1a271ae784b2f518c42902fcb38a53331e19a13ea58edb9996f6e070e14ec174",
+    "qrels_sha256": "34ef51a24e049b3dd19b0a448b764f26b0def22ec42f421ecba2db91f82e7042",
+    "warmup_sha256": "331e829922e2bd8ee1f01766fb7253c0d672ef79498011e91ad5e3e93f17a54a",
+    "corpus_sha256": "634543cee77a992613bbf32d0aa4863659dffd064c405f062454400aa80aea3f"
+  },
+  "base_image": "docker.io/hanhainebula/search-swe-base:cpu-py3.12-1.0.0",
+  "base_image_digest": "sha256:1350a3043b3c49388b48dd5a0c2e3d91e9071f87359dbe63a2c26f055acb0cd2"
+}

@@ -40,6 +40,7 @@ EXPECTED = {
     "query-encoder-alignment": ("allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS),
     "agentic-search": ("allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS),
     "sparse-retrieval-pruning": ("no-network", [], "no-network", [], "allowlist", ["openrouter.ai"]),
+    "rust-bm25-search": ("no-network", [], "no-network", [], "no-network", []),
 }
 
 
@@ -103,7 +104,7 @@ class TaskNetworkPolicies(unittest.TestCase):
             )
             self.assertTrue(resource_doc.is_file(), task_name)
 
-        for task_name in ("memory-constrained-dense-retrieval", "long-document-reranking", "code-embedding-finetuning", "sparse-retrieval-pruning"):
+        for task_name in ("memory-constrained-dense-retrieval", "long-document-reranking", "code-embedding-finetuning", "sparse-retrieval-pruning", "rust-bm25-search"):
             text = (
                 REPO / "tasks" / task_name / "environment/docs/available_resources.md"
             ).read_text().lower()
