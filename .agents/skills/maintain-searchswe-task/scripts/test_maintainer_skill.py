@@ -20,6 +20,10 @@ mode = os.environ.get("FIXTURE", "pass")
 state = pathlib.Path(os.environ["FIXTURE_STATE"])
 if args == ["--version"]:
     print("gh version fixture")
+elif args == ["api", "--help"]:
+    print("--paginate" if mode == "old-gh-api" else "--paginate --slurp")
+elif args == ["pr", "checks", "--help"]:
+    print("--watch" if mode == "old-gh" else "--watch --json")
 elif args[:2] == ["auth", "status"]:
     print("SECRET_AUTH_OUTPUT_NEVER_CAPTURE")
     sys.exit(1 if mode == "auth-error" else 0)
@@ -150,6 +154,20 @@ class MaintainerSkill(unittest.TestCase):
                 self.assertEqual(snapshot["checks"], state)
                 self.assertIn("not prove", snapshot["limits"])
 
+    def test_capture_checks_cli_capabilities_before_auth_or_api_calls(self):
+        for mode in ("old-gh", "old-gh-api"):
+            with self.subTest(mode=mode):
+                output = self.root / mode
+                result = self.capture(mode, output)
+                self.assertNotEqual(result.returncode, 0)
+                snapshot = json.loads((output / "snapshot.json").read_text())
+                self.assertFalse(snapshot["complete"])
+                self.assertIn("gh pr checks --json", " ".join(snapshot["errors"]))
+                self.assertIn("update GitHub CLI", result.stdout)
+                self.assertTrue(all("--help" in command["argv"] or "--version" in command["argv"]
+                                    for command in snapshot["commands"]))
+                self.assertFalse((output / "pr-before.json").exists())
+
     def test_partial_check_set_and_intrafile_diff_are_not_verified(self):
         result = self.capture("partial-checks")
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -240,6 +258,56 @@ class MaintainerSkill(unittest.TestCase):
                         "--official-manifest", snapshot, "--new-data", data,
                         "--output", self.root / "relative-output")
         self.assertEqual(result.returncode, 0, result.stderr)
+
+    def staging_with_published_reference(self):
+        target, data, _, snapshot, _ = self.staging()
+        published = {"path": "tasks/example-search/existing.txt", "size_bytes": 50,
+                     "sha256": "c" * 64, "license": "preserve-existing-license"}
+        official = json.loads(snapshot.read_text())
+        official["files"].append(published)
+        snapshot.write_text(json.dumps(official))
+        assets = json.loads((target / "assets.json").read_text())
+        assets["files"].append({"path": "data/existing.txt", "size_bytes": published["size_bytes"],
+                                "sha256": published["sha256"], "source": {
+                                    "repo_id": "search-swe/Search-SWE", "repo_type": "dataset",
+                                    "revision": "d" * 40, "filename": published["path"]}})
+        (target / "assets.json").write_text(json.dumps(assets))
+        return target, data, snapshot, published
+
+    def test_staging_preserves_referenced_published_assets_and_only_copies_additions(self):
+        target, data, snapshot, published = self.staging_with_published_reference()
+        original_task = (target / "assets.json").read_bytes()
+        original_snapshot = snapshot.read_bytes()
+        result = self.cli("prepare_hf_upload.py", "--repo-root", self.repo,
+                          "--task-path", target, "--official-manifest", snapshot,
+                          "--new-data", data, "--output", self.out)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        merged = json.loads((self.out / "manifest.json").read_text())
+        self.assertEqual(merged["files"][:2], json.loads(original_snapshot)["files"])
+        self.assertEqual(len(merged["files"]), 3)
+        self.assertEqual({p.relative_to(self.out).as_posix() for p in self.out.rglob("*") if p.is_file()},
+                         {"manifest.json", "tasks/example-search/corpus.txt"})
+        self.assertFalse((self.out / published["path"]).exists())
+        self.assertEqual((target / "assets.json").read_bytes(), original_task)
+        self.assertEqual(snapshot.read_bytes(), original_snapshot)
+
+    def test_staging_rejects_changed_or_duplicate_published_references(self):
+        target, data, snapshot, _ = self.staging_with_published_reference()
+        original = (target / "assets.json").read_text()
+        for change in ("sha256", "size_bytes", "duplicate"):
+            with self.subTest(change=change):
+                assets = json.loads(original)
+                entry = assets["files"][-1]
+                if change == "duplicate":
+                    assets["files"].append({**entry, "path": "data/alias.txt"})
+                else:
+                    entry[change] = "e" * 64 if change == "sha256" else entry[change] + 1
+                (target / "assets.json").write_text(json.dumps(assets))
+                result = self.cli("prepare_hf_upload.py", "--repo-root", self.repo,
+                                  "--task-path", target, "--official-manifest", snapshot,
+                                  "--new-data", data, "--output", self.out)
+                self.assertNotEqual(result.returncode, 0)
+                self.assertFalse(self.out.exists())
 
     def test_staging_rejects_symlinks_traversal_extra_files_and_external_target(self):
         target, data, file, snapshot, old = self.staging()

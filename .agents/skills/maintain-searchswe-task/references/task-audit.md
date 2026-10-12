@@ -8,7 +8,7 @@ workflow/tool modifications need independent scrutiny, not implicit acceptance.
 | --- | --- |
 | Identity/scope | Each new task lives at `tasks/<task-name>/` in the contribution branch, with `task.name = "search-swe/<task-name>"`. Names use at most five lowercase hyphen-separated words, start with a letter, and are unique against the base and active PRs; `task-` and `all` are reserved. A PR may add multiple tasks. Require actual authors and preserve original author commits. Revise existing tasks in place. |
 | Repository precedent | For each new task, the contributor names one or two closest reviewed `tasks/` packages already merged into the base branch or states that none is close, and explains matching dimensions, structural reuse and intentional differences. Independently inspect the closest analogue by objective, grading/judge shape, resources, hardware and data/artifact layout. Current contracts and validators override legacy examples. Reject unexplained copying of task-specific IDs/authors, datasets or HF pins, thresholds/baselines, allowlists, budgets, licenses/provenance or hidden evaluation design. Merely existing on main is not proof that a pattern remains valid. |
-| Instructions | Goal, starting state, input/output schema and absolute paths, submission command/interface, artifacts, public gates/thresholds and constraints match every graded requirement. No secret-only correctness requirement or hidden solution hints. |
+| Instructions | Compare `raw-instruction.md` with the final `instruction.md`: the agent-facing version starts from a concrete work need and preserves the goal, starting state, input/output schema and paths, executable interface, artifacts, thresholds and constraints. Both match every graded requirement. No secret-only correctness requirement or hidden solution hints. |
 | Objective/resources | Clear goal, starting state and measured outcomes. Supply a meaningful baseline when grading improvement. CPU default, GPU only for execution. Both Dockerfiles, both Compose reservations and `gpus` agree. Visible tools/API/model docs match injected resources and budgets. Pin dependencies/images; inspect build contexts. |
 | Solvability | Real known-good submission through the same separate verifier/artifact-transfer interface, expected vs observed reward and an authorized coding-agent trial. A scaffold's always-zero test, empty manifest, dry-run or static pass is not a working benchmark. No public author-only solution without approval. |
 | Model feedback | Trajectory, score and judge health inspected; task-setting changes explained, or a reason recorded for retaining the setting. Substantive task/scoring changes have relevant checks and a new model trial within the authorized budget, tied to the final evaluated revision. Missing evidence remains explicit; a valid low score alone is not a reason to weaken the task. |
@@ -30,11 +30,17 @@ Python 3.12+, PyYAML, python-dotenv and host `scripts/requirements.txt` (Harbor
 0.22.0, huggingface_hub 1.x) are target prerequisites. Docker Engine/Compose,
 image access and appropriate GPU driver/Container Toolkit are needed for runtime.
 
-After code-execution authorization, from the isolated checkout with trusted tools:
+During review, accept personal public development datasets with immutable pins,
+verified hashes and documented redistribution rights. Use the captured full PR
+base SHA with `check_tasks.py` so new tasks receive author checks. Official
+publication and merged official pins are prerequisites for the later merge-ready
+stage. Record outstanding publication work separately from task-quality findings.
+
+Within the authorized execution scope, from the isolated checkout with trusted tools:
 
 ```bash
 task_path=tasks/example-search  # Actual package under review
-python scripts/check_tasks.py "$task_path"
+python scripts/check_tasks.py "$task_path" --base FULL_PR_BASE_SHA
 python scripts/check_release.py
 python -m unittest discover -s scripts/tests -p 'test_*.py'
 python scripts/download_assets.py --task "${task_path#tasks/}" --dry-run
@@ -44,7 +50,7 @@ git diff --check
 python scripts/download_assets.py --task "${task_path#tasks/}"
 python scripts/download_assets.py --task "${task_path#tasks/}" --verify-only
 # Preview a configured trial, not evidence of successful runtime:
-python scripts/run_task.py --task "${task_path#tasks/}" --agent codex --model MODEL_ID --dry-run
+python scripts/run_task.py --task "${task_path#tasks/}" --agent AGENT_NAME --model MODEL_ID --dry-run
 ```
 
 These commands are target contracts, not permission to execute PR-modified tools.
@@ -56,13 +62,33 @@ while **both** Compose overlays still request the GPU; recheck on version change
 The launcher does not support `--agent oracle`; a known-good implementation must
 be tested separately through the real verifier, in an author-only copy.
 
-Codex trials need `AGENT_OPENAI_BASE_URL`/`AGENT_OPENAI_API_KEY`; judge credentials
-are separate `VERIFIER_OPENAI_BASE_URL`/`VERIFIER_OPENAI_API_KEY`, with task APIs
-additional. Do not log values. Remove `--dry-run` only after code/runtime/resource
-approval and use a fresh `--output jobs/REVIEW-RUN-ID`. Inspect reward, setup errors,
+## Model evidence and local credential setup
+
+Check the contributor's completed trial before scheduling another. Record the
+instruction and task revision, selected agent/model/effort, trajectory, raw
+metrics, final reward and judge health. Confirm that the job completed and that
+required judges returned valid decisions; an authentication or parsing failure
+is an invalid measurement. Use this evidence to distinguish solver mistakes from
+task-setting defects and review the resulting corrections. Revalidate changed
+interfaces, resources or scoring with affected checks and a fresh model trial
+within the agreed budget. Retain valid low scores as evidence.
+
+For an authorized maintainer trial, select the agreed Codex, Pi or Claude Code
+agent, model and supported effort settings using the trusted checkout's
+`docs/evaluation.md`, `.env.example` and task configuration. Check the required
+agent, submission API, trajectory-judge and answer-judge credential groups
+separately. Reuse configured, authorized keys and check presence without printing
+values. If keys are missing, tell the contributor or operator the exact variable
+names, their purposes, and how to configure them in an ignored local `.env`, a
+supported run-specific env file or the process environment. Ask them to confirm
+local configuration without sharing key values in chat, PRs or logs. Continue
+independent checks while waiting; start the dependent run after configuration.
+
+Once inputs, credentials, hardware and execution authorization are ready, remove
+`--dry-run` and use a fresh `--output jobs/REVIEW-RUN-ID`. Inspect setup errors,
 verifier logs and artifacts; record exact commands, head SHA and outcomes. Stop
-on missing hardware/auth/data or budget exhaustion; retry only after a relevant
-fix. Explicitly report unrun layers, not a blanket 'validated'.
+at the agreed budget or an unmet prerequisite. Retry a terminal infrastructure
+failure only after a relevant correction; preserve completed usable trials.
 
 Final readiness additionally requires `python scripts/check_tasks.py
 --merge-ready --base FULL_PR_BASE_SHA`, updated inventories including GPU tests,

@@ -60,7 +60,8 @@ After task and asset review, prepare new official
 files at `tasks/<task-name>/...`. The target checkout's
 `scripts/prepare_hf_upload.py` accepts a current official manifest snapshot,
 the final task package and **only new data**. It verifies hashes, preserves existing
-entries, refuses collisions and stages new files plus a merged manifest offline.
+entries and matching published references, rejects conflicting paths, and stages
+new files plus a merged manifest offline.
 Read the bundled [publication workflow](publication.md) for exact commands
 and approval boundaries. Append/update
 HF `SOURCES.md`, dataset card/license and LFS metadata. Preserve existing published assets.
