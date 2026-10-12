@@ -28,26 +28,37 @@ missing or incompatible tools block that validation, not justify replacements.
    Independently identify the closest reviewed task precedent on the base branch.
    Check the contributor's references, structural reuse and deviations against
    current contracts, and verify task-specific values independently.
-   Missing, pending or failed checks never mean acceptance. Request explicit
-   authorization before executing any PR-controlled tests/builds or code, and
-   separately before credentialed runtime, API/GPU spend or downloads. Use a
-   disposable isolated checkout; never unsafe checkout/reset in a dirty target.
-3. **Finalize reviewed work:** read [finalization and merge](references/finalization.md).
+   Check model-trial evidence and feedback against the final task revision.
+   Review-stage checks accept pinned personal development datasets; merge-ready
+   checks require published official data. Execute PR-controlled tests/builds,
+   credentialed runtime, API/GPU trials and downloads within their explicit
+   session-authorized scope, using a disposable isolated checkout.
+3. **Apply review fixes:** read [finalization and merge](references/finalization.md).
    New packages live at `tasks/<task-name>` in the contribution branch. A PR may
    contain multiple uniquely named tasks. Check names against the current base
    and queued PRs, resolve branch-edit permissions, and apply review fixes and
    necessary integration changes in the same PR. Preserve original authors and
-   commits. Review and validate each changed head before merging.
-4. **Publish approved assets:** read [publication](references/publication.md).
-   Prepare official inputs for each task. The bundled offline staging helper
-   preserves existing manifest entries and copies only new
-   data. Hash/license review is separate from upload authorization. Merge official
-   HF changes before pinning their SHA and merging GitHub with a merge commit.
+   commits. With fork branch-edit permission, commit and push fixes to the
+   contributor's existing PR source branch. Revalidate affected layers and
+   obtain updated model evidence for substantive task or scoring changes.
+4. **Publish assets and finalize:** read [publication](references/publication.md)
+   and complete the checks in [finalization and merge](references/finalization.md).
+   Verify and retain existing official asset pins. For new dataset files,
+   download the contributor's pinned inputs before changing their source entries
+   in `assets.json`, and verify their sizes and hashes. The bundled offline
+   staging helper preserves existing manifest entries and copies only new data.
+   Check HF identity and access before authenticated operations. If setup is
+   missing, remind the maintainer to configure it locally using the reference's
+   authentication handoff, then recheck before continuing the dependent step.
+   Merge new official HF changes, pin their resulting SHA and verify fresh
+   downloads. Pass merge-ready checks on the final GitHub head. Merge the
+   GitHub PR with a merge commit when its required checks and reviews pass.
 
-Explicit permission is required immediately before pushing, official HF
-publication, posting comments/reviews or merging; local review does not authorize
-any of them. Do not change authentication, request official tokens, use admin
-bypass, squash/rebase, or configure CODEOWNERS/protections implicitly.
+Reuse explicit session authorization for the covered repository, actions and
+runtime budget. For pushing, official HF publication, posting comments/reviews
+or merging outside that scope, prepare the reviewable result before requesting
+authorization. Keep authentication, repository protections and contributor
+identity unchanged unless their modification is part of the authorized task.
 
 Report findings with paths/lines, reviewed repository/head/base, checks and
 validation evidence, unrun layers/blockers, and recommended next action. After

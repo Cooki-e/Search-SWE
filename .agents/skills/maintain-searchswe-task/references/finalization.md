@@ -6,27 +6,36 @@ Each task lives at `tasks/<task-name>` in the contribution branch, with canonica
 `task.name = "search-swe/<task-name>"` and actual authors. A PR may contain multiple
 uniquely named tasks. Check names against the current base and queued PRs, and
 update against the base while preserving original author commits. Record the
-reviewed head and base; renew review and validation when either changes.
+reviewed head and base; when either changes, review the new diff and rerun the
+affected validation layers.
 
 Resolve contributor branch-edit permissions, then apply review fixes and directly
 necessary integration changes in the same PR. Check instructions, relative
 mounts, images, external URLs, task inventories and GPU test inventories. Use
 actual maintainer identity for maintainer commits and preserve task authors.
+For a writable contributor fork, these commits go directly to the existing
+PR's source branch; follow [contributor branch editing](pr-review.md#contributor-branch-editing).
 
 ## Publish assets and validate the final revision
 
-Read [publication.md](publication.md). Use the bundled offline HF helper to stage
-the reviewed task's new files under `tasks/<task-name>/...`, preserving existing
-manifest entries, model pins and provenance/license metadata. Set `REPO` to the
-trusted checkout and `SKILL_DIR` to this installed skill. The helper requires
-Python 3.12+ and an explicit `--repo-root`; it validates paths and hashes locally.
+Read [publication.md](publication.md) and verify existing official asset pins.
+For files awaiting publication, first download and hash-check the contributor's
+inputs using the original pinned manifest. Map the verified additions to official
+`tasks/<task-name>/...` paths and use the bundled offline HF helper to stage them,
+preserving existing manifest entries, model pins and provenance/license metadata.
+Set `REPO` to the trusted checkout and `SKILL_DIR` to this installed skill. The
+helper requires Python 3.12+ and an explicit `--repo-root`; it validates paths
+and hashes locally.
 Official publication and HF PR merge each require authorization.
 
-Merge the official HF change first, then pin its resulting 40-hex commit in
-`assets.json` and verify clean downloads. For each task, record the final
-instruction revision, configured model/effort, trajectory, score, judge health
-and feedback-driven corrections. Revalidate substantive task or scoring changes
-within the authorized runtime budget.
+When publication is needed, merge the official HF change first, then pin its
+resulting 40-hex commit in `assets.json` and verify clean downloads. For each task,
+record the final instruction revision, configured model/effort, trajectory,
+score, judge health and feedback-driven corrections. Revalidate substantive task or scoring changes
+within the authorized runtime budget. For source-path or pin-only updates with
+identical asset hashes and unchanged task behavior, retain the completed model
+trial, verify fresh official downloads and static checks, and record why that
+evidence still applies to the final revision.
 
 Run the audited target tools and applicable runtime layers:
 `check_release.py`, `check_tasks.py --merge-ready --base FULL_PR_BASE_SHA`,
@@ -35,6 +44,43 @@ repository tests, changed skill regression tests, task-specific cases and
 changes in the same PR when authorized. Before an authorized push, verify that
 the remote branch still matches the reviewed starting head and use a normal
 push. Collect fresh review and check evidence for the resulting head.
+
+## Commit asset pins to the contributor's PR branch
+
+After the official HF change has merged, update the published entries in
+`tasks/<task-name>/assets.json` in the isolated PR checkout: official repo ID,
+published filenames and the actual merged 40-hex SHA. Keep task-relative paths,
+sizes, hashes, model-repository sources and bundled metadata intact. Complete
+fresh official downloads and the checks above before committing.
+
+Use the verified PR head repository URL and branch from
+[PR review](pr-review.md#contributor-branch-editing), and the existing scoped
+commit/push authorization. In this example, set `task_name`, `head_repo_url`,
+`head_branch` and `reviewed_head` to the reviewed values. The local commits must
+descend from that starting head. Stage any additional reviewed fixes explicitly.
+
+```bash
+set -euo pipefail
+git -C "$REPO" diff -- "tasks/$task_name/assets.json"
+git -C "$REPO" add -- "tasks/$task_name/assets.json"
+git -C "$REPO" diff --cached
+git -C "$REPO" diff --cached --check
+git -C "$REPO" commit -m "Pin $task_name assets to the official dataset"
+remote_head=$(git -C "$REPO" ls-remote --refs "$head_repo_url" "refs/heads/$head_branch" | cut -f1)
+if [ "$remote_head" = "$reviewed_head" ]; then
+  git -C "$REPO" push "$head_repo_url" "HEAD:refs/heads/$head_branch"
+else
+  echo "Contributor branch changed; fetch and review its new head before pushing." >&2
+  exit 1
+fi
+```
+
+Use a normal push so a concurrent incompatible update is rejected. If the
+contributor's branch advanced, reconcile and re-review while preserving both
+authors' commits. After pushing, query the original upstream PR and confirm its
+`headRefOid` equals the local `HEAD`; collect checks for that new head. If branch
+editing is unavailable, hand off the reviewed commits or patch for the
+contributor to apply and push to the same branch.
 
 ## Review, merge and verify
 

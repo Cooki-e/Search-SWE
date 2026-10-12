@@ -82,7 +82,7 @@ def prepare(snapshot, task, data, output):
     manifest = json.loads(snapshot.read_text())
     if manifest.get("schema_version") != 1 or not isinstance(manifest.get("files"), list):
         raise ValueError("Unsupported official manifest schema")
-    old = set()
+    old = {}
     for entry in manifest["files"]:
         name = entry["path"]
         rel = relative_path(name)
@@ -90,8 +90,9 @@ def prepare(snapshot, task, data, output):
                 or name in old or type(entry["size_bytes"]) is not int or entry["size_bytes"] < 0
                 or not re.fullmatch(r"[0-9a-f]{64}", entry["sha256"])):
             raise ValueError(f"Invalid or duplicate official manifest record: {name}")
-        old.add(name)
+        old[name] = entry
     additions = {}
+    referenced = set()
     for entry in read_manifest(task)["files"]:
         source = entry.get("source", {})
         if source.get("repo_type") != "dataset" or source.get("repo_id") != "search-swe/Search-SWE":
@@ -100,14 +101,21 @@ def prepare(snapshot, task, data, output):
         rel = relative_path(name)
         if rel.as_posix() != name or not name.startswith(f"tasks/{task.name}/"):
             raise ValueError(f"New data must be under tasks/{task.name}/: {name}")
-        if name in old or name in additions:
-            raise ValueError(f"Refusing dataset path collision: {name}")
+        if name in referenced:
+            raise ValueError(f"Duplicate official dataset reference: {name}")
+        referenced.add(name)
+        if name in old:
+            if any(entry[key] != old[name][key] for key in ("size_bytes", "sha256")):
+                raise ValueError(f"Published data changed; choose a new dataset filename: {name}")
+            continue
         if not matches(data / rel, entry):
             raise ValueError(f"Missing data or size/SHA-256 mismatch: {name}")
         additions[name] = {"path": name, "size_bytes": entry["size_bytes"], "sha256": entry["sha256"]}
     actual = {p.relative_to(data).as_posix() for p in data.rglob("*") if p.is_file()}
-    if not additions or actual != set(additions):
-        raise ValueError("New-data directory must contain exactly the new task's official dataset files")
+    if not additions:
+        raise ValueError("No new dataset files to publish; verify the existing official pins")
+    if actual != set(additions):
+        raise ValueError("New-data directory must contain exactly this task's new official dataset files")
     merged = {**manifest, "files": [*manifest["files"], *[additions[n] for n in sorted(additions)]]}
     output.mkdir(parents=True)
     try:

@@ -36,11 +36,13 @@ review and publication; retire it after official pinned downloads are verified.
 
 ### Official publication, then GitHub merge
 
-After task and asset review, change only the new task's dataset source
-repo/filename to `search-swe/Search-SWE` and `tasks/<task-name>/...`. Preserve
-original model repo pins and bundled metadata. Prepare **only new data files**
-in `/path/to/new-data/tasks/<task-name>/...`, at the exact asset sizes/hashes.
-Do not delete, rename or overwrite existing official assets.
+After task and asset review, verify and retain existing official asset pins.
+For new dataset files, map their source repo/filename to `search-swe/Search-SWE`
+and `tasks/<task-name>/...`, preserving original model pins and bundled metadata.
+Prepare **only new data files** in `/path/to/new-data/tasks/<task-name>/...`, at
+the exact asset sizes/hashes. Changed bytes use a new official filename, keeping
+earlier published assets available. Tasks whose data is already official can
+proceed directly to final validation.
 
 Fetch the small current official manifest snapshot and metadata, not the whole
 dataset. Run this in a trusted publication workspace with your personal login:
@@ -66,10 +68,12 @@ python scripts/prepare_hf_upload.py \
 
 Stage assets from the reviewed package at `tasks/<task-name>`.
 
-The offline helper verifies hashes and safe paths for new files, rejects
-collisions and symlinks, and stages those files with a merged manifest that
-preserves all existing records. Supply a trusted current manifest snapshot;
-only the new data files are needed locally. Uploading is a separate step.
+The offline helper verifies hashes and safe paths for new files and preserves
+all existing manifest records. References to published files must match their
+recorded sizes and hashes; only additions are copied to staging. Conflicting
+paths, duplicate references and symlinks fail validation. Supply a trusted
+current manifest snapshot and only the new data files locally. Uploading is a
+separate step.
 For a full dataset audit, `check_release.py --hf-data` checks the complete
 inventory against a local dataset copy.
 

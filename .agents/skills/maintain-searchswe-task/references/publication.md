@@ -4,73 +4,151 @@ Read-only metadata/hash/license review and offline staging do not authorize uplo
 Do not log tokens or change authentication without approval. All paths and account
 names below are examples to replace, not assigned identities.
 
-### Development: personal temporary dataset
+## Choose the publication work
 
-Only upload redistributable public inputs, never private hidden answers or
-secrets. Prepare a dataset folder containing `README.md` with license metadata,
-`SOURCES.md`, `.gitattributes`, `manifest.json`, and new data. The dataset manifest
-uses `{"schema_version": 1, "files": [{"path": "...", "size_bytes": 123,
-"sha256": "..."}]}` with hashes of actual files. Document how each source was
-obtained and its redistribution terms; do not invent a license.
+For each dataset-backed asset, identify whether its bytes are already published
+at the declared official path. Verify and retain existing official pins. A PR
+using only verified official data can proceed to final validation; the workflow
+below applies to files that still need publication. Tasks using only model
+repositories or bundled metadata follow their applicable validation checks.
 
-The following are **operator-run publishing commands**, not part of local
-validation. Authenticate with your own personal HF account/token using
-`hf auth login`, after publication is authorized. Replace example paths/repos.
+For a mix of existing and new data, stage only the additions. If published bytes
+need to change, choose a new official filename so the earlier asset and its
+manifest record remain available. Preserve existing sources and pins for
+unchanged files throughout the process.
+
+## HF authentication and access
+
+Before authenticated downloads, upload or HF PR merge, run `hf auth whoami`
+in the same host environment used for publication. Reuse an existing authorized
+login or `HF_TOKEN`; report only identity, authentication status and relevant
+access findings. If `hf` is missing, point the operator to the trusted checkout's
+`scripts/requirements.txt` and host environment setup.
+
+If authentication is missing or expired, the coding agent must explicitly remind
+the maintainer to configure their own HF account locally and identify the step
+that needs it. Provide these operator-run commands:
 
 ```bash
-python - <<'PY'
-from huggingface_hub import HfApi
-api = HfApi()
-repo = 'YOUR_ACCOUNT/search-swe-development'
-api.create_repo(repo_id=repo, repo_type='dataset', private=False, exist_ok=True)
-commit = api.upload_folder(repo_id=repo, repo_type='dataset', folder_path='/path/to/dev-data',
-                           commit_message='Add temporary task development inputs')
-print(commit.oid)  # Pin this full SHA in task assets.json.
-PY
+hf auth login
+hf auth whoami
 ```
 
-Use this personal repo, its dataset-relative filenames, size/hash, and printed
-immutable SHA in `assets.json`. Select the task by name with the downloader and
-launcher for development validation. Keep the temporary repo accessible through
-review and publication; retire it after official pinned downloads are verified.
+The operator can instead supply `HF_TOKEN` through their local process environment
+or secret manager. These publication scripts do not load the repository `.env`.
+An exported `HF_TOKEN` takes precedence over the saved login; if the account is
+unexpected, ask the operator to correct that local configuration. Keep token
+values in local authentication storage: never request them in chat or PRs, print
+them, or include them in command arguments or captured artifacts.
 
-### Official publication, then GitHub merge
+Confirm access for the intended operation: opening a community PR requires an
+authenticated account permitted to contribute there; merging or directly writing
+to `search-swe/Search-SWE` requires the publishing maintainer's dataset write
+access and a credential scope that permits that action. `whoami` confirms the
+effective identity; check account and token permissions separately. If access
+is insufficient, explain the missing permission and ask the maintainer to resolve
+it locally or involve another authorized publisher.
 
-After task and asset review, change only the new task's dataset source
-repo/filename to `search-swe/Search-SWE` and `tasks/<task-name>/...`. Preserve
-original model repo pins and bundled metadata. Prepare **only new data files**
-in `/path/to/new-data/tasks/<task-name>/...`, at the exact asset sizes/hashes.
-Do not delete, rename or overwrite existing official assets.
+Ask the operator to confirm when configuration is ready, then recheck identity
+and relevant access before the dependent operation. While waiting, continue
+public ungated downloads, local hash checks, staging and metadata review that
+can run with the available access. Authentication setup and publication use the
+existing session-authorized scope. See the HF [authentication guide](https://huggingface.co/docs/huggingface_hub/en/guides/cli#hf-auth-login),
+[token permissions](https://huggingface.co/docs/hub/security-tokens) and
+[environment variables](https://huggingface.co/docs/huggingface_hub/en/package_reference/environment_variables#hf_token).
 
-Fetch the small current official manifest snapshot and metadata, not the whole
-dataset. Run this in a trusted publication workspace with your personal login:
+## 1. Download the contributor's pinned data
+
+Set `REPO` to the isolated checkout of the reviewed PR head and `SKILL_DIR` to
+this installed skill. Use independently reviewed target download tools. The
+contributor's `tasks/<task-name>/assets.json` identifies each source dataset,
+exact filename, immutable revision, size and SHA-256 hash.
+Keep these original sources until their files have been downloaded and verified.
+
+Within the authorized download budget, use a fresh external workspace:
 
 ```bash
-python - <<'PY'
+set -euo pipefail
+task_name=example-search
+publication_root=/path/to/new-publication-workspace
+mkdir -- "$publication_root"
+cp -- "$REPO/tasks/$task_name/assets.json" "$publication_root/development-assets.json"
+python "$REPO/scripts/download_assets.py" --task "$task_name" --kind data --dry-run
+python "$REPO/scripts/download_assets.py" --task "$task_name" --kind data \
+  --output-dir "$publication_root/downloads" --cache-dir "$publication_root/development-cache"
+python "$REPO/scripts/download_assets.py" --task "$task_name" --kind data \
+  --output-dir "$publication_root/downloads" --verify-only
+```
+
+Files are restored under `$publication_root/downloads/<task-name>/<entry.path>`.
+The downloader uses each original source revision and checks its bytes. Public,
+ungated development data can be downloaded with maintainer-owned access; the
+contributor's token is unnecessary. Retrieve its dataset card, `SOURCES.md`,
+manifest and applicable license files at the same pinned revisions using
+`hf_hub_download`. Review provenance and redistribution terms for each dataset.
+If approved dataset-backed entries also live under `models/`, restore those with
+`--kind models` as needed; model-repository sources and bundled metadata retain
+their original pins and paths.
+
+Publish only approved redistributable inputs. Keep private evaluation answers,
+credentials, job outputs and task code outside the upload set. Missing files,
+hash mismatches or unresolved redistribution rights need resolution before
+publication. The saved development manifest records the original source mapping.
+
+## 2. Prepare official paths from the verified files
+
+For each new dataset file approved for official publication, choose its destination
+under `tasks/<task-name>/...`. Preserve the asset's task-relative `path`, size,
+hash and permissions. Copy the verified bytes to
+`$publication_root/new-data/<official-filename>`, creating parent directories.
+For example:
+
+| Item | Example |
+| --- | --- |
+| Task-relative asset path | `data/corpus.jsonl` |
+| Verified local file | `downloads/example-search/data/corpus.jsonl` |
+| Official dataset filename | `tasks/example-search/data/corpus.jsonl` |
+| Staging input file | `new-data/tasks/example-search/data/corpus.jsonl` |
+
+In the isolated PR checkout, update those entries' `source.repo_id` to
+`search-swe/Search-SWE`, `source.repo_type` to `dataset`, and `source.filename`
+to the chosen official filename. Set `source.revision` to `null` during local
+staging; after publication it receives the actual merged official SHA. Keep this
+intermediate manifest local until that SHA and fresh downloads are verified.
+All other entries, including original model sources, remain intact. The
+`new-data` directory contains exactly the mapped new dataset files for this task.
+
+## 3. Stage the official manifest and provenance
+
+Fetch the small current official manifest snapshot and metadata, not the whole
+dataset. Use your own authorized HF account in the trusted publication workspace:
+
+```bash
+python - "$publication_root/official-snapshot" <<'PY'
 from pathlib import Path
 import shutil
+import sys
 from huggingface_hub import HfApi, hf_hub_download
 repo = 'search-swe/Search-SWE'
 sha = HfApi().repo_info(repo_id=repo, repo_type='dataset').sha
-out = Path('/path/to/official-snapshot'); out.mkdir(parents=True, exist_ok=True)
+out = Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=False)
 (out / 'BASE_SHA').write_text(sha)
 for name in ('manifest.json', 'README.md', 'SOURCES.md', '.gitattributes'):
     shutil.copyfile(hf_hub_download(repo_id=repo, repo_type='dataset', revision=sha, filename=name), out / name)
 print(sha)
 PY
 python "$SKILL_DIR/scripts/prepare_hf_upload.py" --repo-root "$REPO" \
-  --official-manifest /path/to/official-snapshot/manifest.json \
-  --task-path tasks/example-search --new-data /path/to/new-data \
-  --output /path/to/upload-staging
+  --official-manifest "$publication_root/official-snapshot/manifest.json" \
+  --task-path "tasks/$task_name" --new-data "$publication_root/new-data" \
+  --output "$publication_root/upload-staging"
 ```
 
-Set `SKILL_DIR` to this installed skill and `REPO` to the trusted checkout.
-Stage assets from its reviewed package at `tasks/<task-name>`.
-
-The offline helper verifies hashes and safe paths for new files, rejects
-collisions and symlinks, and stages those files with a merged manifest that
-preserves all existing records. Supply a trusted current manifest snapshot;
-only the new data files are needed locally. Uploading is a separate step.
+The offline helper verifies hashes and safe paths for new files and preserves
+all existing manifest records. References to published files must match their
+recorded sizes and hashes; only additions are copied to staging. Conflicting
+paths, duplicate references and symlinks fail validation. Supply a trusted
+current manifest snapshot and only the new data files locally. Uploading is a
+separate step.
 For a full dataset audit, `check_release.py --hf-data` checks the complete
 inventory against a local dataset copy.
 
@@ -80,33 +158,65 @@ LFS patterns for the new files without discarding existing entries. Update or
 add applicable license files. Review this metadata and the generated manifest.
 No delete patterns, sync deletion, or uploads of entire task code directories.
 
-Submit a Hugging Face **community PR**, authenticated with your own account:
+For a GitHub PR containing several tasks, use a separate workspace for each task.
+When publishing one task at a time, refresh the official snapshot after each HF
+merge so subsequent manifests preserve the earlier additions.
+
+## 4. Publish and merge the official HF change
+
+After upload authorization, submit a Hugging Face **community PR** using your
+own account. The `parent_commit` binds it to the reviewed official snapshot:
 
 ```bash
-python - <<'PY'
+python - "$publication_root" "$task_name" <<'PY'
 from pathlib import Path
+import sys
 from huggingface_hub import HfApi
+root = Path(sys.argv[1])
 result = HfApi().upload_folder(
     repo_id='search-swe/Search-SWE', repo_type='dataset',
-    folder_path='/path/to/upload-staging',
-    parent_commit=Path('/path/to/official-snapshot/BASE_SHA').read_text().strip(),
-    create_pr=True, commit_message='Add example-search inputs and provenance',
+    folder_path=root / 'upload-staging',
+    parent_commit=(root / 'official-snapshot/BASE_SHA').read_text().strip(),
+    create_pr=True, commit_message=f'Add {sys.argv[2]} inputs and provenance',
 )
 print(result.pr_url)
 PY
 ```
 
-If community contributions are unavailable, ask a maintainer to mirror the
-reviewed files from your personal public dataset using their own authorized
-account. **Never request, grant or share the official dataset token.** Link the
-HF PR and GitHub task PR. A maintainer must review merged-manifest preservation,
+Link the HF PR and GitHub task PR. A maintainer must review manifest preservation,
 hashes, sources and licensing. If official HEAD changes, refresh the snapshot,
 regenerate/review the merged manifest and coordinate the HF PR update; never
 replace a newer manifest with a stale one.
 
-**Merge the official HF change first.** Only then pin the resulting official
-40-hex commit SHA (not the community PR/head SHA or `main`) in the finalized
-GitHub task's `assets.json`. Verify downloads using a fresh output directory or
-cache and run release and merge-ready checks. Commit the verified asset pins
-in the task PR, then merge the GitHub contribution. Preserve existing tasks'
-pinned revisions and published assets.
+After authorized HF review and merge, record the actual official merge commit
+containing the approved files. If community PRs are unavailable, a maintainer
+with official dataset write permission may publish the same reviewed staging
+folder using their own authorized account and record its resulting official
+commit. Contributors keep their personal credentials; official write access
+stays with the publishing maintainer.
+
+## 5. Pin the official revision and update the GitHub PR
+
+Replace the local staging `null` revisions with the published official 40-hex
+commit SHA, retaining the verified official repo IDs and filenames. Use the
+official merged commit, rather than a community PR head or a moving branch.
+Verify these new sources with a fresh output directory and cache:
+
+```bash
+python "$REPO/scripts/download_assets.py" --task "$task_name" --kind data \
+  --output-dir "$publication_root/official-downloads" --cache-dir "$publication_root/official-cache"
+python "$REPO/scripts/download_assets.py" --task "$task_name" --kind data \
+  --output-dir "$publication_root/official-downloads" --verify-only
+```
+
+Apply the same verification to any additional dataset-backed model entries
+published in this change. Compare the final mapping and hashes with the saved
+development manifest, then run release and merge-ready checks. Follow
+[finalization](finalization.md#commit-asset-pins-to-the-contributors-pr-branch)
+to commit `assets.json` and push it to the contributor's PR source branch. Once
+the updated GitHub head passes review and required checks, merge that PR.
+Keep the development dataset accessible until official downloads are verified;
+preserve existing tasks' published assets and pinned revisions.
+
+HF API usage follows the official [download](https://huggingface.co/docs/huggingface_hub/guides/download)
+and [upload](https://huggingface.co/docs/huggingface_hub/guides/upload) guides.

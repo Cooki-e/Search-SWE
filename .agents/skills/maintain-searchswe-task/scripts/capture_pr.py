@@ -78,6 +78,11 @@ def capture(repo, number, repo_root, output):
 
     try:
         run(["--version"], "gh-version.txt")
+        api_help = run(["api", "--help"]).stdout
+        checks_help = run(["pr", "checks", "--help"]).stdout
+        if "--slurp" not in api_help or "--json" not in checks_help:
+            raise CaptureError("Capture requires gh api --slurp and gh pr checks --json; "
+                               "update GitHub CLI before collecting PR evidence")
         # Do not save or echo authentication output (even on failure).
         run(["auth", "status", "--hostname", "github.com"], private=True)
         endpoint = f"repos/{repo}/pulls/{number}"
@@ -139,6 +144,8 @@ def main():
     print("Raw evidence saved; NOT trust or acceptance. "
           f"complete={result['complete']} stale={result['stale']} checks={result['checks']}")
     print("complete means raw command collection only; diff completeness, check head association and policy coverage are unverified.")
+    for error in result["errors"]:
+        print(f"Capture error: {error}")
     return 0 if result["complete"] else 1
 
 
