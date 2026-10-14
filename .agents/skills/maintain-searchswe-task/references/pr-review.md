@@ -56,11 +56,12 @@ pending, cancelled, failing or inaccessible checks are unresolved. Confirm
 conversations, required human review and current-base policy; unknown policy
 requires clarification, not an admin bypass.
 
-Interpret check results for the current contribution stage. A task may enter
-review with pinned personal development assets while official publication is
-pending. Continue the design and validation review, recording publication as
-outstanding work. Both workflow checks must pass after official publication and
-asset pinning, before GitHub merge.
+Interpret check results for the current contribution stage. Verified public
+upstream assets may retain their immutable pins through merge; an official mirror
+is optional. If official hosting is planned, a task may enter review with pinned
+personal development assets while publication is pending. Continue the design
+and validation review, recording that publication work separately. Both workflow
+checks must pass on the final asset pins before GitHub merge.
 
 ## Inspect exact trees without contaminating the target
 

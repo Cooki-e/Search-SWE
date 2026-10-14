@@ -53,9 +53,11 @@ python scripts/run_task.py --task example-search \
 An alternate `--output-dir` contains `<task-name>/`; launcher jobs default to
 `jobs/<task-name>`.
 
-For development, use a personal public temporary dataset with a manifest,
-provenance/license and pinned immutable SHA. After task and asset review, follow
-the [publication workflow](contributing.md#asset-contribution-and-publication):
+Use existing public upstream HF datasets directly with immutable pins, recorded
+sizes/hashes and documented provenance/usage terms. No official re-upload is
+required. New development data may use a personal public dataset with permission
+to redistribute it. If official hosting is needed after task and asset review,
+follow the [publication workflow](contributing.md#asset-contribution-and-publication):
 `prepare_hf_upload.py` stages new verified files with a merged current manifest.
 Update HF SOURCES and license metadata, preserve published assets, and submit
 an authorized HF community PR or request a maintainer mirror. Pin the merged
@@ -97,7 +99,7 @@ artifact paths in `task.toml`. They are separate from the fixed input assets.
 
 ## Sources and fixed versions
 
-Task data is hosted in
+Task data may be hosted in its public upstream HF repository or in
 [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE).
 Model weights come from their original model repositories. Each task's
 `assets.json` is the source of truth for its files and immutable dataset or

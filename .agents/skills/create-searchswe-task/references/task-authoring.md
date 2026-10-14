@@ -68,8 +68,9 @@ Create each new package at `tasks/<task-name>/` in the contribution branch, with
 concise descriptive name of at most five lowercase hyphen-separated words,
 starting with a letter and otherwise using letters/digits. The `task-` prefix
 and `all` are reserved. Check uniqueness against the current base and active PRs.
-A PR may contain multiple tasks. Review each package, complete validation and
-official asset publication, then merge with a merge commit to preserve authors.
+A PR may contain multiple tasks. Review each package and verify its pinned
+upstream or official assets; publish official inputs only when needed. Complete
+validation, then merge with a merge commit to preserve authors.
 Revise existing tasks in place. `scripts/check_tasks.py` reuses
 `scripts/check_release.py`, which requires these non-empty files:
 

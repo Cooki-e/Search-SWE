@@ -75,9 +75,9 @@ def check_package(repo, task, *, require_authors=True, merge_ready=False):
         if merge_ready:
             for entry in read_manifest(task)["files"]:
                 source = entry.get("source", {})
-                if source.get("repo_type") == "dataset" and "local_path" not in source:
-                    if source.get("repo_id") != "search-swe/Search-SWE":
-                        errors.append(f"{entry['path']}: merge-ready data must use search-swe/Search-SWE")
+                if (source.get("repo_type") == "dataset"
+                        and source.get("repo_id") == "search-swe/Search-SWE"
+                        and "local_path" not in source):
                     if not source.get("filename", "").startswith(f"tasks/{task.name}/"):
                         errors.append(f"{entry['path']}: official data must use tasks/{task.name}/")
         # Only parse source files; do not execute Python, shell, Docker or verifiers.
@@ -120,7 +120,7 @@ def check_package(repo, task, *, require_authors=True, merge_ready=False):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("task_path", nargs="?", help="Repository-relative tasks/<task-name>; otherwise check all")
-    parser.add_argument("--merge-ready", action="store_true", help="Require official dataset sources and pinned revisions")
+    parser.add_argument("--merge-ready", action="store_true", help="Validate pinned asset sources and official dataset paths")
     parser.add_argument("--base", help="Full PR base commit; require actual authors for new tasks")
     args = parser.parse_args()
     errors = []

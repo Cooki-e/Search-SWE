@@ -16,5 +16,8 @@ If required API keys are missing, the authoring agent should ask the contributor
 to configure them locally before running the trial; see the guide for details.
 
 Maintainers review task quality, validation evidence and asset provenance in the
-PR. Publish official inputs and pin their merged HF commit before merging the
-GitHub contribution. Use a merge commit to preserve original author history.
+PR. Public upstream HF datasets may be referenced directly with immutable commit
+pins, exact filenames, sizes and SHA-256 hashes; verify downloads and usage terms
+before merging. If official publication is needed, publish those inputs and pin
+their merged HF commit first. Use a merge commit to preserve original author
+history.

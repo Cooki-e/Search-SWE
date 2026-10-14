@@ -61,8 +61,9 @@ Do not lower assertions to make a wrongly configured task pass. Download and
 launch commands discover task names from `tasks/*/task.toml` automatically.
 Use `--task <task-name>` for each trial. Before merge, run
 `python scripts/check_tasks.py --merge-ready --base FULL_PR_BASE_SHA` to check
-package syntax, new-task authors and pinned official dataset sources. Review
-and authorize credentialed runtime testing separately from unprivileged PR CI.
+package syntax, new-task authors, pinned upstream/official sources and official
+dataset paths. Review and authorize credentialed runtime testing separately
+from unprivileged PR CI.
 
 ## 2. Assets, Compose, and images
 

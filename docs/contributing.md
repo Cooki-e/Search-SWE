@@ -42,9 +42,10 @@ verifier inputs from agents.
 
 ## 2. Develop, evaluate and refine
 
-Development assets may live in a personal public temporary HF dataset with
-redistribution permission, manifest, provenance and license. Pin its immutable
-40-character commit SHA in `assets.json`. Official data will use
+Fixed data may use an existing public upstream HF dataset directly. Record its
+provenance and usage terms, and pin its immutable 40-character commit SHA, exact
+filename, size and SHA-256 in `assets.json`. New development assets may use a
+personal public HF dataset with redistribution permission. Official data uses
 `tasks/<task-name>/...`; model files retain their original repository pins.
 See [asset contribution and publication](#asset-contribution-and-publication).
 
@@ -103,12 +104,16 @@ parses Python, shell and Compose YAML without running task code. With `--base`,
 it additionally requires actual authors for newly added tasks while preserving
 existing author records, including reviewed package renames.
 
-`review-stage` accepts pinned personal development datasets. Before merging,
-`python scripts/check_tasks.py --merge-ready` requires dataset sources in
-`search-swe/Search-SWE`, under `tasks/<task-name>/`, at immutable commit SHAs.
-Model files retain their original repository pins. Maintainers also verify that
-the official HF changes have merged and that runtime evidence covers the final
-revision. Install PyYAML for static Compose parsing; render Compose separately.
+Both `review-stage` and `python scripts/check_tasks.py --merge-ready` accept
+upstream or official HF datasets with immutable commit SHAs, file paths, sizes
+and SHA-256 hashes. Merge-ready additionally requires files hosted in
+`search-swe/Search-SWE` to use `tasks/<task-name>/` paths; upstream filenames
+remain unchanged. Model files retain their original repository pins. Static
+checks validate the manifest without network access. Before merging, maintainers
+verify downloads and hashes, review provenance and usage terms, and confirm that
+runtime evidence covers the final revision. Official mirroring is optional;
+when used, its HF change must merge before the final pin is accepted. Install
+PyYAML for static Compose parsing; render Compose separately.
 
 CI runs static checks and repository tests with read-only permissions and no
 secrets or persisted checkout credentials. Repository tests are PR-controlled
@@ -124,10 +129,10 @@ while preserving author history, and check task names against the base and queue
 PRs. Apply review fixes, asset pins and directly necessary documentation or
 inventory changes to the task package in the same PR.
 
-Publish approved official inputs using the
-[asset workflow](#asset-contribution-and-publication), then pin the merged HF SHA
-and verify downloads. `scripts/prepare_hf_upload.py` delegates to the portable
-maintainer skill; a separately installed skill uses its own helper with
+Retain verified upstream pins; no official re-upload is required. When official
+publication is needed, use the [asset workflow](#asset-contribution-and-publication),
+then pin the merged HF SHA and verify downloads. `scripts/prepare_hf_upload.py`
+delegates to the portable maintainer skill; a separately installed skill uses its own helper with
 `--repo-root /path/to/checkout`.
 
 ```bash
@@ -143,11 +148,25 @@ Use a **merge commit** to preserve original author commits and unmodified lines'
 attribution. Re-review each changed head and verify required checks for the
 current head and base. Repository owners configure required reviews, resolved
 conversations, current-base/queue checks and `review-stage`/`merge-ready` statuses.
-After the merge, verify the resulting tree, official asset pins and author
+After the merge, verify the resulting tree, asset pins and author
 history. GitHub contributor statistics also depend on account-linked email and
 reachability from the default branch.
 
 ## Asset contribution and publication
+
+### Reuse published upstream data
+
+Existing public HF datasets may remain the final source in `assets.json`.
+Document provenance and applicable usage terms, pin the full 40-hex commit SHA
+and exact filename, and verify actual downloads against the recorded size and
+SHA-256 before merging. An upstream pin does not require a copy in
+`search-swe/Search-SWE`. Keep sources referenced by released tasks available;
+immutable pins fix content but still depend on the source host retaining it.
+
+Use official publication when needed for newly generated or processed inputs,
+or when maintainers choose to archive an upstream asset. Review redistribution
+rights before any upload. Tasks using only verified published inputs can proceed
+directly to final validation; the publication procedures below are conditional.
 
 ### Development: personal temporary dataset
 
@@ -177,16 +196,18 @@ PY
 Use this personal repo, its dataset-relative filenames, size/hash, and printed
 immutable SHA in `assets.json`. Select the task by name with the downloader and
 launcher for development validation. Keep the temporary repo accessible through
-review and publication; retire it after official pinned downloads are verified.
+review and any publication; retire it only after no released task depends on it
+and replacement pinned downloads are verified.
 
 ### Official publication, then GitHub merge
 
-After task and asset review, verify and retain existing official asset pins.
-For new dataset files, map their source repo/filename to `search-swe/Search-SWE`
-and `tasks/<task-name>/...`, preserving original model pins and bundled metadata.
+After task and asset review, verify and retain existing upstream and official pins.
+For files selected for official publication, map their source repo/filename to
+`search-swe/Search-SWE` and `tasks/<task-name>/...`, preserving original model
+pins and bundled metadata.
 Prepare **only new data files** in `/path/to/new-data/tasks/<task-name>/...`, at
 the exact asset sizes/hashes. Changed bytes use a new official filename, keeping
-earlier published assets available. Tasks whose data is already official can
+earlier published assets available. Tasks whose data is already published can
 proceed directly to final validation.
 
 Fetch the small current official manifest snapshot and metadata, not the whole

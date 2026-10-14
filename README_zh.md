@@ -232,8 +232,9 @@ PR 说明见[贡献入口](CONTRIBUTING.md)与[贡献指南](docs/contributing.m
 小写连字符短语，任务包与官方数据使用同一名称。一个 PR 可以包含多个任务；
 逐一完成审查与验证后，使用 merge commit 保留原作者历史。
 
-开发数据可以来自固定到 commit SHA 的个人公开 HF 数据集。官方输入发布到
-`tasks/<task-name>/` 后，先固定官方已合并的 HF SHA，再合并 GitHub 贡献。
+可以直接使用上游公开 HF 数据集，固定完整 commit SHA、文件路径、大小和 SHA-256。
+合并前验证下载、来源和使用条件，无须强制重新上传到官方仓库。需要官方发布时，
+将输入放在 `tasks/<task-name>/` 下，并先固定官方已合并的 HF SHA。
 使用 `--task <task-name>` 下载数据和进行本地试跑。
 
 ## 引用

@@ -4,6 +4,12 @@ Read-only metadata/hash/license review and offline staging do not authorize uplo
 Do not log tokens or change authentication without approval. All paths and account
 names below are examples to replace, not assigned identities.
 
+Existing public upstream HF datasets may remain the final source without an
+official mirror. Pin the full 40-hex commit SHA, exact filename, size and SHA-256;
+verify downloads and review provenance and usage terms before merging. Use this
+publication workflow only when new hosting is needed, such as for processed
+inputs or an approved archive. Review redistribution rights before any upload.
+
 ### Development: personal temporary dataset
 
 Only upload redistributable public inputs, never private hidden answers or
@@ -32,16 +38,18 @@ PY
 Use this personal repo, its dataset-relative filenames, size/hash, and printed
 immutable SHA in `assets.json`. Select the task by name with the downloader and
 launcher for development validation. Keep the temporary repo accessible through
-review and publication; retire it after official pinned downloads are verified.
+review and any publication; retire it only after no released task depends on it
+and replacement pinned downloads are verified.
 
 ### Official publication, then GitHub merge
 
-After task and asset review, verify and retain existing official asset pins.
-For new dataset files, map their source repo/filename to `search-swe/Search-SWE`
-and `tasks/<task-name>/...`, preserving original model pins and bundled metadata.
+After task and asset review, verify and retain existing upstream and official pins.
+For files selected for official publication, map their source repo/filename to
+`search-swe/Search-SWE` and `tasks/<task-name>/...`, preserving original model
+pins and bundled metadata.
 Prepare **only new data files** in `/path/to/new-data/tasks/<task-name>/...`, at
 the exact asset sizes/hashes. Changed bytes use a new official filename, keeping
-earlier published assets available. Tasks whose data is already official can
+earlier published assets available. Tasks whose data is already published can
 proceed directly to final validation.
 
 Fetch the small current official manifest snapshot and metadata, not the whole

@@ -48,8 +48,9 @@ Markdown links.
    the `task-` prefix and `all` are reserved. Check names against the base and
    active PRs. Follow `CONTRIBUTING.md` and `docs/contributing.md`: record actual
    authors, use `--task <task-name>` for local trials, and finish task review and
-   official asset publication before merging with a merge commit. Track completed
-   stages, validation evidence and missing inputs or approvals.
+   asset verification before merging with a merge commit. Public upstream HF
+   inputs may retain verified immutable pins; publish official assets only when
+   needed. Track completed stages, validation evidence and missing inputs or approvals.
    Do not duplicate the skill's specifications in this file.
 3. Keep changes within the selected task plus directly necessary integration
    changes. Updating a website, publishing a dataset, pushing images, and opening

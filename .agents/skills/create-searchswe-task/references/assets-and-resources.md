@@ -47,17 +47,20 @@ Do not attempt `chmod` on read-only mounted files during verification.
 
 ## Development and incremental publication
 
-During development, use an authorized **personal public temporary HF
-dataset** with manifest, provenance and license; pin its immutable 40-hex SHA in
-the task's `assets.json`. The downloader accepts arbitrary HF repositories:
+Existing public upstream HF datasets may be used directly through merge. Record
+provenance and usage terms, pin the immutable 40-hex SHA and exact filename, and
+verify actual downloads against manifest sizes/hashes. No official mirror is
+required. New development data may use an authorized personal public HF dataset
+with redistribution permission. The downloader accepts arbitrary HF repositories:
 
 ```bash
 python scripts/download_assets.py --task example-search
 python scripts/download_assets.py --task example-search --verify-only
 ```
 
-After task and asset review, prepare new official
-files at `tasks/<task-name>/...`. The target checkout's
+When official hosting is needed after task and asset review, prepare only the
+selected files at `tasks/<task-name>/...`. Retain other verified upstream and
+official pins. The target checkout's
 `scripts/prepare_hf_upload.py` accepts a current official manifest snapshot,
 the final task package and **only new data**. It verifies hashes, preserves existing
 entries and matching published references, rejects conflicting paths, and stages
@@ -69,8 +72,8 @@ Publish through a **HF community PR (`create_pr=True`)** with your personal
 account, or ask a maintainer to mirror reviewed public files. Never share or
 request an official token. Refresh a stale manifest snapshot before merging.
 
-The official HF change must merge **before** pinning the resulting official SHA
-in final `assets.json` and merging the GitHub task PR. Do not pin the community
+When publishing official data, the HF change must merge **before** pinning its
+resulting SHA in final `assets.json` and merging the GitHub task PR. Do not pin the community
 PR SHA or use a mutable branch. Keep original model pins unchanged. Official
 publication is separately authorized; helpers do not upload. Do not publish
 official paths that do not use the approved task name.

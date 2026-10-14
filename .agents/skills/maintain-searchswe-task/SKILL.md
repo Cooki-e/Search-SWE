@@ -29,8 +29,9 @@ missing or incompatible tools block that validation, not justify replacements.
    Check the contributor's references, structural reuse and deviations against
    current contracts, and verify task-specific values independently.
    Check model-trial evidence and feedback against the final task revision.
-   Review-stage checks accept pinned personal development datasets; merge-ready
-   checks require published official data. Execute PR-controlled tests/builds,
+   Review-stage and merge-ready checks accept pinned public upstream or official
+   HF data. Verify downloads, hashes, provenance and usage terms before merging;
+   official re-upload is optional. Execute PR-controlled tests/builds,
    credentialed runtime, API/GPU trials and downloads within their explicit
    session-authorized scope, using a disposable isolated checkout.
 3. **Apply review fixes:** read [finalization and merge](references/finalization.md).
@@ -41,17 +42,18 @@ missing or incompatible tools block that validation, not justify replacements.
    commits. With fork branch-edit permission, commit and push fixes to the
    contributor's existing PR source branch. Revalidate affected layers and
    obtain updated model evidence for substantive task or scoring changes.
-4. **Publish assets and finalize:** read [publication](references/publication.md)
-   and complete the checks in [finalization and merge](references/finalization.md).
-   Verify and retain existing official asset pins. For new dataset files,
+4. **Verify assets and finalize:** complete the checks in
+   [finalization and merge](references/finalization.md). Verify and retain upstream
+   and official asset pins. Use [publication](references/publication.md) only for
+   files that need official hosting. For those files,
    download the contributor's pinned inputs before changing their source entries
    in `assets.json`, and verify their sizes and hashes. The bundled offline
    staging helper preserves existing manifest entries and copies only new data.
    Check HF identity and access before authenticated operations. If setup is
    missing, remind the maintainer to configure it locally using the reference's
    authentication handoff, then recheck before continuing the dependent step.
-   Merge new official HF changes, pin their resulting SHA and verify fresh
-   downloads. Pass merge-ready checks on the final GitHub head. Merge the
+   If publishing, merge the official HF changes, pin their resulting SHA and
+   verify fresh downloads. Pass merge-ready checks on the final GitHub head. Merge the
    GitHub PR with a merge commit when its required checks and reviews pass.
 
 Reuse explicit session authorization for the covered repository, actions and

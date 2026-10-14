@@ -16,10 +16,13 @@ actual maintainer identity for maintainer commits and preserve task authors.
 For a writable contributor fork, these commits go directly to the existing
 PR's source branch; follow [contributor branch editing](pr-review.md#contributor-branch-editing).
 
-## Publish assets and validate the final revision
+## Verify assets and validate the final revision
 
-Read [publication.md](publication.md) and verify existing official asset pins.
-For files awaiting publication, first download and hash-check the contributor's
+Verify downloads, sizes and hashes for the final immutable asset pins, and review
+provenance and usage terms. Existing public upstream HF datasets may remain the
+source; no official re-upload is required. Retain verified upstream and official
+pins. Read [publication.md](publication.md) only for files that need official
+hosting. For those files, first download and hash-check the contributor's
 inputs using the original pinned manifest. Map the verified additions to official
 `tasks/<task-name>/...` paths and use the bundled offline HF helper to stage them,
 preserving existing manifest entries, model pins and provenance/license metadata.
@@ -34,7 +37,7 @@ record the final instruction revision, configured model/effort, trajectory,
 score, judge health and feedback-driven corrections. Revalidate substantive task or scoring changes
 within the authorized runtime budget. For source-path or pin-only updates with
 identical asset hashes and unchanged task behavior, retain the completed model
-trial, verify fresh official downloads and static checks, and record why that
+trial, verify fresh downloads and static checks, and record why that
 evidence still applies to the final revision.
 
 Run the audited target tools and applicable runtime layers:
@@ -47,8 +50,8 @@ push. Collect fresh review and check evidence for the resulting head.
 
 ## Commit asset pins to the contributor's PR branch
 
-After the official HF change has merged, update the published entries in
-`tasks/<task-name>/assets.json` in the isolated PR checkout: official repo ID,
+For official publication, wait for the HF change to merge, then update the
+published entries in `tasks/<task-name>/assets.json` in the isolated PR checkout: official repo ID,
 published filenames and the actual merged 40-hex SHA. Keep task-relative paths,
 sizes, hashes, model-repository sources and bundled metadata intact. Complete
 fresh official downloads and the checks above before committing.
@@ -122,12 +125,13 @@ Close the loop after the command, rather than treating exit zero as proof:
    base is its first parent, and original author commits are ancestors. Unexpected
    parent/base/tree changes require investigation, not a success claim.
 3. Inspect the merged tree for `tasks/<task-name>/task.toml`, actual authors, final
-   official pins and intended files.
+   asset pins and intended files.
    Compare it with the reviewed final tree (account for reviewed base integration).
 4. Check `git log --follow -- tasks/<task-name>/instruction.md` and
    `git blame tasks/<task-name>/instruction.md` at the merge SHA. Original unmodified
    lines should retain contributor attribution. GitHub's latest file author and
    contributor statistics are not substitutes; stats also depend on linked email.
-5. Report repo/PR, reviewed head/base, merge SHA, final path, official HF SHA,
+5. Report repo/PR, reviewed head/base, merge SHA, final path, asset source SHAs,
    check/runtime evidence and author/history outcome. Do not retire personal
-   development assets until verified official downloads work.
+   development assets while released tasks depend on them or before replacement
+   pinned downloads are verified.

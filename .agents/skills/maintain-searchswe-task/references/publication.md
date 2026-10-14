@@ -6,10 +6,13 @@ names below are examples to replace, not assigned identities.
 
 ## Choose the publication work
 
-For each dataset-backed asset, identify whether its bytes are already published
-at the declared official path. Verify and retain existing official pins. A PR
-using only verified official data can proceed to final validation; the workflow
-below applies to files that still need publication. Tasks using only model
+For each dataset-backed asset, verify its published source, immutable revision,
+filename, size and SHA-256, and review provenance and usage terms. Public upstream
+HF datasets may remain the final source without an official mirror. Retain
+verified upstream and official pins. A PR using only verified published data can
+proceed to final validation. Use the workflow below only for files selected for
+official hosting, such as new processed inputs or an approved archive of upstream
+data; review redistribution rights before uploading. Tasks using only model
 repositories or bundled metadata follow their applicable validation checks.
 
 For a mix of existing and new data, stage only the additions. If published bytes

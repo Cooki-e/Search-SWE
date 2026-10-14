@@ -32,7 +32,7 @@ jobs:
       - run: python .agents/skills/maintain-searchswe-task/scripts/test_maintainer_skill.py
       - run: git diff --check
   merge-ready:
-    # Requires pinned official dataset sources before merging;
+    # Validates pinned upstream/official sources and official dataset paths;
     # repository branch-protection settings are configured separately by owners.
     runs-on: ubuntu-latest
     steps:

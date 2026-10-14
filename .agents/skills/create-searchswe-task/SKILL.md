@@ -39,7 +39,7 @@ Record a short design summary before writing the package:
 | Goal | What working capability or quality/efficiency improvement is measured |
 | Interface | Container input paths, commands, output paths/formats, artifact transfer |
 | Evaluation | Metric, public gates, baseline if needed, failure/timeout behavior |
-| Inputs | Public/hidden split, actual files, provenance, redistribution rights |
+| Inputs | Public/hidden split, actual files, provenance, usage terms; redistribution rights for uploads |
 | Resources | CPU/GPU, memory/storage/time, network, permitted APIs/models |
 | Precedent | Reviewed task path(s), matching dimensions, structural patterns reused, intentional differences |
 
@@ -71,8 +71,9 @@ Revise existing packages in place.
 
 One PR may add multiple uniquely named tasks. Follow the
 [branch and PR workflow](references/submission-and-pr.md): review and validate
-each package, publish official inputs and pin their merged SHA, then merge the
-PR with a **merge commit** to preserve original author history.
+each package and verify immutable asset pins. Public upstream HF datasets may
+be used directly; publish official inputs only when needed. Then merge the PR
+with a **merge commit** to preserve original author history.
 
 The scaffold is **not a finished task**: its verifier always fails, its asset
 manifest is empty, data/model mounts are absent, and instructions are writing

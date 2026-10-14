@@ -252,10 +252,11 @@ it for the package and its official data. One PR may add multiple tasks. Review
 and validate each package, then merge with a merge commit to preserve original
 authors.
 
-Development assets may use a personal public HF dataset pinned to a commit SHA.
-Publish official inputs under `tasks/<task-name>/`, then pin the merged official
-HF SHA before merging the GitHub contribution. Use `--task <task-name>` for
-downloads and local trials.
+Public upstream HF datasets may be used directly with immutable commit pins,
+exact filenames, sizes and SHA-256 hashes. Verify downloads, provenance and usage
+terms before merging; official re-upload is optional. When official publication
+is needed, publish under `tasks/<task-name>/` and pin the merged HF SHA first.
+Use `--task <task-name>` for downloads and local trials.
 
 ## Citation
 

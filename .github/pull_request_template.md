@@ -19,12 +19,13 @@ scores and judge health; explain task-setting changes motivated by that feedback
 - [ ] Allow edits from maintainers, or agree on contributor-applied review fixes in this PR.
 - [ ] No secrets, downloaded inputs/models, job outputs, or author-only solutions.
 - [ ] Static checks and applicable runtime evidence recorded.
-- [ ] Provenance, redistribution rights, licenses and immutable development asset SHA documented.
+- [ ] Provenance, usage terms and immutable asset SHAs documented; redistribution rights reviewed for uploaded data.
 
 ## Maintainer merge checklist
 
 - [ ] Design, verifier isolation, runtime evidence and any validation exceptions reviewed.
 - [ ] Names checked against the current base and queued PRs.
-- [ ] New official assets published under `tasks/<task-name>/`; previous assets preserved; merged official SHA pinned.
+- [ ] Upstream or official asset downloads verified against immutable pins, sizes and SHA-256 hashes.
+- [ ] If official publication is needed: new assets published under `tasks/<task-name>/`, previous assets preserved and merged official SHA pinned.
 - [ ] Repository docs and inventories updated; checks and merge-ready pass.
 - [ ] Merge commit; original contributor history retained.

@@ -49,7 +49,7 @@ Use a trusted body file, not shell interpolation of task/PR text. Report actual
 validation commands/results and unrun layers. For each task, name the reviewed
 reference packages consulted (or state that none was close), the structural
 patterns reused, and intentional differences; do not claim precedent as proof
-that a task-specific value is correct. Link any authorized personal HF repo at
+that a task-specific value is correct. Link each upstream or official HF source at
 its immutable SHA. Do not call a static pass E2E success. After opening,
 the **PR author** enables **Allow edits from maintainers** on the PR. Verify the
 setting (`maintainerCanModify` in `gh pr view --json maintainerCanModify`), rather
@@ -67,10 +67,12 @@ credentialed runtime tests. Track each required check for the reviewed head.
 
 Refresh the base and check names against queued PRs. Apply review fixes and
 necessary inventory or documentation changes in the contribution branch,
-preserving original author commits. Follow [publication](publication.md):
-publish approved dataset inputs under official `tasks/<task-name>/...` paths,
-merge the HF change, then pin its official SHA in `assets.json` and verify clean
-downloads. Preserve original model pins.
+preserving original author commits. Verify downloads, hashes, provenance and
+usage terms for pinned upstream or official data. No official re-upload is
+required for public upstream inputs. When official hosting is needed, follow
+[publication](publication.md): publish selected inputs under official
+`tasks/<task-name>/...` paths, merge the HF change, then pin its official SHA in
+`assets.json` and verify clean downloads. Preserve original model pins.
 
 Run release checks, applicable tests and `python scripts/check_tasks.py
 --merge-ready --base FULL_PR_BASE_SHA`. Commit the reviewed changes in the same
@@ -79,4 +81,4 @@ base before an authorized **merge commit**.
 
 Verify the resulting SHA/tree and attribution using
 `git log --follow -- tasks/example-search/instruction.md` and `git blame`.
-Report observed outcomes, task names, official asset SHAs and remaining blockers.
+Report observed outcomes, task names, asset source SHAs and remaining blockers.

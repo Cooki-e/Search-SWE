@@ -16,7 +16,7 @@ workflow/tool modifications need independent scrutiny, not implicit acceptance.
 | Negative cases | Missing/malformed/duplicate output, timeout, process failure, attempts to read hidden labels or write rewards; no positive fallback on integrity/judge failure. Transfer all declared artifacts; no reliance on live agent sidecars. |
 | Heldout validity | Public validation and heldout inputs exercise the same contract without leakage/answer memorization. Public repo `tests/data` is hidden only from the runtime agent, not private. No private answers/secrets in Git or public HF. |
 | Network/credentials | Narrow phase-specific allowlists, exact providers/models, no unauthorized calls/spend, runtime-only secret injection, judge keys filtered from submitted processes, no tokens in image/history/logs/artifacts or CLI args. Verify actual backend enforcement. |
-| Data/license | Actual bytes match manifest size/SHA-256; immutable 40-hex HF pins; dataset/model/local metadata paths valid. Source provenance, redistribution rights and all license obligations documented, including derived data/models. No guessed license; official dataset paths use `tasks/<task-name>/...`. |
+| Data/license | Actual bytes match manifest size/SHA-256; immutable 40-hex HF pins; dataset/model/local metadata paths valid. Public upstream HF datasets may be used directly. Document provenance and usage terms, including derived data/models; review redistribution rights for uploaded or mirrored files. No guessed license; official dataset paths use `tasks/<task-name>/...`. |
 | Reproducibility | Fresh downloads/hash verification, read-only minimal mounts with missing bind paths failing closed, no host venv/cache dependence, resource/time limits, deterministic grading or justified pinned judge, repeatability and failure diagnoses. |
 
 ## Target tools and staged checks
@@ -30,11 +30,13 @@ Python 3.12+, PyYAML, python-dotenv and host `scripts/requirements.txt` (Harbor
 0.22.0, huggingface_hub 1.x) are target prerequisites. Docker Engine/Compose,
 image access and appropriate GPU driver/Container Toolkit are needed for runtime.
 
-During review, accept personal public development datasets with immutable pins,
-verified hashes and documented redistribution rights. Use the captured full PR
-base SHA with `check_tasks.py` so new tasks receive author checks. Official
-publication and merged official pins are prerequisites for the later merge-ready
-stage. Record outstanding publication work separately from task-quality findings.
+Accept public upstream or official datasets with immutable pins, verified hashes
+and documented provenance/usage terms through review and merge-ready stages.
+Personal published inputs also need documented redistribution rights. Use the
+captured full PR base SHA with `check_tasks.py` so new tasks receive author checks.
+Official publication is needed only for files selected for official hosting;
+complete it and pin its merged SHA before merging tasks that use those files.
+Record any outstanding publication work separately from task-quality findings.
 
 Within the authorized execution scope, from the isolated checkout with trusted tools:
 
@@ -92,5 +94,5 @@ failure only after a relevant correction; preserve completed usable trials.
 
 Final readiness additionally requires `python scripts/check_tasks.py
 --merge-ready --base FULL_PR_BASE_SHA`, updated inventories including GPU tests,
-immutable official asset pins and head-specific required checks. Static CI alone
+verified immutable asset pins and head-specific required checks. Static CI alone
 cannot establish solvability, fair heldout evaluation, licensing or isolation.

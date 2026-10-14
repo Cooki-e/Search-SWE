@@ -247,23 +247,50 @@ class TaskWorkflow(unittest.TestCase):
             self.assertIn(f"author {author} Example", self.git("blame", "--line-porcelain", f"tasks/{name}/instruction.md"))
         self.assertEqual(self.cli("check_release.py").returncode, 0)
 
-    def test_merge_ready_checks_official_sources_namespace_and_revision(self):
-        entry, _ = self.asset()
-        for field, value, message in (("repo_id", "alice/development", "search-swe/Search-SWE"),
-                                      ("filename", "tasks/other-search/corpus.txt", "tasks/example-search/"),
-                                      ("revision", "main", "immutable")):
-            with self.subTest(field=field):
-                manifest = {"schema_version": 1, "files": [entry]}
-                original = entry["source"][field]
-                entry["source"][field] = value
-                (self.task / "assets.json").write_text(json.dumps(manifest))
-                if field == "repo_id":
-                    result = self.cli("check_tasks.py")
-                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+    def test_merge_ready_accepts_pinned_upstream_and_mixed_sources(self):
+        official, _ = self.asset()
+        upstream = {**official, "path": "data/upstream.txt", "source": {
+            **official["source"], "repo_id": "upstream/public-corpus", "filename": "corpus.txt"}}
+        model = {**official, "path": "models/weights.bin", "source": {
+            **official["source"], "repo_id": "upstream/model", "repo_type": "model",
+            "filename": "weights.bin"}}
+        for entries in ([upstream], [upstream, official, model]):
+            with self.subTest(sources=[entry["source"]["repo_id"] for entry in entries]):
+                (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": entries}))
                 result = self.cli("check_tasks.py", "--merge-ready")
-                self.assertNotEqual(result.returncode, 0)
-                self.assertIn(message, result.stdout)
-                entry["source"][field] = original
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_merge_ready_keeps_asset_integrity_requirements_for_all_sources(self):
+        entry, _ = self.asset()
+        for repo_id in ("search-swe/Search-SWE", "upstream/public-corpus"):
+            entry["source"]["repo_id"] = repo_id
+            for section, field, value, message in (
+                ("source", "revision", "main", "immutable"),
+                ("source", "revision", None, "immutable"),
+                ("source", "repo_id", "", "invalid source repository"),
+                ("source", "filename", "../corpus.txt", "Invalid asset path"),
+                ("entry", "sha256", "invalid", "Invalid SHA-256"),
+                ("entry", "size_bytes", -1, "Invalid asset size"),
+            ):
+                with self.subTest(repo_id=repo_id, field=field, value=value):
+                    target = entry["source"] if section == "source" else entry
+                    original = target[field]
+                    target[field] = value
+                    (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": [entry]}))
+                    result = self.cli("check_tasks.py", "--merge-ready")
+                    self.assertNotEqual(result.returncode, 0)
+                    self.assertIn(message, result.stdout)
+                    target[field] = original
+
+    def test_merge_ready_checks_official_namespace(self):
+        entry, _ = self.asset()
+        original = entry["source"]["filename"]
+        entry["source"]["filename"] = "tasks/other-search/corpus.txt"
+        (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": [entry]}))
+        result = self.cli("check_tasks.py", "--merge-ready")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("official data must use tasks/example-search/", result.stdout)
+        entry["source"]["filename"] = original
         (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": [entry]}))
         self.assertEqual(self.cli("check_tasks.py", "--merge-ready").returncode, 0)
 
