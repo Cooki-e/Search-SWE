@@ -130,6 +130,7 @@ access.
 | `query-encoder-alignment` |  OpenRouter/Jina resources only | allowlist: `openrouter.ai`, `api.jina.ai` | task hosts + model host | task hosts (OpenRouter also serves the trajectory judge) |
 | `agentic-search` | OpenRouter/Jina resources only | allowlist: `openrouter.ai`, `api.jina.ai` | task hosts + model host | task hosts only; no model judge |
 | `sparse-retrieval-pruning` | Offline index building and search | no network | model host only | `openrouter.ai` only |
+| `rust-bm25-search` | Offline Rust BM25 indexing and search | no network | model host only | no network; deterministic verifier |
 
 Allowing the judge endpoint does not expose verifier credentials to submitted
 commands. `scientific-paper-qa` similarly removes both judge credential groups before

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/corpus.jsonl.gz",
+      "size_bytes": 1118496727,
+      "sha256": "634543cee77a992613bbf32d0aa4863659dffd064c405f062454400aa80aea3f",
+      "source": {
+        "repo_id": "Tevatron/msmarco-passage-corpus",
+        "repo_type": "dataset",
+        "revision": "21a2e1a8c6e7b1747c92f82cd2259a97077dc48d",
+        "filename": "corpus.jsonl.gz"
+      }
+    },
+    {
+      "path": "data/warmup.jsonl.gz",
+      "size_bytes": 1492,
+      "sha256": "331e829922e2bd8ee1f01766fb7253c0d672ef79498011e91ad5e3e93f17a54a",
+      "source": {
+        "repo_id": "Tevatron/msmarco-passage",
+        "repo_type": "dataset",
+        "revision": "330a160b40a739d4c07d52c7ce562e2c549214c0",
+        "filename": "dl20.jsonl.gz"
+      }
+    }
+  ]
+}

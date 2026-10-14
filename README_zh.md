@@ -81,7 +81,7 @@ VERIFIER_OPENAI_API_KEY=YOUR_OPENROUTER_KEY
 ```
 
 `DEEPSEEK_API_KEY` 用于 `deepseek/deepseek-flash` 的 Pi 智能体认证；`VERIFIER_*`
-通过 RewardKit 0.2.0 和 OpenRouter 运行固定为 `deepseek/deepseek-v4.1-flash` 的独立轨迹评审，除 `agentic-search`
+通过 RewardKit 0.2.0 和 OpenRouter 运行固定为 `deepseek/deepseek-v4.1-flash` 的独立轨迹评审，除 `agentic-search` 和 `rust-bm25-search`
 外的所有任务都需要。`VERIFIER_OPENAI_API_KEY` 使用 OpenRouter 密钥，Pi 智能体
 使用独立的 DeepSeek 密钥；启动器只把 verifier 凭据传进 verifier 容器。
 
