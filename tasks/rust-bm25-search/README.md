@@ -12,8 +12,10 @@ implementation passed it on all dev queries (MRR@10 0.1872948219). A Harbor
 Oracle trial also passed the actual source-artifact transfer and independent
 verifier flow. An independent GPT-5.6 Sol / max trial through Codex collaboration
 also completed the full verifier: MRR@10 0.1839805908 falls just below the exact
-floor, so it earns zero despite faster search and a smaller index. This was a
-context-free hosted agent using an isolated task container; Harbor's Codex API
+floor, so it earns zero. Frozen model and author sources were revalidated after
+review fixes; full outputs match their previous runs. Current timings and
+regression evidence are in [review-fixes-observation.json](authoring/review-fixes-observation.json).
+The coding trial used a context-free hosted agent with an isolated task container; Harbor's Codex API
 route remains untested because the API preflight found exhausted credits.
 Official asset publication and terms review remain necessary before merge. See
 [validation.md](authoring/validation.md) for the evidence and limitations.
@@ -39,8 +41,8 @@ lock. Resource envelope: 4 CPUs, 16 GiB memory, 64 GiB workspace, no network or
 GPU. Agent budget is 3 hours; compilation 10 minutes, index build 2 hours,
 individual requests 120 seconds and each warmup/measured batch 1 hour. These
 are engineering budgets to validate with a real model, not universal claims
-about hardware performance. The host needs Linux Landlock ABI 1 or newer;
-root-owned files additionally enforce read-only search on older ABIs.
+about hardware performance. The host needs Linux Landlock ABI 1 or newer and
+seccomp filters; root-owned files additionally enforce read-only search on older ABIs.
 
 Only `/app/submission` transfers to the verifier. Candidate code runs as UID
 10001, separate from root-owned tests, qrels and reward files. Search is
@@ -48,6 +50,10 @@ restricted to its immutable index, binary and system libraries. Source-only
 recompilation and these controls support the contract; they do not replace
 review that the implementation is actually self-built BM25 and contains no
 hard-coded answers. No API or model judge is part of deterministic grading.
+All candidate phases block persistent IPC, kernel keyrings and extended-attribute
+access, including through io_uring. Index files, directories and the root must
+have no extended attributes. These checks prevent IPC and xattr payloads from
+bypassing the measured index-file bytes.
 
 ## Restore and check
 
@@ -61,6 +67,9 @@ python scripts/check_tasks.py tasks/rust-bm25-search
 python scripts/check_release.py
 docker build -t search-swe-local:rust-bm25-agent tasks/rust-bm25-search/environment
 docker build -t search-swe-local:rust-bm25-verifier tasks/rust-bm25-search/tests
+docker run --rm --network none --cpus 4 --memory 16g --memory-swap 16g --pids-limit 256 \
+  --mount "type=bind,source=$PWD/tasks/rust-bm25-search/authoring/check_persistent_state.py,target=/check.py,readonly" \
+  search-swe-local:rust-bm25-verifier python /check.py
 ```
 
 The data manifest currently pins existing Tevatron repositories. No upload

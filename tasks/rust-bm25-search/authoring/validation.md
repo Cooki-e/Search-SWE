@@ -279,3 +279,94 @@ Full hosted-model trajectory, token usage and billing were not exported; null
 cost fields mean unknown. This hosted trial does not validate Harbor's pinned
 Codex CLI or its API transport. The existing Oracle evidence covers Harbor's
 artifact transfer and separate-verifier integration independently.
+
+## Review fixes: persistent state and disk accounting
+
+The [maintainer review](https://github.com/VectorSpaceLab/Search-SWE/pull/11#issuecomment-6128882684)
+identified two valid bypasses at `7d69eba`: System V shared memory survives
+process cleanup, and extended-attribute payloads are absent from `st_size`.
+Runtime commit `a5ba0d63c70eb159d5aeef820624bde17e19be0b` addresses both.
+
+Every candidate compile/index/search launch now installs an inherited seccomp
+filter after dropping privileges. It denies System V IPC, POSIX message queues,
+kernel keyrings and xattr operations, including newer xattr syscalls and
+io_uring as an indirect access route. The filter checks the syscall architecture,
+rejects x32, and kills non-native ABI calls; ordinary Rust threads and file-backed
+mmap remain supported. The implementation follows the kernel's
+[seccomp filter interface](https://www.kernel.org/doc/html/latest/userspace-api/seccomp_filter.html)
+and pinned [x86_64 syscall table](https://github.com/torvalds/linux/blob/v6.13/arch/x86/entry/syscalls/syscall_64.tbl).
+A trusted preflight exercises the unprivileged launcher before judging any
+submission, so unavailable seccomp invalidates the run as infrastructure failure.
+
+`index_bytes` now rejects all extended attributes on the index root, every
+subdirectory and every file. Attribute-inspection errors fail closed. Candidate
+xattr syscalls are also blocked because filesystem confinement alone does not
+cover metadata reads on outside paths. Both instructions and environment docs
+explicitly describe these limits. MRR, reference parameters, reward formula,
+inputs, resource budgets and cold/warm definitions are unchanged. The current
+instruction SHA-256 is
+`da631e4885c5fb7a854a9fb3f107bf2dfd19422b0151fb121ded62751c1b7fef`.
+
+`authoring/check_persistent_state.py` was exercised in two fresh offline
+containers. With `--expect-vulnerable` and the old verifier image, it reproduces
+4,096 bytes of shared memory left by an exited indexer, accessible by two fresh
+UID-10001 search processes after normal grader cleanup and read-only index
+locking, while the measured index is one byte. It also reproduces uncounted
+xattrs on files, subdirectories and the root after locking. The xattr payload
+is 2,048 bytes to fit this host filesystem's metadata limit.
+
+Against the new image, the same fixture verifies blocked IPC creation in all
+three phases, denied attachment to a pre-existing segment, inheritance by Rust
+threads and fork/exec children, rejection of alternate syscall ABIs and outside
+xattr reads, and rejection of all three index-xattr locations. Both fresh search
+processes still read the ordinary persisted index. The original hidden-file,
+reward, outside-cache and immutable-index isolation probe also passes.
+
+The verifier image is
+`sha256:9c13586d8f2e2600dc87abd0c7ef9a64f3c29be687f883679265e2fe8a78bbf8`.
+It was rebuilt from the final runtime sources. Task-local tests now total 19,
+all passing; repository tests total 171, with 169 passing and two existing
+optional RewardKit tests skipped. Review-stage task/release checks and both
+Compose configurations pass. Missing source, malformed Cargo manifest, failed
+index command and malformed JSON response each produce `invalid_submission`
+and reward zero in fresh containers. Merge-ready still reports the same four
+official asset repository/path errors, pending separate publication and terms
+review.
+
+Two full frozen-source replays then ran sequentially in fresh 4-CPU/16-GiB,
+256-PID, network-disabled containers. Each recompiled source, rebuilt all
+8,841,823 passages, measured five cold launches and all 6,980 dev queries, then
+rebuilt/measured its own Pyserini reference. Both references reproduced the
+exact pinned MRR. Both submissions reproduced their prior complete response
+files byte-for-byte, including scores.
+
+| Submission | MRR@10 | Reward | Index bytes | Warm seconds | Cold median, ms |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Frozen GPT-5.6 Sol / max | 0.1839805908036567 | 0 | 593,845,613 | 28.677386 | 50.532 |
+| Frozen known-good author | 0.18729482194023742 | 0.364022408613 | 696,567,340 | 135.314643 | 451.609 |
+
+The model's same-run reference took 26.409222 warm seconds and occupied
+659,967,462 bytes; the author's took 26.300034 seconds and 660,191,460 bytes.
+The original model warm speedup was not reproduced in this replay. These are
+single-host observations, and the timing differences do not establish a causal
+performance effect. Both full runs completed with exit code zero and no
+unresolved grading/reference errors. The model's below-floor quality still
+earns zero; the unchanged author implementation provides a positive full-run
+check of the tightened isolation and disk validation.
+
+[review-fixes-observation.json](review-fixes-observation.json) records complete
+reports, final runtime/instruction hashes, source fingerprints, image ID,
+regression coverage and comparison with previous outputs. This is grader
+revalidation of retained implementations. No new model generation, solver edit,
+quality-threshold change or fresh Harbor integration trial occurred. The
+original model trial still corresponds to its original instruction hash.
+
+An independent maintainer evidence archive is prepared under ignored
+`jobs/rust-bm25-search-authoring/review-fixes-01/maintainer-evidence.tar.gz`.
+It includes retained model source, original instruction, agent notes,
+progress/completion records, Docker command events, original/final verifier
+logs, full results and SHA-256 manifests. It contains no corpus, built index,
+author solution, credentials or parent conversation. Delivery to a
+maintainer-accessible location remains pending; this local path is not a
+shared download link. The full raw hosted-model trajectory was never exported
+and is not recoverable from the available command events.
