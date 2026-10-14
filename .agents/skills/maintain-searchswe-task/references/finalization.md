@@ -11,7 +11,8 @@ affected validation layers.
 
 Resolve contributor branch-edit permissions, then apply review fixes and directly
 necessary integration changes in the same PR. Check instructions, relative
-mounts, images, external URLs, task inventories and GPU test inventories. Use
+mounts, images, external URLs, task-local resource docs and configuration. Shared
+tests discover task and GPU configurations automatically. Use
 actual maintainer identity for maintainer commits and preserve task authors.
 For a writable contributor fork, these commits go directly to the existing
 PR's source branch; follow [contributor branch editing](pr-review.md#contributor-branch-editing).

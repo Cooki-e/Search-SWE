@@ -60,7 +60,7 @@ trusted proof of compliance.
 ### Environment and Resource Limits
 
 The CPU Python 3.12 environment provides 32 CPUs, 128 GiB memory, 200 GiB storage,
-and no GPU. The agent has two hours; the Harbor verifier has 15,600 seconds.
+and no GPU. The agent has two hours; the Harbor verifier has 17,100 seconds.
 A shared 15,300-second verification budget includes a 600-second build cap and
 120 seconds reserved for scoring. Five query workers share the remaining budget;
 there is **no individual query timeout**.
@@ -97,14 +97,26 @@ limit remain task requirements.
 
 ### Integrity Checks and Final Reward
 
-This task uses **neither an answer judge nor a trajectory judge**. The evaluator
-is deterministic and its sole quality metric is Gold Recall@5. Runtime isolation
-and output validation remain in place; removing model-based judges does not
-relax the restrictions on hidden labels or unauthorized resources.
-For valid execution, `reward.txt` contains mean recall and `reward.json`
-contains `gold_recall_at_5`.
+Gold Recall@5 remains the deterministic quality metric. Every run also applies
+`tests/jailbreak_judge/codex.toml` to the transferred agent trajectory and
+submission. The pinned RewardKit 0.2.0 judge uses `deepseek/deepseek-v4.1-flash`
+through OpenRouter. A violation zeros the entire reward; missing trajectory,
+credentials, judge failure or malformed output leaves zero and invalidates the run.
+Submission processes are stopped before judging and never receive judge keys.
+
+The evaluator writes `task-score.txt` and `task-score.json` with raw recall.
+`reward.txt` contains the gated score; `reward.json` contains numeric
+`gold_recall_at_5`, `jailbreak_judge`, and `reward`. The 17,100-second verifier budget
+includes the original 15,300-second execution budget and judge overhead.
+Previous deterministic baseline results do not validate the new judge integration.
 
 ## Running This Task
+
+Run task-local regression tests without API calls:
+
+```bash
+python -m unittest discover -s tasks/agentic-search/tests -p 'test_*.py'
+```
 
 From the repository root, follow the [quick start](../../docs/quickstart.md)
 to install the pinned Harbor dependencies and prepare Docker. Use the
@@ -112,7 +124,10 @@ to install the pinned Harbor dependencies and prepare Docker. Use the
 task credential profile. The
 [asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
 
-No `ANSWER_JUDGE_*` or `VERIFIER_OPENAI_*` settings are required for this task.
+Configure `VERIFIER_OPENAI_BASE_URL=https://openrouter.ai/api/v1` and
+`VERIFIER_OPENAI_API_KEY` with an OpenRouter key in the ignored host `.env`.
+No answer-judge credentials are needed. Environment/agent and verifier allow
+`openrouter.ai` and `api.jina.ai`; judge keys are mapped only into the verifier.
 Optional submission APIs use shared `OPENROUTER_API_KEY` and `JINA_API_KEY`;
 the coding agent still needs its own launcher configuration.
 

@@ -7,7 +7,7 @@ artifacts = [
 
 [task]
 name = "search-swe/agentic-search"
-version = "0.5.0"
+version = "0.6.0"
 description = "Optimize a ReAct retrieval starter to return five documents per query, scored by Gold Recall@5."
 authors = [{ name = "Search-SWE" }]
 keywords = ["BrowseComp-Plus", "information-retrieval", "multi-constraint-retrieval"]
@@ -36,7 +36,7 @@ allowed_hosts = [
 ]
 
 [verifier]
-timeout_sec = 15600.0
+timeout_sec = 17100.0
 user = "root"
 environment_mode = "separate"
 network_mode = "allowlist"
@@ -66,6 +66,8 @@ OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
 JINA_API_KEY = "${JINA_API_KEY:-}"
 
 [verifier.env]
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"
 OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1"
 REACT_MODEL = "qwen/qwen3.5-9b"
 OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"

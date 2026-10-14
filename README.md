@@ -69,8 +69,9 @@ The downloader checks sizes and SHA-256 checksums and reuses valid files.
 
 ### 3. Configure the agent and verifier
 
-The tracked template lists every supported credential and explains when each
-one is needed. Copy it once; put real secrets only in the ignored `.env` file:
+The tracked template documents common credentials. Each task's README and
+`task.toml` specify its additional requirements. Copy it once; put real secrets
+only in the ignored `.env` file:
 
 ```bash
 cp .env.example .env
@@ -89,9 +90,9 @@ VERIFIER_OPENAI_API_KEY=YOUR_OPENROUTER_KEY
 
 `DEEPSEEK_API_KEY` authenticates the Pi agent for `deepseek/deepseek-flash`.
 The `VERIFIER_*` pair runs the independent `deepseek/deepseek-v4.1-flash` trajectory judge
-through OpenRouter and RewardKit 0.2.0 and is required by every task except
-`agentic-search` and `rust-bm25-search`. Use an OpenRouter key for `VERIFIER_OPENAI_API_KEY`; the Pi agent
-uses its separate DeepSeek key. The launcher passes verifier credentials only
+through OpenRouter and RewardKit 0.2.0. Configure this pair for tasks whose
+`task.toml` declares `VERIFIER_OPENAI_*`. Use an OpenRouter key for
+`VERIFIER_OPENAI_API_KEY`; the Pi agent uses its separate DeepSeek key. The launcher passes verifier credentials only
 to the verifier container.
 
 For other runs, fill only the matching sections already present in `.env`:
@@ -102,16 +103,16 @@ For other runs, fill only the matching sections already present in `.env`:
   Anthropic's official API by default.
 - OpenRouter Agent mode: `AGENT_OPENROUTER_API_KEY`, `--openrouter`, and a full
   `provider/model` slug with Codex or Claude Code.
-- `scientific-paper-qa`: the three `ANSWER_JUDGE_*` values are also required.
+- Tasks with an answer judge: configure the `ANSWER_JUDGE_*` values declared by the task.
 - Optional submission APIs: use `REASONING_QUERY_REWRITING_OPENROUTER_API_KEY`,
-  `OPENROUTER_API_KEY`, or `JINA_API_KEY` only for the tasks identified by the
-  comments in `.env.example`.
+  `OPENROUTER_API_KEY`, or `JINA_API_KEY` only when the selected task's README
+  and resource documentation permit them.
 
 If a proxy is required, set `EGRESS_CONFIG` in `.env` following the
 [network guide](docs/network-policy.md); otherwise leave it empty.
 
 The [evaluation guide](docs/evaluation.md) documents credential isolation,
-custom endpoints, proxies, and the complete per-task matrix.
+custom endpoints, proxies, and how to read task-owned configuration.
 
 ### 4. Run with Pi and DeepSeek Flash
 
@@ -211,8 +212,8 @@ settings from the main example.
 Other custom gateways, subscription OAuth, Bedrock, Vertex, ACP, and custom
 Claude settings remain outside the supported scope. The
 [quick start guide](docs/quickstart.md) covers the default Codex path;
-the [evaluation guide](docs/evaluation.md) covers the per-task credential and
-hardware matrix plus GPU, network-policy, and custom-provider options.
+the [evaluation guide](docs/evaluation.md) covers credential configuration,
+GPU, network-policy, and custom-provider options.
 
 </details>
 
@@ -221,8 +222,8 @@ hardware matrix plus GPU, network-policy, and custom-provider options.
 | Document | Contents |
 | --- | --- |
 | [Quick start guide](docs/quickstart.md) | A first CPU evaluation, end to end |
-| [Evaluation guide](docs/evaluation.md) | Per-task credentials, coding agents, GPU, network policy, and custom providers |
-| [Network policy](docs/network-policy.md) | Per-task allowlists, default direct gateway, and optional proxy egress |
+| [Evaluation guide](docs/evaluation.md) | Credential setup, coding agents, GPU, network policy, and custom providers |
+| [Network policy](docs/network-policy.md) | Phase-specific allowlists, default direct gateway, and optional proxy egress |
 | [Asset guide](docs/assets.md) | Downloading, verifying, and restoring fixed data and models |
 | [Benchmark design](docs/benchmark.md) | Evaluation, repository layout, and data provenance |
 | [Contributing guide](docs/contributing.md) | Task-authoring workflow, validation, and PR expectations |

@@ -28,6 +28,8 @@ missing or incompatible tools block that validation, not justify replacements.
    Independently identify the closest reviewed task precedent on the base branch.
    Check the contributor's references, structural reuse and deviations against
    current contracts, and verify task-specific values independently.
+   Keep ordinary task contributions inside their package; shared inventories
+   must not need edits.
    Check model-trial evidence and feedback against the final task revision.
    Review-stage and merge-ready checks accept pinned public upstream or official
    HF data. Verify downloads, hashes, provenance and usage terms before merging;

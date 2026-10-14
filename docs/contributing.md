@@ -127,7 +127,10 @@ for gh review, task audit and merge checks. Finish design, provenance/license,
 environment, verifier-isolation and runtime review. Update against current main
 while preserving author history, and check task names against the base and queued
 PRs. Apply review fixes, asset pins and directly necessary documentation or
-inventory changes to the task package in the same PR.
+configuration changes to the task package in the same PR. Ordinary task
+contributions stay under `tasks/<task-name>/`; shared docs and tests discover
+tasks rather than maintain task lists. Document credentials, hardware, network
+policies and validation in the task README and `task.toml`.
 
 Retain verified upstream pins; no official re-upload is required. When official
 publication is needed, use the [asset workflow](#asset-contribution-and-publication),

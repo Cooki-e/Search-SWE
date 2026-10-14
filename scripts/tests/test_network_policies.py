@@ -28,20 +28,7 @@ from scripts.run_task import CLAUDE_CODE_EFFORT_LEVELS
 
 
 REPO = Path(__file__).resolve().parents[2]
-TASK_HOSTS = ["openrouter.ai", "api.jina.ai"]
-DEEPSEEK_HOST = "api.deepseek.com"
-EXPECTED = {
-    "reasoning-query-rewriting": ("allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS),
-    "memory-constrained-dense-retrieval": ("no-network", [], "no-network", [], "allowlist", ["openrouter.ai"]),
-    "scientific-paper-qa": ("allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS, "allowlist", [*TASK_HOSTS, DEEPSEEK_HOST]),
-    "long-pdf-evidence": ("allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS),
-    "long-document-reranking": ("no-network", [], "no-network", [], "allowlist", ["openrouter.ai"]),
-    "code-embedding-finetuning": ("no-network", [], "no-network", [], "allowlist", ["openrouter.ai"]),
-    "query-encoder-alignment": ("allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS),
-    "agentic-search": ("allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS, "allowlist", TASK_HOSTS),
-    "sparse-retrieval-pruning": ("no-network", [], "no-network", [], "allowlist", ["openrouter.ai"]),
-    "rust-bm25-search": ("no-network", [], "no-network", [], "no-network", []),
-}
+TASKS = sorted(path.parent for path in (REPO / "tasks").glob("*/task.toml"))
 
 
 class TaskNetworkPolicies(unittest.TestCase):
@@ -49,33 +36,31 @@ class TaskNetworkPolicies(unittest.TestCase):
     def _policy_tuple(policy):
         return policy.network_mode.value, policy.allowed_hosts
 
-    def test_harbor_022_resolves_the_expected_phase_policies(self):
-        self.assertEqual(
-            {path.parent.name for path in (REPO / "tasks").glob("*/task.toml")},
-            set(EXPECTED),
-        )
-        for task_name, expected in EXPECTED.items():
-            with self.subTest(task=task_name):
-                path = REPO / "tasks" / task_name / "task.toml"
-                config = TaskConfig.model_validate_toml(path.read_text())
+    def test_harbor_022_honors_each_tasks_declared_phase_policies(self):
+        self.assertTrue(TASKS)
+        for task in TASKS:
+            with self.subTest(task=task.name):
+                source = (task / "task.toml").read_text()
+                declared = tomllib.loads(source)
+                config = TaskConfig.model_validate_toml(source)
                 plan = resolve_trial_network_plan(
-                    config,
-                    AgentConfig(),
-                    EnvironmentConfig(),
-                    None,
+                    config, AgentConfig(), EnvironmentConfig(), None,
                     verifier_mode=resolve_task_verifier_mode(config),
                     env_config=resolve_effective_verifier_env_config(config, None),
                 )
-                actual = (
-                    *self._policy_tuple(plan.agent_env_baseline),
-                    *self._policy_tuple(plan.agent_phase),
-                    *self._policy_tuple(plan.verifier_phase),
-                )
-                self.assertEqual(actual, expected)
+                baseline = declared["environment"]
+                for section, effective in (
+                    ("environment", plan.agent_env_baseline),
+                    ("agent", plan.agent_phase),
+                    ("verifier", plan.verifier_phase),
+                ):
+                    policy = declared.get(section, {})
+                    expected = (policy.get("network_mode", baseline.get("network_mode", "public")),
+                                policy.get("allowed_hosts", baseline.get("allowed_hosts", [])))
+                    self.assertEqual(self._policy_tuple(effective), expected)
 
     def test_allowlists_are_exact_hosts_and_compose_cannot_bypass_sidecar(self):
-        for task_name in EXPECTED:
-            task = REPO / "tasks" / task_name
+        for task in TASKS:
             config = tomllib.loads((task / "task.toml").read_text())
             for section in ("environment", "agent", "verifier"):
                 policy = config[section]
@@ -97,28 +82,17 @@ class TaskNetworkPolicies(unittest.TestCase):
                         f"{compose_path}:{service} bypasses Harbor egress control",
                     )
 
-    def test_task_resource_docs_match_the_network_profiles(self):
-        for task_name in EXPECTED:
-            resource_doc = (
-                REPO / "tasks" / task_name / "environment/docs/available_resources.md"
-            )
-            self.assertTrue(resource_doc.is_file(), task_name)
-
-        for task_name in ("memory-constrained-dense-retrieval", "long-document-reranking", "code-embedding-finetuning", "sparse-retrieval-pruning", "rust-bm25-search"):
-            text = (
-                REPO / "tasks" / task_name / "environment/docs/available_resources.md"
-            ).read_text().lower()
-            self.assertTrue("no public network" in text or "network access is disabled" in text or "offline" in text)
-
-        matrix = (REPO / "docs/network-policy.md").read_text()
-        for task_name in EXPECTED:
-            self.assertIn(f"`{task_name}`", matrix)
-        self.assertIn("--allow-agent-host", matrix)
-        self.assertIn("Harbor 0.22.0", matrix)
+    def test_each_task_owns_its_resource_documentation(self):
+        for task in TASKS:
+            with self.subTest(task=task.name):
+                self.assertTrue((task / "README.md").is_file())
+                doc = task / "environment/docs/available_resources.md"
+                self.assertTrue(doc.is_file())
+                self.assertTrue(doc.read_text().strip())
 
     def test_agent_images_pin_all_preinstalled_clis(self):
         dockerfiles = sorted((REPO / "tasks").glob("*/environment/Dockerfile"))
-        self.assertEqual(len(dockerfiles), len(EXPECTED))
+        self.assertEqual(len(dockerfiles), len(TASKS))
         for dockerfile in dockerfiles:
             text = dockerfile.read_text()
             self.assertIn("@openai/codex@${SEARCH_SWE_CODEX_VERSION}", text)

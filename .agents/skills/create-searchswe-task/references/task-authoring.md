@@ -275,6 +275,16 @@ An author-only known-good implementation may be used to validate solvability,
 but do not expose it through the environment or verifier. Do not add a public
 `solution/` unless the maintainers explicitly request it.
 
+## Task-local documentation
+
+Keep each ordinary task contribution inside `tasks/<task-name>/`. Its README
+must explain required credentials, optional submission APIs, hardware, phase
+policies, input restore, and validation commands. `task.toml` is the
+machine-readable source; `environment/docs` describes only submission-visible
+resources. Shared docs describe the framework, not a task inventory, and shared
+tests discover packages from `tasks/*/task.toml`. Do not edit shared docs/tests,
+`.env.example`, or workflow lists just to register a task.
+
 ## Validation checklist
 
 Read [validation.md](validation.md) for execution prerequisites, GPU backend

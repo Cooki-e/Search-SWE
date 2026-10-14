@@ -101,8 +101,8 @@ the run as successful.
 
 - Read the [full evaluation guide](evaluation.md) before selecting another task
   or agent. It documents Codex, Pi, and the pinned Claude Code 2.1.283 launcher,
-  and its task matrix lists exactly which additional credentials and hardware
-  each task uses.
+  and explains how to read each task's own credential, hardware and network
+  configuration.
 - Read the selected task's `README.md` and `instruction.md` for its resource
   budget, submission contract, and scoring rules.
 - Use the [asset guide](assets.md) to restore only that task's fixed inputs.

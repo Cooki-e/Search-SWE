@@ -52,8 +52,11 @@ Markdown links.
    inputs may retain verified immutable pins; publish official assets only when
    needed. Track completed stages, validation evidence and missing inputs or approvals.
    Do not duplicate the skill's specifications in this file.
-3. Keep changes within the selected task plus directly necessary integration
-   changes. Updating a website, publishing a dataset, pushing images, and opening
+3. Ordinary task contributions must be self-contained under `tasks/<task-name>/`.
+   Put credential, hardware, network and validation instructions in that package;
+   do not update shared task inventories, docs, or tests when adding a task.
+   Shared infrastructure changes require their own scope. Updating a website,
+   publishing a dataset, pushing images, and opening
    or merging a PR are separate actions, not implied by task creation.
 4. Review the resulting diff and validation evidence. Hand off changed paths,
    task objective/hardware, commands actually run, observed results, and blockers.

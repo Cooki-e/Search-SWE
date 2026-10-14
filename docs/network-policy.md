@@ -107,10 +107,9 @@ Recovery refuses active owners, foreign resources or a different Docker daemon.
 Host logs under `egress/<instance>.log` record policies and kernel counters;
 these counters are not HTTP request counts.
 
-## Current task matrix
+## Task-owned phase policies
 
-`model host` below means exactly one coding-model hostname selected by the
-launcher: the hostname in `AGENT_OPENAI_BASE_URL` for direct Codex,
+The launcher selects exactly one coding-model hostname: the hostname in `AGENT_OPENAI_BASE_URL` for direct Codex,
 `api.deepseek.com` for Pi + DeepSeek, `api.z.ai` for Pi + Z.AI, or the fixed
 `api.anthropic.com` host for direct Claude Code. With `--openrouter`, Codex and
 Claude Code use `openrouter.ai`. The launcher passes the selected host through
@@ -119,23 +118,22 @@ Codex 0.157.1, Pi 0.87.1, and Claude Code 2.1.283 are preinstalled in every
 agent image, so agent setup does not need package-registry or general internet
 access.
 
-| Task | Task/runtime requirement | `[environment]` baseline | Effective agent phase | Verifier phase |
-| --- | --- | --- | --- | --- |
-| `reasoning-query-rewriting` | OpenRouter/Jina resources only | allowlist: `openrouter.ai`, `api.jina.ai` | task hosts + model host | task hosts (OpenRouter also serves the trajectory judge) |
-| `memory-constrained-dense-retrieval` | Fully local vector retrieval | no network | model host only | `openrouter.ai` only |
-| `scientific-paper-qa` | OpenRouter/Jina RAG resources | allowlist: `openrouter.ai`, `api.jina.ai` | task hosts + model host | task hosts + `api.deepseek.com`; OpenRouter serves the trajectory judge; the separate answer judge may use either allowed provider |
-| `long-pdf-evidence` | OpenRouter/Jina resources only | allowlist: `openrouter.ai`, `api.jina.ai` | task hosts + model host | task hosts (OpenRouter also serves the trajectory judge) |
-| `long-document-reranking` | Fixed local reranker only | no network | model host only | `openrouter.ai` only |
-| `code-embedding-finetuning` | Explicitly offline training | no network | model host only | `openrouter.ai` only |
-| `query-encoder-alignment` |  OpenRouter/Jina resources only | allowlist: `openrouter.ai`, `api.jina.ai` | task hosts + model host | task hosts (OpenRouter also serves the trajectory judge) |
-| `agentic-search` | OpenRouter/Jina resources only | allowlist: `openrouter.ai`, `api.jina.ai` | task hosts + model host | task hosts only; no model judge |
-| `sparse-retrieval-pruning` | Offline index building and search | no network | model host only | `openrouter.ai` only |
-| `rust-bm25-search` | Offline Rust BM25 indexing and search | no network | model host only | no network; deterministic verifier |
+Each task declares its policy in `tasks/<task-name>/task.toml`, with the
+submission-facing restrictions explained in its own
+`environment/docs/available_resources.md`. No central task matrix is maintained.
 
-Allowing the judge endpoint does not expose verifier credentials to submitted
-commands. `scientific-paper-qa` similarly removes both judge credential groups before
-running submission code. Submission API keys are injected only for tasks whose
-resource policy permits those APIs.
+| Configuration | Scope |
+| --- | --- |
+| `[environment]` | Baseline policy for the task environment |
+| `[agent]` | Agent-phase override; the launcher adds only its coding-model host |
+| `[verifier]` | Separate verifier policy, including any required judge endpoints |
+
+Verifiers that use the trajectory judge permit `openrouter.ai` for it.
+That permission does not authorize the submitted program to call it. Offline
+submissions must remain offline inside the verifier using task-local process
+confinement; other submissions receive only their documented API credentials.
+Always exclude trajectory and answer-judge credentials from submitted processes.
+The task README documents required host environment variables and its confinement.
 
 ## Direct Harbor runs
 

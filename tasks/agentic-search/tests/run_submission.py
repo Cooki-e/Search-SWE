@@ -17,13 +17,6 @@ from pathlib import Path
 from typing import Any
 
 
-PRIVATE_ENV_NAMES = {
-    "API_KEY",
-    "MODEL_API",
-    "MODEL_NAME",
-    "OPENAI_API_KEY",
-    "ANTHROPIC_API_KEY",
-}
 AGENT_API_NAMES = {
     "OPENROUTER_API_KEY",
     "JINA_API_KEY",
@@ -34,13 +27,10 @@ UNTRUSTED_GID = 65534
 
 
 def submission_env() -> dict[str, str]:
-    env = os.environ.copy()
-    for key in list(env):
-        upper = key.upper()
-        if key in AGENT_API_NAMES:
-            continue
-        if key in PRIVATE_ENV_NAMES or upper.startswith("SILICONFLOW_") or upper.endswith("_API_KEY") or any(token in upper for token in ("SECRET", "PASSWORD")):
-            env.pop(key, None)
+    # Allow only runtime basics and the explicitly permitted submission APIs.
+    # Judge/coding-agent credentials and endpoint settings never cross this boundary.
+    names = AGENT_API_NAMES | {"PATH", "LANG", "LC_ALL", "PYTHONUNBUFFERED", "REACT_MODEL"}
+    env = {name: os.environ[name] for name in names if name in os.environ}
     env["HOME"] = "/tmp/agentic-search-submission-home"
     env["TMPDIR"] = "/tmp"
     return env

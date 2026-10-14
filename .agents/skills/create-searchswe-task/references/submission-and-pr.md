@@ -66,7 +66,7 @@ sources and licenses. Separately authorize code execution, API/GPU costs and
 credentialed runtime tests. Track each required check for the reviewed head.
 
 Refresh the base and check names against queued PRs. Apply review fixes and
-necessary inventory or documentation changes in the contribution branch,
+task-local documentation and configuration changes in the contribution branch,
 preserving original author commits. Verify downloads, hashes, provenance and
 usage terms for pinned upstream or official data. No official re-upload is
 required for public upstream inputs. When official hosting is needed, follow

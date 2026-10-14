@@ -22,21 +22,35 @@ class RunnerTests(unittest.TestCase):
             "MODEL_NAME": "private-model",
             "OTHER_API_KEY": "other-secret",
             "OPENAI_API_KEY": "agent-secret",
+            "OPENAI_BASE_URL": "https://judge.invalid/v1",
+            "VERIFIER_OPENAI_API_KEY": "judge-secret",
+            "VERIFIER_OPENAI_BASE_URL": "https://judge.invalid/v1",
+            "AGENT_OPENAI_API_KEY": "coding-agent-secret",
+            "ANSWER_JUDGE_API_KEY": "answer-judge-secret",
             "SILICONFLOW_API_KEY": "removed-provider-key",
             "SILICONFLOW_API_BASE_URL": "https://removed-provider.invalid/v1",
             "OPENROUTER_API_KEY": "allowed-openrouter-key",
             "JINA_API_KEY": "allowed-jina-key",
-            "SAFE_VALUE": "kept",
+            "PYTHONUNBUFFERED": "1",
+            "UNDECLARED_VALUE": "removed",
+            "REACT_MODEL": "qwen/qwen3.5-9b",
         }
         with patch.dict(os.environ, values, clear=True):
             env = RUNNER.submission_env()
-        self.assertEqual(env["SAFE_VALUE"], "kept")
+        self.assertEqual(env["PYTHONUNBUFFERED"], "1")
+        self.assertEqual(env["REACT_MODEL"], "qwen/qwen3.5-9b")
         for key in (
             "API_KEY",
             "MODEL_API",
             "MODEL_NAME",
             "OTHER_API_KEY",
             "OPENAI_API_KEY",
+            "OPENAI_BASE_URL",
+            "VERIFIER_OPENAI_API_KEY",
+            "VERIFIER_OPENAI_BASE_URL",
+            "AGENT_OPENAI_API_KEY",
+            "ANSWER_JUDGE_API_KEY",
+            "UNDECLARED_VALUE",
             "SILICONFLOW_API_KEY",
             "SILICONFLOW_API_BASE_URL",
         ):

@@ -9,12 +9,12 @@ otherwise.
 Search-SWE separates four kinds of configuration:
 
 1. **Coding-agent credentials** run Codex, Pi, or Claude Code.
-2. **Verifier credentials** run the private trajectory judge used by most tasks.
-3. **Answer-judge credentials** are used only by `scientific-paper-qa`.
+2. **Verifier credentials** run the private trajectory judge when configured by the task.
+3. **Answer-judge credentials** are needed when the task grades answer equivalence.
 4. **Submission-resource credentials** expose task-permitted OpenRouter or Jina
    APIs to the agent's implementation; they are not coding-agent credentials.
 
-Configure only the groups used by the selected row below. On a non-dry run, the
+Configure the groups declared by the selected task. On a non-dry run, the
 repository launcher enforces required agent and judge groups, while task-resource
 keys may remain unset when the submission does not call those optional services.
 
@@ -56,24 +56,24 @@ The matching reproducible build contexts live in [`docker/cpu`](../docker/cpu)
 and [`docker/gpu`](../docker/gpu). Normal evaluation does not require rebuilding
 the shared images locally.
 
-## Select a task profile
+## Select a task
 
-| Task | Hardware | Trajectory judge | Answer judge | Optional submission APIs |
-| --- | --- | --- | --- | --- |
-| `reasoning-query-rewriting` | CPU | Yes | — | `REASONING_QUERY_REWRITING_OPENROUTER_API_KEY`, `JINA_API_KEY` |
-| `memory-constrained-dense-retrieval` | CPU | Yes | — | — |
-| `scientific-paper-qa` | CPU | Yes | Yes | `OPENROUTER_API_KEY`, `JINA_API_KEY` |
-| `long-pdf-evidence` | CPU | Yes | — | `OPENROUTER_API_KEY`, `JINA_API_KEY` |
-| `long-document-reranking` | CPU | Yes | — | — |
-| `code-embedding-finetuning` | 1 NVIDIA GPU | Yes | — | — |
-| `query-encoder-alignment` | 1 NVIDIA GPU | Yes | — | — |
-| `agentic-search` | CPU | — | — | `OPENROUTER_API_KEY`, `JINA_API_KEY` |
-| `sparse-retrieval-pruning` | CPU | Yes | — | — |
-| `rust-bm25-search` | CPU | — | — | — |
+Tasks are discovered from `tasks/*/task.toml`; adding a task does not require a
+shared task registry or edits to this guide. List available names with
+`python scripts/run_task.py --help`. Each package owns its configuration:
 
-The table identifies credential groups, not the complete resource budget. Read
-`tasks/TASK_NAME/README.md` and `task.toml` before launching. In particular,
-memory, storage, time limits, and asset sizes vary substantially by task.
+- `README.md`: setup, required credential variables, hardware, and validation.
+- `task.toml`: resource budgets, artifact transfer, phase-specific network
+  policies, and environment-variable mappings.
+- `environment/docs/available_resources.md`: APIs/models the submission may use.
+- `tests/jailbreak_judge/codex.toml`: the trajectory integrity rubric, when used.
+
+Judge and submission API credentials are task-specific; consult the package
+before launching. Configure trajectory-judge credentials when `task.toml` maps
+`VERIFIER_OPENAI_*` into `[verifier.env]`.
+Add task-specific variables to your ignored `.env` or `--env-file` as documented
+by the task. Shared `.env.example` contains common settings and examples, not an
+exhaustive inventory. Memory, storage, time limits and asset sizes vary by task.
 
 ## Environment-file behavior
 
@@ -135,7 +135,7 @@ Remove `--dry-run` to launch. This mode fixes Codex's Responses base URL to
 `https://openrouter.ai/api`. Claude Code accepts only `anthropic/` slugs here.
 The launcher permits `openrouter.ai` in restricted Agent phases and keeps the
 OpenRouter Agent key separate from `OPENROUTER_API_KEY` for submissions and
-`ANSWER_JUDGE_API_KEY` for scientific-paper-qa. Verifier configuration is unchanged.
+`ANSWER_JUDGE_API_KEY` when declared by the task. Verifier configuration is unchanged.
 When using Codex, omit `--codex-config`; the launcher supplies the required
 native provider configuration and ignores the direct mode's `AGENT_CODEX_CONFIG`.
 
@@ -214,7 +214,7 @@ steps and observations. Failed runs are exported before the error is reported.
 
 ## Configure judges
 
-All current tasks except `agentic-search` and `rust-bm25-search` use the trajectory judge. Add:
+For a task that uses the trajectory judge, add:
 
 ```dotenv
 VERIFIER_OPENAI_BASE_URL=https://openrouter.ai/api/v1
@@ -241,8 +241,8 @@ submission process environment; keep verifier logs private as you would for
 any authenticated client. The backend uses the
 [OpenRouter Responses API](https://openrouter.ai/docs/api/api-reference/responses/create-responses).
 
-`scientific-paper-qa` additionally uses a Chat Completions-compatible answer-equivalence
-judge:
+A task may additionally declare a Chat Completions-compatible answer-equivalence
+judge. When its `task.toml` declares this group, configure:
 
 ```dotenv
 ANSWER_JUDGE_MODEL_NAME=YOUR_ANSWER_JUDGE_MODEL
@@ -250,8 +250,8 @@ ANSWER_JUDGE_BASE_URL=https://openrouter.ai/api/v1
 ANSWER_JUDGE_API_KEY=YOUR_ANSWER_JUDGE_KEY
 ```
 
-No other current task uses this group. `scientific-paper-qa` restricts this judge to the
-already permitted `openrouter.ai` host.
+Choose an endpoint allowed by that task's `[verifier].allowed_hosts`. Answer
+and trajectory judges are separate credential groups; configure the ones the task declares.
 
 ## Configure optional submission APIs
 
@@ -259,19 +259,16 @@ Set these only when the selected task and intended submission use the permitted
 external resources documented in `tasks/TASK_NAME/environment/docs/available_resources.md`.
 They do not select the coding-agent or judge model.
 
-`scientific-paper-qa`, `long-pdf-evidence`, and `agentic-search` use the shared variables:
+For tasks that declare the shared OpenRouter/Jina resources, for example:
 
 ```dotenv
 OPENROUTER_API_KEY=YOUR_OPENROUTER_KEY
 JINA_API_KEY=YOUR_JINA_KEY
 ```
 
-`reasoning-query-rewriting` uses a separate OpenRouter credential and the shared Jina credential:
-
-```dotenv
-REASONING_QUERY_REWRITING_OPENROUTER_API_KEY=YOUR_RESTRICTED_OPENROUTER_KEY
-JINA_API_KEY=YOUR_JINA_KEY
-```
+A task may declare other or namespaced variables. Use its `[environment.env]`
+and `[verifier.env]` mappings and task-local documentation; do not add the task
+to a shared credential table.
 
 Leaving an optional key empty means the submission cannot use that service.
 It does not authorize substituting another provider or model; each task's
@@ -279,7 +276,7 @@ resource document is the source of truth.
 
 ## GPU tasks
 
-`code-embedding-finetuning` and `query-encoder-alignment` require one NVIDIA GPU. Their images use CUDA 13.0 and require
+Tasks with `environment.gpus = 1` require one NVIDIA GPU. Their images use CUDA 13.0 and require
 a compatible NVIDIA driver and Container Toolkit. Both task and verifier
 Compose overlays request the real GPU.
 
@@ -292,7 +289,7 @@ with that Harbor version. Recheck this workaround when upgrading Harbor.
 
 ## Runtime network enforcement
 
-Every current task uses a restricted agent or verifier phase, so the launcher
+For a restricted agent or verifier phase, the launcher
 automatically selects the direct gateway and pulls its image if missing. For an
 upstream HTTP(S) proxy, configure `EGRESS_CONFIG` using the
 [network guide](network-policy.md); proxy mode rejects public phases. Keep
@@ -301,9 +298,9 @@ destinations and would defeat Harbor's hostname policy, so the launcher rejects
 it. Configure image-pull and Docker build proxies separately at the Docker
 layer; those operations occur before untrusted task execution.
 
-See the [per-task network matrix](network-policy.md) for each environment,
-agent, and verifier policy; Harbor field semantics; the exact OpenRouter, Jina,
-DeepSeek, Anthropic, and other coding-model hosts; and direct-Harbor guidance.
+See the [network guide](network-policy.md) for phase semantics, coding-model
+host selection, and direct-Harbor guidance. The selected task's `task.toml`
+defines its actual environment, agent, and verifier policies.
 
 ## Preview and launch
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run Task agentic-search and write its Gold Recall@5 as the Harbor reward."""
+"""Write the deterministic task score; trajectory_gate.py publishes the reward."""
 
 from __future__ import annotations
 
@@ -28,8 +28,8 @@ def write_reward(report: dict) -> float:
     reward = bounded(metric.get("value", 0.0)) if metric.get("name") == "GoldRecall@5" else 0.0
     verifier = REWARD_DIR
     verifier.mkdir(parents=True, exist_ok=True)
-    (verifier / "reward.txt").write_text(f"{reward:.10f}\n", encoding="utf-8")
-    (verifier / "reward.json").write_text(
+    (verifier / "task-score.txt").write_text(f"{reward:.10f}\n", encoding="utf-8")
+    (verifier / "task-score.json").write_text(
         json.dumps(
             {
                 "gold_recall_at_5": reward,

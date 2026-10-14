@@ -13,7 +13,7 @@ SPEC.loader.exec_module(VERIFY)
 
 
 class RewardTests(unittest.TestCase):
-    def test_harbor_receives_only_gold_recall(self):
+    def test_grader_records_raw_recall_without_publishing_final_reward(self):
         cases = [
             ({"valid": True, "primary_metric": {"name": "GoldRecall@5", "value": 0.7}}, 0.7),
             ({"valid": False, "primary_metric": {"name": "GoldRecall@5", "value": 1}}, 0.0),
@@ -27,8 +27,10 @@ class RewardTests(unittest.TestCase):
                 for report, expected in cases:
                     with self.subTest(report=report):
                         self.assertEqual(VERIFY.write_reward(report), expected)
-                        self.assertEqual(float((root / "reward.txt").read_text()), expected)
-                        self.assertEqual(json.loads((root / "reward.json").read_text()), {"gold_recall_at_5": expected})
+                        self.assertEqual(float((root / "task-score.txt").read_text()), expected)
+                        self.assertEqual(json.loads((root / "task-score.json").read_text()), {"gold_recall_at_5": expected})
+                        self.assertFalse((root / "reward.txt").exists())
+                        self.assertFalse((root / "reward.json").exists())
 
 
 if __name__ == "__main__":

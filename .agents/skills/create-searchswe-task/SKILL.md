@@ -67,7 +67,9 @@ contain lowercase letters/digits and single hyphens, and have at most five words
 Choose a concise description; the `task-` prefix and `all` are reserved. Check
 names against `tasks/` on the base branch and active PRs. Repeat `--author` for
 actual coauthors. The helper protects existing files and rejects symlink roots.
-Revise existing packages in place.
+Revise existing packages in place. Keep ordinary contributions inside
+`tasks/<task-name>/`: package-local docs/configuration are the source of truth,
+and shared tests discover tasks automatically. Do not add shared task inventories.
 
 One PR may add multiple uniquely named tasks. Follow the
 [branch and PR workflow](references/submission-and-pr.md): review and validate

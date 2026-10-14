@@ -63,7 +63,7 @@ python scripts/download_assets.py --task reasoning-query-rewriting --verify-only
 
 ### 3. 配置智能体与验证器
 
-仓库跟踪的模板已经列出所有支持的凭证，并注明每个变量何时需要。复制一次即可；
+仓库跟踪的模板说明通用凭证；各任务的 README 和 `task.toml` 说明额外配置。复制一次即可；
 真实密钥只填写到被 Git 忽略的 `.env` 中：
 
 ```bash
@@ -81,8 +81,7 @@ VERIFIER_OPENAI_API_KEY=YOUR_OPENROUTER_KEY
 ```
 
 `DEEPSEEK_API_KEY` 用于 `deepseek/deepseek-flash` 的 Pi 智能体认证；`VERIFIER_*`
-通过 RewardKit 0.2.0 和 OpenRouter 运行固定为 `deepseek/deepseek-v4.1-flash` 的独立轨迹评审，除 `agentic-search` 和 `rust-bm25-search`
-外的所有任务都需要。`VERIFIER_OPENAI_API_KEY` 使用 OpenRouter 密钥，Pi 智能体
+通过 RewardKit 0.2.0 和 OpenRouter 运行固定为 `deepseek/deepseek-v4.1-flash` 的独立轨迹评审；在 `task.toml` 中声明了 `VERIFIER_OPENAI_*` 的任务需要配置。`VERIFIER_OPENAI_API_KEY` 使用 OpenRouter 密钥，Pi 智能体
 使用独立的 DeepSeek 密钥；启动器只把 verifier 凭据传进 verifier 容器。
 
 其他运行方式只需填写 `.env` 中对应的分组：
@@ -94,13 +93,13 @@ VERIFIER_OPENAI_API_KEY=YOUR_OPENROUTER_KEY
   默认使用 Anthropic 官方 API。
 - OpenRouter Agent 模式：设置 `AGENT_OPENROUTER_API_KEY`，并为 Codex 或
   Claude Code 指定 `--openrouter` 和完整的 `provider/model` 模型 ID。
-- `scientific-paper-qa`：还必须填写三个 `ANSWER_JUDGE_*` 变量。
-- 可选 submission API：只在 `.env.example` 注释所列任务确实使用时，填写
+- 配置答案评审的任务：填写任务声明的 `ANSWER_JUDGE_*` 变量。
+- 可选 submission API：只在所选任务 README 和资源文档允许且确实使用时，填写
   `REASONING_QUERY_REWRITING_OPENROUTER_API_KEY`、`OPENROUTER_API_KEY` 或 `JINA_API_KEY`。
 
 需要代理时，按[网络配置](docs/network-policy.md)设置 `.env` 的 `EGRESS_CONFIG`，否则留空。
 
-凭证隔离、自定义服务地址、网络权限和完整的逐任务配置矩阵见
+凭证隔离、自定义服务地址、网络权限和任务配置的读取方法见
 [评测指南](docs/evaluation.md)。
 
 ### 4. 使用 Pi 和 DeepSeek Flash 运行
@@ -197,7 +196,7 @@ bash scripts/run_task.sh --task reasoning-query-rewriting --agent claude-code --
 
 其他自定义 gateway、订阅 OAuth、Bedrock、Vertex、ACP 和自定义 Claude settings
 仍不受支持。默认 Codex
-流程见[快速开始指南](docs/quickstart.md)；各任务的凭证与硬件矩阵，以及 GPU、
+流程见[快速开始指南](docs/quickstart.md)；凭证配置、GPU、
 网络权限和自定义模型服务配置见[评测指南](docs/evaluation.md)。
 
 </details>
@@ -207,8 +206,8 @@ bash scripts/run_task.sh --task reasoning-query-rewriting --agent claude-code --
 | 文档 | 内容 |
 | --- | --- |
 | [快速开始指南](docs/quickstart.md) | 完整的一次 CPU 评测流程 |
-| [评测指南](docs/evaluation.md) | 各任务凭证、编码智能体、GPU、网络策略和自定义模型服务 |
-| [网络权限](docs/network-policy.md) | 各任务的 host allowlist、默认直连网关与可选代理出口 |
+| [评测指南](docs/evaluation.md) | 凭证配置、编码智能体、GPU、网络策略和自定义模型服务 |
+| [网络权限](docs/network-policy.md) | 各阶段的 host allowlist、默认直连网关与可选代理出口 |
 | [资源说明](docs/assets.md) | 固定数据与模型的下载、校验和恢复 |
 | [基准设计](docs/benchmark.md) | 评测方式、仓库结构和数据来源 |
 | [贡献指南](docs/contributing.md) | 任务创作流程、验证要求和 PR 说明 |

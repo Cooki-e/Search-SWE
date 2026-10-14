@@ -54,11 +54,11 @@ Also inspect untracked files with `git status --short` because `git diff` does
 not include them. The release checker inspects structure and manifests, not
 solvability, full Harbor schema compatibility, or reward correctness.
 
-The current `scripts/tests/test_task_images.py` includes an explicit `GPU_TASKS`
-inventory. Adding a GPU task may require updating that expected inventory as a
-direct integration change, while retaining image/resource consistency checks.
-Do not lower assertions to make a wrongly configured task pass. Download and
-launch commands discover task names from `tasks/*/task.toml` automatically.
+Shared tests, download and launch commands discover tasks automatically from
+`tasks/*/task.toml`. Hardware and network checks use each package's declared
+configuration. Add task-specific regressions inside the package, not shared
+task-name inventories. Do not weaken
+assertions to make a wrongly configured task pass.
 Use `--task <task-name>` for each trial. Before merge, run
 `python scripts/check_tasks.py --merge-ready --base FULL_PR_BASE_SHA` to check
 package syntax, new-task authors, pinned upstream/official sources and official

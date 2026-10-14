@@ -93,6 +93,7 @@ at the agreed budget or an unmet prerequisite. Retry a terminal infrastructure
 failure only after a relevant correction; preserve completed usable trials.
 
 Final readiness additionally requires `python scripts/check_tasks.py
---merge-ready --base FULL_PR_BASE_SHA`, updated inventories including GPU tests,
+--merge-ready --base FULL_PR_BASE_SHA`, task-local documentation and automatically
+discovered GPU/network/judge tests,
 verified immutable asset pins and head-specific required checks. Static CI alone
 cannot establish solvability, fair heldout evaluation, licensing or isolation.
