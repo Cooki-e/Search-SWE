@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Linux-only launcher: drop privileges and restrict candidate file access.
+"""Linux-only launcher: drop privileges and restrict candidate state access.
 
-Requires Landlock ABI >= 1. Fail closed when filesystem confinement is absent.
+Requires Landlock ABI >= 1 and seccomp filters; missing confinement fails closed.
 The outer verifier container supplies CPU, memory, PID and network limits.
 """
 
 import ctypes
+import errno
 import os
 import resource
 import sys
@@ -25,6 +26,57 @@ class Ruleset(ctypes.Structure):
 class PathRule(ctypes.Structure):
     _pack_ = 1
     _fields_ = [("allowed_access", ctypes.c_uint64), ("parent_fd", ctypes.c_int32)]
+
+
+class SockFilter(ctypes.Structure):
+    _fields_ = [("code", ctypes.c_ushort), ("jt", ctypes.c_ubyte),
+                ("jf", ctypes.c_ubyte), ("k", ctypes.c_uint32)]
+
+
+class SockFprog(ctypes.Structure):
+    _fields_ = [("len", ctypes.c_ushort), ("filter", ctypes.POINTER(SockFilter))]
+
+
+def restrict_persistent_state():
+    """Disallow state that can outlive a candidate without being index bytes.
+
+    Applied before exec in *every* candidate phase and inherited by children.
+    Ordinary Rust threads, anonymous mappings and file-backed mmap still work.
+    Syscall numbers use Linux arch/x86/entry/syscalls/syscall_64.tbl; reject
+    other ABIs, including x32 (which shares the x86_64 audit architecture).
+    """
+    if os.uname().machine != "x86_64":
+        raise RuntimeError("This pinned Rust runtime supports Linux x86_64")
+    denied = [
+        29, 30, 31, 67,           # shmget, shmat, shmctl, shmdt
+        64, 65, 66, 220,          # semget, semop, semctl, semtimedop
+        68, 69, 70, 71,           # msgget, msgsnd, msgrcv, msgctl
+        240, 241, 242, 243, 244, 245,  # POSIX message queues
+        248, 249, 250,            # add_key, request_key, keyctl
+        # Landlock does not mediate xattr reads, including on outside paths.
+        *range(188, 200),         # set/get/list/remove xattr, l* and f* forms
+        425, 426, 427,            # io_uring can issue xattr operations indirectly
+        463, 464, 465, 466,       # *xattrat variants (Linux >= 6.13)
+    ]
+    deny = 0x00050000 | errno.EPERM  # SECCOMP_RET_ERRNO
+    instructions = [
+        (0x20, 0, 0, 4),           # BPF_LD W ABS: seccomp_data.arch
+        (0x15, 1, 0, 0xC000003E),  # BPF_JMP JEQ: AUDIT_ARCH_X86_64
+        (0x06, 0, 0, 0x80000000),  # SECCOMP_RET_KILL_PROCESS for other ABIs
+        (0x20, 0, 0, 0),           # seccomp_data.nr
+        (0x45, 0, 1, 0x40000000),  # BPF_JMP JSET: __X32_SYSCALL_BIT
+        (0x06, 0, 0, deny),
+    ]
+    for number in sorted(denied):
+        instructions += [(0x15, 0, 1, number), (0x06, 0, 0, deny)]
+    instructions.append((0x06, 0, 0, 0x7FFF0000))  # SECCOMP_RET_ALLOW
+    filters = (SockFilter * len(instructions))(*(SockFilter(*i) for i in instructions))
+    program = SockFprog(len(filters), filters)
+    libc = ctypes.CDLL(None, use_errno=True)
+    if libc.prctl(38, 1, 0, 0, 0) != 0:  # PR_SET_NO_NEW_PRIVS
+        raise OSError(ctypes.get_errno(), "Cannot set no_new_privs")
+    if libc.prctl(22, 2, ctypes.byref(program), 0, 0) != 0:  # PR_SET_SECCOMP, FILTER
+        raise OSError(ctypes.get_errno(), "Cannot restrict persistent IPC and xattrs")
 
 
 def confine(rules):
@@ -106,10 +158,7 @@ def main():
     # additional filesystem confinement on every supported ABI.
     if mode == "search":
         confine(rules)
-    else:
-        libc = ctypes.CDLL(None, use_errno=True)
-        if libc.prctl(38, 1, 0, 0, 0) != 0:
-            raise OSError(ctypes.get_errno(), "Cannot set no_new_privs")
+    restrict_persistent_state()
     os.execvpe(command[0], command, os.environ)
 
 

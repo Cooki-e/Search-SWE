@@ -17,6 +17,7 @@ import signal
 import subprocess
 import time
 from pathlib import Path
+from itertools import chain
 
 from evaluate import InvalidSubmission, validate_response
 
@@ -29,13 +30,17 @@ def sha256(path: Path) -> str:
 
 
 def index_bytes(directory: Path) -> int:
-    """Logical sizes of all required index artifacts, rejecting external links."""
+    """Logical file bytes; links, special files and uncounted xattrs are invalid."""
     if not directory.is_dir() or directory.is_symlink():
         raise ValueError("Index must be a real directory")
     total = 0
-    for path in directory.rglob("*"):
+    for path in chain([directory], directory.rglob("*")):
         if path.is_symlink():
             raise ValueError(f"Index may not contain symlinks: {path}")
+        # Check the root and every directory too. Do not ignore permission or
+        # filesystem errors: an index whose metadata cannot be checked fails.
+        if os.listxattr(path, follow_symlinks=False):
+            raise ValueError(f"Index may not contain extended attributes: {path}")
         if path.is_file():
             if path.stat().st_nlink != 1:
                 raise ValueError(f"Index may not contain hard links: {path}")

@@ -166,6 +166,29 @@ class ProtocolTests(unittest.TestCase):
         with patch("grader.os.walk", changing_walk):
             self.assertEqual(tree_bytes(self.directory), 0)
 
+    def test_index_size_rejects_xattrs_on_root_directories_and_files(self):
+        index = self.directory / "index"
+        index.mkdir()
+        nested = index / "nested"
+        nested.mkdir()
+        postings = nested / "postings"
+        postings.write_bytes(b"x")
+        for path in [index, nested, postings]:
+            with self.subTest(path=path):
+                os.setxattr(path, "user.hidden-index", b"x" * 2048)
+                try:
+                    with self.assertRaisesRegex(ValueError, "extended attributes"):
+                        index_bytes(index)
+                finally:
+                    os.removexattr(path, "user.hidden-index")
+        self.assertEqual(index_bytes(index), 1)
+
+    def test_index_xattr_check_fails_closed(self):
+        (self.directory / "postings").write_bytes(b"x")
+        with patch("benchmark.os.listxattr", side_effect=PermissionError("denied")):
+            with self.assertRaises(PermissionError):
+                index_bytes(self.directory)
+
     def test_workspace_monitor_rejects_excess_bytes(self):
         (self.directory / "oversized").write_bytes(b"123456")
         with self.assertRaises(InvalidSubmission):

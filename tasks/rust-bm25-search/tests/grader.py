@@ -214,6 +214,10 @@ def main():
         abi = ctypes.CDLL(None, use_errno=True).syscall(444, 0, 0, 1)
         if abi < 1:
             raise RuntimeError("Verifier requires Linux Landlock ABI >= 1")
+        # Exercise the same unprivileged launcher before considering a source
+        # submission. A missing seccomp facility must invalidate the run.
+        subprocess.run([sys.executable, str(TESTS / "isolate.py"), "compile", "/bin/true"],
+                       cwd=WORK, env=ENV, check=True, timeout=10, capture_output=True)
         pinned = json.loads((TESTS / "reference-quality.json").read_text())
         for name, key in [("corpus.jsonl.gz", "corpus_sha256"), ("warmup.jsonl.gz", "warmup_sha256")]:
             if sha256(Path("/task/data") / name) != pinned["inputs"][key]:

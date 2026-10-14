@@ -4,7 +4,7 @@ CPU-only Linux x86_64: 4 CPUs, 16 GiB container memory including children and
 page cache, 64 GiB workspace, 256 PIDs, no runtime network. Agent budget:
 10,800 seconds. Both phases use
 `docker.io/hanhainebula/search-swe-base:cpu-py3.12-1.0.0`.
-The verifier host must provide Linux Landlock ABI 1 or newer.
+The verifier host must provide Linux Landlock ABI 1 or newer and seccomp filters.
 Submitted commands additionally have a 128-process/thread UID limit and 1,024
 file descriptors. Compilation/indexing output files are capped at 16 GiB each;
 each search diagnostic file is capped at 16 MiB.
@@ -26,6 +26,10 @@ complete protocol, measurement procedure and file limits.
 
 Search runs as UID 10001. It can read the immutable index, executable and
 necessary system libraries; raw corpus and writable caches are unavailable.
+All candidate phases block persistent System V IPC, POSIX message queues,
+kernel keyrings, extended-attribute operations and io_uring. Ordinary Rust
+threads and file-backed mmap remain available. Index files, directories and
+the index root must have no extended attributes.
 Each cold sample starts a fresh process without query warmup. OS file caches
 are not cleared. Stdout is JSONL only; diagnostics may use stderr.
 

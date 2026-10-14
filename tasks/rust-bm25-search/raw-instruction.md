@@ -19,7 +19,7 @@ Measure startup without query warmup and resident memory as well.
   Neither is supplied to the agent. MS MARCO dataset terms apply.
 - Linux x86_64; 4 CPUs; no GPU or network; 16 GiB container memory including
   children and page cache; 64 GiB working storage; 256 container PIDs.
-  Agent budget: 10,800 seconds. Verifier host requires Landlock support.
+  Agent budget: 10,800 seconds. Verifier host requires Landlock and seccomp filter support.
   Submitted commands are limited to 128 processes/threads for their UID,
   1,024 file descriptors, and 16 GiB per output file during compile/index.
   Each search diagnostic file is limited to 16 MiB.
@@ -54,8 +54,9 @@ Measure startup without query warmup and resident memory as well.
   can be used; no packages are downloaded during execution.
 - Index command: `bm25-search index --corpus /task/data/corpus.jsonl.gz --index /work/index --threads 4`.
   The directory exists and is empty. Build all persistent state there from the
-  corpus within 7,200 seconds and 16 GiB of logical bytes. No links or special
-  files. Workspace is limited to 64 GiB and 100,000 entries. Index becomes read-only.
+  corpus within 7,200 seconds and 16 GiB of logical bytes. No links, special
+  files or extended attributes, including on the index root and subdirectories.
+  Workspace is limited to 64 GiB and 100,000 entries. Index becomes read-only.
 - Search command: `bm25-search search --index /work/index --threads 4`.
   Persistent stdin/stdout JSONL protocol: request
   `{"query_id":"example","text":"example query"}`; response
@@ -65,7 +66,10 @@ Measure startup without query warmup and resident memory as well.
   bytes; responses including newline at most 65,536 bytes. Return zero to ten
   unique valid IDs with finite numeric scores descending; deterministic ties
   are allowed. Exit cleanly within five seconds of stdin EOF. No query-file or label-file dependency.
-- Commands run without grading privileges. Search can read only its compiled
+- Commands run without grading privileges. Persistent System V IPC, POSIX
+  message queues, kernel keyrings, extended-attribute operations and io_uring
+  are unavailable in all phases; ordinary Rust threads and file-backed memory
+  mapping are supported. Search can read only its compiled
   executable, immutable index and required system libraries. Corpus, source,
   compiler caches, hidden data and writable cache directories are unavailable.
   Stdout/stderr remain usable. State must be in the index or computed from it in RAM.
