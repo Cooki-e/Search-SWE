@@ -111,12 +111,12 @@ def check_release(repo, hf_data=None, verify_data=False, allow_unpublished=False
                 errors.append(f"Possible credential in Git file: {name} (value omitted)")
         if runtime_paths:
             ignored = subprocess.run(
-                ["git", "check-ignore", "--no-index", "--stdin"], cwd=repo,
-                input="\n".join(runtime_paths) + "\n", capture_output=True, text=True,
+                ["git", "check-ignore", "--no-index", "--stdin", "-z"], cwd=repo,
+                input="\0".join(runtime_paths) + "\0", capture_output=True, text=True,
             )
             if ignored.returncode not in (0, 1):
                 errors.append("Could not verify Git ignore rules.")
-            for name in sorted(set(runtime_paths) - set(ignored.stdout.splitlines())):
+            for name in sorted(set(runtime_paths) - set(ignored.stdout.split("\0"))):
                 errors.append(f"Runtime asset is not ignored by Git: {name}")
     except (OSError, subprocess.CalledProcessError):
         errors.append("Git file checks require a Git checkout and the git executable.")
