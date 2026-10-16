@@ -11,7 +11,7 @@ from pathlib import Path
 
 from check_release import check_release
 from download_assets import REPO, read_manifest
-from task_paths import no_symlinks, safe_path, select_task
+from task_paths import TASK_NAME_RE, no_symlinks, safe_path, select_task
 
 
 def discover(repo):
@@ -78,8 +78,15 @@ def check_package(repo, task, *, require_authors=True, merge_ready=False):
                 if (source.get("repo_type") == "dataset"
                         and source.get("repo_id") == "search-swe/Search-SWE"
                         and "local_path" not in source):
-                    if not source.get("filename", "").startswith(f"tasks/{task.name}/"):
-                        errors.append(f"{entry['path']}: official data must use tasks/{task.name}/")
+                    # Published inputs may be shared by multiple task packages.
+                    # The publishing helper restricts *new* files to their owner's
+                    # namespace; consumers retain the original immutable source.
+                    filename = source.get("filename", "")
+                    path = Path(filename)
+                    if (path.as_posix() != filename or len(path.parts) < 3
+                            or path.parts[0] != "tasks"
+                            or not TASK_NAME_RE.fullmatch(path.parts[1])):
+                        errors.append(f"{entry['path']}: official data must use tasks/<source-task-name>/<file>")
         # Only parse source files; do not execute Python, shell, Docker or verifiers.
         candidates = subprocess.run(
             ["git", "ls-files", "--cached", "--others", "--exclude-standard", "-z", "--", str(task.relative_to(repo))],

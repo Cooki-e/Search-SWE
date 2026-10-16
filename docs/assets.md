@@ -54,9 +54,12 @@ An alternate `--output-dir` contains `<task-name>/`; launcher jobs default to
 `jobs/<task-name>`.
 
 Use existing public upstream HF datasets directly with immutable pins, recorded
-sizes/hashes and documented provenance/usage terms. No official re-upload is
-required. New development data may use a personal public dataset with permission
-to redistribute it. If official hosting is needed after task and asset review,
+sizes/hashes and documented provenance/usage terms. Published files in the
+official dataset may also be shared across tasks using their original
+`tasks/<source-task-name>/...` paths. No duplicate upload is required. New
+official files use the publishing task's own namespace. New development data may
+use a personal public dataset with permission to redistribute it. If official
+hosting is needed after task and asset review,
 follow the [publication workflow](contributing.md#asset-contribution-and-publication):
 `prepare_hf_upload.py` stages new verified files with a merged current manifest.
 Update HF SOURCES and license metadata, preserve published assets, and submit

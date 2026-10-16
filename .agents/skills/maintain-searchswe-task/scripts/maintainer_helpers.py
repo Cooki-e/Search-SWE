@@ -99,8 +99,9 @@ def prepare(snapshot, task, data, output):
             continue
         name = source["filename"]
         rel = relative_path(name)
-        if rel.as_posix() != name or not name.startswith(f"tasks/{task.name}/"):
-            raise ValueError(f"New data must be under tasks/{task.name}/: {name}")
+        if (rel.as_posix() != name or len(rel.parts) < 3 or rel.parts[0] != "tasks"
+                or not TASK_NAME_RE.fullmatch(rel.parts[1])):
+            raise ValueError(f"Official data must use tasks/<source-task-name>/<file>: {name}")
         if name in referenced:
             raise ValueError(f"Duplicate official dataset reference: {name}")
         referenced.add(name)
@@ -108,6 +109,8 @@ def prepare(snapshot, task, data, output):
             if any(entry[key] != old[name][key] for key in ("size_bytes", "sha256")):
                 raise ValueError(f"Published data changed; choose a new dataset filename: {name}")
             continue
+        if not name.startswith(f"tasks/{task.name}/"):
+            raise ValueError(f"New data must be under tasks/{task.name}/: {name}")
         if not matches(data / rel, entry):
             raise ValueError(f"Missing data or size/SHA-256 mismatch: {name}")
         additions[name] = {"path": name, "size_bytes": entry["size_bytes"], "sha256": entry["sha256"]}

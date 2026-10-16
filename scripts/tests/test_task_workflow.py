@@ -262,8 +262,13 @@ class TaskWorkflow(unittest.TestCase):
 
     def test_merge_ready_keeps_asset_integrity_requirements_for_all_sources(self):
         entry, _ = self.asset()
-        for repo_id in ("search-swe/Search-SWE", "upstream/public-corpus"):
+        for repo_id, filename in (
+            ("search-swe/Search-SWE", "tasks/example-search/corpus.txt"),
+            ("search-swe/Search-SWE", "tasks/other-search/corpus.txt"),
+            ("upstream/public-corpus", "corpus.txt"),
+        ):
             entry["source"]["repo_id"] = repo_id
+            entry["source"]["filename"] = filename
             for section, field, value, message in (
                 ("source", "revision", "main", "immutable"),
                 ("source", "revision", None, "immutable"),
@@ -272,7 +277,7 @@ class TaskWorkflow(unittest.TestCase):
                 ("entry", "sha256", "invalid", "Invalid SHA-256"),
                 ("entry", "size_bytes", -1, "Invalid asset size"),
             ):
-                with self.subTest(repo_id=repo_id, field=field, value=value):
+                with self.subTest(repo_id=repo_id, filename=filename, field=field, value=value):
                     target = entry["source"] if section == "source" else entry
                     original = target[field]
                     target[field] = value
@@ -282,17 +287,22 @@ class TaskWorkflow(unittest.TestCase):
                     self.assertIn(message, result.stdout)
                     target[field] = original
 
-    def test_merge_ready_checks_official_namespace(self):
+    def test_merge_ready_reuses_official_sources_and_checks_namespace(self):
         entry, _ = self.asset()
-        original = entry["source"]["filename"]
-        entry["source"]["filename"] = "tasks/other-search/corpus.txt"
-        (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": [entry]}))
-        result = self.cli("check_tasks.py", "--merge-ready")
-        self.assertNotEqual(result.returncode, 0)
-        self.assertIn("official data must use tasks/example-search/", result.stdout)
-        entry["source"]["filename"] = original
-        (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": [entry]}))
-        self.assertEqual(self.cli("check_tasks.py", "--merge-ready").returncode, 0)
+        for filename in ("tasks/example-search/corpus.txt", "tasks/other-search/corpus.txt"):
+            with self.subTest(filename=filename):
+                entry["source"]["filename"] = filename
+                (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": [entry]}))
+                result = self.cli("check_tasks.py", "--merge-ready")
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        for filename in ("corpus.txt", "tasks/other-search", "data/other-search/corpus.txt",
+                         "tasks/task-other/corpus.txt", "tasks/all/corpus.txt"):
+            with self.subTest(filename=filename):
+                entry["source"]["filename"] = filename
+                (self.task / "assets.json").write_text(json.dumps({"schema_version": 1, "files": [entry]}))
+                result = self.cli("check_tasks.py", "--merge-ready")
+                self.assertNotEqual(result.returncode, 0)
+                self.assertIn("official data must use tasks/<source-task-name>/<file>", result.stdout)
 
     def test_all_tasks_receive_syntax_checks_and_new_tasks_require_authors(self):
         config = self.task / "task.toml"
@@ -375,6 +385,39 @@ class TaskWorkflow(unittest.TestCase):
         (data / "link").symlink_to(self.root)
         with self.assertRaises(ValueError):
             prepare(snapshot, target, data, self.root / "upload")
+
+    def test_incremental_reuses_other_task_files_but_owns_new_paths(self):
+        entry, data = self.asset()
+        published = {"path": "tasks/original-search/corpus.txt", "size_bytes": 500,
+                     "sha256": "b" * 64, "license": "fixture"}
+        shared = {"path": "data/shared.txt", "size_bytes": published["size_bytes"],
+                  "sha256": published["sha256"], "source": {
+                      **entry["source"], "filename": published["path"]}}
+        manifest = {"schema_version": 1, "files": [entry, shared]}
+        (self.task / "assets.json").write_text(json.dumps(manifest))
+        snapshot = self.root / "official.json"
+        snapshot.write_text(json.dumps({"schema_version": 1, "files": [published]}))
+        output = self.root / "upload"
+        self.assertEqual(prepare(snapshot, self.task, data, output), 1)
+        merged = json.loads((output / "manifest.json").read_text())
+        self.assertEqual(merged["files"][0], published)
+        self.assertEqual(len(merged["files"]), 2)
+        self.assertFalse((output / published["path"]).exists())
+        self.assertTrue((output / entry["source"]["filename"]).is_file())
+
+        for field, value in (("sha256", "c" * 64), ("size_bytes", 501)):
+            with self.subTest(field=field):
+                original = shared[field]
+                shared[field] = value
+                (self.task / "assets.json").write_text(json.dumps(manifest))
+                with self.assertRaisesRegex(ValueError, "Published data changed"):
+                    prepare(snapshot, self.task, data, self.root / f"changed-{field}")
+                shared[field] = original
+
+        shared["source"]["filename"] = "tasks/original-search/unpublished.txt"
+        (self.task / "assets.json").write_text(json.dumps(manifest))
+        with self.assertRaisesRegex(ValueError, "New data must be under tasks/example-search/"):
+            prepare(snapshot, self.task, data, self.root / "foreign-new-file")
 
 
 if __name__ == "__main__":

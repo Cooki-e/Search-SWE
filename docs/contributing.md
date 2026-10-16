@@ -107,8 +107,11 @@ existing author records, including reviewed package renames.
 Both `review-stage` and `python scripts/check_tasks.py --merge-ready` accept
 upstream or official HF datasets with immutable commit SHAs, file paths, sizes
 and SHA-256 hashes. Merge-ready additionally requires files hosted in
-`search-swe/Search-SWE` to use `tasks/<task-name>/` paths; upstream filenames
-remain unchanged. Model files retain their original repository pins. Static
+`search-swe/Search-SWE` to use `tasks/<source-task-name>/` paths. A task may reuse
+another task's published inputs at their original paths and immutable pins;
+it does not need duplicate files under its own name. New official uploads must
+use the publishing task's namespace. Upstream filenames remain unchanged.
+Model files retain their original repository pins. Static
 checks validate the manifest without network access. Before merging, maintainers
 verify downloads and hashes, review provenance and usage terms, and confirm that
 runtime evidence covers the final revision. Official mirroring is optional;
@@ -159,7 +162,8 @@ reachability from the default branch.
 
 ### Reuse published upstream data
 
-Existing public HF datasets may remain the final source in `assets.json`.
+Existing public HF datasets may remain the final source in `assets.json`,
+including another task's published files in `search-swe/Search-SWE`.
 Document provenance and applicable usage terms, pin the full 40-hex commit SHA
 and exact filename, and verify actual downloads against the recorded size and
 SHA-256 before merging. An upstream pin does not require a copy in

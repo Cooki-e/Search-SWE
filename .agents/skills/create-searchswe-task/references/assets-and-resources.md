@@ -34,8 +34,9 @@ valid checksums/revisions to submit):
 ```
 
 Compute `size_bytes` from the file size and SHA-256 from the actual bytes (for
-example `sha256sum FILE`). Do not reuse another task's hash or fabricate a
-published revision. A model source uses its original `repo_id`, `repo_type`
+example `sha256sum FILE`), including when reusing another task's inputs. Do not
+copy unverified hashes or fabricate a published revision. A model source uses
+its original `repo_id`, `repo_type`
 `"model"`, fixed commit and filename. A small bundled model metadata source can
 instead be `{"local_path": "model-metadata/model/config.json"}`; it still
 requires matching size/hash and is restored under `models/`.
@@ -47,8 +48,11 @@ Do not attempt `chmod` on read-only mounted files during verification.
 
 ## Development and incremental publication
 
-Existing public upstream HF datasets may be used directly through merge. Record
-provenance and usage terms, pin the immutable 40-hex SHA and exact filename, and
+Existing public upstream HF datasets may be used directly through merge.
+Published official files may also be reused across tasks at their original
+`tasks/<source-task-name>/...` paths and immutable pins; no duplicate upload is
+required. Only newly published files must use the publishing task's namespace.
+Record provenance and usage terms, pin the immutable 40-hex SHA and exact filename, and
 verify actual downloads against manifest sizes/hashes. No official mirror is
 required. New development data may use an authorized personal public HF dataset
 with redistribution permission. The downloader accepts arbitrary HF repositories:
