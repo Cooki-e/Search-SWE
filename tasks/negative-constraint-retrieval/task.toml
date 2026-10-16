@@ -1,0 +1,57 @@
+schema_version = "1.4"
+
+artifacts = [
+    "/app",
+    "/logs/agent/trajectory.json",
+]
+
+[task]
+name = "search-swe/negative-constraint-retrieval"
+version = "0.3.0"
+description = "Build a Top-1 search engine that satisfies positive and negative semantic constraints over a fixed passage corpus."
+authors = [{ name = "Cooki-e" }]
+keywords = ["information-retrieval", "negation", "constraints", "semantic-retrieval"]
+
+[metadata]
+dataset = "NegConstraint original passages plus broad local Qwen3.5-9B augmentation; authored natural-language queries"
+primary_metric = "Accuracy@1"
+metric_k = 1
+public_query_count = 10
+hidden_query_count = 10
+corpus_document_count = 8011
+all_hidden_queries_required = false
+data_status = "Published public assets; 20 unchanged author-reviewed unique-positive queries; subject-disjoint 10/10 split; 365 augmented topic cohorts with opaque IDs and reshuffled corpus."
+
+[agent]
+timeout_sec = 7200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[verifier]
+timeout_sec = 5400.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+cpus = 4
+memory_mb = 32768
+storage_mb = 102400
+gpus = 0
+
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"

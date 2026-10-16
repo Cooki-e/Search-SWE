@@ -262,6 +262,7 @@ fi
 stop_submission_processes
 
 SEARCH_SWE_EXECUTION_ERROR="$execution_error" \
+    /usr/bin/timeout --signal=TERM --kill-after=30s 2700s \
     /opt/conda/bin/python /tests/grader.py
 grader_status=$?
 

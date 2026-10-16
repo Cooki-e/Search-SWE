@@ -13,25 +13,36 @@
       }
     },
     {
-      "path": "data/validation/golden_answers.jsonl",
-      "size_bytes": 8674,
-      "sha256": "da5ed676b6b07168cf16dbc7a8643054e6688f8076bc58685f6c630dda974347",
+      "path": "data/corpus/sentences.jsonl",
+      "size_bytes": 5239974,
+      "sha256": "89a0bc79c5298aa5fdc87ca59a4fbead91c20ee67bf7b80b42577cabeae5b837",
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": "6713b1eb7474e0768e906a0151c76af92f0cfcdd",
-        "filename": "tasks/long-pdf-evidence/validation/golden_answers.jsonl"
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/long-pdf-evidence/corpus/sentences.jsonl"
       }
     },
     {
       "path": "data/validation/queries.jsonl",
-      "size_bytes": 2351,
-      "sha256": "8be6101ff7110a996c2eb2289097d533af5c937a9507c1faf987cf68d23cb08f",
+      "size_bytes": 1213,
+      "sha256": "64310d6936abce5de6ece2100acdf9c7e4021988bd902cdbf9c3403cdefd8177",
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": "6713b1eb7474e0768e906a0151c76af92f0cfcdd",
+        "revision": "872d710516ecfbc39f1557ebd750733e727dfc49",
         "filename": "tasks/long-pdf-evidence/validation/queries.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/golden_answers.jsonl",
+      "size_bytes": 10104,
+      "sha256": "30efed8c16dc7f8063d379f1bd69408db027b09ab0bf2028261eae4c2fb7aeb5",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "872d710516ecfbc39f1557ebd750733e727dfc49",
+        "filename": "tasks/long-pdf-evidence/validation/golden_answers.jsonl"
       }
     }
   ]

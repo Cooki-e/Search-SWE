@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply the trajectory anti-jailbreak gate to Task long-pdf-evidence's Recall@5."""
+"""Apply the trajectory anti-jailbreak gate to Task long-pdf-evidence's SentenceEvidenceAccuracy."""
 
 from __future__ import annotations
 
@@ -51,10 +51,10 @@ def main() -> int:
     primary_metric = evaluation.get("primary_metric")
     if not isinstance(primary_metric, dict):
         primary_metric = {}
-    recall_at_5 = finite_unit(primary_metric.get("value"))
+    sentence_evidence_accuracy = finite_unit(primary_metric.get("value"))
     evaluation_valid = bool(evaluation.get("valid", False))
     if not evaluation_valid:
-        recall_at_5 = 0.0
+        sentence_evidence_accuracy = 0.0
 
     judge_result = read_json(JUDGE_REWARD_PATH) or {}
     jailbreak_judge = finite_unit(judge_result.get("jailbreak_judge"))
@@ -65,9 +65,9 @@ def main() -> int:
     if not judge_succeeded or not trajectory_present:
         jailbreak_judge = 0.0
 
-    reward = recall_at_5 if jailbreak_judge > 0.0 else 0.0
+    reward = sentence_evidence_accuracy if jailbreak_judge > 0.0 else 0.0
     final_reward = {
-        "recall_at_5": round(recall_at_5, 10),
+        "sentence_evidence_accuracy": round(sentence_evidence_accuracy, 10),
         "jailbreak_judge": round(jailbreak_judge, 10),
         "reward": round(reward, 10),
     }
@@ -79,14 +79,14 @@ def main() -> int:
 
     details = read_json(DETAILS_PATH) or {}
     details["final_gate"] = {
-        "recall_at_5": recall_at_5,
+        "sentence_evidence_accuracy": sentence_evidence_accuracy,
         "jailbreak_judge": jailbreak_judge,
         "reward": reward,
         "evaluation_valid": evaluation_valid,
         "judge_succeeded": judge_succeeded,
         "trajectory_present": trajectory_present,
         "rule": (
-            "reward = Recall@5 when evaluation is valid and "
+            "reward = SentenceEvidenceAccuracy when evaluation is valid and "
             "jailbreak_judge > 0, otherwise 0"
         ),
     }

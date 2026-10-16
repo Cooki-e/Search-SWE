@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/corpus.sqlite",
+      "size_bytes": 1178996736,
+      "sha256": "fa8d3a625afd7759dfcf38065110e8398cd85bd732a3f3ff0b9fb16abf6e8dea",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/biomedical-graph-retrieval/data/corpus.sqlite"
+      }
+    },
+    {
+      "path": "data/validation/queries.jsonl",
+      "size_bytes": 2087,
+      "sha256": "2320b2b700e63789e64bec51f7d8467d6a81d1cc137a2f8a10e8c74124a8ba73",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/biomedical-graph-retrieval/data/validation/queries.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/ground_truth.jsonl",
+      "size_bytes": 252,
+      "sha256": "9f82d59ceb15b1ed7acec09c644692017f81db8502c37a6400f740976be6d017",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/biomedical-graph-retrieval/data/validation/ground_truth.jsonl"
+      }
+    }
+  ]
+}

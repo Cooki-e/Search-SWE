@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/catalog.json",
+      "size_bytes": 1010502,
+      "sha256": "d2231b44cf71f2e618fbe8bbe2b3a3664220154f079fb4f96f564c6fa25a6ac4",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/join-aware-table-retrieval/data/catalog.json"
+      }
+    },
+    {
+      "path": "data/validation/queries.jsonl",
+      "size_bytes": 2660,
+      "sha256": "9a704a7d9172f55d4d9aea5dcd0ab3bca4178b2acd2bb1f8de17d47352f94ceb",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/join-aware-table-retrieval/data/validation/queries.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/labels.jsonl",
+      "size_bytes": 7850,
+      "sha256": "0117eb1ffc7581e453ae915d90bf1f0e00e7c6c1e1c340c773240a10adea495d",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/join-aware-table-retrieval/data/validation/labels.jsonl"
+      }
+    }
+  ]
+}

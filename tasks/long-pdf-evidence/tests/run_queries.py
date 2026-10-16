@@ -10,6 +10,7 @@ import signal
 import stat
 import subprocess
 import time
+from grader import parse_json
 
 MAX_OUTPUT_BYTES = 64 * 1024 * 1024
 
@@ -47,7 +48,7 @@ def read_output(path, query_id, limit):
         payload = stream.read(limit + 1)
         if len(payload) > limit:
             raise ValueError("query output exceeds its size limit")
-    rows = [json.loads(line) for line in payload.decode("utf-8").splitlines() if line.strip()]
+    rows = [parse_json(line) for line in payload.decode("utf-8").splitlines() if line.strip()]
     if (len(rows) != 1 or not isinstance(rows[0], dict)
             or rows[0].get("query_id") != query_id):
         raise ValueError("expected exactly one output matching the input query_id")

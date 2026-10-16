@@ -1,0 +1,56 @@
+schema_version = "1.4"
+artifacts = ["/app", "/logs/agent/trajectory.json"]
+
+[task]
+name = "search-swe/legal-stance-retrieval"
+version = "0.1.2"
+description = "Build stance-conditioned legal precedent retrieval over a supplied corpus, with examples and a local model."
+authors = [{ name = "Cooki-e" }]
+keywords = ["information-retrieval", "legal", "stance", "embedding", "gpu"]
+
+[metadata]
+primary_metric = "Baseline-normalized mean NDCG@10"
+metric_k = 10
+baseline_ndcg10 = 0.5610484855098774
+corpus_document_count = 3126
+example_proposition_count = 5318
+example_input_count = 10636
+hidden_query_count = 311
+query_model = "Qwen3-Embedding-0.6B"
+query_batch_timeout_sec = 20.0
+submission_build_timeout_sec = 3600.0
+data_status = "Frozen reviewed official-test subset; published public data assets; public examples supplied."
+
+[agent]
+timeout_sec = 21600.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[verifier]
+timeout_sec = 5100.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+cpus = 16
+memory_mb = 32768
+storage_mb = 102400
+gpus = 1
+
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"

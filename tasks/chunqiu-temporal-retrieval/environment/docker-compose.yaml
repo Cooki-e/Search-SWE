@@ -1,0 +1,40 @@
+services:
+  main:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - type: bind
+        source: ../data/corpus.jsonl
+        target: /task/data/corpus.jsonl
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../models/Qwen3-Embedding-0.6B
+        target: /task/models/Qwen3-Embedding-0.6B
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../data/examples.jsonl
+        target: /task/data/examples.jsonl
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../data/dated_examples.jsonl
+        target: /task/data/dated_examples.jsonl
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./docs
+        target: /task/docs
+        read_only: true
+        bind:
+          create_host_path: false

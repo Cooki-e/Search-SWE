@@ -1,0 +1,9 @@
+services:
+  main:
+    volumes:
+      - type: bind
+        source: ../data/catalog.json
+        target: /task/data/catalog.json
+        read_only: true
+        bind:
+          create_host_path: false

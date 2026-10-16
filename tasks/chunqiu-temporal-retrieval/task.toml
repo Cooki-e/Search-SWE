@@ -1,0 +1,59 @@
+schema_version = "1.4"
+
+artifacts = ["/app", "/logs/agent/trajectory.json"]
+
+[task]
+name = "search-swe/chunqiu-temporal-retrieval"
+version = "0.1.0"
+description = "Retrieve original event records for reign-based dates and time windows in Classical Chinese annals."
+authors = [{ name = "Bingyu" }]
+keywords = ["information-retrieval", "temporal-reasoning", "classical-chinese", "gpu"]
+
+[metadata]
+dataset = "ChunQiuTR, audited event-only derivative"
+source_revision = "392d6ec8d62de8256b3b45578f7b4484c22042ce"
+primary_metric = "Mean binary nDCG@10"
+metric_k = 10
+corpus_document_count = 18662
+example_count = 6617
+public_query_count = 0
+hidden_query_count = 778
+base_model = "Qwen/Qwen3-Embedding-0.6B"
+index_build_timeout_seconds = 1200
+inference_timeout_seconds = 120
+gpu_hardware = "1 x NVIDIA A100 40GB"
+data_status = "Published public derivative; original questions and retained event qrels; documented quality exclusions."
+
+[agent]
+timeout_sec = 21600.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[verifier]
+timeout_sec = 3000.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+cpus = 16
+memory_mb = 32768
+storage_mb = 102400
+gpus = 1
+
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"

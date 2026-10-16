@@ -1,136 +1,27 @@
-# Long-PDF Evidence Localization
+# Long-PDF Sentence Evidence Retrieval
 
-Find the physical pages in a long PDF that support a natural-language information need.
+Retrieve up to five original sentence units that fully support a short interpretive question about *War and Peace*. Version 0.4.1 uses **SentenceEvidenceAccuracy**. The old 0.95 page-retrieval result is not a measurement of this revised task.
 
-**Task:** `long-pdf-evidence` · **Metric:** Page Recall@5
+The unchanged PDF has 2,043 physical pages. Its question-independent inventory contains 28,798 units, preserving source-page provenance and normalizing PDF typography and whitespace. Unit boundaries are fixed for consistent evaluation, including dialogue and sentences crossing pages. The ten public and twelve hidden questions use disjoint reference units and opaque shuffled IDs. Questions ask about motives, tensions, reversals, or relationships without restating the relevant passage.
 
-## Overview
-
-This task is a natural-language version of finding a passage inside a document.
-The target PDF is already known; the system must identify where relevant
-evidence occurs, rather than retrieve a different document or generate an answer.
-
-The challenge is to preserve the connection between searchable content and its
-original physical page. Useful semantic matches can span sections or use
-different wording from the question. Public and hidden queries search the same
-2,043-page PDF of *War and Peace*, with different passages labelled in each split.
-
-## What This Task Tests
-
-- Extracting and indexing long PDFs while retaining physical page provenance.
-- Translating an information need into relevant page-level results.
-- Returning supporting text that actually appears on each selected page.
-- Rebuilding the pipeline in a fresh verifier and sharing its index across concurrent queries.
-
-## Task Setup
-
-### Provided Assets
-
-| Asset | Purpose |
+| Input | Role |
 | --- | --- |
-| `data/corpus/lp4P6AUxur.pdf` | One shared 2,043-page PDF |
-| `data/validation/queries.jsonl` | 10 public development queries |
-| `data/validation/golden_answers.jsonl` | Public physical-page labels and evidence excerpts |
+| `data/corpus/lp4P6AUxur.pdf` | Original shared novel |
+| `data/corpus/sentences.jsonl` | Fixed sentence text, opaque IDs, physical source pages |
+| `data/validation/queries.jsonl` | Ten public questions |
+| `data/validation/golden_answers.jsonl` | Public support requirements and sufficient original evidence |
+| `tests/data/` | Twelve private queries and references, excluded from agent mounts |
 
-The verifier evaluates 10 hidden queries against the same PDF. Public and hidden
-query IDs, question texts, and labelled pages are disjoint. IDs are independent
-opaque identifiers, and each split is shuffled so query order does not indicate
-page position. Input records contain `query_id` and `query`; the sole PDF is
-inferred without a `target` field.
+Deliver executable `/app/build.sh` and `/app/run.sh` following [instruction.md](instruction.md). Return `{query_id, results: [{sentence_id, sentence}]}`, with zero to five distinct units and no generated answer. Evidence order is irrelevant. The verifier checks corpus checksums, source membership, and output validity before judging sufficiency. Alternative correct evidence is accepted; reference IDs are not a scoring gate.
 
-Hidden questions and labels remain in `tests/data/` and are excluded from the
-agent environment. Public validation is excluded from the verifier's mounts.
+The answer judge is pinned to OpenRouter `openai/gpt-6-luna`, reasoning effort `high`, temperature 0. It awards 1 for complete evidence support and 0 otherwise. Mean support over all twelve questions is the metric; a failed or timed-out query remains in the denominator with zero. API/parse failures invalidate the measurement and fail closed, separately from ordinary unsupported evidence. A separate existing `deepseek/deepseek-v4.1-flash` trajectory audit through RewardKit 0.2.0 gates the final reward. Judge health and individual decisions are retained in verifier reports.
 
-### Fixed Components and Allowed Changes
+The CPU environment supplies 16 CPUs, 64 GiB memory, 100 GiB storage and no GPU. Development lasts at most two hours. Build receives 2,400 seconds; each query receives 900 seconds, with concurrency five and a shared 1,800-second query phase. The outer runner permits 60 seconds for cleanup. Answer judging is bounded at 2,700 seconds, with two workers, at most two attempts per request, and 10-second connect / 120-second read timeouts. Trajectory auditing is bounded at 3,600 seconds; the whole verifier allows 10,800 seconds. These resources and query limits are unchanged from the previous task.
 
-The target document, physical page numbering, and five-result interface are
-fixed. Parsing, chunking, indexing, and page ranking may change. Optional
-OpenRouter and Jina resources follow the
-[resource policy](environment/docs/available_resources.md).
+Submission processes run as an unprivileged user. The verifier stages only the fixed corpus and query inputs for them, excludes judge credentials from their environment, terminates submission processes before judging, and protects private labels and reward files. `/app` is transferred into a fresh environment; service processes must be recreated by the build. See the [resource policy](environment/docs/available_resources.md) for the unchanged solver API allowlist. The semantic judge does not authorize solvers to call Luna.
 
-### Environment and Resource Limits
+For local runs, configure an OpenRouter credential in `ANSWER_JUDGE_API_KEY`; the task pins `ANSWER_JUDGE_BASE_URL` and `ANSWER_JUDGE_MODEL_NAME`. Keep the trajectory judge's separate `VERIFIER_OPENAI_*` configuration. Optional solver APIs use `OPENROUTER_API_KEY` and `JINA_API_KEY`. Never store keys in the task package. The shared launcher accepts `--task long-pdf-evidence --model YOUR_AGENT_MODEL`; `--dry-run` only inspects command construction.
 
-The CPU Python 3.12 environment has 16 CPUs, 64 GiB memory, 100 GiB storage,
-and no GPU. The agent has two hours; the Harbor verifier has three hours.
-The submitted build receives up to 2,400 seconds. Each hidden query runs in its
-own process with a 900-second limit and up to five processes in parallel.
-All queries share a 1,800-second execution budget; unfinished or unlaunched
-queries at the deadline score zero. The outer runner allows another 60 seconds
-for cleanup. Workers share the same CPU, memory, index, and build-started service.
+Public runtime data are published in [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE/tree/872d710516ecfbc39f1557ebd750733e727dfc49) and pinned by immutable commit in `assets.json`, with exact sizes and SHA-256 hashes. Private evaluation inputs remain in the verifier package. Source terms and attribution remain applicable; publication does not establish additional licensing rights. The original PDF retains its earlier immutable pin. The latest ten sentence-based public examples use `tasks/long-pdf-evidence/validation/` in the dataset. The current dataset tree contains only these validation files; the earlier page-based examples and duplicate versioned paths have been removed. Fresh restoration on 2026-10-16 verified all 4 dataset-backed runtime files against their recorded sizes and SHA-256 hashes.
 
-The verifier stages the shared PDF read-only and supplies its paths to the
-submission. The build must recreate the service in the fresh verifier environment.
-
-## Submission Contract
-
-The system is delivered through `/app/build.sh` and `/app/run.sh`. For each
-question it returns five distinct, ranked physical page numbers, supporting
-text, and numeric scores. Page numbers are **one-based PDF page positions**,
-which may differ from printed page labels.
-
-See [instruction.md](instruction.md) for the exact interface. This task returns
-evidence locations; [Scientific-paper QA](../scientific-paper-qa/README.md) returns answers with
-document-level attribution.
-
-## Evaluation
-
-### Search Quality
-
-For each query, Recall@5 is the fraction of its relevant pages found among
-the five returned pages. The metric is the arithmetic mean of these fractions
-across all ten hidden queries. A failed or invalid query contributes zero and
-remains in the denominator. The report also shows 100 times this mean before
-the trajectory audit; final reward uses the 0–1 scale.
-
-### Correctness and Resource Gates
-
-Each query must return five valid unique pages and evidence text belonging to
-those pages, with finite scores in the required order. A failed or timed-out
-process, missing output, or invalid result makes only that query score zero.
-Shared build/setup failure prevents all queries from scoring. Per-query timing
-and execution errors are recorded in the verifier's private `query_execution.json`.
-
-### Integrity Checks and Final Reward
-
-Page relevance is scored deterministically against labels; there is no
-answer-correctness model. A separate trajectory audit checks compliance.
-Final reward is mean Recall@5, including zeros for failed or invalid queries,
-when the trajectory audit passes. A failed audit makes the whole reward zero.
-The audit uses `deepseek/deepseek-v4.1-flash` via OpenRouter through pinned RewardKit 0.2.0 with
-verifier-only endpoint and key settings.
-
-## Running This Task
-
-From the repository root, follow the [quick start](../../docs/quickstart.md)
-to install the pinned Harbor dependencies and prepare Docker. Use the
-[evaluation guide](../../docs/evaluation.md) to configure the selected agent and
-task credential profile. The
-[asset guide](../../docs/assets.md) covers downloads, checksums, and cache options.
-
-Configure the trajectory judge's `VERIFIER_OPENAI_*` settings. This task does
-not need `ANSWER_JUDGE_*`. Optional submission APIs use shared OpenRouter
-and Jina keys. Downloading restores the shared PDF and public validation files;
-Compose keeps private queries and labels out of the agent environment.
-
-```bash
-python scripts/download_assets.py --task long-pdf-evidence
-bash scripts/run_task.sh --task long-pdf-evidence --model "YOUR_AGENT_MODEL"
-```
-
-The shared launcher defaults to Codex, also supports Pi and Claude Code, and
-writes results under `jobs/long-pdf-evidence/`.
-Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
-command construction without starting an evaluation; this does not validate
-assets, credentials, or hardware.
-
-## Task Files
-
-| File or directory | What to read it for |
-| --- | --- |
-| [instruction.md](instruction.md) | Complete agent-facing specification and executable contract |
-| [task.toml](task.toml) | Task identity, artifact collection, and phase budgets |
-| [assets.json](assets.json) | Fixed asset paths, immutable revisions, and checksums |
-| [Environment guide](environment/docs/environment.md) | Installed runtime and task environment |
-| [Environment configuration](environment/docker-compose.yaml) | Read-only mounts and hardware requests |
-| [Verifier](tests/) | Execution, output validation, and scoring implementation |
-| [Resource policy](environment/docs/available_resources.md) | Permitted submission APIs |
+Author development and calibration records live outside the package in `task_development/long-pdf-evidence` in the surrounding build workspace. [raw-instruction.md](raw-instruction.md) is the structured contract; [instruction.md](instruction.md) carries the same requirements in the agent-facing request. The prior task supplies the corpus, executable lifecycle and isolation pattern; `scientific-paper-qa` was consulted for separate semantic-judge credentials. The requested `agentic-search` reference currently uses deterministic GoldRecall@5, so its grader is not a semantic-judge implementation.
