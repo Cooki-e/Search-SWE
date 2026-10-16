@@ -1,0 +1,210 @@
+{"query_id":"query_ae1c06452d7e15ce6cfb","text":"death rate of 20%"}
+{"query_id":"query_91ad548ad4136b03303b","text":"death rate more than 49%"}
+{"query_id":"query_640d292166c272919516","text":"death rate less than 6.5 percent"}
+{"query_id":"query_cd0bc96aa46bd035da46","text":"amount blood drawn = 7 teaspoonful"}
+{"query_id":"query_3f39447732d99488bd47","text":"amount blood drawn exceeding 21 teaspoons"}
+{"query_id":"query_11121b93a6f640637c0f","text":"amount blood drawn beneath 0.7 teaspoons"}
+{"query_id":"query_46b581e8083e97e977f2","text":"dose docetaxel exactly 30 mg/m2"}
+{"query_id":"query_d0807e232aa5743ac683","text":"dose docetaxel higher than 56 milligram per square metre"}
+{"query_id":"query_ab81882f638c9d249c78","text":"dose docetaxel smaller than 70 mg/m2"}
+{"query_id":"query_3398678f71a3e7d849ad","text":"Alzheimer disease with 330,00,000 patient"}
+{"query_id":"query_541373350b7978e5732d","text":"Alzheimer disease above 40 patient"}
+{"query_id":"query_042abd9c818d57aa99e1","text":"Alzheimer disease below 121 patients"}
+{"query_id":"query_06dbe6829427d4c34514","text":"body weight with 143.85 kgs"}
+{"query_id":"query_53a67854e2bdea52e7e6","text":"body weight bigger than 97 kg"}
+{"query_id":"query_0b014897ccb389626678","text":"body weight less than 0.1 kilograms"}
+{"query_id":"query_a5791256d13d75ddc3d2","text":"morphine consumption equals 1 mg"}
+{"query_id":"query_c973eee5b4824e484ee1","text":"morphine consumption > 24.8 milligram"}
+{"query_id":"query_ce7b80ae544cabe0f624","text":"morphine consumption under 3.0 mg"}
+{"query_id":"query_0139615c893415a49139","text":"pain intensity = 6.3 p"}
+{"query_id":"query_2bf4d4463708552872b1","text":"pain intensity more than 12 p"}
+{"query_id":"query_d52c5ee97042b63d321a","text":"pain intensity under 1 points"}
+{"query_id":"query_618a5fa604b99648aac0","text":"intervals blood samples equal to 15 minute"}
+{"query_id":"query_3c7ef6eb7982370fc402","text":"intervals blood samples over 130 mins"}
+{"query_id":"query_ee412accca3d3640a2be","text":"intervals blood samples under 9 minutes"}
+{"query_id":"query_48287f7e4bc6cf2d6006","text":"tumor diameter 4 cm"}
+{"query_id":"query_9b527cf7a14af340b04a","text":"tumor diameter larger than 4.5 cm"}
+{"query_id":"query_a65d713e6fd3f99952b9","text":"tumor diameter under 2 centimetre"}
+{"query_id":"query_a623f248450e290781b3","text":"positive end-expiratory pressure exactly 5 cm"}
+{"query_id":"query_b5cb6eda79ddb5d71997","text":"positive end-expiratory pressure over 5.5 centimetres"}
+{"query_id":"query_d74417b5da9ed477add2","text":"positive end-expiratory pressure under 10 centimeter"}
+{"query_id":"query_41a917cf727ee8e8bc3f","text":"oxygen saturations equals 40 percent"}
+{"query_id":"query_d45f4a146dd5869de5bf","text":"oxygen saturations > 99 percentage"}
+{"query_id":"query_a03f3d4d5e5dac3819db","text":"oxygen saturations below 5.6%"}
+{"query_id":"query_1891fc3c907d46c48d02","text":"influenza H1N1 vaccine  7.5 mcg"}
+{"query_id":"query_85a71bbdeb6d95151ed2","text":"influenza H1N1 vaccine larger than 20 mcg"}
+{"query_id":"query_6e4d1ebae7c43f5a2d5f","text":"influenza H1N1 vaccine < 20 micrograms"}
+{"query_id":"query_80d51e4fd3c24fdc9644","text":"body temperature = 35 celsius"}
+{"query_id":"query_90fa3e78dd792b77bdf9","text":"body temperature above 37.5 degrees Celsius"}
+{"query_id":"query_cb5116663e78850004d5","text":"body temperature under 31 Celsius"}
+{"query_id":"query_203f2c07091df083bb69","text":"prostate cancer at 45 years-old"}
+{"query_id":"query_eae268bcfd8c53533f61","text":"prostate cancer higher than 22 year of age"}
+{"query_id":"query_2ffd9070208ba9316fa1","text":"prostate cancer under 46 years old"}
+{"query_id":"query_216cde57197c22d1cb74","text":"dose risperidone equal to 1.75 mg/day"}
+{"query_id":"query_3af39caa78d692fa5c19","text":"dose risperidone more than 1.2 mg/day"}
+{"query_id":"query_dc54079d97bcb410ccc4","text":"dose risperidone smaller than 3 milligram per day"}
+{"query_id":"query_9c3bedb888d8f5112d8a","text":"mass index BMI  17 kg/m^2"}
+{"query_id":"query_b6fe18e6a83881343a77","text":"mass index BMI more than 40 kilogram per square metre"}
+{"query_id":"query_3ed373b754cff6aa5070","text":"mass index BMI smaller than 19 kg/m2"}
+{"query_id":"query_ce3c048bc3e0ed7b97e2","text":"postoperative nausea vomiting equals 18 percent"}
+{"query_id":"query_fa1873b858e529a444e4","text":"postoperative nausea vomiting larger than 33%"}
+{"query_id":"query_276db99b25493e6e8be6","text":"postoperative nausea vomiting less than 35 percent"}
+{"query_id":"query_7eeb87d5db013e76cf24","text":"rebleeding rate equal to 2.5 pc"}
+{"query_id":"query_ba89289f332ecb001dad","text":"rebleeding rate > 32 pc"}
+{"query_id":"query_7606963c9411e1af0403","text":"rebleeding rate less than 51 pct"}
+{"query_id":"query_47f1399f512ddc343e9b","text":"liver fat of 5 percentage"}
+{"query_id":"query_4c5e7884eb70f4790602","text":"liver fat higher than 30 pct"}
+{"query_id":"query_9285f91075de2349e48a","text":"liver fat beneath 10 pc"}
+{"query_id":"query_89e45a4cdbdecd4d752f","text":"physical exam = 8 weeks"}
+{"query_id":"query_0ecfb2d5791017fb7955","text":"physical exam over 18 Week"}
+{"query_id":"query_32d8357cbec62ebce083","text":"physical exam below 2 weeks"}
+{"query_id":"query_209be0803d493dc651e3","text":"Oxaliplatin at 460 milligram per square metre"}
+{"query_id":"query_5e981d6834102d0f18d2","text":"Oxaliplatin exceed 55 mg/m^2"}
+{"query_id":"query_6be09513cc11c01bf8e1","text":"Oxaliplatin less than 230 mg/m2"}
+{"query_id":"query_293dcfbc567459602d7e","text":"randomised controlled trial  500 participants"}
+{"query_id":"query_a4e7545c45fcaeeb53c9","text":"randomised controlled trial > 110 participant"}
+{"query_id":"query_86ddfa3fe449b62fff93","text":"randomised controlled trial under 250 participants"}
+{"query_id":"query_3d3a267d0ae0fc231dba","text":"phase III study = 300 patients"}
+{"query_id":"query_5629101e04acc39c2b94","text":"phase III study above 280 patients"}
+{"query_id":"query_0292feb42456259e03ec","text":"phase III study lower than 150 patients"}
+{"query_id":"query_952a135f77f2dbcaf51a","text":"Nivolumab at 2 Weeks"}
+{"query_id":"query_d9f11974782b9c41c571","text":"Nivolumab exceeding 3 weeks"}
+{"query_id":"query_002d3437af9cd113db95","text":"Nivolumab fewer than 3 Week"}
+{"query_id":"query_f7d84b6ede2ddf922bfe","text":"dose rosuvastatin of 10 mg"}
+{"query_id":"query_0d63758dd175f0a5ba9c","text":"dose rosuvastatin > 18 mg"}
+{"query_id":"query_36f1e17fad357523af26","text":"dose rosuvastatin smaller than 19 milligramme"}
+{"query_id":"query_0911d0026ca6bc035c4f","text":"vitamin K equal to 1.25 milligramme"}
+{"query_id":"query_52e4788ce4c5696a7530","text":"vitamin K bigger than 4 milligram"}
+{"query_id":"query_4bf81819d2df0e9d2525","text":"vitamin K below 8 milligrams"}
+{"query_id":"query_5e62db9c897d20e981f3","text":"cohort placebo exactly 3 subject"}
+{"query_id":"query_fb494bd20a6d249adcee","text":"cohort placebo more than 205 subject"}
+{"query_id":"query_97b330955099ed25adfe","text":"cohort placebo fewer than 3 subjects"}
+{"query_id":"query_cbb40651295148c39cb1","text":"uric acid level equal to 6 mg/dl"}
+{"query_id":"query_767e3f17c69229228285","text":"uric acid level higher than 6 mg/dL"}
+{"query_id":"query_ac42cc16dbe1f8f1981d","text":"uric acid level below 8 mg/dL"}
+{"query_id":"query_b65f3f95094ec11f0ca5","text":"dose Temozolomide with 150 mg/m^2"}
+{"query_id":"query_617c0bafb5103b879951","text":"dose Temozolomide > 150 milligram per square metre"}
+{"query_id":"query_d5f9119d8e6de32a3ae4","text":"dose Temozolomide less than 100 mg/m2"}
+{"query_id":"query_ffb2feff991de7f96b1a","text":"dose aspirin equal to 500 mg"}
+{"query_id":"query_2665a2a917a524d2801c","text":"dose aspirin bigger than 400 mg"}
+{"query_id":"query_29b1310c4b6cae8ef55c","text":"dose aspirin beneath 100 milligram"}
+{"query_id":"query_da7997780526c4443623","text":"risk stroke with 35%"}
+{"query_id":"query_0e9a227afd7262da93d1","text":"risk stroke more than 91%"}
+{"query_id":"query_8f3b83b447acdc37feb4","text":"risk stroke < 1.9 percentage"}
+{"query_id":"query_459d00a192edbf2fd631","text":"brain metastases of 30 percentage"}
+{"query_id":"query_164c17ae7d7330f3fd21","text":"brain metastases above 32 pct"}
+{"query_id":"query_46414fa76a437fd71d0c","text":"brain metastases under 39%"}
+{"query_id":"query_c75872da2d9c13387471","text":"tranexamic acid = 50 mg/Kg"}
+{"query_id":"query_a5e661392e6ec4bc0f5a","text":"tranexamic acid greater than 11 mg/kg"}
+{"query_id":"query_93b21ce6137c1d3556c7","text":"tranexamic acid < 20 milligram/kg"}
+{"query_id":"query_3abeda8fdbdf5ee26345","text":"macular edema of 23 pct."}
+{"query_id":"query_cbb78dc5449c4eb6f100","text":"macular edema higher than 28.5%"}
+{"query_id":"query_73f6eb74d849c089d88e","text":"macular edema under 19.8 percent"}
+{"query_id":"query_8987e9b1ff4705d36066","text":"misoprostol = 400 µg"}
+{"query_id":"query_65675922179c56a558a6","text":"misoprostol exceeding 330 mcg"}
+{"query_id":"query_0a719a8b4a5baccca2a1","text":"misoprostol smaller than 550 ug"}
+{"query_id":"query_09175bf0f6b36859496f","text":"lung cancer with 30 gray"}
+{"query_id":"query_6fb708bbe2cd5866a627","text":"lung cancer > 21 Gy"}
+{"query_id":"query_befdf945379d52bcc55b","text":"lung cancer below 50 Gray"}
+{"query_id":"query_3575c70bc87b05d3d259","text":"bleeding again at 50%"}
+{"query_id":"query_93be1dc6b27612671d63","text":"bleeding again higher than 44%"}
+{"query_id":"query_cedc467aef804d331c38","text":"bleeding again below 35 percent"}
+{"query_id":"query_46a1f6d2456d6973852e","text":"vital body fluid amount = 8 tsp."}
+{"query_id":"query_fb83c6150fcf416593dc","text":"vital body fluid amount exceeding 9.5 teaspoons"}
+{"query_id":"query_ebce443c6ed39b08beac","text":"vital body fluid amount less than 1 tsp"}
+{"query_id":"query_186406f94753ecec6805","text":"clinical examinations  24 wks"}
+{"query_id":"query_f746e1eb0800decd601b","text":"clinical examinations over 33 Weeks"}
+{"query_id":"query_d60eaecd76b71d70cbb2","text":"clinical examinations fewer than 1 weeks"}
+{"query_id":"query_0524bcc28df0418d855f","text":"blood pressure of 50 mmHg"}
+{"query_id":"query_508e9cf174671d70954f","text":"blood pressure higher than 210 millimeters of mercury"}
+{"query_id":"query_3f8cff32429ac4c5fd38","text":"blood pressure below 1.56 mm Hg"}
+{"query_id":"query_e120a421325198c5bf3b","text":"dementia for eldery people exactly 50 people"}
+{"query_id":"query_de9958b4ec15b59dc6ae","text":"dementia for eldery people larger than 60 people"}
+{"query_id":"query_c208345c1c83cae8177c","text":"dementia for eldery people lower than 500 peoples"}
+{"query_id":"query_0b58e879597dfc3c4517","text":"vitamins exact 400 mg"}
+{"query_id":"query_c2bca8bfc6a02e958fc4","text":"vitamins more than 900 mg"}
+{"query_id":"query_185612e13de7ab5673fd","text":"vitamins less than 6 milligramme"}
+{"query_id":"query_4928771a58f328d9b123","text":"waste product of purines of 7 mg/dL"}
+{"query_id":"query_548e73ef440bd907e13d","text":"waste product of purines higher than 6 mg/dL"}
+{"query_id":"query_ca04496d7522f28ed434","text":"waste product of purines < 7 milligram per decilitre"}
+{"query_id":"query_33dac576b4510d72ddfb","text":"various metastases  20%"}
+{"query_id":"query_0fca11c0f81743898588","text":"various metastases above 81 pct."}
+{"query_id":"query_c533d72a4c41d1a6edf2","text":"various metastases lower than 6.5 percent"}
+{"query_id":"query_87ad388e1aec89009018","text":"various vaccines with 7.5 microgram"}
+{"query_id":"query_baf866ab7a953c8a9878","text":"various vaccines over 87 mcg"}
+{"query_id":"query_80c4d3f7dee21852d976","text":"various vaccines < 6 µg"}
+{"query_id":"query_a109eebfbc82fea4855e","text":"age of patient with cancer  70 years"}
+{"query_id":"query_664f474a8c71d70e55e6","text":"age of patient with cancer > 55 year of age"}
+{"query_id":"query_552c2e7da44a74432b87","text":"age of patient with cancer below 49 years old"}
+{"query_id":"query_29d63664e499188f8dca","text":"sample of spit equal to 5 mL"}
+{"query_id":"query_a33e480e9464e13a9fe7","text":"sample of spit larger than 2.5 ml"}
+{"query_id":"query_9bea5bbe4dd929d83c03","text":"sample of spit smaller than 6 cm3"}
+{"query_id":"query_29292898dd7ac3608231","text":"dose of a drug of 250 ug"}
+{"query_id":"query_9f444d7488fda33bf62b","text":"dose of a drug > 920 µg"}
+{"query_id":"query_4c7f80bf5160cb18f66d","text":"dose of a drug under 2 microgram"}
+{"query_id":"query_b3b5902a29d4944f527b","text":"physical strenghting program for 11 wk"}
+{"query_id":"query_685b631cbfc46895152d","text":"physical strenghting program exceeding 25 weeks"}
+{"query_id":"query_5a227c06993bc52879ba","text":"physical strenghting program fewer than 2 Weeks"}
+{"query_id":"query_facea417474ef2fccda9","text":"inactive drug with 2700 milligramme"}
+{"query_id":"query_763099f145fcd68695ba","text":"inactive drug more than 1900 milligram"}
+{"query_id":"query_08d87e3b6388d42a522f","text":"inactive drug smaller than 0.56 mg"}
+{"query_id":"query_204047438374efc89b5c","text":"unconsciousness and numbness drugs exactly 2 mg/Kg"}
+{"query_id":"query_32a75aac176c5ffa230c","text":"unconsciousness and numbness drugs over 1.8 mg/kg"}
+{"query_id":"query_28cdca3b236eedf959d1","text":"unconsciousness and numbness drugs beneath 0.49 milligram/kilogram"}
+{"query_id":"query_89cc7730eae0fe2e0a56","text":"impregnation rates with 50%"}
+{"query_id":"query_10ab76d440242eb35db5","text":"impregnation rates larger than 68 percent"}
+{"query_id":"query_6317ebcfafa9f069ca0d","text":"impregnation rates smaller than 4.9 pct."}
+{"query_id":"query_239d6118e0b6783508ab","text":"age condition to remove from study  75 years-old"}
+{"query_id":"query_cbfcbc6ba8ad56ba810f","text":"age condition to remove from study bigger than 56 year-old"}
+{"query_id":"query_f07c7ae8706d675e56af","text":"age condition to remove from study below 15 yo"}
+{"query_id":"query_5efedb2d2781e953ccff","text":"high intensity ray of light at 785 nanometres"}
+{"query_id":"query_ca255408333ceb9dbaea","text":"high intensity ray of light greater than 850 nm"}
+{"query_id":"query_c5c5106e7081751a287f","text":"high intensity ray of light below 620 nanometre"}
+{"query_id":"query_f76ed3b8274ad9ca43f7","text":"death rates with 60 day"}
+{"query_id":"query_ca491bb83459fe895689","text":"death rates over 99 dy"}
+{"query_id":"query_7652a3bb9434f5d72cdc","text":"death rates under 9 dy"}
+{"query_id":"query_34c4ae17ea5c43d43a32","text":"anti-inflammatory drug  4 milligrams"}
+{"query_id":"query_6839a1888a34b625e8bd","text":"anti-inflammatory drug exceed 10 milligram"}
+{"query_id":"query_be8c5d6e6eeb5e278c28","text":"anti-inflammatory drug smaller than 30 mg"}
+{"query_id":"query_6895fe3a8f26c89a228b","text":"pretreatment phase of 28 Day"}
+{"query_id":"query_f401c26820e16c3a2ecb","text":"pretreatment phase more than 25 days"}
+{"query_id":"query_56bace71eb324c770cc4","text":"pretreatment phase less than 22 dy"}
+{"query_id":"query_be917361d599b086ba56","text":"Diastolic blood pressure with 90 mmHg"}
+{"query_id":"query_8e02f96f1c6bbc4c2ac3","text":"Diastolic blood pressure above 91 millimetres of mercury"}
+{"query_id":"query_dc5977038a999817632e","text":"Diastolic blood pressure below 9 mmHg"}
+{"query_id":"query_10c473cf5d4f0a96b0f4","text":"dose folic acid = 1 mg"}
+{"query_id":"query_e02588340abec45e820e","text":"dose folic acid exceeding 52 mg"}
+{"query_id":"query_d3187ebeda1b44a7f252","text":"dose folic acid lower than 1.1 milligram"}
+{"query_id":"query_780522c7570bef3b3a2a","text":"protein intake with 20 gram"}
+{"query_id":"query_0ba0c9d89e9b8241d631","text":"protein intake higher than 27 g"}
+{"query_id":"query_e4ab7ac61bd76c1ad366","text":"protein intake less than 29 g"}
+{"query_id":"query_ba14851942d15f37ccdd","text":"Hemoglobin level of 8 gr/dL"}
+{"query_id":"query_fb34aee776f1bed7f740","text":"Hemoglobin level over 12.5 gram per decilitre"}
+{"query_id":"query_fbf6383516a4b8583483","text":"Hemoglobin level less than 2 g/dL"}
+{"query_id":"query_895a3be8037b6fbcc23c","text":"Visual Analogue Scale Pain with 143 mm"}
+{"query_id":"query_1431353ec09b4edf85a4","text":"Visual Analogue Scale Pain greater than 120 mm"}
+{"query_id":"query_e63ae3cc743e50fcc605","text":"Visual Analogue Scale Pain under 18 millimeters"}
+{"query_id":"query_60fcd7ec6187c95672a4","text":"Cardiovascular Disease equal to 830k deaths"}
+{"query_id":"query_6fef674ae1768d5af1a2","text":"Cardiovascular Disease bigger than 810k deaths"}
+{"query_id":"query_705bad390be2dde8b5f4","text":"Cardiovascular Disease under 820,000 deaths"}
+{"query_id":"query_03148c98b889a09d6352","text":"Human Immunodeficiency Virus RNA with 2000 copies/mL"}
+{"query_id":"query_9c5e0c42f2969f67dac8","text":"Human Immunodeficiency Virus RNA higher than 8 thousand copies/ml"}
+{"query_id":"query_4d061ac9c539eef5af11","text":"Human Immunodeficiency Virus RNA < 72 copies per mL"}
+{"query_id":"query_01266fe61f9bc867b5ef","text":"Maximum Tolerated Dose = 1 milligram per square metre"}
+{"query_id":"query_f29ee186e7c3652f41e9","text":"Maximum Tolerated Dose > 50 mg/m2"}
+{"query_id":"query_fc7cc22a5c673a17bd31","text":"Maximum Tolerated Dose below 83 mg/m^2"}
+{"query_id":"query_fc79511aaedd35282ec0","text":"Immunotherapy Infusion  15 weeks"}
+{"query_id":"query_30601076f3c8ce12826a","text":"Immunotherapy Infusion larger than 49 Week"}
+{"query_id":"query_485a284a5b757dd07190","text":"Immunotherapy Infusion under 2 weeks"}
+{"query_id":"query_1c7e6587f46bd01350e7","text":"anti-rheumatic drugs exactly 6 Week"}
+{"query_id":"query_55d244b15bed5229c2d6","text":"anti-rheumatic drugs higher than 12 weeks"}
+{"query_id":"query_37b3928e15752b484848","text":"anti-rheumatic drugs under 2 Weeks"}
+{"query_id":"query_7113a229892e1423139a","text":"Blood-stimulating drug of 40,000 units"}
+{"query_id":"query_7102e4bdcb095bbaa1d9","text":"Blood-stimulating drug exceeding 100,000 units"}
+{"query_id":"query_a40398cfb2cf38af1036","text":"Blood-stimulating drug beneath 30k units"}
+{"query_id":"query_048daae6dacef6976afe","text":"Chemotherapy Drug lung Cancer  60 mg/m^2"}
+{"query_id":"query_dd49ceef82580c9ce4f3","text":"Chemotherapy Drug lung Cancer > 190 mg/m^2"}
+{"query_id":"query_c9c13be7849db3294e29","text":"Chemotherapy Drug lung Cancer smaller than 72 mg/m2"}
+{"query_id":"query_36c4ded2712d42acae66","text":"Blood-thinner medication with 81 milligram"}
+{"query_id":"query_76ec95d655e144555a96","text":"Blood-thinner medication more than 610 mg"}
+{"query_id":"query_4adfdf862c466d56f77c","text":"Blood-thinner medication less than 72 milligram"}

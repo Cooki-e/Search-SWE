@@ -1,0 +1,57 @@
+schema_version = "1.4"
+
+artifacts = [
+    "/app",
+    "/logs/agent/trajectory.json",
+]
+
+[task]
+name = "search-swe/biomedical-graph-retrieval"
+version = "0.2.1"
+description = "Build a graph retrieval engine that returns complete node-ID answer sets under a per-query deadline."
+authors = [{ name = "Cooki-e" }]
+keywords = ["information-retrieval", "knowledge-graph", "biomedical", "exact-set-accuracy"]
+
+[metadata]
+dataset = "Complete fixed biomedical graph with authored, verified questions"
+primary_metric = "ExactSetAccuracy"
+public_query_count = 3
+hidden_query_count = 20
+query_concurrency = 1
+query_timeout_seconds = 30
+build_timeout_seconds = 1800
+data_status = "Local unpublished assets; unchanged graph and 20 hidden queries; 3 new public examples with different query plans, independently verified complete answer sets and disjoint public/private query anchors."
+
+[agent]
+timeout_sec = 7200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[verifier]
+timeout_sec = 5400.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+cpus = 16
+memory_mb = 32768
+storage_mb = 102400
+gpus = 0
+
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"

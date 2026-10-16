@@ -1,0 +1,57 @@
+schema_version = "1.4"
+
+artifacts = ["/app"]
+
+[task]
+name = "search-swe/code-context-retrieval"
+version = "0.1.0"
+description = "Retrieve source regions needed to understand and address an issue in a fixed repository snapshot."
+authors = [{ name = "Bingyu" }]
+keywords = ["code-search", "context-retrieval", "repository-exploration"]
+
+[metadata]
+dataset = "SWE-Explore, original reading-context labels"
+source_revision = "bdb0ae45d7c337d9e1dc3ebfe2a0af6bc7c1fbd9"
+primary_metric = "Mean core-line F1"
+public_query_count = 10
+hidden_query_count = 20
+snapshot_count = 30
+corpus_file_count = 51920
+max_regions = 5
+max_distinct_lines = 500
+index_build_timeout_seconds = 3600
+query_timeout_seconds = 180
+query_concurrency = 1
+data_status = "Local unpublished challenge subset; unchanged issues and core labels; repository-disjoint validation/test."
+
+[agent]
+timeout_sec = 7200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[verifier]
+timeout_sec = 7800.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+cpus = 16
+memory_mb = 32768
+storage_mb = 102400
+gpus = 0
+
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"

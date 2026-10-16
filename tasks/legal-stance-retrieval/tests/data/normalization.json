@@ -1,0 +1,12 @@
+{
+  "metric": "mean binary document-ID NDCG@10",
+  "baseline_B": 0.5610484855098774,
+  "reward": "min(1, max(0, (mean_ndcg10 - B) / (1 - B)))",
+  "reference_model": "Unfinetuned Qwen3-Embedding-0.6B, native instructed query encoding",
+  "reference_results": "screening/local-api-setting/local-serial-results.jsonl",
+  "reference_results_sha256": "8f2058fd962f2ed0c12d42a22e5ed127daf9127458a9d6c885a71ffe6e40296a",
+  "test_queries_sha256": "d63b2c25194298dc30cfc7ba1ad59a8ef3c7ddc2ff79b9e57572132c294eaaa2",
+  "qrels_sha256": "7e2c47993612348b818d24b8295633c154d62a42cc6c81daf013a9c5d9a1e580",
+  "corpus_sha256": "5e83cadbf0d47762a1a3aadb0883aaed6ce5d155206c22b4b6c1d89523cb8fc5",
+  "scope": "Versioned pooled-review reference; recompute B if qrels or metric change."
+}

@@ -1,0 +1,45 @@
+schema_version = "1.4"
+
+artifacts = ["/app/submission"]
+
+[task]
+name = "search-swe/decision-model-training"
+version = "0.1.0"
+description = "Build an offline decision model that generalizes across categorical, Boolean and ordinal tasks."
+authors = [{ name = "Bingyu" }]
+keywords = ["decision-model", "multi-task-learning", "classification", "gpu", "offline"]
+
+[metadata]
+dataset = "OpenJev mixture and held-out suite"
+backbone = "Qwen/Qwen3-0.6B"
+primary_metric = "Mean exact accuracy across seven equally sized datasets"
+example_count = 80000
+example_task_count = 279
+hidden_query_count = 4200
+hidden_dataset_count = 7
+sampling_seed = 20261014
+startup_timeout_seconds = 120
+inference_timeout_seconds = 240
+gpu_hardware = "1 x NVIDIA A100 40GB"
+data_status = "Locally prepared; derived inputs unpublished; constituent licenses retained."
+
+[agent]
+timeout_sec = 21600.0
+user = "root"
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 480.0
+user = "root"
+environment_mode = "separate"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "no-network"
+cpus = 16
+memory_mb = 32768
+storage_mb = 102400
+gpus = 1

@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/corpus.jsonl",
+      "size_bytes": 6492662,
+      "sha256": "5f67d4a41b59554ce9bf7af2add5175ae6a6f9b40dbd85831619c7bce1d4e949",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": null,
+        "filename": "tasks/negative-constraint-retrieval/data/corpus.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/queries.jsonl",
+      "size_bytes": 2464,
+      "sha256": "3c05c76d88713a011031935c4db3a9ba3204db32221b4224ca259ce1ac5dc697",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": null,
+        "filename": "tasks/negative-constraint-retrieval/data/validation/queries.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/ground_truth.jsonl",
+      "size_bytes": 1110,
+      "sha256": "0da00056d860c8a4506b89e1f87f3d200f6ed279441892fb104bf94efefa2f42",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": null,
+        "filename": "tasks/negative-constraint-retrieval/data/validation/ground_truth.jsonl"
+      }
+    }
+  ]
+}

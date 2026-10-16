@@ -1,72 +1,21 @@
-I need to look up passages in a long PDF repeatedly. Often I have a description of the material I want to find and need to locate the original pages so I can check the surrounding text. Please build an executable evidence-localization system that takes a natural-language query and returns the five most relevant physical pages, with an evidence excerpt and a relevance score for each, so I can go back to the document and verify them. Aim to maximize localization quality on held-out queries; you may use any retrieval architecture that satisfies the executable interface and resource constraints.
+I need to verify interpretations of events in a long novel against the original text. My questions are brief descriptions of a tension, motive, reversal, or relationship, and often do not name the characters. Please build an executable retrieval system that finds a small set of original sentences which, read together, fully support the requested explanation. I will use those sentences to check the interpretation without reading entire retrieved pages. Return evidence only; do not generate an answer.
 
-The file to work with is in `/task/data/corpus`, which contains exactly one PDF. It is the same long document used for development and hidden evaluation. To help you check the page finder while developing it, public queries are available in `/task/data/validation/queries.jsonl`, following the same record schema as hidden queries, and `/task/data/validation/golden_answers.jsonl` contains their reference physical pages and supporting excerpts. For a returned page number to lead back to the right place in the document, use the 1-based physical page index in the PDF. Please build genuine localization over this document, without hidden labels, hard-coded query-to-location mappings, precomputed query-to-answer mappings or answer files, external datasets containing evaluation judgments, or external search or answer services that supply evidence locations or evaluation answers.
+The shared document is the sole PDF in `/task/data/corpus`. Beside it, `sentences.jsonl` supplies a fixed, question-independent inventory of sentence units. Every record has `sentence_id`, `text`, and `pages`, where `pages` lists the 1-based physical PDF pages containing that unit. The inventory normalizes PDF typography and whitespace and defines the output boundaries, including dialogue and sentences crossing pages. You may use any internal parsing, chunking, indexing, or retrieval architecture, but return complete inventory units. Page numbers are provenance and do not determine the score. Use the inventory text when copying evidence; do not truncate, concatenate, paraphrase, or append an explanation to a unit.
 
-Read `/task/docs/environment.md` and `/task/docs/available_resources.md` before implementing. They describe the installed Python environment, runtime, packages and system tools, and optional retrieval and generative resources, including exact model allowlists, provider and endpoint restrictions, runtime environment-variable and credential handling, usage rules and jailbreak penalties. Only listed resources may be used according to those restrictions; an unlisted model, provider or endpoint is not implicitly permitted. Harbor injects the documented credentials at runtime, and you must not put them in the package or Docker image. Both documents are read-only task data. Treat all of `/task` as read-only and create or modify submission files only under `/app`. Your implementation, validation and debugging must fit into the agent's 120-minute allowance.
+Ten public examples are in `/task/data/validation/queries.jsonl`, with reference evidence in `/task/data/validation/golden_answers.jsonl`. Each query is `{"query_id":"opaque-query-id","query":"Question about the novel."}`. Each label has `query_id`, a `requirements` list explaining the information needed, and an `evidence` list of `{"sentence_id":"inventory-id","sentence":"complete inventory text"}` objects. These are sufficient examples, not the only acceptable evidence. The twelve private questions use the same PDF and sentence inventory but different questions and reference evidence. IDs are opaque and independent across splits; query order does not reveal locations. No `target` field is supplied.
 
-I need to be able to prepare the document once and then submit queries to the running service, so provide executable `/app/build.sh` and `/app/run.sh` entry points. Optional modules may live in `/app/src` and optional implementation notes and self-test details in `/app/README.md`. The verifier prepares the system by invoking:
+Read `/task/docs/environment.md` and `/task/docs/available_resources.md` before implementing. Follow their exact permitted models, providers, endpoints, runtime credential rules, and jailbreak penalties; unlisted resources are not implicitly permitted. Harbor injects the documented API credentials at runtime: never embed credentials in artifacts or an image. The environment has 16 CPUs, 64 GiB RAM, 100 GiB storage, and no GPU. You have 120 minutes for implementation, validation, and debugging. Treat `/task` as read-only and create or modify submission files only under `/app`.
 
-```bash
-/app/build.sh \
-  --corpus /task/data/corpus \
-  --index-dir /app/index
-```
+Provide executable `/app/build.sh` and `/app/run.sh`. Optional modules and notes may live in `/app/src` and `/app/README.md`. Preparation invokes `/app/build.sh --corpus /task/data/corpus --index-dir /app/index`. Build all indexes and runtime artifacts in the supplied index directory, start the search service, and return status 0 only after it is ready. The service must remain available across repeated query calls. Honor all supplied paths: verification stages the same corpus at a different location and may use different index and output paths.
 
-That command must create all required index and runtime artifacts, start the search service, and return exit status 0 only when the service is ready for queries. The service must continue working across repeated `run.sh` calls. The supplied `--index-dir` is where persistent indexes and other build artifacts belong. Honor the passed paths: verification mounts the same PDF at a different location, and its index and output directories may differ from these examples.
+Queries invoke `/app/run.sh --index-dir /app/index --queries /path/to/queries.jsonl --output /path/to/results.jsonl --top-k 5`. Process every supplied query and write exactly one JSON object per query. The verifier invokes this command separately for each private query, with up to five concurrent processes sharing the index and build-started service. Your internal protocol is unrestricted within this lifecycle and the resource policy.
 
-Once `build.sh` has returned successfully, the query interface is:
+An output line has exactly the top-level fields `query_id` and `results`, for example `{"query_id":"opaque-query-id","results":[{"sentence_id":"inventory-id","sentence":"complete inventory text"}]}`. Preserve the input query ID. Return zero to five distinct inventory units; `--top-k 5` is a maximum, not a requirement to pad the result. Each item must contain exactly `sentence_id` and `sentence`. No page, score, or generated-answer field is accepted. The text must match the identified unit after Unicode NFKC and whitespace normalization; other wording and punctuation must match. The combined submitted sentence text must not exceed 16,000 characters. Return valid JSON without duplicate keys or duplicate query IDs. Evidence order does not affect grading. An empty evidence list is valid but earns zero.
 
-```bash
-/app/run.sh \
-  --index-dir /app/index \
-  --queries /path/to/queries.jsonl \
-  --output /path/to/results.jsonl \
-  --top-k 5
-```
+After development, Harbor transfers `/app` into a fresh verifier environment with the same runtime and corpus. It supplies private queries, without mounting public validation files. Agent-phase processes are not transferred, so `build.sh` must recreate the service. Submission commands execute as an unprivileged user; evaluation dependencies must already exist in the base image or under `/app`. The build limit is 2,400 seconds. Each query has its own 900-second limit, with up to five concurrent queries, and the entire query phase shares 1,800 seconds. Queuing does not consume a query's individual allowance, but the shared deadline continues advancing. Unfinished and unlaunched queries at that deadline receive zero. The outer query runner has 60 more seconds for cleanup and result collection; the complete verifier phase is limited to 10,800 seconds.
 
-Each input line looks like `{"query_id":"opaque-query-id","query":"Describe the passage to locate."}`. Query IDs are opaque, all queries concern the sole PDF, and no `target` field is supplied. Process every input query and write exactly one result object per query. The verifier invokes `run.sh` separately for each query, with up to five concurrent processes sharing the index and any service started by the build. Choose any internal protocol or endpoint that works with this build lifecycle and command-line interface.
+The verifier first checks the output contract and verifies each sentence against the fixed inventory and PDF checksums. It then uses OpenRouter `openai/gpt-6-luna`, with reasoning effort `high` and temperature 0, to judge the complete evidence set for each query. A query earns 1 only when its original sentences together sufficiently establish the requested explanation, contrast, reversal, or qualification. A topical match or the right scene alone is insufficient. The judge accepts alternative original evidence that satisfies the question and does not require particular reference sentence IDs. It must not borrow missing facts from the reference answer or outside knowledge. Extra relevant or harmless redundant evidence is allowed within the five-unit limit. Judge credentials are verifier-only; this judge model is not thereby added to the models you may call.
 
-Each output line must be a JSON object like:
+The metric is `SentenceEvidenceAccuracy`: the number of completely supported queries divided by all twelve private queries. Missing, invalid, failed, or timed-out queries contribute zero and stay in that denominator; one failed query does not erase other successful queries. Failure to build or initialize shared verification prevents all queries from scoring. A judge service or parsing failure marks the evaluation invalid and produces no valid accuracy measurement, with a fail-closed final reward of zero; it is reported separately from retrieval mistakes. The report displays 100 times the accuracy before the compliance gate, while reward is on the 0–1 scale. A separate trajectory audit checks resource and task compliance; an unsuccessful audit sets final reward to zero.
 
-```json
-{
-  "query_id": "query-id",
-  "results": [
-    {
-      "page": 12,
-      "evidence": "text from page 12",
-      "score": 0.9
-    },
-    {
-      "page": 13,
-      "evidence": "text from page 13",
-      "score": 0.8
-    },
-    {
-      "page": 25,
-      "evidence": "text from page 25",
-      "score": 0.7
-    },
-    {
-      "page": 26,
-      "evidence": "text from page 26",
-      "score": 0.6
-    },
-    {
-      "page": 30,
-      "evidence": "text from page 30",
-      "score": 0.5
-    }
-  ]
-}
-```
-
-Preserve the input `query_id` and return exactly five items when invoked with `--top-k 5`. Each item needs a valid physical page from this PDF, a non-empty evidence string from that page, and a finite numeric score. Pages must be unique within the query, results must be in descending score order, and equal scores must be resolved by ascending page number. The evidence text must actually correspond to the reported page so that the passage can be checked there.
-
-After the agent phase, Harbor transfers `/app` to a fresh verifier environment with the same runtime. That environment gets the same PDF and private queries, but not the public validation queries or labels. Agent-phase processes are not transferred, so `build.sh` must restart the service. Submission commands execute as an unprivileged user; anything needed at evaluation time must already be in the base image or installed under `/app`.
-
-The verifier gives `build.sh` 2,400 seconds. Every query has its own `run.sh` process with a 900-second limit and up to five such processes may run concurrently, but they all share a 1,800-second execution budget. Questions still unfinished or not yet launched when that shared deadline arrives score zero. Time spent queuing does not consume a query's individual allowance, although the shared deadline keeps advancing. The runner gets an additional 60 seconds for cleanup and result collection, and all of this sits within a 10,800-second verifier phase.
-
-The verifier checks the executable entry points and service startup, real evidence localization, and each query's JSONL structure, result count, page numbers, evidence, scores, duplicates and ranking. A failed or timed-out query scores zero while the others continue; missing or invalid output also scores zero for that query and stays in the average's denominator. A failure to build the shared index or initialize verification prevents every query from scoring. Page relevance is checked deterministically against gold labels, with no model judging answer correctness. A model audit checks trajectory compliance only.
-
-To measure how much of the relevant evidence these five pages let me find, the only localization metric for a valid submission that passes that audit is Recall@5. For one query this is the number of relevant evidence pages retrieved in the top five divided by the number of relevant evidence pages for that query. Reward is average Recall@5 with failed or invalid queries contributing zero, so it lies between 0 and 1. The evaluation report displays 100 times average Recall@5 before the trajectory gate; a failed trajectory audit sets the final reward to zero. Hidden queries and their private page-relevance judgments concern this same PDF but differ from the public examples and are not copied into your environment. Their IDs are independent opaque identifiers, unique across splits, and their order says nothing about page position.
+Build genuine retrieval over the supplied document. Do not use hidden labels, hard-coded query-to-location mappings, precomputed query-to-answer mappings or answer files, external datasets containing evaluation judgments, or external search or answer services supplying evidence locations or evaluation answers. The documented generation and retrieval APIs may assist your pipeline only within their stated policy. Aim to maximize complete evidence support on unseen questions, rather than similarity to the public reference IDs.

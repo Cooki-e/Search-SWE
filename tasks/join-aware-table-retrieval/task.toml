@@ -1,0 +1,53 @@
+schema_version = "1.4"
+
+artifacts = [
+    "/app/submission",
+]
+
+[task]
+name = "search-swe/join-aware-table-retrieval"
+version = "0.6.0"
+description = "Build a catalog search engine that retrieves all tables and column-level joins needed to answer an unseen question."
+authors = [{ name = "Bingyu" }]
+keywords = ["information-retrieval", "table-retrieval", "join-search"]
+
+[metadata]
+primary_metric = "Complete table-and-join coverage at 5 tables and 6 joins"
+public_example_count = 10
+hidden_query_count = 10
+metric_k = 5
+query_concurrency = 1
+
+[agent]
+timeout_sec = 7200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[verifier]
+timeout_sec = 4800.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+cpus = 16
+memory_mb = 32768
+storage_mb = 102400
+gpus = 0
+
+[environment.env]
+OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"

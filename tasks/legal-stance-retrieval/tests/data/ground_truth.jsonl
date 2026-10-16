@@ -1,0 +1,311 @@
+{"query_id": "test_0001_all", "relevance": {"c_609aa0434cf7e9ab": 1}}
+{"query_id": "test_0003_refuted", "relevance": {"c_2600c0a9ad6af707": 1, "c_302af49e7eb49876": 1, "c_834b7b6a9fe1ca73": 1, "c_ba9a4d20df6f135c": 1, "c_d2b6ab2750acf255": 1}}
+{"query_id": "test_0004_refuted", "relevance": {"c_7b8914edff77dabb": 1}}
+{"query_id": "test_0005_all", "relevance": {"c_45d044cb95a08bd7": 1}}
+{"query_id": "test_0006_supported", "relevance": {"c_a431f5b4e9f534b6": 1}}
+{"query_id": "test_0008_refuted", "relevance": {"c_d5c2b3d0ab36fd9c": 1}}
+{"query_id": "test_0009_supported", "relevance": {"c_71089672bfbebabd": 1}}
+{"query_id": "test_0011_all", "relevance": {"c_09230434f49a2882": 1, "c_1562539db95abab0": 1, "c_5f272dead1c72052": 1, "c_a3410b10e4f43657": 1, "c_a5350884ca2cb33a": 1, "c_d0efe5e5cd0c4577": 1}}
+{"query_id": "test_0013_refuted", "relevance": {"c_216cc1a6c0ab440f": 1, "c_666bd13f0f7ea8a5": 1, "c_963f0fd081a9af06": 1, "c_ae6136f593a27aa2": 1}}
+{"query_id": "test_0014_all", "relevance": {"c_0c17d7808735bf9f": 1}}
+{"query_id": "test_0015_all", "relevance": {"c_220175ea2c0fb48f": 1, "c_35d7490b95aadc1d": 1, "c_d69a2f5fd2fdcb56": 1}}
+{"query_id": "test_0016_supported", "relevance": {"c_2dc292d6afe9ef33": 1, "c_8a10aba3d81cc10f": 1}}
+{"query_id": "test_0018_all", "relevance": {"c_a032269cf27dff75": 1, "c_c35370f4766144ea": 1}}
+{"query_id": "test_0020_supported", "relevance": {"c_613a9991386c5b08": 1}}
+{"query_id": "test_0022_all", "relevance": {"c_44e3e3b1b3c0a246": 1}}
+{"query_id": "test_0024_refuted", "relevance": {"c_37b1da963eff86fd": 1}}
+{"query_id": "test_0025_all", "relevance": {"c_70296b89117dbf80": 1}}
+{"query_id": "test_0026_supported", "relevance": {"c_22f273981c25407f": 1, "c_b3f1d96888ab7272": 1}}
+{"query_id": "test_0027_refuted", "relevance": {"c_411f68d0c133785c": 1}}
+{"query_id": "test_0029_all", "relevance": {"c_aca88e5bb47544a0": 1}}
+{"query_id": "test_0030_supported", "relevance": {"c_31764602d71d7c47": 1}}
+{"query_id": "test_0031_supported", "relevance": {"c_51095bd69cb03f5c": 1}}
+{"query_id": "test_0032_supported", "relevance": {"c_dc5d2a57f39eef1c": 1}}
+{"query_id": "test_0036_all", "relevance": {"c_083ea255555fdc38": 1}}
+{"query_id": "test_0037_refuted", "relevance": {"c_20a51754c1fb9487": 1, "c_3e6aedc218da117e": 1, "c_70381bdd27a783a0": 1}}
+{"query_id": "test_0038_all", "relevance": {"c_144eb5e9427fc287": 1}}
+{"query_id": "test_0039_refuted", "relevance": {"c_16566de3adda5b07": 1, "c_69c01b91a88cda67": 1, "c_b4cccf79df140ef9": 1, "c_d47349d944d66e6a": 1, "c_e59f0e17f23557ad": 1, "c_edb76a93e3be0c8c": 1}}
+{"query_id": "test_0040_supported", "relevance": {"c_9470d8313135583f": 1}}
+{"query_id": "test_0042_supported", "relevance": {"c_df8d79398ef63024": 1}}
+{"query_id": "test_0043_all", "relevance": {"c_f6abc5f171055204": 1}}
+{"query_id": "test_0045_refuted", "relevance": {"c_6127d02cac6372ac": 1, "c_cb110fe60f3bf506": 1}}
+{"query_id": "test_0048_supported", "relevance": {"c_0909e36d6e9eebb9": 1, "c_2f1998dc65400e46": 1, "c_f759172555432084": 1}}
+{"query_id": "test_0054_all", "relevance": {"c_8a6b9a0d94c13e95": 1, "c_bf5c5f66bb75c28b": 1, "c_d8d5b89b7521dba8": 1, "c_dc62122f59318bc0": 1, "c_eceae2b1c93c8a93": 1}}
+{"query_id": "test_0060_all", "relevance": {"c_f6def1e304b7461c": 1}}
+{"query_id": "test_0061_supported", "relevance": {"c_2f8390d67b905349": 1, "c_5483cb55c7684c65": 1, "c_6051caf1df3497d2": 1, "c_7b32cf398722af49": 1, "c_8bf98667cdb356cc": 1, "c_a71c886c6564dde1": 1, "c_d40fdf02bcc78ba3": 1, "c_d975073e536fc340": 1}}
+{"query_id": "test_0062_all", "relevance": {"c_e04d07f2cf5293bc": 1}}
+{"query_id": "test_0064_all", "relevance": {"c_d211767088e5c3ca": 1}}
+{"query_id": "test_0066_supported", "relevance": {"c_bbf8a9a5768b54a0": 1}}
+{"query_id": "test_0067_refuted", "relevance": {"c_a4b4e1e8857f9d7b": 1}}
+{"query_id": "test_0069_supported", "relevance": {"c_49665ed14a572a0d": 1}}
+{"query_id": "test_0070_supported", "relevance": {"c_b7c39a70814363ee": 1}}
+{"query_id": "test_0074_supported", "relevance": {"c_2de0fe7bf0dcb2ea": 1, "c_6e9deb07582082ce": 1, "c_fb65e598299cacb0": 1}}
+{"query_id": "test_0076_supported", "relevance": {"c_25441699512ef91e": 1, "c_2e0d316a4c3a1254": 1, "c_54c09d6b8aac0382": 1, "c_6220ff2b3f3d231d": 1, "c_8342898674eed0b2": 1, "c_98317bd41d72f692": 1, "c_a74c86e932c1b85f": 1}}
+{"query_id": "test_0077_refuted", "relevance": {"c_6486eb3387d3d1bc": 1}}
+{"query_id": "test_0078_all", "relevance": {"c_18dab4773b19ec47": 1, "c_1ef413ee201c6880": 1, "c_8ff1212fbeb36872": 1}}
+{"query_id": "test_0080_all", "relevance": {"c_1e8208090c47f8e9": 1, "c_3491ab4a4fb89dd5": 1, "c_8d8f2e320ea3ae15": 1, "c_b541e9e983ad21cb": 1, "c_b862ef5b3da8b295": 1}}
+{"query_id": "test_0084_supported", "relevance": {"c_e644ce0b234ecb3e": 1}}
+{"query_id": "test_0085_all", "relevance": {"c_fe1f05f82f058ebb": 1}}
+{"query_id": "test_0086_refuted", "relevance": {"c_8cd74cc905cc085a": 1}}
+{"query_id": "test_0087_supported", "relevance": {"c_50b541be8dab5a9d": 1}}
+{"query_id": "test_0088_all", "relevance": {"c_6f7b80e276f8d391": 1}}
+{"query_id": "test_0089_all", "relevance": {"c_871f4357878154bc": 1}}
+{"query_id": "test_0090_all", "relevance": {"c_cd12908c78b4a503": 1}}
+{"query_id": "test_0092_all", "relevance": {"c_60de51ce9b516411": 1, "c_9fe60ee217d3a618": 1}}
+{"query_id": "test_0094_all", "relevance": {"c_017e5e98a9a2a3dd": 1, "c_0c290d02644371d1": 1}}
+{"query_id": "test_0095_all", "relevance": {"c_527701913d294920": 1}}
+{"query_id": "test_0096_refuted", "relevance": {"c_613a9991386c5b08": 1, "c_e71326a817e32d16": 1}}
+{"query_id": "test_0098_supported", "relevance": {"c_e7ec354c7bc60888": 1}}
+{"query_id": "test_0100_supported", "relevance": {"c_0e621d164eb33d97": 1}}
+{"query_id": "test_0101_supported", "relevance": {"c_06a23a975327171a": 1, "c_4979c0d7aaf9f3ee": 1, "c_87673332dd7ff910": 1}}
+{"query_id": "test_0103_supported", "relevance": {"c_15dd0bc13150f3e7": 1, "c_71e45f18ec3b6472": 1, "c_c5b0842a5e9de299": 1}}
+{"query_id": "test_0106_supported", "relevance": {"c_1480b5e83297e728": 1}}
+{"query_id": "test_0108_supported", "relevance": {"c_01c6df444f752cef": 1, "c_0b4467e43cde1671": 1, "c_0fbcbd764f2de912": 1, "c_4455ea0f5f874797": 1, "c_4a1543c835576669": 1, "c_509ed39aabc66b0a": 1, "c_89eccd06051cad3e": 1, "c_928085acb2ddca0b": 1, "c_d4f25ad40154ac0b": 1, "c_e2fc3b624d82e95d": 1}}
+{"query_id": "test_0109_refuted", "relevance": {"c_7a1249c01c84f181": 1}}
+{"query_id": "test_0111_all", "relevance": {"c_4240f563ebcf6d62": 1, "c_84db52f9d8e79bbf": 1}}
+{"query_id": "test_0112_supported", "relevance": {"c_257ee7631c6adbd2": 1, "c_4453f93362f02627": 1, "c_51095bd69cb03f5c": 1, "c_75fae5970f220114": 1, "c_8673632aedd5ec0a": 1, "c_94db002e7d0dc9d1": 1, "c_9c34c04086aa33fb": 1, "c_aff9ff5a78856573": 1, "c_c6bade7745f54ad5": 1}}
+{"query_id": "test_0114_all", "relevance": {"c_cdaefeeffe1fd695": 1}}
+{"query_id": "test_0115_all", "relevance": {"c_390b3c2504bc3a99": 1, "c_850ece55267b8236": 1}}
+{"query_id": "test_0116_supported", "relevance": {"c_159a1ff4a9e753d1": 1, "c_3f5fa7ea46eb9b38": 1}}
+{"query_id": "test_0117_all", "relevance": {"c_f075725bcde697a6": 1}}
+{"query_id": "test_0118_all", "relevance": {"c_782878221eb7c651": 1, "c_8065d54a0bec30a0": 1, "c_8646a78842764734": 1, "c_87a9f3592125ca32": 1, "c_bed245ddd1cf9202": 1}}
+{"query_id": "test_0120_supported", "relevance": {"c_8025350c4241bc92": 1}}
+{"query_id": "test_0121_refuted", "relevance": {"c_18a1076c17bb6bbf": 1}}
+{"query_id": "test_0122_supported", "relevance": {"c_4a2af4222b8d38b1": 1}}
+{"query_id": "test_0123_refuted", "relevance": {"c_5fe48b093f020f86": 1, "c_a82f4d8ccda5659d": 1}}
+{"query_id": "test_0124_all", "relevance": {"c_85709304a8ed1c59": 1, "c_989f691d87bb493e": 1}}
+{"query_id": "test_0125_supported", "relevance": {"c_5cc0c4f7ac775b60": 1, "c_da03f48b7791a4ac": 1}}
+{"query_id": "test_0126_supported", "relevance": {"c_0d4a00ab9794a26a": 1, "c_444558d90ebffb76": 1}}
+{"query_id": "test_0127_all", "relevance": {"c_5089c5e09fe3524e": 1, "c_8ff1212fbeb36872": 1, "c_e1bcac72fdaa9ea4": 1, "c_e6503b85e6554a45": 1}}
+{"query_id": "test_0128_all", "relevance": {"c_0fa6a2e19949b6e9": 1}}
+{"query_id": "test_0129_supported", "relevance": {"c_c319467684c6aa8d": 1}}
+{"query_id": "test_0131_refuted", "relevance": {"c_184f1500ce768983": 1}}
+{"query_id": "test_0132_supported", "relevance": {"c_df42524487664e2f": 1}}
+{"query_id": "test_0133_all", "relevance": {"c_1977250f266b2f33": 1, "c_84db52f9d8e79bbf": 1}}
+{"query_id": "test_0134_all", "relevance": {"c_d1512171a9fd33fc": 1}}
+{"query_id": "test_0136_refuted", "relevance": {"c_3bdb18fb60de3388": 1}}
+{"query_id": "test_0139_supported", "relevance": {"c_c1e5b4d4881f9955": 1}}
+{"query_id": "test_0140_refuted", "relevance": {"c_fd9c9b3fe9988708": 1}}
+{"query_id": "test_0143_refuted", "relevance": {"c_d8d5b89b7521dba8": 1, "c_e8c1514dedbd0aca": 1, "c_fe83bbdd54217542": 1}}
+{"query_id": "test_0144_supported", "relevance": {"c_b71d9287d43ef166": 1}}
+{"query_id": "test_0145_supported", "relevance": {"c_333387d66dcf57a0": 1}}
+{"query_id": "test_0148_supported", "relevance": {"c_0208d6a586c18ce1": 1, "c_0ba06edd5bf94869": 1}}
+{"query_id": "test_0149_supported", "relevance": {"c_25cd222536f00484": 1}}
+{"query_id": "test_0151_refuted", "relevance": {"c_e2d7cea0f98a4ef6": 1}}
+{"query_id": "test_0152_all", "relevance": {"c_e93f8ce26b02074a": 1}}
+{"query_id": "test_0155_supported", "relevance": {"c_f32f757b12cb6ebf": 1}}
+{"query_id": "test_0157_refuted", "relevance": {"c_7d7f5affb2def3de": 1}}
+{"query_id": "test_0160_refuted", "relevance": {"c_80d75e52a4b5d0fc": 1, "c_b42e9138969e2b8a": 1}}
+{"query_id": "test_0162_supported", "relevance": {"c_e5e5431fce06545d": 1}}
+{"query_id": "test_0164_supported", "relevance": {"c_c955017f2114e488": 1}}
+{"query_id": "test_0165_supported", "relevance": {"c_f53d8badacb41b9d": 1}}
+{"query_id": "test_0169_all", "relevance": {"c_0f18aa7b0e21d39f": 1, "c_1c78beb44bf5f255": 1, "c_72c0129b54f595fe": 1, "c_bf5c5f66bb75c28b": 1}}
+{"query_id": "test_0171_refuted", "relevance": {"c_13bf51e334778992": 1}}
+{"query_id": "test_0173_refuted", "relevance": {"c_b0c22e2b9d25c00e": 1}}
+{"query_id": "test_0175_all", "relevance": {"c_008ad3c549821f6a": 1, "c_08c3c63218102899": 1, "c_176632ca33c2049f": 1, "c_1b04d9cf2019e501": 1, "c_214fc257cf0156f7": 1, "c_3c2bcf9c0ff3b516": 1, "c_57409c1152dd4726": 1, "c_64fa7ed24aa35bed": 1, "c_686bd3da6bb43852": 1, "c_6a8c93efed7aa59d": 1, "c_83ec0c07cf02c5d5": 1, "c_8c4e90838b37f43f": 1, "c_a92e3cd4992c40f6": 1, "c_abc06d3f705ab21e": 1, "c_b82e54e0009d389a": 1, "c_c321a3d1ff630ec9": 1, "c_c39620d540f7d15e": 1, "c_c5b36f24ad0e2c68": 1, "c_d91da18c4568d110": 1, "c_dc6a139635702013": 1, "c_ebdc05117f37eff4": 1, "c_f1bda325a4b53425": 1, "c_f36bf1d83c1f574c": 1, "c_f6ffe6fed3de57d6": 1, "c_fd37d075d190f565": 1}}
+{"query_id": "test_0176_supported", "relevance": {"c_608b2812fafd5920": 1, "c_634ac86e0082b191": 1}}
+{"query_id": "test_0177_all", "relevance": {"c_11d90302df058972": 1, "c_2497b0976c5bac1d": 1, "c_787a89af3c7b33b8": 1, "c_d9ac6bb6b711fc46": 1, "c_dc14613f4e16e54d": 1}}
+{"query_id": "test_0180_supported", "relevance": {"c_27f263bd0ababf43": 1}}
+{"query_id": "test_0181_refuted", "relevance": {"c_330f07f22dccb69c": 1}}
+{"query_id": "test_0182_supported", "relevance": {"c_7ed2db42f0d82a9a": 1}}
+{"query_id": "test_0183_supported", "relevance": {"c_7420cc2e54578b7c": 1}}
+{"query_id": "test_0184_all", "relevance": {"c_df7721fa22dc4b9d": 1}}
+{"query_id": "test_0185_refuted", "relevance": {"c_320e5646be2a3c7c": 1, "c_6e4c28e9d11e2efc": 1, "c_f248e32bc5f5eb57": 1}}
+{"query_id": "test_0186_supported", "relevance": {"c_2866213d904686bf": 1}}
+{"query_id": "test_0187_all", "relevance": {"c_f8d74597323dd0ff": 1}}
+{"query_id": "test_0189_all", "relevance": {"c_898521d4a0b2c0df": 1}}
+{"query_id": "test_0190_all", "relevance": {"c_7653970e766ee464": 1, "c_fba5667d56ba4239": 1}}
+{"query_id": "test_0191_supported", "relevance": {"c_e1e1d3335ba50558": 1}}
+{"query_id": "test_0192_supported", "relevance": {"c_eebdb38dab4d6df3": 1}}
+{"query_id": "test_0193_supported", "relevance": {"c_d533f63933f4cd90": 1}}
+{"query_id": "test_0194_all", "relevance": {"c_dec06fb0bb85956a": 1}}
+{"query_id": "test_0196_refuted", "relevance": {"c_70630f58b99dbf6c": 1}}
+{"query_id": "test_0197_refuted", "relevance": {"c_23198e8c3c7f8993": 1, "c_54878bbfc5b1b4e0": 1, "c_a2c33275d2f6ff44": 1}}
+{"query_id": "test_0198_refuted", "relevance": {"c_efc46c5e08e47d8c": 1}}
+{"query_id": "test_0199_supported", "relevance": {"c_a522af97cd3c7647": 1}}
+{"query_id": "test_0200_supported", "relevance": {"c_11d90302df058972": 1, "c_1e4b501f0d0e26d0": 1, "c_2f3b84cc68d4d965": 1, "c_3f25270785481f80": 1, "c_46ecae4c5537fc28": 1, "c_4a1543c835576669": 1, "c_52343ac0744061b8": 1, "c_6d5cf17dab3f5c60": 1, "c_81f19b5b190cab51": 1, "c_928085acb2ddca0b": 1, "c_a11825ef251851cc": 1, "c_a74c86e932c1b85f": 1, "c_a7be855d5a9093e2": 1, "c_b088c1c209a89928": 1, "c_b8ee700f9f70d621": 1, "c_b9be82c7d743849c": 1, "c_be3c8fdc8e76626c": 1, "c_d7fb5e283f8e4399": 1, "c_d9ac6bb6b711fc46": 1, "c_e129bcfab2f2c3f9": 1, "c_e12f85a0a06c0be6": 1, "c_e59f0e17f23557ad": 1, "c_ee37af5e7f4863c5": 1, "c_fb088768d69bbac4": 1, "c_fd9c9b3fe9988708": 1}}
+{"query_id": "test_0201_refuted", "relevance": {"c_3370b7413c8130a8": 1, "c_534c60fe2e48c02e": 1}}
+{"query_id": "test_0202_supported", "relevance": {"c_26145c377fe3809c": 1, "c_fa618becff79867c": 1}}
+{"query_id": "test_0203_refuted", "relevance": {"c_33e68565663f45a4": 1, "c_dbb133adc3b3f3e9": 1}}
+{"query_id": "test_0204_refuted", "relevance": {"c_0ec9732496ff87c9": 1}}
+{"query_id": "test_0205_all", "relevance": {"c_923b1cdb6c480c8d": 1}}
+{"query_id": "test_0206_supported", "relevance": {"c_7c073542ed6c5e09": 1}}
+{"query_id": "test_0208_supported", "relevance": {"c_22f988970b5fcd71": 1}}
+{"query_id": "test_0210_all", "relevance": {"c_98261a2dd4bb655b": 1}}
+{"query_id": "test_0214_all", "relevance": {"c_bf8206b183a09e7f": 1}}
+{"query_id": "test_0215_supported", "relevance": {"c_0fcf6f47659c2b92": 1}}
+{"query_id": "test_0216_supported", "relevance": {"c_19159903d94d1a17": 1}}
+{"query_id": "test_0217_supported", "relevance": {"c_35da53c05f3f49af": 1, "c_e09919d635644345": 1}}
+{"query_id": "test_0220_all", "relevance": {"c_2600c0a9ad6af707": 1, "c_92b8eef199ed7d9a": 1}}
+{"query_id": "test_0221_all", "relevance": {"c_3bb0995550599efc": 1, "c_ad71648706d55dc0": 1, "c_d189794f0a5433b9": 1, "c_f3a99c302eeec9e1": 1}}
+{"query_id": "test_0223_refuted", "relevance": {"c_b15bf870fb87aaef": 1}}
+{"query_id": "test_0224_all", "relevance": {"c_0a58cd732a44f0d6": 1, "c_181e486c7ac1510c": 1, "c_2454aedecec112fb": 1, "c_2a0bb65e69a68fce": 1, "c_2a48f79751c37bdd": 1, "c_497cb097ea9b2c2f": 1, "c_7388645ac1ad7631": 1, "c_7fbebce5df759e9e": 1, "c_8ea01c6de0f4aa5a": 1, "c_9470d8313135583f": 1, "c_9ffeb300a2faa4c8": 1, "c_d161fb7adbddb9ff": 1}}
+{"query_id": "test_0225_supported", "relevance": {"c_320e5646be2a3c7c": 1, "c_6e4c28e9d11e2efc": 1, "c_f248e32bc5f5eb57": 1}}
+{"query_id": "test_0226_supported", "relevance": {"c_a11f1cdc0772571b": 1}}
+{"query_id": "test_0227_supported", "relevance": {"c_125501c28ebcb208": 1}}
+{"query_id": "test_0228_supported", "relevance": {"c_497fa558948289b0": 1}}
+{"query_id": "test_0229_refuted", "relevance": {"c_7b0364584b9eeea3": 1}}
+{"query_id": "test_0230_refuted", "relevance": {"c_a640a338ca20bd3f": 1, "c_e1eacb48609830d5": 1}}
+{"query_id": "test_0231_refuted", "relevance": {"c_40b3bbebe89beedb": 1, "c_59bbd1db9a40b683": 1}}
+{"query_id": "test_0232_supported", "relevance": {"c_47cece6493f24905": 1, "c_47f1fa2cb717323a": 1}}
+{"query_id": "test_0234_supported", "relevance": {"c_389c999a74512268": 1}}
+{"query_id": "test_0235_supported", "relevance": {"c_99d11f4ff67df779": 1, "c_ab3920269ebde852": 1}}
+{"query_id": "test_0236_supported", "relevance": {"c_2304cc9242641cca": 1}}
+{"query_id": "test_0241_refuted", "relevance": {"c_508b6994bec5db06": 1}}
+{"query_id": "test_0242_supported", "relevance": {"c_180dd7c1db9cf833": 1, "c_1977e9ed8f7fa2ba": 1, "c_6617423f8757bed3": 1, "c_f20a4d6460849653": 1, "c_ff119702e683da42": 1}}
+{"query_id": "test_0244_supported", "relevance": {"c_e27aa464e39ce2fc": 1}}
+{"query_id": "test_0245_refuted", "relevance": {"c_4ef489e39ddc981c": 1, "c_6b8c2876cd7e8093": 1}}
+{"query_id": "test_0248_all", "relevance": {"c_14774918563a89dd": 1, "c_1977e9ed8f7fa2ba": 1, "c_6ebf9b2cef874f67": 1, "c_99d11f4ff67df779": 1, "c_a9b962cc85d0bc58": 1, "c_ab3920269ebde852": 1}}
+{"query_id": "test_0249_all", "relevance": {"c_062e1ab4ea99050e": 1, "c_071c5bf99df838ed": 1, "c_13cf12910424e823": 1, "c_208e362287f8d3c3": 1, "c_2eaf06924aadb6e7": 1, "c_3050b18d26ff27db": 1, "c_4c16d6a093ac46ef": 1, "c_5d7784a9f4aaba11": 1, "c_5eb555c3021eca36": 1, "c_68233430d9d96b47": 1, "c_84c2444384308633": 1, "c_d8d5b89b7521dba8": 1, "c_f47473340c8cebcd": 1}}
+{"query_id": "test_0250_supported", "relevance": {"c_8324cffd0ee5e69b": 1}}
+{"query_id": "test_0252_all", "relevance": {"c_4c1d25f88307d54b": 1}}
+{"query_id": "test_0255_supported", "relevance": {"c_609aa0434cf7e9ab": 1}}
+{"query_id": "test_0257_supported", "relevance": {"c_07b34b87eb070e9a": 1}}
+{"query_id": "test_0258_all", "relevance": {"c_2737cede9e07ddb7": 1}}
+{"query_id": "test_0259_supported", "relevance": {"c_27dcb79a53978264": 1}}
+{"query_id": "test_0260_supported", "relevance": {"c_220175ea2c0fb48f": 1, "c_d69a2f5fd2fdcb56": 1}}
+{"query_id": "test_0261_refuted", "relevance": {"c_7e2da1db0511bfea": 1}}
+{"query_id": "test_0262_supported", "relevance": {"c_89a8e15cba80c3e3": 1}}
+{"query_id": "test_0263_refuted", "relevance": {"c_cd1b43398853fe62": 1}}
+{"query_id": "test_0264_refuted", "relevance": {"c_1562539db95abab0": 1, "c_5f272dead1c72052": 1, "c_a5350884ca2cb33a": 1}}
+{"query_id": "test_0265_supported", "relevance": {"c_c42e7c3e2e6fe42e": 1}}
+{"query_id": "test_0267_refuted", "relevance": {"c_497d99bde2c08bdb": 1, "c_d399198c5f8f1f91": 1, "c_d4e5ef51d6984534": 1}}
+{"query_id": "test_0269_refuted", "relevance": {"c_cc98211e85fdf1d9": 1}}
+{"query_id": "test_0270_refuted", "relevance": {"c_715ef6d69c90d5e4": 1, "c_aa568613dde4fcbb": 1}}
+{"query_id": "test_0273_supported", "relevance": {"c_3ad702ef4078f5c7": 1}}
+{"query_id": "test_0274_all", "relevance": {"c_efa014b7305d6364": 1}}
+{"query_id": "test_0275_supported", "relevance": {"c_a683794156546329": 1, "c_b41c9ad206bf6cfc": 1}}
+{"query_id": "test_0279_all", "relevance": {"c_4aeae51d1a98d266": 1, "c_59bbd1db9a40b683": 1}}
+{"query_id": "test_0280_supported", "relevance": {"c_1b08fdeefc38bc9f": 1, "c_344bc65653f94f88": 1, "c_6f483f8792a4985e": 1, "c_8ef16a60b8454887": 1}}
+{"query_id": "test_0282_all", "relevance": {"c_901e6d5dfc023637": 1}}
+{"query_id": "test_0283_all", "relevance": {"c_7b7fba8b68ff7665": 1, "c_d4f25ad40154ac0b": 1, "c_e8039fea6a7fbb73": 1}}
+{"query_id": "test_0284_refuted", "relevance": {"c_8a6b9a0d94c13e95": 1}}
+{"query_id": "test_0286_supported", "relevance": {"c_302c11d9b9d2dfdb": 1, "c_928da8f336a2fad0": 1}}
+{"query_id": "test_0287_all", "relevance": {"c_23c1b8e0bb530435": 1, "c_8fb40209837db5ea": 1, "c_fea661ab312e8ced": 1}}
+{"query_id": "test_0288_supported", "relevance": {"c_24b7f336f0b79103": 1, "c_55d37d21d840fd08": 1}}
+{"query_id": "test_0289_all", "relevance": {"c_3222eaf295cf247a": 1}}
+{"query_id": "test_0292_supported", "relevance": {"c_a012dfa6486071ea": 1}}
+{"query_id": "test_0293_supported", "relevance": {"c_0cb8cecd85f6be30": 1, "c_7068b3d25720ccf9": 1, "c_ace8ff6225476fa5": 1, "c_c43e04b717215438": 1, "c_e75ae1eef06fd358": 1}}
+{"query_id": "test_0294_refuted", "relevance": {"c_3d0c0a446b3e44ed": 1, "c_527701913d294920": 1, "c_58b0692ab03407c5": 1, "c_70f885e80f4effb2": 1, "c_a6b2e26fa8e0d9b4": 1, "c_e04d07f2cf5293bc": 1}}
+{"query_id": "test_0295_refuted", "relevance": {"c_fc2df57562070d73": 1}}
+{"query_id": "test_0296_supported", "relevance": {"c_72ef07e7d4419c76": 1}}
+{"query_id": "test_0297_supported", "relevance": {"c_7efb756f08651ab8": 1, "c_898521d4a0b2c0df": 1}}
+{"query_id": "test_0298_supported", "relevance": {"c_9fff208b0047a6b3": 1}}
+{"query_id": "test_0302_supported", "relevance": {"c_f3eaca9c764f4b96": 1}}
+{"query_id": "test_0303_all", "relevance": {"c_3c487229b764eac1": 1, "c_55202dcd666186ff": 1}}
+{"query_id": "test_0305_all", "relevance": {"c_bfb9057474a3dc2f": 1}}
+{"query_id": "test_0307_supported", "relevance": {"c_23b309b9d28146e4": 1, "c_81657594d59379ce": 1}}
+{"query_id": "test_0308_refuted", "relevance": {"c_1b7dbf6c79b95776": 1, "c_1d939eb691f63b34": 1, "c_1ef413ee201c6880": 1, "c_31062f50a7f6aee1": 1, "c_61635033c286dcd7": 1}}
+{"query_id": "test_0309_refuted", "relevance": {"c_660fb14114e87e68": 1, "c_9be44f4e93da705d": 1}}
+{"query_id": "test_0310_supported", "relevance": {"c_02e1afe39f45d64d": 1}}
+{"query_id": "test_0311_supported", "relevance": {"c_7cffe04dfe29f9d7": 1, "c_85b09127f7453f26": 1, "c_a94dedfbeb117534": 1, "c_f521fc1497dab004": 1}}
+{"query_id": "test_0312_supported", "relevance": {"c_55a1bca38afd9f1c": 1}}
+{"query_id": "test_0313_supported", "relevance": {"c_136af6f3411cb340": 1, "c_3d148332157819a8": 1, "c_3f149dbe16f540fe": 1}}
+{"query_id": "test_0315_supported", "relevance": {"c_6a8c93efed7aa59d": 1}}
+{"query_id": "test_0318_supported", "relevance": {"c_40473497492424c1": 1}}
+{"query_id": "test_0319_all", "relevance": {"c_4d4a55f8bdd3f4c9": 1, "c_bd6d10d37e584111": 1, "c_d84b9ae4559f01d6": 1, "c_edd2037d113c01d6": 1, "c_fc3e0818a71654bf": 1}}
+{"query_id": "test_0320_refuted", "relevance": {"c_7c7acaa4afcb1d38": 1}}
+{"query_id": "test_0321_supported", "relevance": {"c_1b2b3da14acd7051": 1, "c_eeeb7026a6206368": 1}}
+{"query_id": "test_0322_refuted", "relevance": {"c_0268e2de3c1b9ebf": 1, "c_0fe5cccfe6f56832": 1, "c_306fb8b8e054c5ec": 1, "c_36e24b090277bee5": 1, "c_3f8dca3f61457a7d": 1, "c_40b9f53a30fc2cf5": 1, "c_4ccc81651d35d29e": 1, "c_526da5223bb9f994": 1, "c_68bd44b5db965ffe": 1, "c_8e6f3f871da8d2c6": 1, "c_a5d49b9d89bb3c03": 1, "c_c13c372c8a038675": 1}}
+{"query_id": "test_0323_supported", "relevance": {"c_d0e03a5d3d16bf2e": 1}}
+{"query_id": "test_0324_refuted", "relevance": {"c_24fa1d4639972f9e": 1, "c_4794dd8cb04b8dbe": 1, "c_cdcc841807b15a09": 1, "c_ee2fccd223c1db48": 1}}
+{"query_id": "test_0326_refuted", "relevance": {"c_2b3aaf4fc95f1895": 1}}
+{"query_id": "test_0328_refuted", "relevance": {"c_261636c5aa416073": 1, "c_ee16312dded91cf8": 1}}
+{"query_id": "test_0329_all", "relevance": {"c_0f18aa7b0e21d39f": 1, "c_1c78beb44bf5f255": 1, "c_435783653c3151cb": 1, "c_4491071ee596808d": 1, "c_541981d2dcc86763": 1, "c_72c0129b54f595fe": 1, "c_764a43f1e3ea508c": 1, "c_7a4db8a0f7854e97": 1, "c_a2c33275d2f6ff44": 1, "c_b7f13c5af7188b9f": 1}}
+{"query_id": "test_0330_refuted", "relevance": {"c_8944f253fe35b6d0": 1}}
+{"query_id": "test_0337_all", "relevance": {"c_27914df11b8b1156": 1, "c_295b7e3da42bde52": 1, "c_7486491a755198c2": 1, "c_c319467684c6aa8d": 1}}
+{"query_id": "test_0339_refuted", "relevance": {"c_e9c3d0405303f76d": 1, "c_fe30e29e5c54fe1b": 1}}
+{"query_id": "test_0341_supported", "relevance": {"c_0f18aa7b0e21d39f": 1, "c_1c78beb44bf5f255": 1, "c_4491071ee596808d": 1, "c_72c0129b54f595fe": 1}}
+{"query_id": "test_0342_all", "relevance": {"c_7b79c87a1bd150f6": 1}}
+{"query_id": "test_0343_supported", "relevance": {"c_136af6f3411cb340": 1, "c_3d148332157819a8": 1, "c_3f149dbe16f540fe": 1, "c_dbba887b5eef90d2": 1}}
+{"query_id": "test_0344_refuted", "relevance": {"c_45c5f60c63f344c3": 1, "c_b0c22e2b9d25c00e": 1}}
+{"query_id": "test_0346_supported", "relevance": {"c_1a31a6e09d263082": 1, "c_c5de56c89d41516d": 1}}
+{"query_id": "test_0347_supported", "relevance": {"c_550bad7a0eb7fb26": 1}}
+{"query_id": "test_0348_all", "relevance": {"c_bc1b3ffae55d86ca": 1}}
+{"query_id": "test_0350_supported", "relevance": {"c_1d79109ec2af9ea8": 1, "c_d8050b691fe08cb9": 1}}
+{"query_id": "test_0354_supported", "relevance": {"c_1737d0eb82884ae0": 1}}
+{"query_id": "test_0356_all", "relevance": {"c_25a9cf4f640a1522": 1, "c_2b3aaf4fc95f1895": 1, "c_38b03032bd22bfc6": 1, "c_534d929db423edc7": 1, "c_587d498f7030c445": 1, "c_58f7f85858286d7e": 1, "c_6e7eea9397891570": 1, "c_b9e8e20e699d018e": 1, "c_bee9c7a627152225": 1, "c_d246fa98e0ee5f43": 1, "c_d8f43ff6820f5e74": 1}}
+{"query_id": "test_0357_supported", "relevance": {"c_07b63b6e60a7c718": 1, "c_e7904650b89bffa6": 1}}
+{"query_id": "test_0359_refuted", "relevance": {"c_34b673028c8ed64a": 1}}
+{"query_id": "test_0360_all", "relevance": {"c_f2e00a2b72f920a0": 1}}
+{"query_id": "test_0366_all", "relevance": {"c_487192564f530398": 1, "c_a1a7fa2e570f202d": 1}}
+{"query_id": "test_0367_supported", "relevance": {"c_aa568613dde4fcbb": 1, "c_bd3d95f9d877e6fa": 1, "c_f0780f1d44e5dcb0": 1}}
+{"query_id": "test_0371_supported", "relevance": {"c_ee16312dded91cf8": 1}}
+{"query_id": "test_0372_all", "relevance": {"c_7d7f5affb2def3de": 1}}
+{"query_id": "test_0374_supported", "relevance": {"c_f17fbbf752f27586": 1}}
+{"query_id": "test_0375_refuted", "relevance": {"c_6b86cf4c30e02649": 1}}
+{"query_id": "test_0376_all", "relevance": {"c_847e1d636d428f75": 1, "c_d40fdf02bcc78ba3": 1}}
+{"query_id": "test_0377_refuted", "relevance": {"c_c8ada5d0a0c72086": 1}}
+{"query_id": "test_0378_refuted", "relevance": {"c_fda3433902f19fa6": 1}}
+{"query_id": "test_0379_refuted", "relevance": {"c_4a1543c835576669": 1}}
+{"query_id": "test_0383_supported", "relevance": {"c_208e362287f8d3c3": 1, "c_487bbc05d29d3c74": 1, "c_8ea1827fd9bd1f5e": 1, "c_bc7063ed31e0848d": 1, "c_de5dc9aa0fb5c570": 1}}
+{"query_id": "test_0384_supported", "relevance": {"c_68a52f98534c0ea8": 1}}
+{"query_id": "test_0385_refuted", "relevance": {"c_5213dc895b02d212": 1}}
+{"query_id": "test_0388_refuted", "relevance": {"c_8526d1a82684f693": 1}}
+{"query_id": "test_0390_supported", "relevance": {"c_cdbc60549fe803ad": 1}}
+{"query_id": "test_0392_all", "relevance": {"c_1b088958c8bab1b1": 1, "c_750fabe29695abe9": 1}}
+{"query_id": "test_0393_all", "relevance": {"c_0285267311144ca6": 1, "c_36fc9ba1c3cd5035": 1, "c_55450fadb70af348": 1}}
+{"query_id": "test_0395_all", "relevance": {"c_1cc4d9cf1ee0f4df": 1, "c_57a30c0fa157dbe4": 1, "c_6220ff2b3f3d231d": 1, "c_a683794156546329": 1, "c_af17bad20a88110d": 1, "c_d7fb5e283f8e4399": 1}}
+{"query_id": "test_0396_all", "relevance": {"c_a069044a5c09756d": 1}}
+{"query_id": "test_0397_supported", "relevance": {"c_19655a744b33b625": 1, "c_75e9f9fd2026a6b0": 1, "c_cd1b43398853fe62": 1}}
+{"query_id": "test_0398_all", "relevance": {"c_7514974efcb3815a": 1}}
+{"query_id": "test_0401_supported", "relevance": {"c_750fabe29695abe9": 1, "c_ea20ae950a265dbd": 1}}
+{"query_id": "test_0403_supported", "relevance": {"c_75eae1c5e76621a8": 1}}
+{"query_id": "test_0404_supported", "relevance": {"c_3383d25d448644d7": 1, "c_63e8f59e0fe28002": 1, "c_7aae1391fae83e93": 1, "c_c5b36f24ad0e2c68": 1}}
+{"query_id": "test_0407_supported", "relevance": {"c_dcbb3f900703236a": 1, "c_ee530ead3f6639c6": 1}}
+{"query_id": "test_0408_all", "relevance": {"c_0cc6d5e1c8313c38": 1}}
+{"query_id": "test_0409_all", "relevance": {"c_fc72689b9e667529": 1}}
+{"query_id": "test_0411_refuted", "relevance": {"c_55a0004c4403f9a6": 1}}
+{"query_id": "test_0414_refuted", "relevance": {"c_1e9865d3dfc4e788": 1}}
+{"query_id": "test_0415_all", "relevance": {"c_5033b6d175207f51": 1}}
+{"query_id": "test_0416_supported", "relevance": {"c_1403521cfaa527dd": 1, "c_3ef3ed75f38f1e66": 1, "c_7b0364584b9eeea3": 1, "c_7c3d3d2f5c82c622": 1, "c_997ce5ae92e4f13f": 1, "c_b78525fa3b1b94c5": 1}}
+{"query_id": "test_0419_supported", "relevance": {"c_fe5ee64876ed327e": 1}}
+{"query_id": "test_0421_all", "relevance": {"c_bd1784333265c44e": 1}}
+{"query_id": "test_0422_supported", "relevance": {"c_7acc220c9e90c382": 1}}
+{"query_id": "test_0424_supported", "relevance": {"c_026af14992ede5f2": 1, "c_043169e566e634fc": 1, "c_2497b0976c5bac1d": 1, "c_286a57fc47b6ac4f": 1, "c_58a926767c06ffa5": 1, "c_621bf5a9c6015837": 1, "c_a9140973d131c552": 1, "c_ac59a2d4779d9af8": 1, "c_ad5f09a70e614a69": 1, "c_aff9ff5a78856573": 1, "c_c6bade7745f54ad5": 1, "c_ea20ae950a265dbd": 1, "c_efcdc38a6ddab7e9": 1, "c_fba5667d56ba4239": 1}}
+{"query_id": "test_0426_refuted", "relevance": {"c_90acb5263ac15dcb": 1}}
+{"query_id": "test_0428_supported", "relevance": {"c_92b8eef199ed7d9a": 1}}
+{"query_id": "test_0429_all", "relevance": {"c_490999e722820d9c": 1, "c_6f483f8792a4985e": 1}}
+{"query_id": "test_0430_supported", "relevance": {"c_f23a39a1e5f4a99b": 1}}
+{"query_id": "test_0431_refuted", "relevance": {"c_3050b18d26ff27db": 1, "c_842800be7a1b030a": 1, "c_d8d5b89b7521dba8": 1}}
+{"query_id": "test_0435_supported", "relevance": {"c_0101f680e893a668": 1, "c_34ca07b80d3886d6": 1, "c_3cd5b2f8e5556fb7": 1, "c_6ec5c78c93963784": 1, "c_8d98b6b5fe0df286": 1, "c_d39d65b1658691da": 1, "c_e441aefe22e7d1bc": 1, "c_e879feb13d54bff5": 1}}
+{"query_id": "test_0437_all", "relevance": {"c_fe83bbdd54217542": 1}}
+{"query_id": "test_0439_all", "relevance": {"c_4008e387d6166836": 1}}
+{"query_id": "test_0440_refuted", "relevance": {"c_284b40a3f78d9943": 1}}
+{"query_id": "test_0441_all", "relevance": {"c_f6b1ffe1eca7e93f": 1}}
+{"query_id": "test_0442_all", "relevance": {"c_120fe238a3473993": 1, "c_16566de3adda5b07": 1, "c_a70be817ac76e709": 1, "c_af5dfd575969aec8": 1, "c_b4cccf79df140ef9": 1, "c_e59f0e17f23557ad": 1, "c_f79a1f043ecb8aca": 1}}
+{"query_id": "test_0443_refuted", "relevance": {"c_17751bd6867a0c11": 1, "c_9a74860133bf2b5e": 1}}
+{"query_id": "test_0444_all", "relevance": {"c_3ed3fe5bf63ecd25": 1}}
+{"query_id": "test_0445_all", "relevance": {"c_f8d44a81c4f09c65": 1}}
+{"query_id": "test_0447_all", "relevance": {"c_320e5646be2a3c7c": 1, "c_6e4c28e9d11e2efc": 1}}
+{"query_id": "test_0448_supported", "relevance": {"c_3ad702ef4078f5c7": 1}}
+{"query_id": "test_0450_all", "relevance": {"c_3c9361d5b302020f": 1, "c_6276fa2e536f4fb7": 1, "c_78754313b456ab7d": 1, "c_a4b034ddc863ef54": 1, "c_f03b38fc4414dfe5": 1}}
+{"query_id": "test_0451_refuted", "relevance": {"c_c957e4423ad4fa80": 1, "c_d59edf4c15f014e4": 1}}
+{"query_id": "test_0453_all", "relevance": {"c_05e61c6d04968c18": 1, "c_16dd48265cde6e26": 1, "c_2a0825af050b2192": 1, "c_2d30a5884f11acaa": 1, "c_302af49e7eb49876": 1, "c_3bf3e5c76e69b535": 1, "c_42836029c941c911": 1, "c_4b1f57bc1eab5e17": 1, "c_7bc4b0be73f4b2f8": 1, "c_834b7b6a9fe1ca73": 1, "c_86cb725e91432a09": 1, "c_92b8eef199ed7d9a": 1, "c_b4f44cdda3c6f904": 1, "c_ba9a4d20df6f135c": 1, "c_cc98211e85fdf1d9": 1, "c_d2b6ab2750acf255": 1, "c_d449fc562748a512": 1, "c_d83c121f5c6fdba6": 1, "c_ded522fd8b5416d9": 1, "c_f73d04199fbbb72d": 1, "c_fb65e598299cacb0": 1, "c_fca230c82a3779f4": 1}}
+{"query_id": "test_0455_all", "relevance": {"c_480314c4f9c93a16": 1}}
+{"query_id": "test_0457_refuted", "relevance": {"c_3174eca337ba3a3f": 1}}
+{"query_id": "test_0458_supported", "relevance": {"c_60f0ba9e70ec779d": 1}}
+{"query_id": "test_0462_all", "relevance": {"c_23f89ab72c5106bd": 1}}
+{"query_id": "test_0464_all", "relevance": {"c_e93f8ce26b02074a": 1}}
+{"query_id": "test_0468_supported", "relevance": {"c_13541cc2292c0eb6": 1}}
+{"query_id": "test_0470_supported", "relevance": {"c_35da53c05f3f49af": 1, "c_e09919d635644345": 1}}
+{"query_id": "test_0472_all", "relevance": {"c_27914df11b8b1156": 1, "c_5f3ae7df7d82a68e": 1, "c_7486491a755198c2": 1, "c_74d2cfa5260fa4ec": 1, "c_c89d958fb374ca94": 1, "c_d4f2ad8ba83fa7c1": 1}}
+{"query_id": "test_0475_all", "relevance": {"c_def4c379056e7ef7": 1}}
+{"query_id": "test_0476_all", "relevance": {"c_a6bfc459b4a617b1": 1}}
+{"query_id": "test_0477_supported", "relevance": {"c_c4396629a9cb5b1e": 1}}
+{"query_id": "test_0478_supported", "relevance": {"c_75a11a59079e2ccc": 1, "c_af5dfd575969aec8": 1, "c_f72c70ef45dd91ae": 1}}
+{"query_id": "test_0479_refuted", "relevance": {"c_a9b9af27a914e1fc": 1}}
+{"query_id": "test_0481_all", "relevance": {"c_04b142fe6de58b4c": 1, "c_0582a7d67c67da8d": 1, "c_26145c377fe3809c": 1, "c_27e1c90bcf897a5d": 1, "c_3f5fa7ea46eb9b38": 1, "c_72ef07e7d4419c76": 1, "c_7b59ecf8832dfae1": 1, "c_8e5eef9ed99a263c": 1, "c_a7cb48855432c9d3": 1, "c_a96b3cf781749efe": 1, "c_bbc333ee409650af": 1, "c_e1788658f1a42215": 1, "c_e54707d02787d1c1": 1, "c_fa618becff79867c": 1}}
+{"query_id": "test_0483_refuted", "relevance": {"c_2a0bb65e69a68fce": 1, "c_8ea01c6de0f4aa5a": 1}}
+{"query_id": "test_0486_supported", "relevance": {"c_60b21acdf6b35eb6": 1}}
+{"query_id": "test_0487_all", "relevance": {"c_719ead0421a7f61b": 1}}
+{"query_id": "test_0488_refuted", "relevance": {"c_160b1b2a0b69ab92": 1, "c_8a96a51489ade48a": 1, "c_df191bc1238aeca9": 1}}
+{"query_id": "test_0490_refuted", "relevance": {"c_850df799357da5ad": 1}}
+{"query_id": "test_0491_supported", "relevance": {"c_102a65ae835c59d0": 1}}
+{"query_id": "test_0493_refuted", "relevance": {"c_0d4a00ab9794a26a": 1, "c_444558d90ebffb76": 1}}
+{"query_id": "test_0494_refuted", "relevance": {"c_08917a297673d9a9": 1, "c_a78233199a99aaa1": 1}}
+{"query_id": "test_0495_refuted", "relevance": {"c_22726170f5203322": 1, "c_42bc2d813da04cad": 1, "c_534d929db423edc7": 1, "c_587d498f7030c445": 1, "c_6be0f3813c113f0f": 1, "c_aad84fd5c10c5b88": 1, "c_d83c121f5c6fdba6": 1, "c_d8f43ff6820f5e74": 1, "c_da61c900c643bdd7": 1}}
+{"query_id": "test_0496_supported", "relevance": {"c_7b89d2df01cd9f10": 1}}
+{"query_id": "test_0497_supported", "relevance": {"c_091c35cdd3005d86": 1, "c_2331630f41a57ece": 1, "c_4979c0d7aaf9f3ee": 1, "c_98044b1dbc091630": 1, "c_a29c3c63bc80954e": 1, "c_a756351708431750": 1, "c_b187fecc19facae6": 1, "c_b6ebb5335f6771fb": 1}}
+{"query_id": "test_0498_all", "relevance": {"c_b8ee700f9f70d621": 1}}
+{"query_id": "test_0499_all", "relevance": {"c_c6f8eb97bb2c23b5": 1}}
