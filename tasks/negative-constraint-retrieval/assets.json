@@ -8,7 +8,7 @@
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": null,
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
         "filename": "tasks/negative-constraint-retrieval/data/corpus.jsonl"
       }
     },
@@ -19,7 +19,7 @@
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": null,
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
         "filename": "tasks/negative-constraint-retrieval/data/validation/queries.jsonl"
       }
     },
@@ -30,7 +30,7 @@
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": null,
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
         "filename": "tasks/negative-constraint-retrieval/data/validation/ground_truth.jsonl"
       }
     }

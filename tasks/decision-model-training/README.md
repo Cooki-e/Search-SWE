@@ -1,7 +1,7 @@
 # Decision Model Training
 
-Author: Bingyu. Version: 0.1.0. Local task package; asset publication and a full
-configured coding-agent trial are separate outstanding release steps.
+Author: Bingyu. Version: 0.1.0. Public inputs are published; a full
+configured coding-agent trial remains an outstanding release step.
 
 Build an offline Qwen3-0.6B-based system for categorical choices, Boolean
 judgments, and ordinal ratings. This task follows the user's revised OpenJev
@@ -46,9 +46,9 @@ validation split or baseline implementation is supplied.
 OpenJev's assembly is Apache-2.0; constituent datasets retain their own terms.
 Its held-out card explicitly flags unclear redistribution rights for AG News
 and SST5. The training mixture also does not supply a complete license audit of
-all underlying datasets. This package is prepared for local use, with no claim
-that every row is cleared for republication. Review constituent rights before
-publishing or merging these assets.
+all underlying datasets. This package makes no claim
+that every row is cleared for republication. The unresolved constituent terms
+remain recorded in the dataset's source notices for review.
 
 ## Local validation and author records
 
@@ -68,10 +68,6 @@ python scripts/download_assets.py --task decision-model-training --verify-only
 bash -n tasks/decision-model-training/tests/test.sh
 ```
 
-The derived examples file has an explicitly unpublished source revision in
-`assets.json`. Its local staging directory and immutable source pins are in the
-author workspace; ordinary release checks correctly reject the missing public
-revision. Do not replace it with a fabricated commit or confuse local checks
-with a remotely reproducible release. See the author workspace's
-`reports/package-validation.md` for executed tests, exact instruction hashes,
-measured runtime and remaining validation layers.
+Public runtime data are published in [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE/tree/2a2188f3a9426361da5f10c82a35148269574a92) and pinned by immutable commit in `assets.json`, with exact sizes and SHA-256 hashes. Private evaluation inputs remain in the verifier package; model weights retain their original upstream pins. Source terms and attribution remain applicable; publication does not establish additional licensing rights. Fresh restoration on 2026-10-16 verified the single dataset-backed runtime file against their recorded sizes and SHA-256 hashes.
+
+The author workspace's `reports/package-validation.md` records executed tests, exact instruction hashes, measured runtime and remaining validation layers.

@@ -19,7 +19,7 @@
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": null,
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
         "filename": "tasks/long-pdf-evidence/corpus/sentences.jsonl"
       }
     },
@@ -30,8 +30,8 @@
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": null,
-        "filename": "tasks/long-pdf-evidence/validation/queries.jsonl"
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/long-pdf-evidence/v0.4.1/validation/queries.jsonl"
       }
     },
     {
@@ -41,8 +41,8 @@
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": null,
-        "filename": "tasks/long-pdf-evidence/validation/golden_answers.jsonl"
+        "revision": "2a2188f3a9426361da5f10c82a35148269574a92",
+        "filename": "tasks/long-pdf-evidence/v0.4.1/validation/golden_answers.jsonl"
       }
     }
   ]

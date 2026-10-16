@@ -1,5 +1,7 @@
 # Validation — version 0.2.1
 
+Publication update (2026-10-16): public inputs are now published and pinned; fresh downloads passed size/SHA-256 verification. See the README for the official revision. The records below describe earlier validation stages; their statements about unpublished assets are historical. This publication does not add a new coding-agent trial or resolve outstanding source-license questions.
+
 Version 0.2.1 replaces the twenty public examples with three newly constructed
 questions. Their query plans differ from all six private families: minimum
 two-drug target cover, induced connected-component profiles, and deepest drug

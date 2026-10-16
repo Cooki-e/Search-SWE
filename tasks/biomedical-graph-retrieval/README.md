@@ -28,9 +28,7 @@ Only the corpus, public validation and generic resource documents are mounted
 into the agent environment. Private questions, labels, grader and audit files
 remain verifier-only. No author solutions or screening traces are supplied.
 
-Local assets are hashed in `assets.json`. Their remote revisions remain null
-until publication; local verification works, but strict release checks report
-the three unpublished asset pins. No remote revision is fabricated.
+Public runtime data are published in [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE/tree/2a2188f3a9426361da5f10c82a35148269574a92) and pinned by immutable commit in `assets.json`, with exact sizes and SHA-256 hashes. Private evaluation inputs remain in the verifier package. Source terms and attribution remain applicable; publication does not establish additional licensing rights. Fresh restoration on 2026-10-16 verified all 3 dataset-backed runtime files against their recorded sizes and SHA-256 hashes.
 
 ```bash
 python scripts/download_assets.py --task biomedical-graph-retrieval --verify-only

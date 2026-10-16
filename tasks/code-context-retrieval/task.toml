@@ -22,7 +22,7 @@ max_distinct_lines = 500
 index_build_timeout_seconds = 3600
 query_timeout_seconds = 180
 query_concurrency = 1
-data_status = "Local unpublished challenge subset; unchanged issues and core labels; repository-disjoint validation/test."
+data_status = "Published public challenge subset; unchanged issues and core labels; repository-disjoint validation/test."
 
 [agent]
 timeout_sec = 7200.0

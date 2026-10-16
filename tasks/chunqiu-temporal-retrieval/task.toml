@@ -22,7 +22,7 @@ base_model = "Qwen/Qwen3-Embedding-0.6B"
 index_build_timeout_seconds = 1200
 inference_timeout_seconds = 120
 gpu_hardware = "1 x NVIDIA A100 40GB"
-data_status = "Local unpublished derivative; original questions and retained event qrels; documented quality exclusions."
+data_status = "Published public derivative; original questions and retained event qrels; documented quality exclusions."
 
 [agent]
 timeout_sec = 21600.0

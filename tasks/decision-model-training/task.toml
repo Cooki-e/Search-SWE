@@ -21,7 +21,7 @@ sampling_seed = 20261014
 startup_timeout_seconds = 120
 inference_timeout_seconds = 240
 gpu_hardware = "1 x NVIDIA A100 40GB"
-data_status = "Locally prepared; derived inputs unpublished; constituent licenses retained."
+data_status = "Published public derived inputs; constituent licenses retained."
 
 [agent]
 timeout_sec = 21600.0

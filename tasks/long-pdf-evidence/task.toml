@@ -22,7 +22,7 @@ sentence_count = 28798
 answer_judge_model = "openai/gpt-6-luna"
 answer_judge_reasoning_effort = "high"
 query_concurrency = 5
-data_status = "Unchanged published PDF; local unpublished sentence inventory and revised public examples; 12 authored hidden queries."
+data_status = "Unchanged published PDF; published sentence inventory and revised public examples; 12 authored hidden queries."
 
 [agent]
 timeout_sec = 7200.0

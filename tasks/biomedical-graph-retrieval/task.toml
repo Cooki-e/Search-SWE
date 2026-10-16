@@ -20,7 +20,7 @@ hidden_query_count = 20
 query_concurrency = 1
 query_timeout_seconds = 30
 build_timeout_seconds = 1800
-data_status = "Local unpublished assets; unchanged graph and 20 hidden queries; 3 new public examples with different query plans, independently verified complete answer sets and disjoint public/private query anchors."
+data_status = "Published public assets; unchanged graph and 20 hidden queries; 3 new public examples with different query plans, independently verified complete answer sets and disjoint public/private query anchors."
 
 [agent]
 timeout_sec = 7200.0

@@ -47,13 +47,7 @@ Generation factual review was sampled, with source corrections recorded in the
 author ledger. These are assistant annotations, not independent human adjudication
 or exhaustive certification of every generated factual detail.
 
-No explicit dataset redistribution license was found upstream. This is a local
-research package pending license review. Public runtime assets are staged under
-ignored `data/`, with exact hashes in `assets.json`; `revision: null` honestly
-marks unpublished assets. No remote dataset has been created or updated. Do not
-claim remote reproducibility or publish these files until redistribution rights
-and publication approval are resolved and the merged immutable HF SHA is pinned.
-The corpus has not been bundled into either image or Git.
+No explicit dataset redistribution license was found upstream; that source-license limitation remains unresolved. Public runtime data are published in [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE/tree/2a2188f3a9426361da5f10c82a35148269574a92) and pinned by immutable commit in `assets.json`, with exact sizes and SHA-256 hashes. Private evaluation inputs remain in the verifier package. Source terms and attribution remain applicable; publication does not establish additional licensing rights. The corpus is not bundled into either image or Git. Fresh restoration on 2026-10-16 verified all 3 dataset-backed runtime files against their recorded sizes and SHA-256 hashes.
 
 ## Difficulty evidence
 
@@ -170,12 +164,7 @@ docker build -t search-swe-local:nc-agent tasks/negative-constraint-retrieval/en
 docker build -t search-swe-local:nc-verifier tasks/negative-constraint-retrieval/tests
 ```
 
-The strict task/release check reports the three unpublished revisions until
-publication; it must not be made green using fabricated SHAs. Author staging
-checks use `check_release(..., packages=[task], allow_unpublished=True)` with the
-local task-only staging manifest. See `VALIDATION.md` for actual executed checks
-and remaining prerequisites. Static checks and deterministic fixtures are not
-an end-to-end coding-model trial.
+Publication pins are now present. See `VALIDATION.md` for historical author-stage checks and remaining prerequisites. Static checks and deterministic fixtures are not an end-to-end coding-model trial.
 
 For a future configured trial, preserve any existing ignored checkout `.env`
 and set the chosen coding model/provider and its credential, for example

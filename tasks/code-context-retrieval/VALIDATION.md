@@ -1,5 +1,7 @@
 # Local validation, version 0.1.0
 
+Publication update (2026-10-16): public inputs are now published and pinned; fresh downloads passed size/SHA-256 verification. See the README for the official revision. The records below describe earlier validation stages; their statements about unpublished assets are historical. This publication does not add a new coding-agent trial or resolve outstanding source-license questions.
+
 The current package uses real source directories under `data/repos/<snapshot_id>/`. It has passed local grader and corpus-based retrieval checks. It remains unpublished, and a full coding-agent trial has not been run.
 
 Instruction SHA-256: `086f401e40a692ae75c76ab35dc8d4456e62c28e27590a38b325ad90f3c38489`. Structured source SHA-256: `66ca51504312e7443c8d2eb58d82cce07e4493afaf8b58514f3811dd7e6dcba6`. Grader SHA-256: `c3252d804b9ccf47c3e24a470baa35fe523989ad78156a64ff3514c9add213ca`. Scorer SHA-256: `2db20cec9e79fc0c54a7d9cccbf6edde40184f7e97c72c59baf8992736739823`. The full package inventory is in `task_development/code-bug-localization/package-build/package-hashes.json`.

@@ -20,7 +20,7 @@ public_query_count = 10
 hidden_query_count = 10
 corpus_document_count = 8011
 all_hidden_queries_required = false
-data_status = "Local unpublished assets; 20 unchanged author-reviewed unique-positive queries; subject-disjoint 10/10 split; 365 augmented topic cohorts with opaque IDs and reshuffled corpus."
+data_status = "Published public assets; 20 unchanged author-reviewed unique-positive queries; subject-disjoint 10/10 split; 365 augmented topic cohorts with opaque IDs and reshuffled corpus."
 
 [agent]
 timeout_sec = 7200.0

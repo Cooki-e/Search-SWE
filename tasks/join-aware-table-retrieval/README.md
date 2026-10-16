@@ -77,7 +77,7 @@ python scripts/download_assets.py --task join-aware-table-retrieval --verify-onl
 python scripts/check_tasks.py tasks/join-aware-table-retrieval
 ```
 
-The three public assets have exact size/hash entries and local HF staging copies. Only the catalog and public validation questions/labels are staged. Their official `search-swe/Search-SWE` dataset revisions remain `null` until publication, so strict checks report three unpinned revisions. Remote restoration needs publication and immutable pins; no upload is performed by the authoring scripts.
+Public runtime data are published in [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE/tree/2a2188f3a9426361da5f10c82a35148269574a92) and pinned by immutable commit in `assets.json`, with exact sizes and SHA-256 hashes. Private evaluation inputs remain in the verifier package. Source terms and attribution remain applicable; publication does not establish additional licensing rights. Fresh restoration on 2026-10-16 verified all 3 dataset-backed runtime files against their recorded sizes and SHA-256 hashes.
 
 ## Attribution
 

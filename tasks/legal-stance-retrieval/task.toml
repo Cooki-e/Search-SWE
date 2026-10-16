@@ -19,7 +19,7 @@ hidden_query_count = 311
 query_model = "Qwen3-Embedding-0.6B"
 query_batch_timeout_sec = 20.0
 submission_build_timeout_sec = 3600.0
-data_status = "Frozen reviewed official-test subset; local unpublished data assets; public examples supplied."
+data_status = "Frozen reviewed official-test subset; published public data assets; public examples supplied."
 
 [agent]
 timeout_sec = 21600.0

@@ -1,5 +1,7 @@
 # Local validation — 2026-10-15
 
+Publication update (2026-10-16): public inputs are now published and pinned; fresh downloads passed size/SHA-256 verification. See the README for the official revision. The records below describe earlier validation stages; their statements about unpublished assets are historical. This publication does not add a new coding-agent trial or resolve outstanding source-license questions.
+
 The local task package, assets and deterministic verifier were exercised.
 This record does **not** claim a completed coding-agent evaluation, a successful
 live integrity-judge call, or remote asset publication.

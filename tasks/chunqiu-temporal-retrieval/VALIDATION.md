@@ -1,5 +1,7 @@
 # Local validation — 2026-10-14
 
+Publication update (2026-10-16): public inputs are now published and pinned; fresh downloads passed size/SHA-256 verification. See the README for the official revision. The records below describe earlier validation stages; their statements about unpublished assets are historical. This publication does not add a new coding-agent trial or resolve outstanding source-license questions.
+
 This local package has been built and exercised through its real submission
 interface. A configured coding-agent trial and paid trajectory-judge run have
 not been performed; the task is not claimed release-ready.

@@ -1,6 +1,6 @@
 # Quantity-aware Retrieval
 
-Author: **Bingyu**. This is a local, unpublished Search-SWE task package over
+Author: **Bingyu**. This is a Search-SWE task package over
 MedQuant. The required deliverable is an executable retrieval system. Resources
 include labeled examples, Qwen3-Embedding-0.6B and documented OpenRouter/Jina APIs. No
 baseline implementation, authoring helper, or precomputed document vectors are
@@ -96,16 +96,11 @@ is pinned to `97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3`. All ten installed model
 files were independently checked against their manifest sizes and SHA-256.
 The model card declares Apache-2.0. The enclosing repository's code license does
 not establish redistribution rights for the MedQuant/training sources; those
-terms remain to be resolved before publishing this derived dataset.
+terms remain unresolved and are recorded in the published dataset's source notices.
 
 ## Local operation and validation
 
-All local inputs are installed under ignored `data/` and `models/` directories.
-`assets.json` records their actual hashes and sizes. The two derived data files
-have null HF revisions because they have not been published; no remote SHA was
-fabricated. The official strict static checker reports these two pending pins.
-A local staging check uses the existing checker's `allow_unpublished` mode and
-the author-side asset staging manifest. Model pins are real immutable revisions.
+Public runtime data are published in [search-swe/Search-SWE](https://huggingface.co/datasets/search-swe/Search-SWE/tree/2a2188f3a9426361da5f10c82a35148269574a92) and pinned by immutable commit in `assets.json`, with exact sizes and SHA-256 hashes. Private evaluation inputs remain in the verifier package; model weights retain their original upstream pins. Source terms and attribution remain applicable; publication does not establish additional licensing rights. Fresh restoration on 2026-10-16 verified all 2 dataset-backed runtime files against their recorded sizes and SHA-256 hashes.
 
 ```bash
 python scripts/download_assets.py --task quantity-aware-retrieval --verify-only
