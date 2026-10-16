@@ -85,6 +85,20 @@ class ReleasePackage(unittest.TestCase):
         errors, _ = release.check_release(self.repo, self.hf, verify_data=True)
         self.assertTrue(any("SHA-256 mismatch" in error for error in errors))
 
+    def test_ignored_runtime_paths_survive_git_quoting(self):
+        subprocess.run(["git", "config", "core.quotePath", "true"], cwd=self.repo, check=True)
+        for name in ("café.jsonl", "⊗.txt", 'quoted"name.txt'):
+            with self.subTest(name=name):
+                self.entry["path"] = f"data/{name}"
+                self.write_manifest()
+                (self.task / self.entry["path"]).write_bytes(self.content)
+                errors, _ = release.check_release(self.repo)
+                self.assertEqual(errors, [])
+
+        (self.task / ".gitignore").write_text("/models/\n")
+        errors, _ = release.check_release(self.repo)
+        self.assertIn(f"Runtime asset is not ignored by Git: tasks/example-search/{self.entry['path']}", errors)
+
     def test_mutable_asset_revision_is_rejected(self):
         self.entry["source"]["revision"] = "main"
         self.write_manifest()
