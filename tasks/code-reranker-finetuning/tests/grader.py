@@ -146,7 +146,9 @@ def require_matching_architecture(backbone: torch.nn.Module, submitted: torch.nn
 def load_checkpoint(path: Path) -> tuple[Any, torch.nn.Module]:
     if not path.is_dir():
         raise FileNotFoundError(f"missing checkpoint directory: {path}")
-    tokenizer = AutoTokenizer.from_pretrained(path, local_files_only=True, trust_remote_code=False)
+    # Both checkpoints must use the trusted tokenizer. Additional submitted
+    # metadata (for example added_tokens.json) must never affect tokenization.
+    tokenizer = AutoTokenizer.from_pretrained(BACKBONE_PATH, local_files_only=True, trust_remote_code=False)
     model = AutoModelForSequenceClassification.from_pretrained(path, local_files_only=True, trust_remote_code=False, use_safetensors=True)
     return tokenizer, model
 
