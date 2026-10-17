@@ -1,0 +1,68 @@
+schema_version = "1.4"
+
+artifacts = [
+    "/app",
+    "/logs/agent/trajectory.json",
+]
+
+[task]
+name = "search-swe/agentic-search-vectorless"
+version = "0.2.2"
+description = "Implement an agentic retrieval system without embeddings or BM25."
+authors = [{ name = "Jianlyu" }]
+keywords = ["BrowseComp-Plus", "information-retrieval", "multi-constraint-retrieval"]
+
+[metadata]
+objective = "Build corpus retrieval without embeddings or BM25 under a 20-round per-query limit."
+dataset = "BrowseComp-Plus"
+primary_metric = "GoldRecall@5"
+metric_k = 5
+public_example_count = 20
+hidden_query_count = 20
+query_concurrency = 5
+max_retrieval_rounds = 20
+search_policy = "No embeddings, BM25, or external retrieval/reranking services"
+data_status = "BrowseComp-Plus corpus with disjoint 20/20 subsets, each query having 1-5 gold documents"
+gold_count_min = 1
+gold_count_max = 5
+split_sampling_seed = 20260909
+
+[agent]
+timeout_sec = 7200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = [
+    "openrouter.ai",
+]
+
+[verifier]
+timeout_sec = 19200.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = [
+    "openrouter.ai",
+]
+
+[environment]
+network_mode = "allowlist"
+allowed_hosts = [
+    "openrouter.ai",
+]
+build_timeout_sec = 1800.0
+workdir = "/app"
+cpus = 32
+memory_mb = 131072
+storage_mb = 204800
+gpus = 0
+os = "linux"
+
+[environment.env]
+OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_BASE_URL = "https://openrouter.ai/api/v1"
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"
