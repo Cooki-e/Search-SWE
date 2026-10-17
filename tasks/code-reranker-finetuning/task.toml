@@ -1,0 +1,51 @@
+schema_version = "1.4"
+
+artifacts = [
+    "/app/output/model",
+]
+
+[task]
+name = "search-swe/code-reranker-finetuning"
+version = "0.3.1"
+authors = [{ name = "Jianlyu" }]
+description = "Fine-tune a fixed BGE reranker against frozen BM25 and local BGE candidates fused by RRF."
+keywords = ["information-retrieval", "code-retrieval", "reranking", "fine-tuning", "gpu"]
+
+[metadata]
+objective = "Improve fixed-backbone reranker weights over shared BM25/local-embedding RRF candidates."
+dataset = "code-retrieval"
+backbone = "BAAI/bge-reranker-base"
+retriever = "BM25 + local BAAI/bge-base-en-v1.5; CLS pooling, float32, no query prefix; equal-weight RRF"
+embedding_batch_size = 32
+embedding_max_length = 512
+branch_candidate_count = 200
+candidate_pool_min_size = 200
+candidate_pool_max_size = 400
+rrf_k = 60
+bm25_k1 = 1.2
+bm25_b = 0.75
+primary_metric = "Accuracy@5 improvement normalized by fixed-candidate headroom"
+train_query_count = 5000
+hidden_query_count = 200
+query_policy = "supplied train only; no public validation split"
+
+[agent]
+timeout_sec = 21600.0
+user = "root"
+network_mode = "no-network"
+
+[verifier]
+timeout_sec = 10800.0
+user = "root"
+environment_mode = "separate"
+network_mode = "no-network"
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "no-network"
+cpus = 8
+memory_mb = 32768
+storage_mb = 102400
+gpus = 1
