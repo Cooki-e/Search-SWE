@@ -1,0 +1,68 @@
+schema_version = "1.4"
+
+artifacts = [
+    "/app",
+    "/logs/agent/trajectory.json",
+]
+
+[task]
+name = "search-swe/long-pdf-evidence-vectorless"
+version = "0.3.1"
+description = "Build a reusable, embedding-free index for retrieving complete sentence evidence from a long PDF."
+authors = [{ name = "Jianlyu" }]
+keywords = ["information-retrieval", "search", "evidence locator"]
+
+[metadata]
+objective = "Build a reusable embedding-free evidence index that remains usable after corpus access is revoked."
+dataset = "single long PDF"
+primary_metric = "SentenceEvidenceAccuracy"
+metric_k = 5
+public_example_count = 10
+hidden_query_count = 12
+sentence_count = 28798
+answer_judge_model = "deepseek/deepseek-v4.1-flash"
+answer_judge_reasoning_effort = "high"
+query_concurrency = 5
+data_status = "Unchanged PDF; published sentence inventory and revised public examples; 12 authored hidden queries."
+index_policy = "Corpus accessible only during build; query phase reads only the produced index"
+
+[agent]
+timeout_sec = 7200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = [
+    "openrouter.ai",
+]
+
+[verifier]
+timeout_sec = 10800.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = [
+    "openrouter.ai",
+]
+
+[environment]
+network_mode = "allowlist"
+allowed_hosts = [
+    "openrouter.ai",
+]
+build_timeout_sec = 1800.0
+workdir = "/app"
+cpus = 16
+memory_mb = 65536
+storage_mb = 102400
+gpus = 0
+os = "linux"
+
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+
+[verifier.env]
+ANSWER_JUDGE_BASE_URL = "https://openrouter.ai/api/v1"
+ANSWER_JUDGE_MODEL_NAME = "deepseek/deepseek-v4.1-flash"
+ANSWER_JUDGE_API_KEY = "${ANSWER_JUDGE_API_KEY:-}"
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"
