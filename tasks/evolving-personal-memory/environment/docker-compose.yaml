@@ -1,0 +1,29 @@
+services:
+  main:
+    cpu_period: 100000
+    cpu_quota: 800000
+    volumes:
+    - type: bind
+      source: ../data/corpus/records.jsonl
+      target: /task/data/corpus/records.jsonl
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ../data/validation/queries.jsonl
+      target: /task/data/validation/queries.jsonl
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ../data/validation/labels.jsonl
+      target: /task/data/validation/labels.jsonl
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./docs
+      target: /task/docs
+      read_only: true
+      bind:
+        create_host_path: false

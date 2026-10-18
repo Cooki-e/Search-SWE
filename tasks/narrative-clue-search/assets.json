@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/corpus/records.jsonl",
+      "size_bytes": 719484317,
+      "sha256": "8939ed9d73a007f22b8ba66a6726470143fc23a7275a66d27b42a4689ece6c91",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "36a2da8a33879eed413f5be3a41fdad04b1ea157",
+        "filename": "tasks/narrative-clue-search/data/corpus/records.jsonl"
+      }
+    },
+    {
+      "path": "data/training/sentence_labels.jsonl",
+      "size_bytes": 30455,
+      "sha256": "1b5df094603f88c8e01c5b4937749791d9c5d1abace0ded1a3729c40f9d849e1",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "36a2da8a33879eed413f5be3a41fdad04b1ea157",
+        "filename": "tasks/narrative-clue-search/data/training/sentence_labels.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/labels.jsonl",
+      "size_bytes": 778,
+      "sha256": "8dec33be18fd9741e1191ad23798b445a8c0a4332ed364606765a13eaa151119",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "36a2da8a33879eed413f5be3a41fdad04b1ea157",
+        "filename": "tasks/narrative-clue-search/data/validation/labels.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/queries.jsonl",
+      "size_bytes": 4649,
+      "sha256": "4dcc7c178a6a194656b6f7f573697269a4b8858e3292d7f937d1475c328432d5",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "36a2da8a33879eed413f5be3a41fdad04b1ea157",
+        "filename": "tasks/narrative-clue-search/data/validation/queries.jsonl"
+      }
+    }
+  ]
+}

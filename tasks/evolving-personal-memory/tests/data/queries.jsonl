@@ -1,0 +1,595 @@
+{"query_id": "q-2a081783001573ddf3465840", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Write a project proposal for 'Deep Learning for Regional Energy Demand Forecasting under Climate Volatility'"}
+{"query_id": "q-10758d28d3506391374cb107", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-da5722e7997d99918abaabe4", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write a project proposal for 'AI-Driven Workflow Streamlining for E-commerce Operations'"}
+{"query_id": "q-4ed22408541b1f7e329112ed", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write an email about: To provide an update on the pilot predictive analytics initiative and outline next steps for regional media partners."}
+{"query_id": "q-f1f444d9c1d868b53fa08c33", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Write meeting notes for: Mobile-First UX Strategy Review: Next-Gen Infotainment"}
+{"query_id": "q-608c95c57d7689787bc23e2e", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write a project proposal for 'Integrated Care Pathway Optimization Initiative'"}
+{"query_id": "q-b63e8214789b8076167729c1", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-25a12676ae88aceaef7fe89d", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Write meeting notes for: Strategic Alignment for AI-Driven Drug Discovery Initiatives"}
+{"query_id": "q-91261da95bffd75eb75c5e1c", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Can you suggest me a movie?"}
+{"query_id": "q-8547cbd618a1ee7609d063f3", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-f91313abfab102ee60a72b7d", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Write meeting notes for: Project 'Nexus' Visual Identity Brainstorm & Client Feedback Review"}
+{"query_id": "q-d5c3741ab1b169cfe7e2e022", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-d53c5372941356415e2b5ade", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-36fcbef8ccad3aa17111418a", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-47276bb2795e67a3863ce142", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "How many months was I able to meet my lunch budget in the last 3 months?"}
+{"query_id": "q-28bcc0997944c1dba824c16b", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write a project proposal for 'AI-Driven Biomarker Discovery Platform for Precision Medicine'"}
+{"query_id": "q-3951ee8f65a15d6b6609845f", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-bb3f4069a1ebfffb75a49cd8", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-984d992b78727f279a595cb7", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-b06568188ce556486873be4e", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-0fcfb1ad91dba634dc8a43b6", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-cfd45971afece128d98f4e52", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-7458628df0fa998ed6b8c765", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "What is my total food spending this month?"}
+{"query_id": "q-1633379c925420e2e8d80b63", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-8d496b933ba198253763d9a6", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write a project proposal for 'Real-Time Network Anomaly Detection Engine for Telecom Infrastructure'"}
+{"query_id": "q-3de6c476a4af29ed614b8e7c", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write an email about: To provide an update on the pilot project's progress and outline next steps for scaling our AI-driven automation platform within the entertainment sector."}
+{"query_id": "q-e984fd0d9a944b94dd4cf2b6", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-64b0721b9eb02c36cc29f9aa", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you recommend places in regions I like?"}
+{"query_id": "q-7706fa72742f9833ce174a47", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write a project proposal for 'Regional Media Accessibility Enhancement Initiative'"}
+{"query_id": "q-ae0a9168c1e0b055f5dbff64", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Suggest me a place to visit based on my preferences."}
+{"query_id": "q-6611055eb037a76310f453ca", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Which month in the last 3 months did I spend the most on dinner?"}
+{"query_id": "q-99a6de157d970030c46fd10c", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-9b2184946e4d3baf9dc968be", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Can you suggest me some music?"}
+{"query_id": "q-9e76e956c4ff360b85cc3cc0", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-d9afd2d3f3a47c2c8bfe7124", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write an email about: To summarize key findings from the recent strategic user experience assessment and propose next steps for implementation."}
+{"query_id": "q-6eebd8726ae640c600ca1a5c", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write meeting notes for: Content Strategy Alignment for Q3 E-commerce Campaigns"}
+{"query_id": "q-f029daea5ffa7160c26610a7", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Can you suggest me some music?"}
+{"query_id": "q-99f4ceb5d12ab176b29bb77f", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-5a44ededefea97ecf0aaf69b", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "How much have I spent on lunch in the last 3 months?"}
+{"query_id": "q-54340c4eea7659d7e50c2de2", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-4ae21c9fb618c9c592a60a0e", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write a project proposal for 'Cross-Platform Player Identity Synchronization System'"}
+{"query_id": "q-53c33b68d273fa2fa3e5eea6", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-5413b35ac4b034a153dbfc75", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-1c0a5f444aa054211bd4ccb1", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-1b279c19d818decf8ef6c27a", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "What is my total food spending this week?"}
+{"query_id": "q-4659f388e70486fa7d58cc66", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you recommend music in genres I enjoy?"}
+{"query_id": "q-57cb28643708aeef1453557d", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Am I meeting my coffee budget goal?"}
+{"query_id": "q-2c4380ca34d5785201575f7d", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Write a project proposal for 'Pan-European Digital Health Ecosystem Integration Strategy'"}
+{"query_id": "q-22356e83a504fa7e87e222e4", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Can you recommend a movie with actors I like?"}
+{"query_id": "q-3692a7dd199a444278d5cf8c", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Write a project proposal for 'Elevate: North American Brand Refresh & Digital Presence Overhaul'"}
+{"query_id": "q-af45bcbcfde3dbefdd870af5", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write a project proposal for 'North American Automotive UX Consulting Pilot Program'"}
+{"query_id": "q-d2ecd1d6357268812fbe64c8", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-30a6912142096e19f122e5b1", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-8b95d5637875a47cdb6888f8", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write a project proposal for 'Cross-Platform Game State Synchronization Engine'"}
+{"query_id": "q-db8233933a17e052cfb3ecd5", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you suggest me a movie?"}
+{"query_id": "q-1b8d63bbbda9f3b1507d999a", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Write meeting notes for: Claims Processing API Architecture Review & Q4 Sprint Planning"}
+{"query_id": "q-412d735a4175c3d2dd3c9fb3", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-53957784053034a1c8cdabc1", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-eaff27770df46d57c4f690de", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Write an email about: To outline strategic research priorities for enhancing digital accessibility in healthcare, leveraging current technological advancements."}
+{"query_id": "q-95fc8b16d554ba7cf550c478", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write a project proposal for 'Pan-European Market Expansion for Novel Oncology Therapeutic'"}
+{"query_id": "q-6b09b6888f988078e2a73290", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Write meeting notes for: Global Content Strategy Alignment for Upcoming Collection Launch"}
+{"query_id": "q-1375d96437857bf0792de49f", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-4e5686ee11d9abb0dd12bceb", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-726fd6e3925fb867ed91eb89", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Write an email about: To summarize the initial findings and proposed next steps for enhancing the strategic security posture of the regional manufacturing operations."}
+{"query_id": "q-ac93229fc25c90e15c16ba9f", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-a5dc63d784a59f235e34cf7c", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Write meeting notes for: Financial Performance Review & Strategic Capital Allocation"}
+{"query_id": "q-706e91f61dd18bf6ade44573", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "How many months was I able to meet my dinner budget in the last 3 months?"}
+{"query_id": "q-f3ca5c710cded515d784953d", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "What is my total food spending this week?"}
+{"query_id": "q-dbd78897196e9c93a50a8fed", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write meeting notes for: Accessibility Integration for E-commerce Platform Expansion"}
+{"query_id": "q-56c808fa28eed2f0180866ef", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write meeting notes for: Q3 Performance Review & Mobile-First Strategy Funding"}
+{"query_id": "q-e65ea68e99f60cf1089c35ba", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-6d38321b517e50a7cbcdf234", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-fd48c1568f940c959fe6e140", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write a project proposal for 'Global Content Efficiency Initiative: Storytelling for Cost Optimization'"}
+{"query_id": "q-75e05c319e694422064f72c0", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write a project proposal for 'Optimizing Renewable Energy Grid Integration through Advanced Machine Learning'"}
+{"query_id": "q-1829d795246669dbed5375f1", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-b29d1bfbd284f61225241ca0", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "How much have I spent on dinner in the last 3 months?"}
+{"query_id": "q-60ce67d98faa2ddc532fe601", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-6379ad7a7e06a3aeae5cd1ae", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-4a4b5fab80913b44dba1a546", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-8c77aa1ea3aeb26309923ed8", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "How many months was I able to meet my dinner budget in the last 3 months?"}
+{"query_id": "q-a2d71380201b394f8d5c35b8", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-ed78abe344378fe3c60818af", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write a project proposal for 'Optimizing Pharmaceutical Supply Chain Resilience through Digital Transformation'"}
+{"query_id": "q-378f3bd875338f6105a22e53", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Write a project proposal for 'Real-Time Order Orchestration Engine with Intelligent Routing'"}
+{"query_id": "q-829bb90b3416cdd13ef49709", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-7038b251e416832f44bcf9c8", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-3722792b3a7bcf0317c43409", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-f419a0db61eb4048ade46b3d", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-b1b5ddb3a37171621a725fed", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Can you recommend a movie with actors I like?"}
+{"query_id": "q-a0771a47290b3765e2eef72c", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-79c3ae8a03f7fffd379ee25a", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-70b7d69bff6ade6d6a9ff0c3", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-27601d5100527e70c05a86a2", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-14cdcda73676276c33bfbc29", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Can you suggest me some music?"}
+{"query_id": "q-9881f740550ac537148101c6", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write a project proposal for 'Integrated Digital Experience Platform for Pan-European Travel Engagement'"}
+{"query_id": "q-5da8d22185f977227e6e0bc3", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-ed165004299b05b79955f94e", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write meeting notes for: Performance Optimization Architecture Review - Patient Data Processing Pipeline"}
+{"query_id": "q-8cdc9b7868914e0a6d4505fc", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "What is my total food spending this week?"}
+{"query_id": "q-ca20aba9eab96259b62eeef8", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-ce242702efb1979f37abc838", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-76f283a9e5e361bc3fbd025f", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Can you suggest me some music?"}
+{"query_id": "q-ee4b924525789cd79d8ed3f3", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Write an email about: Request executive approval for strategic investment in robotic welding automation to enhance production efficiency and maintain competitive positioning in North American automotive market."}
+{"query_id": "q-d13f67e8cc4bb21dc534c866", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write a project proposal for 'Global Digital Asset Custody Solution Enhancement'"}
+{"query_id": "q-5a0ea5f70b2a376c579f2cef", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-5f5de227ed7d4548e1cdba28", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Which month in the last 3 months did I spend the most on dinner?"}
+{"query_id": "q-b373160420aba2206c180577", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Can you suggest me a movie?"}
+{"query_id": "q-2c9e5cc7895df6d899e84ebf", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-091a09ef27a34bf31948218f", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-2468b1df2fbee3f998a62352", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Write a project proposal for 'Immersive Character Customization Hub for Fantasy RPG'"}
+{"query_id": "q-9c77a0c5d2fa8f3dbe390e6c", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Where should I travel next?"}
+{"query_id": "q-977357956cc0b0eaa7d6ba40", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-bb844eca57bfeaaf54fc05fc", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-3e64adc33ae0f43b8ead906f", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "How much have I spent on lunch in the last 3 months?"}
+{"query_id": "q-8171d71693b726cc83330b54", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-e2bfb137423a00385d1dd017", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Can you recommend a movie with actors I like?"}
+{"query_id": "q-6c2f0992a7e3a5455a744866", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Can you suggest me some music?"}
+{"query_id": "q-7a1ffe02ea2063173f0433ca", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Write meeting notes for: Predictive Analytics Pilot: Regional Implementation Strategy Review"}
+{"query_id": "q-69b03fc08173d147466712ba", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "What music would you recommend?"}
+{"query_id": "q-ecb1dab91edcea68a3c78007", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write an email about: To provide an update on the content strategy workshop outcomes and outline next steps for implementation across European markets."}
+{"query_id": "q-5f0edddc2a70149806d11c6d", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-f453275a2657907249f3cf02", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-56753fab658055bf8c0e696d", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Am I meeting my breakfast budget goal?"}
+{"query_id": "q-85ad89981a0ffd709f513798", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-2c83524176b13590b5090785", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Suggest me a book based on my preferences."}
+{"query_id": "q-33d09ca03be9644fe9eed415", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-48bb01663e60fc6f8242abef", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-68123b936275befde93c5502", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-f6e24198b007f84201a8137d", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-8d1f68c17dd14a4423fdbd32", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Write meeting notes for: Regional Energy Industry UX Pilot - Initial Research Synthesis and Next Steps"}
+{"query_id": "q-ec92c32a89ed92381e0290a0", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-0349a4f1d873f7c44b625caa", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Can you suggest me some music?"}
+{"query_id": "q-cd97fb1cc80256ebca59ec23", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-f4e68aaef93405607a40b909", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Write a project proposal for 'Omnichannel Style Discovery Campaign for Gen-Z European Markets'"}
+{"query_id": "q-9331dbfa07fdebe9d6c8b037", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-d4affc478951449117ea74bf", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "How much have I spent on breakfast in the last 3 months?"}
+{"query_id": "q-d766fee5378742fa92615331", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-aefb153932d3ca3f67067bcb", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-1974967b2ed49995c4585a61", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-9b32d1df83c598275cd16c28", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write a project proposal for 'Elevate & Engage: Data-Driven Fashion Storytelling Initiative'"}
+{"query_id": "q-87b807fb27cd0a7349324ed0", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-149fb963d2813d1a182c960d", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Write an email about: To introduce our AI-driven content personalization solution and explore partnership opportunities that leverage our technology to enhance their user experience."}
+{"query_id": "q-38ccdc432175d9aaa8457d55", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-ed02fc1a4d03ae4a4ef15513", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you recommend music from decades I prefer?"}
+{"query_id": "q-9b6eb4da552f1b4c13e40cec", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write an email about: Outline strategic priorities for accelerating customer-centric transformation across European operations and secure leadership alignment on investment decisions."}
+{"query_id": "q-0817753cdf266dad9cabe450", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write a project proposal for 'Engage & Learn: Mobile-First Content Strategy for European Youth'"}
+{"query_id": "q-3c5d20e532ee725f9e394953", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "How much have I spent on dinner in the last 3 months?"}
+{"query_id": "q-1ef282e10f231127d061bc4a", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Can you suggest me a movie?"}
+{"query_id": "q-2b42a55deba31dfdde87e0e2", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write a project proposal for 'Omnichannel Customer Journey Optimization Initiative'"}
+{"query_id": "q-2ad963d963603295a0e58738", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Write meeting notes for: Campaign Performance Review & European Expansion Strategy"}
+{"query_id": "q-c139ec25e70629b134dd4240", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-312e81c6db4c337b5ecd0751", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write a project proposal for 'Real-Time Payment Fraud Detection Engine'"}
+{"query_id": "q-a5b75233a75dbfc0827e44c9", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you recommend destinations that match my preferred types?"}
+{"query_id": "q-63ac49899d7373fd65bce3b6", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Write a project proposal for 'Audience Engagement Strategy for Regional Entertainment Venues'"}
+{"query_id": "q-380927c8f3a3e452a6d1702d", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "What music would you recommend?"}
+{"query_id": "q-70ba93b9b95af1cab02a476a", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Write an email about: To provide an update on the current status and next steps for the Brand Identity Refresh project, including a review of initial design concepts."}
+{"query_id": "q-ed8335eab8b1dd74bb1bc1cf", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-01b7b323bb847964e4a0bce0", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Can you suggest me a movie?"}
+{"query_id": "q-70f3371e4245fd4221b0a5d2", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Am I meeting my coffee budget goal?"}
+{"query_id": "q-485ac0aaccf5554f273e771f", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-fac9c933c15ee842b3be968b", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Write a project proposal for 'Predictive Patient Readmission Analytics Platform'"}
+{"query_id": "q-6ecf894d98f8e3192cda2f34", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "What is my total food spending this week?"}
+{"query_id": "q-353289d8f61381344e642b10", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-7a7035848a799e0e831124d5", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you recommend destinations that match my preferred types?"}
+{"query_id": "q-c1b36a07dbf14f59ded68828", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you recommend music in genres I enjoy?"}
+{"query_id": "q-08de9db7a946c62034fce106", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Can you suggest me a movie?"}
+{"query_id": "q-3ee17a54e9b44cad5c310bff", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-3ce2e47644c0fe939e1ca9ca", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write meeting notes for: Customer-Centric Transformation Pilot - Progress Review & Next Steps"}
+{"query_id": "q-aabefc8353ffa5eccd34b717", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-c5016475a43b8bfa8d9cecfa", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-3c85fa9307e3b30b2ce127da", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Suggest me some music based on my preferences."}
+{"query_id": "q-f2d3d034aea8697fbb011d77", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-d351bba3b3d0d8e770b31dc5", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Can you recommend places in regions I like?"}
+{"query_id": "q-945920c0afd95488fe90c158", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-beeec1a7d208b42f19ba109f", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-d1673a4b95a907bd083aa9a8", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-ac9f74bbe9accbb89e737637", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-737c94afbdd7b637e833fd50", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you recommend music in genres I enjoy?"}
+{"query_id": "q-d2576c5e42e59c69e8c4e46d", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Write an email about: Announce the launch of our integrated streaming platform security campaign and align cross-functional teams on messaging strategy and deliverables."}
+{"query_id": "q-82ac3cea9c0beea79a113ff4", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-7c5d3ee0bca3f5f346f412b7", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "What is my total food spending this month?"}
+{"query_id": "q-9b941065040a7f369f111b5d", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Where should I travel next?"}
+{"query_id": "q-3eebd932508d5733920db579", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Write a project proposal for 'StreamSync Visual Identity & Brand System'"}
+{"query_id": "q-e593f306a8a5dc187883715f", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Write an email about: To summarize key findings and recommendations from the initial phase of the Accessibility Strategy Review for our regional energy operations."}
+{"query_id": "q-cbceb31faf4e8594d0acea63", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-0c986c07195d4ea7d8e9217e", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-eb3b61d3d0fe92f68c480b89", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "What book would you recommend?"}
+{"query_id": "q-6b1ae11bd17df2daba9f5398", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Suggest me a book based on my preferences."}
+{"query_id": "q-cc91fffba81d551602afb042", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Can you suggest me a movie?"}
+{"query_id": "q-000283c6d6924865ff7e14d6", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Write a project proposal for 'NutriFlow: Personalized Meal Kit Experience Redesign'"}
+{"query_id": "q-4f8ff6304adf44872bd0bf45", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Suggest me a place to visit based on my preferences."}
+{"query_id": "q-847a4a613255b250959d8a50", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Write an email about: To align leadership on our strategic pivot toward patient-centered digital health solutions and secure commitment for resource reallocation."}
+{"query_id": "q-f8117a29493ae899941bbcea", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you recommend music in genres I enjoy?"}
+{"query_id": "q-4044bf748e3484ebe02a1254", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "What is my total food spending this month?"}
+{"query_id": "q-ce75e904b3f5c82f3efdc349", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-0f44671045a5c3f9ddca1fbd", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Write meeting notes for: Strategic Account Growth & Q3 Performance Review"}
+{"query_id": "q-f0c6c0465e7675c5bb47987c", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-958f18ea5304015cc3ea7924", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "How much have I spent on breakfast in the last 3 months?"}
+{"query_id": "q-b68a8bea410e9ef0a952d59f", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "How many months was I able to meet my lunch budget in the last 3 months?"}
+{"query_id": "q-8262c20a330b0a1934066657", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Can you suggest me a movie?"}
+{"query_id": "q-c2e1e5d9e72cb59fb14b8487", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-a31b331d416fe957082a1895", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "What is my total food spending this week?"}
+{"query_id": "q-acaf0ff7d26ce1c3615c03d9", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Write meeting notes for: Q3 Patient Education Campaign Review and HIPAA Compliance Alignment"}
+{"query_id": "q-622195dbfb28cba9cf091715", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Can you suggest me a movie?"}
+{"query_id": "q-bc0de3dcd112f48e250a6d21", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Write an email about: To provide an update on the pilot program's initial findings and next steps, focusing on user experience and manufacturing efficiency."}
+{"query_id": "q-8b800873ffcfde8c1a124ae3", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-2aefd099c7754e4febda4f65", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Write a project proposal for 'AI-Driven Regional Logistics Optimization for Enhanced Operational Efficiency'"}
+{"query_id": "q-a3abe24176a33d99cad1f3dc", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you recommend a movie with actors I like?"}
+{"query_id": "q-b70f25e028e720b8571607d1", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "I'm looking for new music to listen to. Any suggestions?"}
+{"query_id": "q-3ce9124088e77a55db53b9bc", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-26c9921f14748b98d52e4dc0", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-024da565cb18112c1518cfdd", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Write an email about: Propose architectural improvements to reduce latency in the autonomous navigation system and request feedback on implementation approach."}
+{"query_id": "q-7d09b48a0a43f18e6f9aca18", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write a project proposal for 'Cross-Border Fleet Optimization Initiative'"}
+{"query_id": "q-8df8fffa6a934ee991b7dda4", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "How much have I spent on lunch in the last 3 months?"}
+{"query_id": "q-c2213dd065f3e37e4c226ac1", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write a project proposal for 'Supply Chain Resilience and Cost Optimization Initiative'"}
+{"query_id": "q-41b0c281a775d93113975f5e", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write a project proposal for 'Strategic Energy Transition Roadmap for European Utilities'"}
+{"query_id": "q-bc8e33d9387064fa71fb9f79", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "What book would you recommend?"}
+{"query_id": "q-bae143ee591ed79ed3bcb772", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Write a project proposal for 'Regional 5G Enterprise Solutions Expansion Initiative'"}
+{"query_id": "q-f6ec011148ea36a000b73334", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-e830f209884f8166b18cbc1b", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-dd7872aadd29f4c1fb95c013", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Suggest me a book based on my preferences."}
+{"query_id": "q-980a33ebc9142b2b8e404505", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Write a project proposal for 'Bio-AI Performance Optimization Suite for Gene Sequencing'"}
+{"query_id": "q-94aafa3b6d789aac97ca220b", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-8343c18052e8511a089fe5c3", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-f49760ba955ecc022d40da48", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write meeting notes for: Robotics Integration Architecture Review: Phase 1 Learnings"}
+{"query_id": "q-3c9d06ea604dc8b9cb382f41", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-ced9b3f01bdf071f63faf870", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-8cc9532cd8a6c1eabcecc13f", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Which month in the last 3 months did I spend the most on lunch?"}
+{"query_id": "q-43fc046045770b8404ab24fc", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Can you suggest me a movie?"}
+{"query_id": "q-36794ae99fc9bf65c5dc675a", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-a0d5ad3337ca557aecd3de50", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Can you suggest me a movie?"}
+{"query_id": "q-819ef83b62fa23d6d7634d23", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-41d8d09e3a4ef9dd1aa1a354", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-01615caba34aeca45c82172c", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-42f0ad803c1fe379941e8f2b", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Can you suggest me a movie?"}
+{"query_id": "q-f913721f62dbb27ae1ee82f2", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "What music would you recommend?"}
+{"query_id": "q-65cc8e2629f551ae4ae144f2", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Write an email about: Proposal for implementing FHIR-compliant API architecture to improve patient data interoperability and system integration capabilities."}
+{"query_id": "q-b7ea74d576daefbf85dbcb75", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you suggest me a movie?"}
+{"query_id": "q-dbe91e188cd08628dda7d30a", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "How many months did I overspend on my breakfast budget in the last 3 months?"}
+{"query_id": "q-417a5c8c534a03291f58afa2", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-80b0dc3f014050772c930136", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Can you suggest me a movie?"}
+{"query_id": "q-5efead09444a672ce2c6c946", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-6495788e37a70895ecdb98e0", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Write a project proposal for 'EduFlow: Gamified Learning Pathways for Early European Language Acquisition'"}
+{"query_id": "q-dd96194fa5fea4446269df02", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-b50dccb9e68bec4bf7ab06ad", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-55d8ade48c61739720f696df", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-f711d499dc1b22b116ec87d1", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "What book would you recommend?"}
+{"query_id": "q-c88fa8f95d76695f58993dc8", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Write a project proposal for 'Regional Patient Engagement Platform Enhancement Initiative'"}
+{"query_id": "q-021234e1fd2a16ba9f67c67f", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-de08870393ce0490c5f02153", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you recommend a movie with actors I like?"}
+{"query_id": "q-53b92847d6ef10251b599a43", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "I'm looking for new music to listen to. Any suggestions?"}
+{"query_id": "q-264455662d4061ba2a00b163", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-f43b5e5f45e651f1c72161d7", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "What is my total food spending this week?"}
+{"query_id": "q-b3161107bae346ea9b4f9951", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Which month in the last 3 months did I spend the most on lunch?"}
+{"query_id": "q-6c1c01fc46677c12ef0bc617", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-b9e46d4e90aa3e7fd06eb7bd", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-b369ce3d073cb8723fc90573", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Write a project proposal for 'Global Digital Asset Custody Solution Enhancement'"}
+{"query_id": "q-069b831870def670f20df170", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you suggest me a book?"}
+{"query_id": "q-e4319cb8e3a34c710ea3af37", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "How much have I spent on breakfast in the last 3 months?"}
+{"query_id": "q-3d08904d49a9053364deadcd", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-ed7ce5aca57b563bb3b55214", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-fb267ff3cc78e182a67152da", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-18eefee8f01fa19dc4cdd5cb", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write a project proposal for 'Integrated Patient Support Hub for Chronic Disease Management'"}
+{"query_id": "q-c9275038c0043d9d27a71efa", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-ac4231e6744f58aa678b5c63", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-2c6662cec5e785276bc29e37", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Write an email about: To provide an update on the preliminary findings of the 'Scalable Distributed Ledger Technologies for Aerospace Supply Chains' research project and invite collaboration on future phases."}
+{"query_id": "q-9bd3039843fd59d0053d9d34", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-9560907c7653f297df345d15", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write a project proposal for 'AI-Powered Content Personalization Engine for European Media'"}
+{"query_id": "q-8e1894215cd5e63275db09b8", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Suggest me some music based on my preferences."}
+{"query_id": "q-11427f47864a4d2696145d06", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-1527f22de8902533ece01e94", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-af5ad7d612ca11a0da48b076", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write a project proposal for 'Regional Enterprise Mobility Solution Expansion Initiative'"}
+{"query_id": "q-deac2e8bfda3d8691d655d80", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-22fc294d261b7dd5574f7008", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-f384d989678fac032b2c76bf", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-3e18d0a5160246109a63796b", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-ba28c3213ef67ed6c190c7c9", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "I'm looking for new music to listen to. Any suggestions?"}
+{"query_id": "q-5ed0da550cd43afa4bef6cbb", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "How much have I spent on breakfast in the last 3 months?"}
+{"query_id": "q-60cbd257cacc354f2faf7464", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you suggest me a movie?"}
+{"query_id": "q-05c7a4fccbdd24ba9fab3ace", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-e221e3219a8ab338ee9e23d3", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "What is my total food spending this month?"}
+{"query_id": "q-3701ea00d4129df014efc6d3", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Can you suggest me a movie?"}
+{"query_id": "q-6f9c2de472c2ac3c84e5e597", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Write meeting notes for: Content Strategy Alignment: Q+1 Product Launch"}
+{"query_id": "q-bd459e1236283e0be46dc389", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-3e11bc727a379f14c955b26d", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-c9c0ffcc4e52b04fface9263", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write meeting notes for: Strategic Automation Roadmap Alignment - Phase 2 Review"}
+{"query_id": "q-b04306f8ebb370e7fd642ba5", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Am I meeting my lunch budget goal?"}
+{"query_id": "q-f1a467db320cff14fb07fd06", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Write a project proposal for 'Global Healthcare Provider Partnership Expansion Initiative'"}
+{"query_id": "q-2149889e60d343184f09b46c", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-d9eec4006d19d5bf7f6e2d27", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Am I meeting my coffee budget goal?"}
+{"query_id": "q-55eec2f5a0e5ea01d1ed40da", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-ae6d46844878d470ba3f0d56", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Write meeting notes for: Strategic Account Review: Global Compliance Solutions for Key Manufacturing Client"}
+{"query_id": "q-74558c8395ba19fd6be51dce", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-cf2a336c8cf0987065cbf82c", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write a project proposal for 'Optimizing Global Energy Grids with Federated Learning and Edge AI'"}
+{"query_id": "q-363598296e3f0bf1d7d1b085", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-016922d7ce5dc0f0a9cf96fc", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-778e61e6294773fd3a5eb668", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-ed781e2b727ba09398cdadf8", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "How many months did I overspend on my lunch budget in the last 3 months?"}
+{"query_id": "q-5595e1970d06ec3bbb82dc58", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write a project proposal for 'Destination Discovery: AI-Driven Personalization Campaign for Emerging Travel Markets'"}
+{"query_id": "q-6d554e90a8896e5e58a20c6d", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Can you suggest me a movie?"}
+{"query_id": "q-5aaeb0d7789487f3bd94c67d", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Suggest me some music based on my preferences."}
+{"query_id": "q-0dc2f5874fac3357a674db1e", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "How many months was I able to meet my breakfast budget in the last 3 months?"}
+{"query_id": "q-4ace066fb4a719d87e0c6ecf", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Can you suggest me some music?"}
+{"query_id": "q-67ab278da64e37ab48627bf6", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Write meeting notes for: Strategic Accessibility Integration for Biotech Platform"}
+{"query_id": "q-e3bd9694d6982846a478d729", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write an email about: To provide an update on the financial impact of our proposed customer-centric consulting model for a key automotive client and request feedback on the revised budget projections."}
+{"query_id": "q-5e9115d2c04c3979441fe951", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Am I meeting my coffee budget goal?"}
+{"query_id": "q-0aae4149aefc63bd2ab13cc6", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Where should I travel next?"}
+{"query_id": "q-eb36aa2a5fad6b30e27f1ba2", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "How much have I spent on lunch in the last 3 months?"}
+{"query_id": "q-e1490c277d41de8a90efc5c4", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write a project proposal for 'Automotive Aftermarket Digital Engagement Initiative'"}
+{"query_id": "q-082acc813b575744c5da9a5d", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you suggest me a movie?"}
+{"query_id": "q-7d8d632f2484ee8e0d63f847", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-33992f9a21200f0edfd8c8cf", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "How much have I spent on dinner in the last 3 months?"}
+{"query_id": "q-dbd8e769b3cf8c9850a118d3", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-45decbf867a2075cbb76a180", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-b10537f5a2a01e9a84aef569", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write an email about: To disseminate findings from a recent accessibility audit and propose next steps for integrating inclusive design principles into our telecommunications infrastructure."}
+{"query_id": "q-7e18330fb30c6fada944d17d", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write a project proposal for 'Entertainment AI: Personalized Content Recommendation Engine'"}
+{"query_id": "q-dfacd60505596313f9b0191c", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write a project proposal for 'Taste Connect: Multi-Channel Brand Awareness & Customer Acquisition Initiative'"}
+{"query_id": "q-696bac271ba1e37340a4d4eb", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Write a project proposal for 'Immersive Fan Experience Design for Next-Gen Entertainment Launch'"}
+{"query_id": "q-dacaabfdc088d611bbb7facf", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Am I meeting my grocery budget goal?"}
+{"query_id": "q-62b81550098a48b34aeef73d", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write a project proposal for 'Strategic Data-Driven Production Optimization for North American Manufacturing'"}
+{"query_id": "q-82f264003f6a6e73fd389004", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-c550e635632fedd8d9e96fe0", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Am I meeting my lunch budget goal?"}
+{"query_id": "q-1df734c1d277fb6839845510", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Where should I travel next?"}
+{"query_id": "q-f0ee103a7f94e6687292858f", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-242a7dbd21a37c8473f68ea3", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-01c2394ee90996fea212700c", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-5c5a617da3a5a06b6f8c3826", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-39f99b5c0c941d3c1e748f10", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write a project proposal for 'Regional Logistics Network Optimization for Enhanced Efficiency'"}
+{"query_id": "q-eecd94e74769ead792037b4b", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-874a3bb048a06b9f9c2d6407", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you suggest me a book?"}
+{"query_id": "q-1e74b39f53d1a1035c0afeca", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you recommend destinations that match my preferred types?"}
+{"query_id": "q-db43c52952c7a31168b86ee6", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-fdc886e7e1774d294ab79e96", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-8888d3ed0bb51df4867710a7", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-7271c7f34f01f96267ddcdf7", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Which month in the last 3 months did I spend the most on breakfast?"}
+{"query_id": "q-854358f4d15a03843e7171d4", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-24828534bb471610dd3468a1", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "How many months was I able to meet my breakfast budget in the last 3 months?"}
+{"query_id": "q-2e8e0d8dd030d29eacbb4715", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you suggest me some music?"}
+{"query_id": "q-22606b42eccc0740f242c64d", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-fa34c305f02d72918e505e52", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Suggest me some music based on my preferences."}
+{"query_id": "q-bdf26fc8cc86b6a743b9c15b", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write a project proposal for 'AI-Driven Regional Logistics Optimization for Enhanced Operational Efficiency'"}
+{"query_id": "q-421426f53e10ece411f750ff", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "What is my total food spending this month?"}
+{"query_id": "q-d14482d020cf8b78b2e1338c", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Can you recommend music from decades I prefer?"}
+{"query_id": "q-2709dbd49d69995e26193421", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write a project proposal for 'Real-Time Social Media Sentiment Analytics Engine for European Markets'"}
+{"query_id": "q-04cb89eafe81b3ad4b03efd7", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you recommend music from decades I prefer?"}
+{"query_id": "q-37cd9a84001543cd19ed59ef", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "How much have I spent on dinner in the last 3 months?"}
+{"query_id": "q-3c4f86cfce15822212b8102a", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Write an email about: To provide a creative update on the brand identity refresh for a new food-tech product line and gather feedback."}
+{"query_id": "q-e416f8332ecf43e422d5845f", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Write an email about: To provide a preliminary financial analysis of the proposed security-enhanced enterprise pilot for North American healthcare operations."}
+{"query_id": "q-23e17f96d20ea7095cb3c73d", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Can you suggest me a movie?"}
+{"query_id": "q-13af29ccc816774954b390ac", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write a project proposal for 'Proactive AI-Driven Anomaly Detection for 5G Network Slicing Optimization'"}
+{"query_id": "q-39e75722c5b8e84afacb417f", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write a project proposal for 'Pan-European Real Estate Investment Opportunity Assessment Framework'"}
+{"query_id": "q-83cec42683655b5a08f29f7b", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "What music would you recommend?"}
+{"query_id": "q-722e1835f6b42efd7ea3e83c", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Which month in the last 3 months did I spend the most on breakfast?"}
+{"query_id": "q-250003ca6fd2a525691421d2", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Write an email about: To introduce optimized content workflow strategies for our fashion industry clients and solicit feedback."}
+{"query_id": "q-2981f1841365003264bf267a", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Which month in the last 3 months did I spend the most on dinner?"}
+{"query_id": "q-658f1472d21d74163276017b", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-b60f5a4395b7f52cb1b850d8", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Write meeting notes for: Visual Identity & User Experience Review for 'Secure Ed-Connect'"}
+{"query_id": "q-3c67d96643258896531be1a7", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Which week in this month did I have the most steps?"}
+{"query_id": "q-859b0c3c09fc23d5bd367d00", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "How many months was I able to meet my coffee budget in the last 3 months?"}
+{"query_id": "q-588defef2f33d4ebecf0c77d", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Can you suggest me a movie?"}
+{"query_id": "q-8528f13bc22370d5efcfb5ec", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-ca6d883fcfea0a9dfb002f22", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Am I meeting my coffee budget goal?"}
+{"query_id": "q-2d82dcbc717a3b45dbc6e769", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-8ca87b6ba8da698c0820b101", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-84a05af5fcd67f86c4b363d1", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-2cf7bdc8f6a700b8dc64b201", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-4f4cd112a6d937534e9d8e57", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Can you recommend music in genres I enjoy?"}
+{"query_id": "q-bf4b055515978c4a86e50f8e", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-0b3530ae52e4e46ae60b2517", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-fd1b422f6ddb637d83bffcd6", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-0f33deb139974510ddeb69a9", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you recommend music from decades I prefer?"}
+{"query_id": "q-0b10b83e33c09e889d24a422", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Write an email about: To provide an update on the visual design direction for the predictive analytics platform, incorporating recent feedback and preparing for client review."}
+{"query_id": "q-1613c449f4bb1764a1f2fdc6", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Can you suggest me a movie?"}
+{"query_id": "q-969294f8ddc78fa4885c0f3b", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-8d05ecb27c422fadc3b71368", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write meeting notes for: Q3 Sales Performance Review & Efficiency Initiatives"}
+{"query_id": "q-b827f42a9d9b1a90c819bc67", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Can you suggest me a movie?"}
+{"query_id": "q-985720b93c63eff395a2e080", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Write a project proposal for 'Global Healthcare Provider Partnership Expansion Initiative'"}
+{"query_id": "q-7ff2f89e254f93593fe982a4", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-ba3f9857419b8039e02dd5e2", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-6252eec3f028f38dd6f5f090", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-baef7eebcbd373685e9402ea", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-43ad60b9878010a1cbdc68a0", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write a project proposal for 'Content Strategy & Automation Blueprint for Enhanced Travel Customer Journeys'"}
+{"query_id": "q-f2ea44e8ad515d48d962999b", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "What book would you recommend?"}
+{"query_id": "q-3eecd261669cb08745f1e5c4", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-2037a1f97a68ac7407912c03", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write a project proposal for 'Autonomous Vehicle Fleet Intelligence Platform - EMEA Expansion'"}
+{"query_id": "q-33d8ec7967c4aadec8cac291", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Write meeting notes for: Strategic Accessibility Initiative: Regional Fintech Rollout Planning"}
+{"query_id": "q-a8ed030b14ca16b40c5eff8e", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write a project proposal for 'Global Patient Experience Optimization Initiative: Financial Impact Assessment'"}
+{"query_id": "q-e0de51a84d1d1551fa7aed58", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-12d01e186321014e88c6f9a5", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-39da3fd0ad9a9758c2e6d1df", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Write meeting notes for: Strategic Account Review: TelcoConnect Group Integration & Expansion"}
+{"query_id": "q-1837ea3a55c0a606871432c6", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-4349cd48d77d1bb789bfdf1b", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "How many months was I able to meet my breakfast budget in the last 3 months?"}
+{"query_id": "q-6fb345ca1ea5d7b9d17cb76b", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Write an email about: To summarize key insights from a recent real-time consulting engagement and propose next steps for enhanced educational strategy."}
+{"query_id": "q-343a37fd82e12328bc62a1b4", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-fec426a29ae7c53bd478ffb8", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Suggest me a place to visit based on my preferences."}
+{"query_id": "q-d7a6b724506b2748a4ed1fb0", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write an email about: Presenting strategic expansion framework for entering emerging markets while maintaining operational efficiency and sustainable growth trajectory."}
+{"query_id": "q-07fb87d73775af5148b01f9b", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-64047d297b4cfc4a2980a61e", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-20047963584ae6e7ba66f09c", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write a project proposal for 'Bio-AI Performance Optimization Suite for Gene Sequencing'"}
+{"query_id": "q-94ae1d37ba90b665d010e5f0", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "What music would you recommend?"}
+{"query_id": "q-d6ede56a9d0b28fdc7f9eb49", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "Write a project proposal for 'Autonomous Swarm Robotics for Dynamic Environment Exploration and Mapping'"}
+{"query_id": "q-849c3383e278fbe38430670c", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "What is my total food spending this week?"}
+{"query_id": "q-b4c02c6baa84749731e3e855", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Write a project proposal for 'Secure Federated Learning Framework for Regional Healthcare Data Analysis'"}
+{"query_id": "q-84920d7da650cc4122099650", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "What music would you recommend?"}
+{"query_id": "q-562bfa51c39ceb3139b78b9d", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write meeting notes for: Regional Compliance Strategy Review - Automotive Safety Standards Implementation"}
+{"query_id": "q-f8a354913e2184c1970eca4f", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-2328b322fde408150623b0ad", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-8ed692943e0d8ca6cf3d9ceb", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "What is my total food spending this week?"}
+{"query_id": "q-d8984b26f5273f0b7856a42e", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "What is my total food spending this week?"}
+{"query_id": "q-1db032097701a46dc2ff8de1", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-40170234d268c44a367d442d", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Write a project proposal for 'Regional Media Performance Optimization Pilot Initiative'"}
+{"query_id": "q-4e55413e81a3baec41a74bf2", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-b8e5dcae191479a1c41c7d84", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "What is my total food spending this month?"}
+{"query_id": "q-6cab7714ce064098076b4d84", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-20767c8604d6ee197146d2f9", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you recommend destinations that match my preferred types?"}
+{"query_id": "q-7150b32aad6547cba932a530", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Suggest me a book based on my preferences."}
+{"query_id": "q-9b4cd710a581d6e0af6ada04", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you suggest me a movie?"}
+{"query_id": "q-7432bef2f681b4ed4be8972c", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Suggest me a place to visit based on my preferences."}
+{"query_id": "q-55870b81254bd9e777fcf55d", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-68fba4f8393f92c8edb03858", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-18470c29d495b895c6cab8c8", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-dbb67ea8215db65a11db7cc6", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Can you recommend destinations that match my preferred types?"}
+{"query_id": "q-85d743e83e45011db47c09f6", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-f1e1026ceccad89dfee283c9", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Write an email about: To provide a preliminary financial analysis of the regional AI pilot program's performance and outline key considerations for the next phase."}
+{"query_id": "q-e29fae917b8a531fedec5d52", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write an email about: Announce the launch of our integrated patient engagement campaign across digital channels and outline key stakeholder responsibilities for the upcoming rollout phase."}
+{"query_id": "q-c1e82f08c8d466010b5a7655", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "How many months was I able to meet my dinner budget in the last 3 months?"}
+{"query_id": "q-014a0a0c26bc40f3d31a9666", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Write a project proposal for 'Fan360: Integrated Multi-Platform Engagement Ecosystem'"}
+{"query_id": "q-dfd105439a2df714d1a665a1", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "What music would you recommend?"}
+{"query_id": "q-a7a2f46c68197a425772042f", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "How much have I spent on lunch in the last 3 months?"}
+{"query_id": "q-99a64b7d245be1818799291a", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-b7c7a8a3c71c89024b94ad5e", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-251dee78a801125718f5fe58", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Can you suggest me a movie?"}
+{"query_id": "q-7874e1c5d05c13590fe5321e", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write an email about: Request strategic alignment on predictive analytics expansion into emerging Asia-Pacific markets and secure executive approval for phased investment approach."}
+{"query_id": "q-24d6e1250918d5d2b2c370ad", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you suggest me a movie?"}
+{"query_id": "q-79b47380ee4802de13e29361", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-bbed41ecd257e52cf45ce4c1", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-97268e67a97119520a2fd30e", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Write an email about: To provide an update on the pilot innovation-focused fintech enterprise and outline next steps for key stakeholders."}
+{"query_id": "q-a239c575e3677a56098d764c", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Can you suggest me some music?"}
+{"query_id": "q-f5c82226426a8ba8f9a216c5", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-54edf189ff1247d8951db117", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-016225d1954627b83b09aa1b", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Write meeting notes for: Strategic AI Integration Steering Committee - Phase 1 Review"}
+{"query_id": "q-b7073f815e604789a9988df6", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Write a project proposal for 'AI-Driven Credit Risk Scoring Model Enhancement'"}
+{"query_id": "q-114d081244227e5902a5fb5f", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "How many months did I overspend on my lunch budget in the last 3 months?"}
+{"query_id": "q-04a2d615edbf352e24b64ccd", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you recommend a movie with actors I like?"}
+{"query_id": "q-a40db57afd41a396563fe657", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-d0e136c1c66e9d442c6cd724", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-eedd96202727625fcdc3751e", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "How many weeks was I able to meet my coffee budget in this month?"}
+{"query_id": "q-f6accdace6b7c090c7054a9e", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Write a project proposal for 'AI-Driven Predictive Maintenance and Production Optimization Framework'"}
+{"query_id": "q-4e5eaf6f1681c5aa8d5672bf", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "How many months was I able to meet my dinner budget in the last 3 months?"}
+{"query_id": "q-8a549748a9abec14d60945c2", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Write meeting notes for: Q3 Performance Review and Strategic Planning for Key Manufacturing Accounts"}
+{"query_id": "q-b7d9f4598f5953a93a21a68e", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Suggest me some music based on my preferences."}
+{"query_id": "q-1be59ea97c1e6e939a1af5bc", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-c4f9aefc8248f2a23c195741", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "How many months did I overspend on my breakfast budget in the last 3 months?"}
+{"query_id": "q-7498fb61e8d5ecc3dccef4c6", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Write an email about: Outline strategic roadmap for implementing accessibility-first logistics infrastructure across APAC and EMEA regions to enhance service delivery for underserved markets."}
+{"query_id": "q-392ac09662dad34f9386c4f9", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-d69f2e67c3bf399b3b8489f9", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Suggest me a book based on my preferences."}
+{"query_id": "q-566df2d9de3a0c75da851907", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-9e34e610634dc78b3cc0d06a", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-4c1395529be4bd30cd3c6113", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-7b9c79dd55781548a27dd91a", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you recommend destinations with climates I prefer?"}
+{"query_id": "q-404d081c9075e3400450f8cd", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write a project proposal for 'Regional E-commerce Market Penetration Initiative: Southeast Asia'"}
+{"query_id": "q-211c359fe92eeda8c42da475", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Can you suggest me a book?"}
+{"query_id": "q-6522fa0fbd9ac12a2259253d", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write meeting notes for: Q4 Campaign Strategy & Fan Engagement Initiative Review"}
+{"query_id": "q-381b61da4939375ebbeded25", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "How many months was I able to meet my breakfast budget in the last 3 months?"}
+{"query_id": "q-368dca000bda12ef7a981141", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Can you suggest me some music?"}
+{"query_id": "q-99bca6ad44ad62f89e0f09be", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "Write an email about: To provide an update on the Q3 performance for key enterprise accounts and outline strategic priorities for the upcoming period."}
+{"query_id": "q-cc960954c3e80a7f07e97763", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write a project proposal for 'Predictive Biomarker Discovery Platform for Rare Disease Diagnosis'"}
+{"query_id": "q-8b7d129ff140d3183f8266be", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write a project proposal for 'Real-Time Spatial Analytics Engine for Immersive Environments'"}
+{"query_id": "q-9c62b28fc5174c0e429ec89e", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-e2f03ac5f7458999dfdc47a8", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you suggest me a book?"}
+{"query_id": "q-542e8e96451cb96634420881", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-3584d99facf47af2f565e706", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-fc0e3db6d9fd835d66c563a8", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Am I meeting my coffee budget goal?"}
+{"query_id": "q-58a45ff01d1913b85ac41147", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Write an email about: Proposing a strategic partnership for AI-driven content innovation and market expansion."}
+{"query_id": "q-a5002287a57524594610def9", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Write meeting notes for: Accessibility Compliance Review for VR Navigation Module"}
+{"query_id": "q-16690899df877fb5be28ed53", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-f71cf58e85a5d88310b17613", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-75642927fd7bced902006a82", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-c31a752fe0ac407ad355f611", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Write an email about: To summarize key takeaways from a recent content strategy workshop and outline next steps for implementing enhanced security protocols across educational media assets."}
+{"query_id": "q-e0f61e3406e7277b10da798b", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Write a project proposal for 'AI-Driven Operational Efficiency: Cost Reduction in Gaming Operations'"}
+{"query_id": "q-10ac14aa014510ae4999fe5e", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Can you suggest me a movie?"}
+{"query_id": "q-977bdb72d38250df77119672", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-38432119e795466907d4bc46", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Can you suggest me a movie?"}
+{"query_id": "q-4f1f0acca91ab67525021602", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-2ceba276e6698f1fcc37d677", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-d1b94e6ef91e5d13f3838a77", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-56b50b14c436b19a362d7cc6", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-d97ab33f380534aa3eafa5e6", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "How much have I spent on lunch in the last 3 months?"}
+{"query_id": "q-a9e1bf9336bf6fd507c43d17", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-aadc482e6b459d108f8724b2", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-c520809bc058af4b24f3f64f", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Suggest me a book based on my preferences."}
+{"query_id": "q-dfa2f1863ce9fa86e9f31d4f", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write an email about: Proposing architecture changes to improve scalability and reduce latency in our patient data processing pipeline"}
+{"query_id": "q-a8a891998740a4025a3323cd", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "Write a project proposal for 'IoT Gateway Modernization for Smart Building Infrastructure'"}
+{"query_id": "q-7cf711d007c8d993f73b4a04", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "Write a project proposal for 'Connected Vehicle Telemetry Processing Platform'"}
+{"query_id": "q-cb91e184c128c64c845a856e", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-07ac7151924ae0c17874974b", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Can you recommend places in regions I like?"}
+{"query_id": "q-050809eeeab24df9a16ca055", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "Suggest me a place to visit based on my preferences."}
+{"query_id": "q-626e32a327dee7c7afe42e23", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "Write a project proposal for 'Next-Generation Cockpit Display Integration Platform'"}
+{"query_id": "q-d0afd7ad54ef74cee37f54de", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Write a project proposal for 'Pan-European Audience Engagement & Brand Revitalization Initiative'"}
+{"query_id": "q-fafe0b6e9b9e443e009096b3", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-56b1cc48cea165761187a3d5", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-d896bc039360ce84fecae3fc", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Can you suggest me some music?"}
+{"query_id": "q-7e717c55c2b2edcc56c66446", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you suggest me a movie?"}
+{"query_id": "q-4288fd799e6ab9b06e942916", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "What is my total food spending in the last 3 months?"}
+{"query_id": "q-186a82e643f3b06cc04426e0", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-e0ef86319663bd620bd2f4bd", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-7f50cc8dd46ac589d7f6a315", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-28cc955eefe42fa8383f0d17", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-5525407c42726777151b0c73", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Can you suggest me a movie?"}
+{"query_id": "q-2efe527805e84e2b937d57a3", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-a042143812634cc8562d0ba3", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-dd8e502fa1056f1a5a97a239", "persona_id": "weekly/sales_manager", "cutoff_session": 163, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-b19ca856bfd3730bd8eab0cc", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-e207d9d41e570b8a6c71b5cc", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "How much have I spent on dinner in the last 3 months?"}
+{"query_id": "q-8eaff6bbbfea361034ecaf14", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-e70b3c12ba12f7724881e284", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-cd327c61c9b78bbca8375c0a", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-031917cdf18a20ce2d4eb6bc", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Suggest me some music based on my preferences."}
+{"query_id": "q-d63f1db3b2679fde1f3ee6dd", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "Suggest me a place to visit based on my preferences."}
+{"query_id": "q-febd58d6e90ee3a72b89c375", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-0b125ec2a276b103e7b01888", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-6f69d91d40e25c3422be3dc8", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "What book would you recommend?"}
+{"query_id": "q-25b0ee8c89544f54438b91b8", "persona_id": "monthly/creative_designer", "cutoff_session": 614, "question": "Write meeting notes for: Spring/Summer Collection 2025 Design Review & Concept Finalization"}
+{"query_id": "q-d6904b3f2e20eb1ad2c3add7", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-cafc8d90850df9e13dbacb39", "persona_id": "weekly/business_executive", "cutoff_session": 145, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-5d0baf1c89ae526cc2d26d49", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write a project proposal for 'North American Telecommunication Performance Optimization Pilot'"}
+{"query_id": "q-ab663db61f1900b7cc0fbe4f", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Can you suggest me a movie?"}
+{"query_id": "q-f7d11ddbcee890d14ef5f834", "persona_id": "monthly/software_engineer", "cutoff_session": 628, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-51e4c487f86799e0b40a88a5", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-5be0b23fd47b3d350506a63f", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-933a32ebc43b31cc33727c7b", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write a project proposal for 'Enhancing User Experience Through Narrative-Driven Content Strategy for Food-Tech Platform'"}
+{"query_id": "q-aa5d55f49053bd25c4273e7e", "persona_id": "monthly/sales_manager", "cutoff_session": 635, "question": "How much have I spent on coffee this month?"}
+{"query_id": "q-181a11d2c1fd591eacf8ac85", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "What tasks remain on my todo list in the last 3 months?"}
+{"query_id": "q-1a2f7c0f45671268e098c8f9", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write a project proposal for 'AI-Driven Adaptive Learning Pathways for Regional Educational Equity'"}
+{"query_id": "q-c54fee6637477c9b3a68b298", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-40880406c02f55656346ba0c", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Write a project proposal for 'Bio-AI Performance Optimization Suite for Gene Sequencing'"}
+{"query_id": "q-5025b01154c57d23a1ef8652", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "How much have I spent on dinner in the last 3 months?"}
+{"query_id": "q-75fa0cb19e791fd49af16585", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "What is my total food spending this week?"}
+{"query_id": "q-7761de686c15158be030e9de", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "Write a project proposal for 'Elevate: Experiential Retail Pop-Up Concept'"}
+{"query_id": "q-6d5b57c4b5bc70c0f0024a34", "persona_id": "monthly/business_executive", "cutoff_session": 601, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-f474bfbfeac92bbc0d80301c", "persona_id": "quarterly/creative_designer", "cutoff_session": 1991, "question": "How many months was I able to meet my lunch budget in the last 3 months?"}
+{"query_id": "q-d037137326d5da17d55935a2", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Can you recommend music in genres I enjoy?"}
+{"query_id": "q-da7b6b55617cc1ca9227ffaa", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-9c012dea6b40e508446dbb4b", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Write meeting notes for: Content Strategy Alignment for Cost-Reduction Initiative"}
+{"query_id": "q-31b076ae4a423829d6fa3d5c", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-d5ba91192fb107a4c86066f7", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "What music would you recommend?"}
+{"query_id": "q-d20db736f3b2eaeb91d62789", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Can you recommend a movie with actors I like?"}
+{"query_id": "q-649f1466d1a9c08ab10a3b4d", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Where should I travel next?"}
+{"query_id": "q-2c0b78f1722b8ac28695d143", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "How many months was I able to meet my lunch budget in the last 3 months?"}
+{"query_id": "q-12b61e2d887b8cef496ad1ca", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Write a project proposal for 'Next-Generation Composite Materials Supply Chain Integration'"}
+{"query_id": "q-0c69c2b4de97170fed096f55", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write a project proposal for 'Global Anti-Bribery and Corruption Program Enhancement'"}
+{"query_id": "q-320d50f7d73fedb6f87e1b4b", "persona_id": "quarterly/marketing_manager", "cutoff_session": 2011, "question": "Which month in the last 3 months did I spend the most on coffee?"}
+{"query_id": "q-e55b251da3562ba287e6416f", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "What music would you recommend?"}
+{"query_id": "q-35a6001b78eea34d72704465", "persona_id": "quarterly/management_consultant", "cutoff_session": 1982, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-5679fb4ff90d9e565068e411", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Can you recommend places in regions I like?"}
+{"query_id": "q-4d5bb312ae38e2b98c90ecec", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "Can you recommend a book on topics I'm interested in?"}
+{"query_id": "q-640a887a43fae1a76bd4f242", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-846e6386391a99fbc7987344", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-152c28d732c208eb41487679", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "Write a project proposal for 'Strategic Innovation Roadmap for Electrification Transition'"}
+{"query_id": "q-d2abba4c8bd2ac3ba03d70a2", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-3408c654a77024c75594b20f", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "I'm planning a trip. Any destination suggestions?"}
+{"query_id": "q-b0a8b7f0e267204565e7bfe0", "persona_id": "quarterly/business_executive", "cutoff_session": 2000, "question": "Which month in the last 3 months did I have the most steps?"}
+{"query_id": "q-7f9427b2fd6b772f0b4e4d53", "persona_id": "weekly/management_consultant", "cutoff_session": 157, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-fd602063759cdc6da2147f9a", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "What tasks remain on my todo list this month?"}
+{"query_id": "q-64c2d908e387f0017433528b", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Write a project proposal for 'Regional Logistics Network Optimization Initiative'"}
+{"query_id": "q-4dd9575950def6d78ee0cd07", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Write a project proposal for 'Strategic Market Expansion Initiative: Central & Eastern European Manufacturing Solutions'"}
+{"query_id": "q-b767c196c0babaddd401e07a", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Can you recommend music by artists I like?"}
+{"query_id": "q-c44b9131e63e52237b3a845e", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-3239d4f725aa2902830527be", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-16a3c34c13c3bdb642befcec", "persona_id": "monthly/marketing_manager", "cutoff_session": 604, "question": "Write meeting notes for: Spring/Summer Collection Launch Strategy & Digital Campaign Review"}
+{"query_id": "q-cdc86bd63bbd98e21d53aa50", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "Which week in this month did I spend the most on coffee?"}
+{"query_id": "q-c067953025709f71f055042a", "persona_id": "weekly/creative_designer", "cutoff_session": 147, "question": "Write an email about: To provide a visual update on the proposed branding strategy for our education sector cost-reduction initiatives."}
+{"query_id": "q-2b743d6f31ebc12b14ac8121", "persona_id": "weekly/academic_researcher", "cutoff_session": 158, "question": "How much have I spent on coffee this week?"}
+{"query_id": "q-46f0ddc201bb259a868696e4", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "What upcoming events do I have in my calendar?"}
+{"query_id": "q-83e798cfbcab6fe11993dc0b", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "Can you recommend a movie by directors I prefer?"}
+{"query_id": "q-5a6aa53a9dc5faa25cef973e", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-af5a01e82c9552618400164e", "persona_id": "monthly/financial_analyst", "cutoff_session": 611, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-4e7d64a611c4f89cb25cd4a2", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "What is my total food spending this month?"}
+{"query_id": "q-b5e149a71acca14c4a131036", "persona_id": "quarterly/content_writer", "cutoff_session": 1997, "question": "How much have I spent on coffee in the last 3 months?"}
+{"query_id": "q-5d2c49b4f165a3165ce85b30", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-6732274a10edb17dcdc85b4b", "persona_id": "quarterly/financial_analyst", "cutoff_session": 2001, "question": "Write a project proposal for 'Regional Manufacturing Efficiency Optimization Initiative'"}
+{"query_id": "q-4ec0b187e5e722bf96cd2f64", "persona_id": "quarterly/software_engineer", "cutoff_session": 1974, "question": "How much have I spent on breakfast in the last 3 months?"}
+{"query_id": "q-ba2de10fc694dc7714402aa2", "persona_id": "weekly/content_writer", "cutoff_session": 151, "question": "What tasks remain on my todo list this week?"}
+{"query_id": "q-2cc215b4456e1b5bb8f87aeb", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Can you recommend a movie in genres I enjoy?"}
+{"query_id": "q-c0df5212cd0945df4bb68bc7", "persona_id": "weekly/software_engineer", "cutoff_session": 163, "question": "Am I meeting my daily step goal?"}
+{"query_id": "q-992d7e3c29403dcf4a514179", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "Write meeting notes for: Strategic Partnership with 'GlobalEduConnect' - Initial Scoping"}
+{"query_id": "q-5f6586e96ef964337e20e5ce", "persona_id": "monthly/management_consultant", "cutoff_session": 605, "question": "What is my total food spending this month?"}
+{"query_id": "q-230e86a0efaf7afddea661cd", "persona_id": "quarterly/sales_manager", "cutoff_session": 1989, "question": "Can you suggest me a travel destination?"}
+{"query_id": "q-720fd8624a07af385e0cb5b0", "persona_id": "weekly/marketing_manager", "cutoff_session": 156, "question": "How many total steps have I taken this week?"}
+{"query_id": "q-b9b8ff1c476533a715c8023c", "persona_id": "weekly/startup_founder", "cutoff_session": 155, "question": "Write meeting notes for: Pilot Cost-Reduction Strategy Review: Biotech North America"}
+{"query_id": "q-0e49bcf9523a7f1366aa4970", "persona_id": "weekly/financial_analyst", "cutoff_session": 156, "question": "Can you recommend a book by authors I like?"}
+{"query_id": "q-5dc5b90bc20600815d2c1a41", "persona_id": "quarterly/academic_researcher", "cutoff_session": 2005, "question": "Write meeting notes for: Cross-Departmental Working Group on AI Ethics and Data Governance"}
+{"query_id": "q-f6ff760750f59e353f6093d4", "persona_id": "monthly/content_writer", "cutoff_session": 628, "question": "I'm looking for a good book to read. Any suggestions?"}
+{"query_id": "q-43a8bab9044e6bb44abe6d39", "persona_id": "monthly/startup_founder", "cutoff_session": 606, "question": "What is my total food spending this month?"}
+{"query_id": "q-2cc0eda45377e400952eb22a", "persona_id": "monthly/academic_researcher", "cutoff_session": 619, "question": "What is my total food spending this month?"}
+{"query_id": "q-e8303967b325c92e20bc7022", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "How many months did I overspend on my coffee budget in the last 3 months?"}
+{"query_id": "q-c88626b5cdbda8026881f04e", "persona_id": "quarterly/startup_founder", "cutoff_session": 1963, "question": "What upcoming events do I have in my calendar?"}

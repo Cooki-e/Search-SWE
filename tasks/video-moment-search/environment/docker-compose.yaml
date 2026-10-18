@@ -1,0 +1,47 @@
+services:
+  main:
+    cpu_period: 100000
+    cpu_quota: 800000
+    environment:
+      HF_HUB_OFFLINE: '1'
+      TRANSFORMERS_OFFLINE: '1'
+      LD_LIBRARY_PATH: /usr/local/cuda/compat:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+    deploy:
+      resources:
+        reservations:
+          devices:
+          - driver: nvidia
+            count: 1
+            capabilities:
+            - gpu
+    volumes:
+    - type: bind
+      source: ../data/corpus
+      target: /task/data/corpus
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ../models
+      target: /task/models
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ./docs
+      target: /task/docs
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ../data/training
+      target: /task/data/training
+      read_only: true
+      bind:
+        create_host_path: false
+    - type: bind
+      source: ../data/validation
+      target: /task/data/validation
+      read_only: true
+      bind:
+        create_host_path: false

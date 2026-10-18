@@ -1,0 +1,6 @@
+{
+  "build_timeout_sec": 43200,
+  "run_timeout_sec": 1800,
+  "query_batches": 2,
+  "top_k": 100
+}

@@ -1,0 +1,11 @@
+services:
+  main:
+    cpu_period: 100000
+    cpu_quota: 800000
+    volumes:
+    - type: bind
+      source: ../data/corpus/records.jsonl
+      target: /private-corpus/records.jsonl
+      read_only: true
+      bind:
+        create_host_path: false
