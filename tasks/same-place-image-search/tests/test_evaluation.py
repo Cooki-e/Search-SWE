@@ -33,6 +33,23 @@ class Tests(unittest.TestCase):
                 {"a": {}},
             )
 
+    def test_invalid_image_id_types_are_query_validation_errors(self):
+        for image_id in [[], {}, None, 1, True]:
+            with self.subTest(image_id=image_id), self.assertRaises(ValueError):
+                validate(
+                    {"query_id": "bad"},
+                    {"query_id": "bad", "results": [{"image_id": image_id, "score": 1}]},
+                    {"a": {}},
+                )
+        self.assertEqual(
+            validate(
+                {"query_id": "good"},
+                {"query_id": "good", "results": [{"image_id": "a", "score": 1}]},
+                {"a": {}},
+            ),
+            ["a"],
+        )
+
     def test_macro(self):
         self.assertEqual(
             aggregate(

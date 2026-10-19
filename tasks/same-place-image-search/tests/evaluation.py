@@ -28,7 +28,8 @@ def validate(q, p, pages):
     for x in rows:
         if (
             not isinstance(x, dict)
-            or x.get("image_id") not in pages
+            or not isinstance(x.get("image_id"), str)
+            or x["image_id"] not in pages
             or x["image_id"] in ids
             or x["image_id"] in q.get("exclude_image_ids", [])
         ):

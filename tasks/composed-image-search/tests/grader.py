@@ -202,7 +202,7 @@ def main():
                     elapsed += time.monotonic() - call_started
                 if not op.is_file() or op.is_symlink():
                     raise ValueError("Output is not a regular file")
-                ps = read_jsonl(op)
+                ps = completed_rows(op)
             except Exception as exc:
                 stop()
                 failure = str(exc)

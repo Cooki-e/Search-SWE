@@ -23,7 +23,17 @@ The current package has 5 public input rows and 515 held-out rows.
 
 ## Source terms
 
-The [fixed DocLens collection](https://huggingface.co/datasets/dwzhu/DocLensDatasets/tree/7a54da77adf09d2c88c67f1bbb725718260f1dc1) supplies the original documents and evidence annotations. Its inspected fixed-release metadata does not establish a single dataset redistribution license. The original MMLongBench-Doc and individual PDF publishers' terms remain relevant; redistribution coverage for the rendered pages requires maintainer review. Rendering and the evidence-category selection above are disclosed modifications. The supplied ColQwen2.5 adapter is MIT and its compatible base is Apache 2.0.
+The original [MMLongBench-Doc license section](https://github.com/mayubo2333/MMLongBench-Doc#-license)
+specifies CC BY-NC 4.0 for data and Apache-2.0 for code. Preserve the data-specific
+attribution and noncommercial terms for the selected questions, annotations and
+derived pages; the code license does not replace those data terms.
+
+Retain attribution to DocLens, MMLongBench-Doc and the individual PDF publishers.
+The dataset-level statement does not independently establish rights over every
+third-party PDF or its rendered pages; that source-specific coverage remains a
+maintainer review item. Rendering and evidence-category selection are disclosed
+adaptations. The supplied ColQwen2.5 adapter is MIT and its compatible base is
+Apache-2.0.
 
 ## Runtime asset sources
 
