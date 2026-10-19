@@ -1,4 +1,4 @@
-"""Recover only fully written JSON rows after a terminated query call."""
+"""Read completed JSON objects without discarding other rows on malformed output."""
 
 import json, stat
 from pathlib import Path

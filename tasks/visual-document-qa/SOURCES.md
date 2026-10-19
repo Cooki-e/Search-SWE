@@ -25,7 +25,18 @@ The current package has 5 public input rows and 2,471 held-out rows.
 
 ## Source terms
 
-The [fixed DocLens collection](https://huggingface.co/datasets/dwzhu/DocLensDatasets/tree/7a54da77adf09d2c88c67f1bbb725718260f1dc1) has no single dataset redistribution license established by the inspected fixed-release metadata. Preserve attribution to DocLens, MMLongBench-Doc, FinRAGBench-V and the original PDF publishers. The derived page text retains the source-document terms; extraction and answer-format corrections do not create new rights over those documents. Source-specific redistribution coverage remains a maintainer review item. Original PDFs stay at their verified upstream pins.
+The original [MMLongBench-Doc license section](https://github.com/mayubo2333/MMLongBench-Doc#-license)
+specifies CC BY-NC 4.0 for data and Apache-2.0 for code. Its data-specific
+attribution and noncommercial terms apply to the corresponding derived inputs
+and annotations; the code license must not be substituted for the data license.
+
+The pinned [FinRAGBench-V dataset card](https://huggingface.co/datasets/zhaosuifeng/FinRAGBench-V/blob/d0d65255c94e687caa81ac9da7758ed25ff046a5/README.md)
+declares Apache-2.0. Preserve attribution to DocLens, both original datasets and
+the PDF publishers. These dataset-level declarations do not independently
+establish rights over every third-party PDF. Original PDFs stay at their
+verified upstream pins; derived page text retains applicable source-document
+terms. Extraction and answer-format corrections are disclosed adaptations.
+No single replacement license is asserted for the combined material.
 
 ## Runtime asset sources
 

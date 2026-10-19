@@ -24,7 +24,19 @@ The current package has 5 public input rows and 445 held-out rows.
 
 ## Source terms
 
-Retain attribution to the [TREC 2023 collection](https://trec-tot.github.io/guidelines-2023) and its [2024 dev2 release](https://trec-tot.github.io/guidelines-2024). Wikipedia article text retains its applicable attribution/share-alike terms. The inspected track guidelines do not establish a single redistribution license covering every user recollection and annotation; that coverage remains a maintainer review item. Removal of malformed corpus records and answer-metadata stripping are disclosed above. No new blanket license is asserted for the combined source material.
+The question bodies originate from Microsoft's
+[MS-TOT collection](https://github.com/microsoft/Tip-of-the-Tongue-Known-Item-Retrieval-Dataset-for-Movie-Identification),
+whose [content license](https://github.com/microsoft/Tip-of-the-Tongue-Known-Item-Retrieval-Dataset-for-Movie-Identification/blob/main/LICENSE)
+is CC BY-SA 4.0. Preserve attribution and the share-alike terms for adapted
+question text. All 450 retained question bodies match that source after
+normalizing whitespace and HTML entities and removing the task's title line.
+
+Retain attribution to the [TREC 2023 collection](https://trec-tot.github.io/guidelines-2023)
+and its [2024 dev2 release](https://trec-tot.github.io/guidelines-2024).
+The question-body match does not establish a separate license for every TREC
+annotation field. Wikipedia article text retains its applicable attribution and
+share-alike terms. Removal of malformed corpus records and answer-metadata
+stripping are task adaptations; no blanket replacement license is asserted.
 
 ## Runtime asset sources
 

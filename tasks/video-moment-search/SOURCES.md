@@ -27,7 +27,21 @@ The current package has 5 public input rows and 450 held-out rows.
 
 ## Source terms
 
-The [pinned Lighthouse repository](https://github.com/line/lighthouse/blob/3e841d3d662c8440afed514908566fed2d5e82a7/LICENSE) uses Apache 2.0. Retain Lighthouse, Charades-STA and ActivityNet Captions attribution for the supplied annotations and released features. The repository notice does not independently establish the usage terms of every underlying source video or derived feature; source-release coverage remains a maintainer review item. No raw video is distributed in this package. The selected families and time-grid adaptation are described above. CLIP's [original notice](https://github.com/openai/CLIP/blob/main/LICENSE) is MIT.
+The [pinned Lighthouse repository license](https://github.com/line/lighthouse/blob/3e841d3d662c8440afed514908566fed2d5e82a7/LICENSE)
+is Apache-2.0. Its [release description](https://github.com/line/lighthouse/blob/3e841d3d662c8440afed514908566fed2d5e82a7/README.md)
+provides feature downloads rather than raw videos because of copyright concerns.
+Retain Lighthouse, Charades-STA and ActivityNet Captions attribution for the
+supplied annotations and released features. The repository license alone does
+not establish permission to mirror every source-specific feature or annotation.
+
+A [preserved Charades license copy](https://huggingface.co/datasets/YimuWang/ActivityNet/blob/1a20776262cc1fe3761588843cad26b62c2b7125/Charades/license.txt)
+includes noncommercial/evaluation restrictions and does not grant general
+third-party redistribution. That copy does not resolve which derived features
+are covered. Specific permission to rehost the exact feature and annotation
+payload has not been established; this remains a maintainer review item.
+No raw video is distributed. The selected families and time-grid adaptation
+are described above. CLIP's [original notice](https://github.com/openai/CLIP/blob/main/LICENSE)
+is MIT.
 
 ## Runtime asset sources
 
