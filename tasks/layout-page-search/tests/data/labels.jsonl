@@ -1,0 +1,515 @@
+{"query_id": "query-c4c5603dd11538ae9464fb3d", "qrels": {"page-aab8560f9b705627154214e3": 1}}
+{"query_id": "query-d6a7805de0faea96917d0bea", "qrels": {"page-d8519f5139134578dc3c8454": 1}}
+{"query_id": "query-049be2fb00ee5df051b5106a", "qrels": {"page-7a7c22c9e7878aac03bd27fe": 1, "page-e159a53f56d01e985308102d": 1, "page-0aabec76cff71384bf3a46f2": 1, "page-127d1c36b58b50b465ff190b": 1, "page-3dae2c61870e8791b15072f7": 1, "page-d8519f5139134578dc3c8454": 1}}
+{"query_id": "query-7f3fe3559e1f019094c024c8", "qrels": {"page-624e7f60e6f6a290c2d3feac": 1}}
+{"query_id": "query-e7add693eda5fe5aeb6042a1", "qrels": {"page-febf79ed285d56fcb8aa7c0d": 1}}
+{"query_id": "query-e6b7d8f6cd8a1109ef9209c5", "qrels": {"page-7849a3fb9f55874dd757efdb": 1, "page-f65576f44d9ff530c5517dca": 1}}
+{"query_id": "query-3b1ea9d5684523d66302506f", "qrels": {"page-07adc520078c04ddb9a2fddf": 1, "page-534916d880dfa4a42cb798c1": 1, "page-54f68fb4a41f21defb9b8fd0": 1, "page-397c91f1d300c37241f3109d": 1, "page-ada44a7fc0a84d80ef2deef3": 1, "page-31cb418178d90e282e2929c5": 1, "page-87d757712f3a90013a77df99": 1}}
+{"query_id": "query-9ae263d1e623a10b1a7b3cf0", "qrels": {"page-11c24ed0286a587e571b907e": 1}}
+{"query_id": "query-b0f3f87788669b353277ac06", "qrels": {"page-e5081e53e30f315b7e18614e": 1}}
+{"query_id": "query-4ce8d15935cee1305be54ccc", "qrels": {"page-11c24ed0286a587e571b907e": 1}}
+{"query_id": "query-70684ee74986a3dc48559d45", "qrels": {"page-b54d4eaffdbbbda1b95fb7e6": 1}}
+{"query_id": "query-51c09aad30764af27eb8e7d7", "qrels": {"page-3a89ed78efc1e509cbe4f17a": 1}}
+{"query_id": "query-855aa7fb5508f53fd533132b", "qrels": {"page-cc488e8c2af96269d823fd33": 1}}
+{"query_id": "query-15072abacb5b5f7dcefa5512", "qrels": {"page-50a0fb2282e6044cf401f887": 1}}
+{"query_id": "query-68cfe7714dcac7d020139f79", "qrels": {"page-573fabd44ce2e9fef16b0040": 1}}
+{"query_id": "query-a0dc21a4820983a5ae72a924", "qrels": {"page-03033183010d28b0e8384db6": 1}}
+{"query_id": "query-e71fc6e9e760a151b71b0d9a", "qrels": {"page-cdebed14c1cfec182f126712": 1, "page-c68dc467b42e5974fcff0a0f": 1, "page-6910b3cd39055d632ae1cb1e": 1}}
+{"query_id": "query-7e10fd5bcb68b1e7e50f7ebf", "qrels": {"page-605acad92c0d14b6df585e5a": 1}}
+{"query_id": "query-f938d1ea5f1a9e39f648ad38", "qrels": {"page-5eb63dbbb05cbe0be8fb5a24": 1}}
+{"query_id": "query-0d9e7ba34318c83745ba8484", "qrels": {"page-17409a54228dde511611c1e5": 1, "page-a4ab97bfd99b54622360a2eb": 1, "page-328e49a53cb2b4024a8b1431": 1, "page-cb6821134d773e5ee312e958": 1, "page-040f875529db243630f92a1d": 1}}
+{"query_id": "query-dd4dd10bf4bed6e99ab085bc", "qrels": {"page-28e91a7266ec69d9568dbe8d": 1}}
+{"query_id": "query-3edd43954ab6c5848cfb9bbc", "qrels": {"page-605acad92c0d14b6df585e5a": 1, "page-0bf778b77e1a976a2950fe1f": 1, "page-32da6e2ac12d904e3c2aa551": 1, "page-5eb63dbbb05cbe0be8fb5a24": 1, "page-079aa8c9486026a56e455cb7": 1, "page-f89f871c56d25168a02652e1": 1, "page-8a4c633fb501bd5196c4e90c": 1, "page-c75879b6aa2bd791ecbf73cf": 1, "page-ebde67fa2d8c9f686ece50a1": 1, "page-bc7b9bf1b86ff17529fd6fbf": 1}}
+{"query_id": "query-2fcf03e2c7e49049c98c2bdf", "qrels": {"page-5c12ed721305b3de19fbf7d6": 1}}
+{"query_id": "query-25fa07ec129467b70d3ce3dc", "qrels": {"page-15b23580c3d66732cb9d85b3": 1}}
+{"query_id": "query-2af4200f4bbc045b439177b6", "qrels": {"page-cfbe77568c6e5fc00730d833": 1}}
+{"query_id": "query-1d7924895f21a1d95ac58336", "qrels": {"page-91cb9f548c837d19aefc6bfb": 1, "page-a8edf9724fa3b62e3d4cf329": 1}}
+{"query_id": "query-0a7e92a373bf4f02c5e3e520", "qrels": {"page-f6e82f5456a8fbb9e08669cd": 1, "page-ee790ce5b4c3b4bc8441561f": 1, "page-c3e0925ec241e3d8977e6707": 1, "page-775880e92d1b49d733449e08": 1}}
+{"query_id": "query-e8579c1eb9efc89e5c22a202", "qrels": {"page-f3d195c8209fbe5c5cea4177": 1, "page-65f03498aa0ca210638067f1": 1, "page-4dce765e8337dc36708c3c74": 1, "page-e9d4400b11cef7268d32f023": 1, "page-881e01d77eac15b6f3ed9901": 1, "page-e9ea1d4c6c330137c88e937e": 1, "page-c1240a7a2f1fc11a58ae2122": 1, "page-e0958a3e314802ea1ec24543": 1}}
+{"query_id": "query-d3a19a3aa08d5703b668d2bd", "qrels": {"page-ee790ce5b4c3b4bc8441561f": 1}}
+{"query_id": "query-9e0e09f39a25d41253937371", "qrels": {"page-95f021b63219c6fbb0de7c5e": 1}}
+{"query_id": "query-329e5af052d0536a885a7ee4", "qrels": {"page-7f859fc5582be30212c59e39": 1}}
+{"query_id": "query-11268b43473f2d8883245b5d", "qrels": {"page-3872f9884a174f0b89373ae3": 1}}
+{"query_id": "query-8228bceec8a03ffb108efa7d", "qrels": {"page-4f0f76502a1d2b3f6a7af4b7": 1, "page-f4c8e1f60493f4d9a22453d9": 1}}
+{"query_id": "query-6038722909bebf1d66e0f1c0", "qrels": {"page-c99db82693c070f6e7ddcc9a": 1, "page-7c52b6f8f9a50089f6ed087d": 1}}
+{"query_id": "query-f1afe0daf90104f121592bdb", "qrels": {"page-15af1c63ed3073b1b5af4d28": 1, "page-a3ebcefc9c3a8c4ac0a6d065": 1}}
+{"query_id": "query-14d4c942691c99cd546a11b4", "qrels": {"page-95f021b63219c6fbb0de7c5e": 1, "page-461a950c42f82731617d4a34": 1}}
+{"query_id": "query-fc29709f5efaba6d5b60c957", "qrels": {"page-28df22b899ab2e6368399bad": 1, "page-ffc6163dd78dda619e277cce": 1}}
+{"query_id": "query-c72db33b6036a449fef92f39", "qrels": {"page-f15ed2b1f91bf1bdd7598c0d": 1}}
+{"query_id": "query-1f1aa03b4c1350ec6a34751b", "qrels": {"page-2822bb64693277752d02bf1d": 1}}
+{"query_id": "query-07dee1b09e8de9a9a86312e7", "qrels": {"page-c83340a6c437397d854a9771": 1}}
+{"query_id": "query-b5993bbe180641a89254f4e6", "qrels": {"page-bc0152698b5bdd5130700b4b": 1}}
+{"query_id": "query-33edcb9e2c775e797ced9eed", "qrels": {"page-1fbabb50f8e7b9f1bd076b7c": 1}}
+{"query_id": "query-1fc9d6e0ae2f1dfdb066f29b", "qrels": {"page-1fbabb50f8e7b9f1bd076b7c": 1}}
+{"query_id": "query-fbb2adfb79bf84de4d2cab5c", "qrels": {"page-a4a56f1ca85c74f396b63069": 1, "page-a1f36e789027cbc0ff3dbf83": 1, "page-4dc8f38fab63b58650c2b601": 1}}
+{"query_id": "query-79c48ac5494b8354de34fa3c", "qrels": {"page-d408736548bd1a73a471afa9": 1}}
+{"query_id": "query-988a0b076b6e8e238b07cfba", "qrels": {"page-c472a74e6c470ce5775b4b9f": 1}}
+{"query_id": "query-1f28151a7d2e212ce2606d7a", "qrels": {"page-40da15064865e7e116c752ab": 1, "page-b707662419a8d2d3006f1a38": 1}}
+{"query_id": "query-d87a5f7b7c3661c8911d6899", "qrels": {"page-d655f0b8b01481c31a3c5cbf": 1}}
+{"query_id": "query-c1239c37890795059a11fb55", "qrels": {"page-216124f13dd7a438390c2f85": 1}}
+{"query_id": "query-159aa238aaaa925da9d1e47b", "qrels": {"page-ae3b38b05018b02dee99ba89": 1}}
+{"query_id": "query-2a31fa165d19474a68934a3d", "qrels": {"page-26799e93e34765327d6bb1b3": 1}}
+{"query_id": "query-1c07fed6cc049fe82747a3dd", "qrels": {"page-6af684e6dedc03d0e97fe7b0": 1, "page-13e5a150389b9fae93325b7b": 1, "page-985217c230522dbd7c662f0f": 1}}
+{"query_id": "query-b12b3aee223f52accc000afb", "qrels": {"page-5290497cf6267426f272849d": 1, "page-f7b4747f7b624182f2237852": 1}}
+{"query_id": "query-cdd03d055aef9c39f841d879", "qrels": {"page-c8b0608ff4475991d35e2330": 1, "page-4becd4216b19b08fd3c8a3fe": 1}}
+{"query_id": "query-c918b1fa4374b7090d96733c", "qrels": {"page-b26894290bd092f228ea3466": 1, "page-7d7b6c3697e33e7201b7ee6b": 1, "page-c36c385c58e6d9357b803cd8": 1, "page-3c9806e0af4e307a9f0de513": 1, "page-e8824acca2da443206b4dfcf": 1, "page-b5c49f8212364cc3a9f1c1bf": 1}}
+{"query_id": "query-d27d6e007ca4c9f849c66434", "qrels": {"page-7df81069c0cc5fd14cbd6e28": 1, "page-c36c385c58e6d9357b803cd8": 1, "page-59f6cfa165ec66c167496f1d": 1, "page-c8b0608ff4475991d35e2330": 1, "page-b5c49f8212364cc3a9f1c1bf": 1, "page-fba4bfd8b81c4360e4493ca4": 1}}
+{"query_id": "query-28bb83b74ab623b2a511ac45", "qrels": {"page-9c930ee624f4ce910746658c": 1}}
+{"query_id": "query-a62ca462ac8f4a8f3206e240", "qrels": {"page-e79d1ab946450c5e2afc8083": 1}}
+{"query_id": "query-52d935f211b82734a03089c2", "qrels": {"page-03f0edcc1ecfb055f74d05b7": 1}}
+{"query_id": "query-f5cbf0ddf65ce17d4a7f37a7", "qrels": {"page-4ee60c5aae178b641d72b576": 1}}
+{"query_id": "query-e36d9ca31e0740d988104c43", "qrels": {"page-4ee60c5aae178b641d72b576": 1}}
+{"query_id": "query-6b65be66965ab2f4665b0245", "qrels": {"page-32c92083d8f69b43e97cd4fd": 1}}
+{"query_id": "query-b20d3e0e97520e9fb0a1a653", "qrels": {"page-a56801f966aa2f4ead188315": 1, "page-21f843c1386ffefe7acde6e3": 1, "page-9f1e91f03055005852f4116a": 1, "page-188f1a811899ca4d364140b7": 1}}
+{"query_id": "query-748750e586d4660fc131692a", "qrels": {"page-78c248e058120513bae62755": 1, "page-b1f34302dc6306b1ab34e83d": 1, "page-38a970b75cc85aaab95cffd2": 1}}
+{"query_id": "query-d866fa5a25b9cff65735a4e2", "qrels": {"page-3843c09842fc7dbf4e75f256": 1}}
+{"query_id": "query-cfed7367f252f457cdd6ea4c", "qrels": {"page-fcc82a64721e16da88c808aa": 1}}
+{"query_id": "query-8d5cf8dfced0efcf55ed50e4", "qrels": {"page-90b158531c314646a14d9c2b": 1}}
+{"query_id": "query-2ff50dfdf7efe3806ea63809", "qrels": {"page-bdd5d7c1ffaf23ade1a1fe3a": 1}}
+{"query_id": "query-47d4fbf6c15e99c4f821e7ee", "qrels": {"page-dd5fa76967a060d2cda1c069": 1}}
+{"query_id": "query-e172c7e7b4c95a3de19f7e3b", "qrels": {"page-6bbfe401c87e1bc759279e30": 1}}
+{"query_id": "query-c7782d6c17a3c0fccc3a8afe", "qrels": {"page-980177ac60d76de87fa4ae96": 1}}
+{"query_id": "query-cfe421f40c7b3984eae9e92c", "qrels": {"page-414813c2d01493ae728546cc": 1, "page-0d1f6b60f0858e4010d06eda": 1}}
+{"query_id": "query-f1ecce7ff4bfad6940463294", "qrels": {"page-2718b385a4d0bb047afc4c6b": 1, "page-dc6dde2304d3eea15d3d31db": 1, "page-4cc5382a272fa75d2d1c16d2": 1, "page-37ae2e2c9d440d7b5acaac6a": 1}}
+{"query_id": "query-8bbde60364d71e341b398218", "qrels": {"page-e737c2557fe3f6178db85d1f": 1, "page-093087207bc7900ebafe7347": 1, "page-2a45266ec3f81510291e0227": 1}}
+{"query_id": "query-113033e0ff3e5cdab186c427", "qrels": {"page-f95ff391e40ce9f1394a4c99": 1}}
+{"query_id": "query-1674d629e13f3c61ce0e4077", "qrels": {"page-7d7c9526874e57d166288b25": 1, "page-f95ff391e40ce9f1394a4c99": 1}}
+{"query_id": "query-7f6821b1219a30e3ec9bac17", "qrels": {"page-729ab8360b94776318ee8316": 1}}
+{"query_id": "query-8cb3b99a816960c8f68ed619", "qrels": {"page-b0f80a6e0ab32290458a6ad5": 1}}
+{"query_id": "query-80fc59ac3d8948c79d0db2ab", "qrels": {"page-729ab8360b94776318ee8316": 1, "page-41c2b1dbf3c74579d53439c5": 1, "page-d540a015ca0788a123122027": 1, "page-91774ae0b6483380e04e5ca2": 1, "page-3801891598d839a35be0323a": 1, "page-8bd7a6005ccd1564194815b2": 1}}
+{"query_id": "query-59e0869a84027d04c99e567e", "qrels": {"page-41c2b1dbf3c74579d53439c5": 1}}
+{"query_id": "query-2221561d72b9fcc837ef778a", "qrels": {"page-3bd310960a21367b793b1ded": 1}}
+{"query_id": "query-5513e357b152a848f92f0af5", "qrels": {"page-3bd310960a21367b793b1ded": 1, "page-64e3af8a7a2b56b432b9cf93": 1}}
+{"query_id": "query-b26ed8580d8cad84e435fb4e", "qrels": {"page-5e1a7b98f001d67f0de47d4c": 1, "page-7c6ccd17f55b37daa57d5f89": 1, "page-ec7ec6164ec81d1f268a9ea5": 1}}
+{"query_id": "query-6bc53b7422aa987c182afacb", "qrels": {"page-4ebffd2cfa910cd03b9c11eb": 1}}
+{"query_id": "query-61b22104d0ce3be3157e37ea", "qrels": {"page-5537d7ee4e5b0db3cd4b7ba8": 1}}
+{"query_id": "query-61fcfaf97063d7abc31aa666", "qrels": {"page-7fcfb21d3e1d7d245c5fd44c": 1}}
+{"query_id": "query-27598fbe36f54b4e70b70959", "qrels": {"page-2582043d5b109b3b59be0ea0": 1, "page-9f34a7b05eeb85b904217503": 1}}
+{"query_id": "query-a26657a3e6304fa443cc0fb5", "qrels": {"page-37797464ea74d53f82e49d68": 1}}
+{"query_id": "query-8988df2b4cb72c2459cf8f47", "qrels": {"page-0845829978baa010326291d3": 1, "page-e1c6eefcd72e3f239d53c152": 1}}
+{"query_id": "query-ace497bf7c619038822da4c1", "qrels": {"page-0845829978baa010326291d3": 1, "page-95c38bce4ff6450d2f70263a": 1}}
+{"query_id": "query-0124c882f24d5e63bd520a17", "qrels": {"page-98755c9d335edbdfd015bd59": 1, "page-7d2990ab01651ecc50390386": 1}}
+{"query_id": "query-bd9ddca345b5940710f0ad3e", "qrels": {"page-261628a8363379a472aa333b": 1, "page-50e932e79e8a63cceb68e2b4": 1}}
+{"query_id": "query-3829b74519930faba87c5497", "qrels": {"page-817674b5af751809cc8ed00b": 1}}
+{"query_id": "query-684cee0210d898fdaad8ea99", "qrels": {"page-36d0fb916157c7155c789a64": 1, "page-fd016b96296c688544b81003": 1}}
+{"query_id": "query-aebe1365968bbeccff96bf7a", "qrels": {"page-172c2ece24e8f63f3fbc3b3c": 1, "page-36d0fb916157c7155c789a64": 1}}
+{"query_id": "query-1c1446c12d79afa46af30802", "qrels": {"page-db4817660f82e548fe56a65f": 1}}
+{"query_id": "query-bd2342a8114c81159a49d265", "qrels": {"page-db4817660f82e548fe56a65f": 1, "page-3f61620fb2897e3cf4bc7be6": 1, "page-c851f2fdc42028566f76dcbd": 1, "page-d2ecbe69e2671c6c691668d0": 1, "page-0389316aacbdfe83079ce727": 1}}
+{"query_id": "query-77fc9a419fd26c8eeb4151fb", "qrels": {"page-f5bed1ddf7fb3469f2f58c16": 1}}
+{"query_id": "query-acd5d5382b6bcfc0e67dfc42", "qrels": {"page-09c5c741cab9a17b1ff8d33d": 1}}
+{"query_id": "query-9b21c3d38a3808015a2775ad", "qrels": {"page-db2a663367ef659b14036002": 1, "page-75d4dfb7767670e1f4ac6509": 1}}
+{"query_id": "query-f59e1b28491f5ff7ed1d166c", "qrels": {"page-43dcdfbd4b69a11d806b699c": 1}}
+{"query_id": "query-7df4c9b0b4de76d4b50968c2", "qrels": {"page-8ce25b08e54cc560130b45bf": 1, "page-8d908b34589727f22abd9571": 1, "page-d8561e6c8ebb5aed3db7070e": 1}}
+{"query_id": "query-ab25805eef5f9934e7a99bf4", "qrels": {"page-7a85e086b9eee5fc9fe1a03d": 1}}
+{"query_id": "query-19067469bde060ab61dfe58d", "qrels": {"page-8ed9a57ecd8edea62c23b1e4": 1}}
+{"query_id": "query-a1067c14c52a2290eee01703", "qrels": {"page-9e41d8cff859b68821c4a5a0": 1}}
+{"query_id": "query-f9740a9ceb6ea1fc0c76f5dc", "qrels": {"page-2c43c98280f67e58cdd7d9ed": 1}}
+{"query_id": "query-55c6257570e4d3563a4b00c9", "qrels": {"page-a174c651f4e7d5a75757bd5c": 1}}
+{"query_id": "query-6628bad26c6131bf7ccbec98", "qrels": {"page-a43674f486d9027f3b678455": 1}}
+{"query_id": "query-a213c9024be63de29d18ba98", "qrels": {"page-57984d444f461b429a5d2877": 1}}
+{"query_id": "query-415f036a58f32430d3d47055", "qrels": {"page-da44b43d054c361c9c9a899b": 1, "page-12d26529a7b3b3b669cde861": 1}}
+{"query_id": "query-1802dc9209b7e39d7dfff5cf", "qrels": {"page-c3d05b022dc05097e958f35a": 1}}
+{"query_id": "query-1913b7bb5f8fb4ab5aad506f", "qrels": {"page-5e57b8630b2cff656dcddee2": 1}}
+{"query_id": "query-ab524ed288d8c1737c4cce7f", "qrels": {"page-5e57b8630b2cff656dcddee2": 1}}
+{"query_id": "query-d408459a3951138a0171c3da", "qrels": {"page-0591f83a3b6a6b2fdd041bfd": 1, "page-9fbb8ea605100ac5655671ec": 1, "page-ee1d544d6ab07ac18c3762e8": 1, "page-05fac85f2af4bb05016284fe": 1}}
+{"query_id": "query-0592b4a7db1a9e617145b682", "qrels": {"page-05fac85f2af4bb05016284fe": 1}}
+{"query_id": "query-d5a53b99685d31bbe7cacfef", "qrels": {"page-0591f83a3b6a6b2fdd041bfd": 1, "page-ee1d544d6ab07ac18c3762e8": 1, "page-05fac85f2af4bb05016284fe": 1}}
+{"query_id": "query-e8161015bfc91a262a749dee", "qrels": {"page-9fbb8ea605100ac5655671ec": 1, "page-ee1d544d6ab07ac18c3762e8": 1}}
+{"query_id": "query-4bdd0991ececcc968d571658", "qrels": {"page-824fd92f46fb9c9bb5c27102": 1, "page-e5483780f4c3f133a7a25fd0": 1}}
+{"query_id": "query-51cdde6708f88e779f510bd0", "qrels": {"page-e5483780f4c3f133a7a25fd0": 1, "page-880887ea671602b309495cf0": 1}}
+{"query_id": "query-b4445d2e3f7ff4ae2ad1bbe0", "qrels": {"page-880887ea671602b309495cf0": 1, "page-519f04940edb45ebc1b0fe36": 1}}
+{"query_id": "query-ef28a7308deafb28fbe92dd1", "qrels": {"page-e5483780f4c3f133a7a25fd0": 1, "page-519f04940edb45ebc1b0fe36": 1}}
+{"query_id": "query-d92865e919b498c2014f4ff9", "qrels": {"page-650e345196f25f9c7d5958cb": 1}}
+{"query_id": "query-7243c022d93410139d3b4672", "qrels": {"page-650e345196f25f9c7d5958cb": 1}}
+{"query_id": "query-b8804f20cac6c0b4d09325a1", "qrels": {"page-650e345196f25f9c7d5958cb": 1}}
+{"query_id": "query-6125b81b17a3f2bcf1acdc67", "qrels": {"page-d2e3215ba2b07da279da9bf0": 1, "page-b925b87bddbdc030a60ba64e": 1}}
+{"query_id": "query-8b63f8933f718bea0ab469c4", "qrels": {"page-21dd4b1e3d3eb079fe7bfe91": 1, "page-612ccc1df7419f36fe74a116": 1, "page-24b4906bd7987cbcc297aa03": 1, "page-04b7ea77a51f8cd07de86e16": 1, "page-b80b188608ed1a951005f734": 1, "page-15fb83d8d0259799ed67c3d2": 1, "page-a44b13ef2350b5897e115d3d": 1, "page-900897c968970e196337fcdb": 1, "page-c81e67fed71088721843159f": 1}}
+{"query_id": "query-bbb523d3f25d611b50721d76", "qrels": {"page-a28c221a9a1ab1f4181a2cec": 1}}
+{"query_id": "query-9557f81a960e6c6f99a015a7", "qrels": {"page-dd82ad67912b4cacda70cd9d": 1}}
+{"query_id": "query-e0d7aae4871051a70425fb39", "qrels": {"page-dd82ad67912b4cacda70cd9d": 1}}
+{"query_id": "query-179aedbe34c8f72729dd6923", "qrels": {"page-dd82ad67912b4cacda70cd9d": 1, "page-eed9261a7838e154f39b1926": 1}}
+{"query_id": "query-e6f941c623c75c6ff74b4749", "qrels": {"page-536dfa8404bdfa5ff997b78b": 1}}
+{"query_id": "query-cf20cfd107f86c349e965351", "qrels": {"page-a94cd8b4cc48215868d5f894": 1}}
+{"query_id": "query-11e3fc2f1aeb2b343f5901f3", "qrels": {"page-a94cd8b4cc48215868d5f894": 1}}
+{"query_id": "query-dde1d73ae19d3d346de9906e", "qrels": {"page-50183d34f9fea8193c87d415": 1, "page-4082b6e65c771a31a3586e6a": 1}}
+{"query_id": "query-c2bb7aa6f6039b37bf62367a", "qrels": {"page-5b295e72e4c62c229d0ee8ba": 1}}
+{"query_id": "query-f71a65e27bc45b7be33a0a9d", "qrels": {"page-ebacd6dafc12394a64c6b532": 1}}
+{"query_id": "query-a9aa9f197f148ccef6e3b242", "qrels": {"page-bcfa06e29dc0872b55c6f33f": 1, "page-8290b4f587f30395a6e000a1": 1, "page-f27c19936792b2a7c2f85537": 1, "page-97b55bd31970a96a30e427a0": 1}}
+{"query_id": "query-e8e2ab61ba70f2c769dda574", "qrels": {"page-fe339c3c6255de5a69374795": 1}}
+{"query_id": "query-2067e8d0b72b19f1f82675be", "qrels": {"page-8abbd30dbb00a891ffc0f86b": 1}}
+{"query_id": "query-80ec7775eae68c50979ad503", "qrels": {"page-8abbd30dbb00a891ffc0f86b": 1}}
+{"query_id": "query-f1010c6836ca87cc5fa39352", "qrels": {"page-841ed362059ad50eb354a44e": 1, "page-8dfb096cd9361df8d98cdffd": 1}}
+{"query_id": "query-40d347cb8c66740c4f565d41", "qrels": {"page-6ae77619437558d18c87acc8": 1}}
+{"query_id": "query-2b411d873a518330e9a74195", "qrels": {"page-841ed362059ad50eb354a44e": 1}}
+{"query_id": "query-aa010c472406cadb488c78e2", "qrels": {"page-26aa04cc38513278760dba44": 1}}
+{"query_id": "query-10546143e5f33365127f13f9", "qrels": {"page-4037cf36ee13842eaffdf317": 1}}
+{"query_id": "query-19998961aecc4090b6592828", "qrels": {"page-5730d18cccb8765f63beb769": 1, "page-0bc63f4fe990204ce8d892bc": 1}}
+{"query_id": "query-96e1722893c9f8c318303e81", "qrels": {"page-124fa8febf77cf90ffee6ebe": 1, "page-ca84ecf76827abf2a821e5b9": 1}}
+{"query_id": "query-bae5166810b9e03b80d65a0a", "qrels": {"page-8284d14d1c1968274449b3ce": 1}}
+{"query_id": "query-9847b10ad9dccf321898c560", "qrels": {"page-8284d14d1c1968274449b3ce": 1}}
+{"query_id": "query-9c8ef7bc12418b7571faaaf5", "qrels": {"page-85685f608a307f81ac5486f7": 1}}
+{"query_id": "query-b0c1afdc6280e56411daca19", "qrels": {"page-c1df5bb3062b82fed5005765": 1, "page-112456aaf653fe7362d2e76a": 1}}
+{"query_id": "query-cd1d988afa0e197ee23a660d", "qrels": {"page-c8124b6c5297c750e4be3a85": 1}}
+{"query_id": "query-d2b7de84528c6611689028c8", "qrels": {"page-4533fdf8eac05df3ffe7b80b": 1, "page-4aee34573ee7ba2466a7e037": 1}}
+{"query_id": "query-3de08fe069c52217445989b4", "qrels": {"page-d713d8106bf9006a41f6d557": 1, "page-5464ded65082a58941b407f1": 1}}
+{"query_id": "query-5d958624f1c5e8b2604e92e7", "qrels": {"page-a1df6cd19ee7302f303a1c1a": 1}}
+{"query_id": "query-b1349ecbc2dbebef225fdc66", "qrels": {"page-a1df6cd19ee7302f303a1c1a": 1}}
+{"query_id": "query-4e59845b05727951fb3d6b57", "qrels": {"page-45ebe87d9092267c4a2b0634": 1}}
+{"query_id": "query-81af29a9505067e1650f35e6", "qrels": {"page-81cd1083da554f0a2a274b10": 1}}
+{"query_id": "query-7e9f8509ee40ded7fc4f1d87", "qrels": {"page-44a4ae07054077fc4136e368": 1}}
+{"query_id": "query-14b4c3ba778e5aa23115188a", "qrels": {"page-a1df6cd19ee7302f303a1c1a": 1}}
+{"query_id": "query-938a9fd40d5402bc75316f54", "qrels": {"page-44d58480014295c075fa90c3": 1, "page-5c4fea110f415db6b6aad29d": 1, "page-49803e7919a8ee6a23ce414c": 1, "page-acb4153f070dbbf277369c7f": 1, "page-d0d57cd9b538d18a692b6a8b": 1}}
+{"query_id": "query-0b8ceba9cd61793ecab87ad9", "qrels": {"page-ba982aa34bdb1fd8823fbfd2": 1}}
+{"query_id": "query-4d1bcf8a2ed479c2fad163a1", "qrels": {"page-ba982aa34bdb1fd8823fbfd2": 1}}
+{"query_id": "query-97b9ed587099c7a434ca8ae2", "qrels": {"page-f299a6eb2dd897d1b7f202cf": 1, "page-6b9fdfa91ed97238ee2532bd": 1, "page-82359f771175faceda630a2d": 1}}
+{"query_id": "query-499698eb106c99446a8c9392", "qrels": {"page-f299a6eb2dd897d1b7f202cf": 1}}
+{"query_id": "query-1cbccfa2d940fa9cae17da87", "qrels": {"page-957ead16a5befa36cd655e95": 1, "page-1c04c3761d2f2bf25d1b88f9": 1}}
+{"query_id": "query-6a0234dd62fcca8c2b5cf850", "qrels": {"page-1e32aebc8d3686a34cece2ca": 1, "page-b32580e89e8ab5238e450fea": 1}}
+{"query_id": "query-eb3b53d52d60bf420359e594", "qrels": {"page-be06071ce710c9b3e2ade70e": 1}}
+{"query_id": "query-83ec629a14b18b3cbfdc4a56", "qrels": {"page-98f2747fa0db1855b10b49ed": 1}}
+{"query_id": "query-2e5979393068ec65746b5f42", "qrels": {"page-e9452ee661cc842635f6bb2d": 1, "page-e8f1b74d25ee3ef825e65d78": 1}}
+{"query_id": "query-8c2555b9b1655ae394981536", "qrels": {"page-e8f1b74d25ee3ef825e65d78": 1}}
+{"query_id": "query-c88d0a4033e827e27f892b9e", "qrels": {"page-df02efdc66fb133561ab925f": 1}}
+{"query_id": "query-7f66152acc8ea247e7178a5d", "qrels": {"page-df02efdc66fb133561ab925f": 1, "page-e8f1b74d25ee3ef825e65d78": 1}}
+{"query_id": "query-d2a39c1a70e8e1263e8305d7", "qrels": {"page-a71c994831e9a3cd8e604884": 1, "page-376c5b3c5dfb42052e4a093c": 1}}
+{"query_id": "query-59a5ac1ea76af78c2e0747af", "qrels": {"page-a7e5a2b383eb5c6aaa22457b": 1}}
+{"query_id": "query-b98807e9fc0d5f75b7e87bf7", "qrels": {"page-7f5f40719f7079f5546b89e3": 1, "page-e220a328e50f152fb7b727a0": 1}}
+{"query_id": "query-1ddf01e756c9409f9d69935b", "qrels": {"page-fd330953fd2bf215b40d9c5e": 1}}
+{"query_id": "query-09250c8cfb54e41a6d3378e2", "qrels": {"page-e220a328e50f152fb7b727a0": 1, "page-e6f2e73b703e35ba7c1c6270": 1}}
+{"query_id": "query-fcc3be0f467c781126df0153", "qrels": {"page-6d867f6e585a8b6150685dff": 1, "page-0c7f24a502707de4a9745987": 1, "page-516f3be55b6486de6ec9f6c1": 1}}
+{"query_id": "query-eac318b960c814664013bd05", "qrels": {"page-c90dc64b4db7a9e234a30bc7": 1, "page-5069021dad044f9a935869f2": 1, "page-a9f305b457ed9e61d6e32b8e": 1}}
+{"query_id": "query-b9332c623249169937ca914f", "qrels": {"page-5350c93aade2954459dab2a9": 1, "page-4ad29475e9ff7ecd24bf903d": 1}}
+{"query_id": "query-decdfdcb1b140442ed103a21", "qrels": {"page-7fe7b6d3fb1a97c95e0ec697": 1}}
+{"query_id": "query-35f57b04b14c76408002109f", "qrels": {"page-0fc21cf083929e25efaaef09": 1, "page-7fe7b6d3fb1a97c95e0ec697": 1, "page-c89f7a4d206a5c74a9bd8e80": 1, "page-d8daa021c288e16162976c50": 1}}
+{"query_id": "query-88ef39ff8f0139da31cebf7c", "qrels": {"page-f63b00f4a3a25c059c2bbbdf": 1, "page-2d9d912f643c830fda43ff2d": 1}}
+{"query_id": "query-3a09dab2716d0219dd1d14b0", "qrels": {"page-161557f129570b54a4fb531c": 1}}
+{"query_id": "query-f96d08f9cd88e4124cf86cb5", "qrels": {"page-33cf24b914788c0b2034c089": 1}}
+{"query_id": "query-ee3c886ba64d5cf65ceeb455", "qrels": {"page-84d43e6f6ed93cc779034d35": 1}}
+{"query_id": "query-28f74ec4a2254d58ea6c64bb", "qrels": {"page-c20d07674492c9da7d3a32e1": 1, "page-5694c2702e8877854e8f389b": 1}}
+{"query_id": "query-6e792bb69698c4c3b55d1bbd", "qrels": {"page-33cf24b914788c0b2034c089": 1, "page-1d2f4848986b79bf8c40ba89": 1}}
+{"query_id": "query-a0264d606bdfbf69019c6f42", "qrels": {"page-d54cdcb41bcb4956c1428266": 1}}
+{"query_id": "query-8ba862a8a08c558cc63f58e5", "qrels": {"page-ebbe7838d7b99bafcf40af12": 1, "page-26d462c253dc035f89f67cb7": 1}}
+{"query_id": "query-642b30d3f2169034f8ad0d6b", "qrels": {"page-ebbe7838d7b99bafcf40af12": 1, "page-26d462c253dc035f89f67cb7": 1}}
+{"query_id": "query-62fcc96738c5013220349ca3", "qrels": {"page-9ab3b284f85ed58fd07cbe2b": 1, "page-efca0836610091a659a6d037": 1}}
+{"query_id": "query-33d1692cc28e70d493ca9824", "qrels": {"page-3f44284924d63e473a27a110": 1, "page-087be6726ced69a1c3d6a448": 1}}
+{"query_id": "query-6c14b655ce9d858c43a56037", "qrels": {"page-7fef72a5e47a66082b2f7805": 1}}
+{"query_id": "query-7aa02d53626c15fbe7487e42", "qrels": {"page-5fc31291b71e2206ee7119fc": 1}}
+{"query_id": "query-2fdafc3a815d143ae6ba1115", "qrels": {"page-b64954b14a75dd8c6381d540": 1, "page-58b98e29d99c970ba7a22838": 1}}
+{"query_id": "query-106fcf9be0fd551c70eec067", "qrels": {"page-dbb38b04e882c6f0bff0504f": 1}}
+{"query_id": "query-f3a1686fd7f600a412bd9fc9", "qrels": {"page-804fa64d20b3c3b489692162": 1}}
+{"query_id": "query-459762f78f8a0584a1501a32", "qrels": {"page-ebf4cfdcc0af849ba4078b4a": 1, "page-12a1499b6e5af496c76cf813": 1}}
+{"query_id": "query-950b0cfe2418b5e9df3f636e", "qrels": {"page-2ee7fd9976dfbce434ec91ed": 1}}
+{"query_id": "query-9b5b9613ea0cafea362a0f13", "qrels": {"page-3b72700ca7d1aa2a8f817905": 1}}
+{"query_id": "query-f8f81837ad4080fd20c6adba", "qrels": {"page-9ec44ccca597ac4cee868836": 1}}
+{"query_id": "query-69a3889ed73e2164217a292d", "qrels": {"page-de125c4e12df7d9245da9205": 1, "page-bb8a44e94f49de4c65a77053": 1}}
+{"query_id": "query-66c7d503a3b24a760546f961", "qrels": {"page-3b72700ca7d1aa2a8f817905": 1, "page-29fe6f340d6eebe7e5dfcbd1": 1}}
+{"query_id": "query-f13fac8a6a3b8a4d6c5ae97f", "qrels": {"page-5b24e75536dac73568cb749e": 1}}
+{"query_id": "query-eab346a810a39aa0bcf2b61d", "qrels": {"page-65bbc4e7201006a15f170b05": 1}}
+{"query_id": "query-113e6c1f8318454e98be26db", "qrels": {"page-fb93fea985e22b986a4899f0": 1}}
+{"query_id": "query-7502d6227cf2fa7cd66f0d58", "qrels": {"page-71b1a1b4435860c811d12f2f": 1}}
+{"query_id": "query-867528a4777314d0a66dd4a4", "qrels": {"page-3f401b68afda5a8b4be4b39a": 1, "page-e0a2b81b67a0ac1c55bad375": 1}}
+{"query_id": "query-cfea3c9387cdc7aceb7a039a", "qrels": {"page-0d7475a4a70722e2f2069761": 1, "page-c00a05e34e106bcdb0b726f3": 1}}
+{"query_id": "query-b64c772961801658179228a0", "qrels": {"page-bf3285be070fb862b606cd2d": 1}}
+{"query_id": "query-1fdb8be32e89c9be7e186911", "qrels": {"page-bf3285be070fb862b606cd2d": 1}}
+{"query_id": "query-861e45a50b4078c27cf1d2a9", "qrels": {"page-b9f675f0b579de6286d4ffa0": 1, "page-5aa6001e3ffcbb88664c6f23": 1}}
+{"query_id": "query-ac48789c4fbc46efeb72fbe1", "qrels": {"page-b9f675f0b579de6286d4ffa0": 1}}
+{"query_id": "query-aa61fc756449f0eff66dca57", "qrels": {"page-243006391dc507f4ecb85f42": 1}}
+{"query_id": "query-47484ae9a034b542ade3248f", "qrels": {"page-88f50cbbd477e93d34813989": 1}}
+{"query_id": "query-738c09bbdf1f61c4844f4268", "qrels": {"page-4d503a20452d16b63e00dcdb": 1, "page-b909ec6115e5e285acc9938a": 1}}
+{"query_id": "query-19baa4033d1cf69dd5fee786", "qrels": {"page-e8a49f880549564adc95a801": 1, "page-393753fced109aa2e2e185cf": 1}}
+{"query_id": "query-f151f42cf2344d2134f1223d", "qrels": {"page-88f50cbbd477e93d34813989": 1}}
+{"query_id": "query-7f1a8f9ac8c3632785f64e47", "qrels": {"page-68c64e83be1866617c6fbe6f": 1, "page-b58a3c1bec578b4553dce91e": 1}}
+{"query_id": "query-02430c0278631c8cf8d32cbb", "qrels": {"page-4c81e530db19a5a44d810431": 1, "page-0ecf100b23466487eb03a06a": 1}}
+{"query_id": "query-21e1a4ca977b41257f793878", "qrels": {"page-1b09d0ebdd5a6b90c8ea8b4d": 1}}
+{"query_id": "query-1dac605cfdbc052fcb322cdd", "qrels": {"page-7e80080bd1d721fd251a1f19": 1, "page-ebe2073a550699f8a6ed2334": 1}}
+{"query_id": "query-ebf0842db5861198580368ce", "qrels": {"page-cab8575ffdb27be59db7a9aa": 1, "page-0ecf100b23466487eb03a06a": 1, "page-95830f7000d8d14fe712d9aa": 1}}
+{"query_id": "query-3abd759c306cdae703651fc9", "qrels": {"page-7e80080bd1d721fd251a1f19": 1}}
+{"query_id": "query-0b8441aa11517db767654709", "qrels": {"page-9dd8840c521c3e0314ee6072": 1}}
+{"query_id": "query-d0c9c43a5f020a85bb7e7462", "qrels": {"page-aa1c56862c803fe4ef9073dd": 1}}
+{"query_id": "query-d67191ab751d738af87c06a6", "qrels": {"page-f71ff97443b98879398f6737": 1}}
+{"query_id": "query-94b1315de287b0c866e3ff37", "qrels": {"page-aa32aeb95c127c1cfe01b427": 1}}
+{"query_id": "query-7b5f9c7e3e7a495cda9969f2", "qrels": {"page-c9ca6d2a4cd97b1185c2a995": 1}}
+{"query_id": "query-8729cb0cfef40f27a52d7a06", "qrels": {"page-8c6192c774ad36fa407cdc49": 1}}
+{"query_id": "query-b53b74b299e108274fb33e8e", "qrels": {"page-a2f27cd0f5f65b16c3338a7c": 1}}
+{"query_id": "query-95daa53fd6cd0977f822b023", "qrels": {"page-a2f27cd0f5f65b16c3338a7c": 1}}
+{"query_id": "query-6c68bcf80098089c77cb65b2", "qrels": {"page-2401238d7d0ab55bb424c235": 1}}
+{"query_id": "query-f253fc2ad4428e345f87e4ef", "qrels": {"page-5a322aca30303594220af28c": 1}}
+{"query_id": "query-44d5920ea072d605a1ad9bf9", "qrels": {"page-0ca44c84d12957813e7443ae": 1, "page-56e478fdfd9a4a08352bf8c7": 1}}
+{"query_id": "query-8ecba48b1c16ce3a96d40eca", "qrels": {"page-1ce7a28e96b7ac66243815f7": 1, "page-77c572c91ca127fa33fa6a85": 1}}
+{"query_id": "query-74bc27e853a5b1a9936163e0", "qrels": {"page-7bbb97791926164cb02b4ce4": 1}}
+{"query_id": "query-a0fe812a6d3128d105f7a893", "qrels": {"page-022ec5b376423e68ef9ac990": 1}}
+{"query_id": "query-65342db0a13a8fc278ae4f1a", "qrels": {"page-4f1dc8ed0d0f44291dc6b926": 1}}
+{"query_id": "query-2ca61dd7396d703572787244", "qrels": {"page-5c827922609f794cbef08362": 1, "page-b2b106e0f2095bbbbe7249ba": 1}}
+{"query_id": "query-660a16954acc616c6884a1b7", "qrels": {"page-db1c10c51807482869c22809": 1, "page-0142321277f3e56f21a13257": 1}}
+{"query_id": "query-9d5dc6d3ff42cd36676e9944", "qrels": {"page-299d527e0548c34e4e2a211a": 1, "page-2598ff432e00acd830af481b": 1, "page-a9a15c4199f295c18c4a126e": 1}}
+{"query_id": "query-fe04b1eed13b18814c77ac74", "qrels": {"page-917db85498f785954ca7bac9": 1}}
+{"query_id": "query-a0d8f12f5caaeafbc1b1a0cf", "qrels": {"page-64988d7d561b451e2b6954ff": 1}}
+{"query_id": "query-ca0c0a4b1a9c9f319deccec1", "qrels": {"page-1305dac5ac18540a1f5b73c4": 1}}
+{"query_id": "query-85dd1dd59d68159a8bc1e85c", "qrels": {"page-042a8bae80268c55ff5a3eda": 1, "page-5b05aa0e357ca4eb6d1a0364": 1}}
+{"query_id": "query-47e29bbafc347d8b44a2799b", "qrels": {"page-2f43c7246cafd920ff1146d7": 1, "page-1305dac5ac18540a1f5b73c4": 1}}
+{"query_id": "query-a675c0fdd4b196adcad0ad11", "qrels": {"page-2f43c7246cafd920ff1146d7": 1, "page-1305dac5ac18540a1f5b73c4": 1}}
+{"query_id": "query-95e5c25c06b1f147340b2a3e", "qrels": {"page-46ee3a8c311ff957542c34e1": 1}}
+{"query_id": "query-37893a396c452b97bdf24660", "qrels": {"page-f741a44a979c9eb7937b8537": 1}}
+{"query_id": "query-7c4bfb97b7f42f9f050b9c11", "qrels": {"page-f741a44a979c9eb7937b8537": 1}}
+{"query_id": "query-48603b301869b65fc6372492", "qrels": {"page-d8620dc7a3bf2f8d7fd759ce": 1}}
+{"query_id": "query-d05a764824fdcc1e2b68cfd9", "qrels": {"page-d76ddecceff04d6e25b550ad": 1, "page-77fc7dbf86812bc545196ae2": 1, "page-2eb6d858ba8b5efe5a3e2d59": 1, "page-5a4390c58b5646ceeeb08390": 1, "page-68e055b31d07b4d282bd806d": 1, "page-5ee204016f636e03383faa50": 1, "page-6ec84a4e07744efd1961792f": 1, "page-78b7c6d409a34f86b92211c9": 1}}
+{"query_id": "query-f4e044e4f60280e4811ba640", "qrels": {"page-d4a0ff2fdf277acf15c79f54": 1}}
+{"query_id": "query-53145e5f937cd15b326c9bff", "qrels": {"page-61d166cf84c747ec0c649be3": 1, "page-9455b34c4fdd639067edbc54": 1}}
+{"query_id": "query-46543d1ef99d89271fe0b00d", "qrels": {"page-734c3e27dee7f5fb80f2781a": 1, "page-ef436005f4f02d520677722e": 1, "page-62fbc54d08521ca8c3e329a3": 1}}
+{"query_id": "query-03a41611c76c369b5821025b", "qrels": {"page-61d166cf84c747ec0c649be3": 1}}
+{"query_id": "query-64148a78c0b885f45e6e9c3c", "qrels": {"page-c09f7e3ab534b71ff3beb26c": 1, "page-5d951fb1a7386c844e69cca4": 1}}
+{"query_id": "query-1b2e5989d7e17dfa24714d47", "qrels": {"page-9378e58b5f60277e37082389": 1}}
+{"query_id": "query-3452eb54a03080fdc1ee222b", "qrels": {"page-457a3cdcc3201f8b2e2342e4": 1}}
+{"query_id": "query-6466bd98e3f1f82c47d5cd7f", "qrels": {"page-a1d0289015460c6c03706820": 1}}
+{"query_id": "query-3f79c62ccab07eb71abc0525", "qrels": {"page-7119e4c0178c9820b4ee2054": 1, "page-bcffe3d39ff87be32e742021": 1}}
+{"query_id": "query-9d589d153d2d1f55f2827bd1", "qrels": {"page-7119e4c0178c9820b4ee2054": 1}}
+{"query_id": "query-f3eae622a529684ec75b24bc", "qrels": {"page-e6a0c3c1a7f665b8c04e5812": 1, "page-f9a0ebb99bdff6c074b6c60a": 1, "page-115e37f9e6bc7cb35ad71fcc": 1}}
+{"query_id": "query-1e1916ce2f9ec07e901cbd98", "qrels": {"page-dd555ba95d3eb1c5096adc44": 1}}
+{"query_id": "query-d9ffd35198ff7c494e9dbf49", "qrels": {"page-5f6a9ca7caf1245d3b8944a6": 1, "page-ace36b282cee17fbfe4b5d65": 1, "page-e9adc9cd812b2968947c6a70": 1, "page-dff02bb3fdd20311ab59104b": 1}}
+{"query_id": "query-0badbe99523104250fef8eca", "qrels": {"page-344db8f2583c1fda451f6e8f": 1, "page-9aa04f8dbc04b68e927e29da": 1}}
+{"query_id": "query-c688e4f96eb59a29858b7949", "qrels": {"page-c1c90d6ca669db22b18f21c2": 1, "page-98f38dcdfa2d1850527c209f": 1, "page-9aa04f8dbc04b68e927e29da": 1, "page-8ac058a7d580834b3e07ed91": 1, "page-70c7ed8925779fa85419c8da": 1}}
+{"query_id": "query-a4cf28b1cce7e183c1282a86", "qrels": {"page-aa031d07471ab858bb0030eb": 1, "page-811e0bd7c576af7a8cdaf3f9": 1}}
+{"query_id": "query-9757f7559fb651b0a76a2bf7", "qrels": {"page-9ce3035215422ebfbf1ca475": 1, "page-93f19213e37ea7d7c9374986": 1}}
+{"query_id": "query-2c203303cc8dc6574a6d3488", "qrels": {"page-cd5eff019942be5cb0145574": 1}}
+{"query_id": "query-9e590d9949ce0f6b8117040c", "qrels": {"page-7728c83ec6b977bc475d7d39": 1, "page-c094568bc87720c5f93cf9a3": 1}}
+{"query_id": "query-8ef2667db1392c2e4d25b158", "qrels": {"page-bc2c8edb8ecbf5481f90d5b3": 1}}
+{"query_id": "query-56700b812effd0dd16a51308", "qrels": {"page-d8a48cc2bbfe670a991a5947": 1}}
+{"query_id": "query-a209b51ef0422202234c9c50", "qrels": {"page-f566df2e9ec7ab7476332c88": 1, "page-9c63b51b9c0b6fdfd1f0c202": 1}}
+{"query_id": "query-a88bcc8bc2b673165304f1e1", "qrels": {"page-9bdd2af9d64c602cbee659b4": 1}}
+{"query_id": "query-61aaa2454e9ac4e40fbc240e", "qrels": {"page-0cd78a397c496de77ba9672f": 1, "page-1336858ee7cea7fb0e40503c": 1, "page-9bdd2af9d64c602cbee659b4": 1}}
+{"query_id": "query-c37b9fd9171832e7ac465450", "qrels": {"page-6b3d2f202f14cefd384a468b": 1, "page-7f88007a94498a632913a2cb": 1, "page-7c76473088ca5bb4cbd35b54": 1, "page-876cb4c483efb7b0179b8449": 1, "page-a10bbfb357e45f3b541be0ec": 1}}
+{"query_id": "query-eccb43bacda7a4d08435684a", "qrels": {"page-09f969780112dcd54f0444d2": 1, "page-d318a9fcaaf556082183fe6f": 1, "page-cb309b4d349aa422e6262f2f": 1, "page-ba96023949f931b159329cbc": 1}}
+{"query_id": "query-381c85d2f0e2163e49ddb784", "qrels": {"page-cb610645366f9a52ea251a75": 1, "page-258d3966c06020ebf5d9659d": 1, "page-83d242ff87b2053e505713b6": 1}}
+{"query_id": "query-d8842b9dae1570b63f6338b3", "qrels": {"page-876cb4c483efb7b0179b8449": 1, "page-a10bbfb357e45f3b541be0ec": 1}}
+{"query_id": "query-88c3b82db0c393d1ee7a6f0b", "qrels": {"page-3a5c339358e446bf722c4d2a": 1, "page-05691fedd5665cc2af7e61d9": 1}}
+{"query_id": "query-ea0c659032828504380a42d5", "qrels": {"page-3a5c339358e446bf722c4d2a": 1, "page-000589144507be3add8ff8f9": 1, "page-a7091d603de4d857a192826c": 1}}
+{"query_id": "query-a8f4e74fba8e54aad64b97ce", "qrels": {"page-48e7feb9e49bab435ea3c8a7": 1}}
+{"query_id": "query-131c75f776e04bee6bab1d3f", "qrels": {"page-05691fedd5665cc2af7e61d9": 1, "page-da6866f38dec980be8412cef": 1, "page-c5401090478abdec441c0540": 1}}
+{"query_id": "query-5bddc91779eb0f563cb80f2e", "qrels": {"page-a7091d603de4d857a192826c": 1}}
+{"query_id": "query-46d4e938512c0211d9cc1af1", "qrels": {"page-1c651b983db6f7a867bc1067": 1}}
+{"query_id": "query-ed0a01053c1ef8fad9f1b0db", "qrels": {"page-000589144507be3add8ff8f9": 1, "page-e0f3ec735feab400b161e38a": 1}}
+{"query_id": "query-05dcee2d03f998d16bd2a4dd", "qrels": {"page-b6eead81f36d6ba41212ca86": 1}}
+{"query_id": "query-2ba5ef24f78e1cc7af119153", "qrels": {"page-84ed5b3e41e28cdbf534498b": 1, "page-5f49c25b45cfb41f5648ed10": 1}}
+{"query_id": "query-e5ea53c9d7306f5e881e983c", "qrels": {"page-ee0831d8cc6ba7ece3b6f0c8": 1, "page-ae9c42943a8c3e39c4dfe319": 1, "page-438bdb8ded05f8c9ba441854": 1, "page-ec7f4138402cb7fb36b18aae": 1, "page-3791e26dc389d6ff6b5a55ce": 1, "page-35d804d5aadc68e1a354b0fe": 1, "page-66f96c2e9a00e8ed764cea7b": 1, "page-d7642b177c7b66215845ecec": 1}}
+{"query_id": "query-1cb57ea08be399ebccbc9f4a", "qrels": {"page-b150d002f6cc6e87d7a25a68": 1, "page-f3106438d5f2b6ed6489ae71": 1}}
+{"query_id": "query-7d304bd3d9c8ffb8bc35447f", "qrels": {"page-ec7f4138402cb7fb36b18aae": 1, "page-35d804d5aadc68e1a354b0fe": 1}}
+{"query_id": "query-62ff4293798c215cdab90571", "qrels": {"page-fc3845e65734c859f97be2f3": 1, "page-79a42c73e8677db42ab8cd1e": 1}}
+{"query_id": "query-205633821d9ef4577ad491bd", "qrels": {"page-b6eead81f36d6ba41212ca86": 1}}
+{"query_id": "query-e5cfcd97e1300a16cebfd6b7", "qrels": {"page-8a95d8e3c8dd6b83a1d33fd9": 1}}
+{"query_id": "query-25e90459280bb70bb96941a0", "qrels": {"page-70e971665357d1b8ef7811c4": 1, "page-2aad998b05ab567ccd548b5f": 1}}
+{"query_id": "query-8859bc76ec9e2922656aa767", "qrels": {"page-172272d9a6d14429b2321eea": 1}}
+{"query_id": "query-5c3e3d0fb1978f4533f1dd5b", "qrels": {"page-cb99303c969e32fd705caf7e": 1, "page-172272d9a6d14429b2321eea": 1}}
+{"query_id": "query-eabba35fcf65c7412c9272d9", "qrels": {"page-fdce1f62aa04d7bd8d87cc9e": 1, "page-4401c2426d89a6e0d591483c": 1, "page-249a79ee7ecacdbfdf28b806": 1}}
+{"query_id": "query-a8284c1699653a787ae424d2", "qrels": {"page-720f02e23757a98418df6a73": 1}}
+{"query_id": "query-a67b895b9607a8a36c8ef0c0", "qrels": {"page-7e137f63a678e095fb025bc7": 1, "page-78437fac05c975275cbe8e0b": 1}}
+{"query_id": "query-70ef35d5fbe1c9ad74843a55", "qrels": {"page-a738649788cabf06b5d2ad8a": 1, "page-13e5abeb7cc0d9f269df5e48": 1}}
+{"query_id": "query-8048f5f42dd75b36e2f574fb", "qrels": {"page-9c0008b34cfb0cd43761bd5e": 1}}
+{"query_id": "query-e6c016cb9ab1705fdd066360", "qrels": {"page-7f3aa3c5c6178720f84db4c1": 1, "page-69a463fb1d31f6f1a10cb267": 1}}
+{"query_id": "query-8a13d02d17f368972c2feeec", "qrels": {"page-e767d0a128e7a7fa85a49c0d": 1}}
+{"query_id": "query-c66f91dca8dc7a4d79c8b8e5", "qrels": {"page-4eefac010407461385b1c3e3": 1, "page-b7eafaac58f009d319062446": 1, "page-c037dbb4d99deb3f7682fa15": 1, "page-949fcd99a84bba18502428a6": 1, "page-3ff91963f8a6fef8f6fb4dd1": 1}}
+{"query_id": "query-eae2922e1c7a5442073c00e9", "qrels": {"page-7f3aa3c5c6178720f84db4c1": 1, "page-69a463fb1d31f6f1a10cb267": 1}}
+{"query_id": "query-dc052a51ef081e8a4724342a", "qrels": {"page-7f3aa3c5c6178720f84db4c1": 1}}
+{"query_id": "query-b33705e017d6bab52cc7c738", "qrels": {"page-8d137df7e5c947e75c758d7d": 1, "page-f04d5bb6f57f61e28cd5f68a": 1}}
+{"query_id": "query-a37038fe2298e4ae1d13bf0a", "qrels": {"page-4c9f472c2c7806cbdd1219b4": 1}}
+{"query_id": "query-2ac764a008faf702ef3ca5d3", "qrels": {"page-a1cac4c41bdb3c04d9ed3bf4": 1}}
+{"query_id": "query-55938a7e14f62bf2c02d60bb", "qrels": {"page-780d83e44b6fb8848496bcf5": 1, "page-5b033dd25e923425b9e07b3a": 1}}
+{"query_id": "query-58242efd729b07806bd5dc84", "qrels": {"page-36118fbdf91289a5bc1031ee": 1}}
+{"query_id": "query-24b6377e4a45502f2f1a6104", "qrels": {"page-5a8aacd4011f1746a570f262": 1}}
+{"query_id": "query-164701f3a1159b8acbba583d", "qrels": {"page-41da76bedcb741e63b6deaf3": 1}}
+{"query_id": "query-65f1b108405c8f9dbb4189fb", "qrels": {"page-55369433433cbbf7e9e7bcf4": 1, "page-41da76bedcb741e63b6deaf3": 1}}
+{"query_id": "query-e3e4bfe0517bfaf0bcd4893e", "qrels": {"page-55369433433cbbf7e9e7bcf4": 1}}
+{"query_id": "query-bda8c153ab8d6204e1d6bb38", "qrels": {"page-1858782a7bb5eed2f32f80bc": 1}}
+{"query_id": "query-a4f9e0f48c41d6920de12729", "qrels": {"page-09a22c663102eecc2264136f": 1}}
+{"query_id": "query-9497a9c0ad8cdffa8f0a4a1b", "qrels": {"page-4779bfe956570e74fee4d681": 1}}
+{"query_id": "query-80a7cbaa2190c2265b674d18", "qrels": {"page-08be59cd3eb070c3105e0fb6": 1, "page-f9bae0e4f18139fae459d4a4": 1}}
+{"query_id": "query-45c94506c1d5cf561fbe7c69", "qrels": {"page-189d4fcf9be2c78edf1e2ba9": 1, "page-e9a253678164a291abc9b143": 1, "page-f9c7836e6407b90d53fcd0f5": 1, "page-659f8f812212de39ba979a3e": 1, "page-e246d2c43c98483cc0e06ac0": 1, "page-4459f4c7d99141185bab1af4": 1, "page-30564b718ed1115b2fe5a15c": 1}}
+{"query_id": "query-193fb1b67deef39d9e9a173a", "qrels": {"page-08be59cd3eb070c3105e0fb6": 1, "page-4ae90fd45bd7425885a081de": 1}}
+{"query_id": "query-2d361f1d251d7e6672366c07", "qrels": {"page-0e6884fab7d5857b962c1487": 1}}
+{"query_id": "query-d54ce78b48832f4654ea8402", "qrels": {"page-4fcde83b6958d9be53a84080": 1, "page-ac1e4fd65b724ecfa7c95ebd": 1, "page-5a0555883451049104828e8a": 1, "page-a4c0b9ee393ff9aae38ea90e": 1, "page-85d8d035a845a26b381ca202": 1}}
+{"query_id": "query-c4abf4533aa125bbeee91e8a", "qrels": {"page-fba6169156ac5a3b30120d77": 1}}
+{"query_id": "query-2e88bf3ac027be279bbb0c65", "qrels": {"page-a4c0b9ee393ff9aae38ea90e": 1}}
+{"query_id": "query-16fffe498df6cdd3fd7473d7", "qrels": {"page-e2f4fc452a6b04515ad7aecf": 1, "page-2d0e9b1e884d7e00b3ea6b9f": 1}}
+{"query_id": "query-153e799440dc3f309b1a4f34", "qrels": {"page-07d9361260f502bd2373e80a": 1, "page-2d0e9b1e884d7e00b3ea6b9f": 1}}
+{"query_id": "query-1cc3a3bc155a874f1826b3a6", "qrels": {"page-e30920311a6b71e6f27aeec8": 1, "page-523cdea1fbf82207d27f0205": 1}}
+{"query_id": "query-40adc1b042b1c7f0b815118a", "qrels": {"page-bf6f704fc7cd26ebbe100d1f": 1}}
+{"query_id": "query-45a57c5362c2443260d559d6", "qrels": {"page-6e6cbd1f2e92abb67cd05c8b": 1}}
+{"query_id": "query-e07045350026244df7680f69", "qrels": {"page-6e6cbd1f2e92abb67cd05c8b": 1, "page-4513a2aa9d21c36e76f2b463": 1}}
+{"query_id": "query-bea284094b4399dac6f1461c", "qrels": {"page-4513a2aa9d21c36e76f2b463": 1}}
+{"query_id": "query-9ffcf92bc76134a15ceeea85", "qrels": {"page-805e6098729bdc7243e55122": 1, "page-13095e543316d035ac7c0356": 1}}
+{"query_id": "query-2e7c5d26349ff538826502c9", "qrels": {"page-222e5b3f820427fa8c87a8c4": 1, "page-feb9ab62b9e2c5233a979d3c": 1, "page-dd27b6d52ee0e0b13aa3b642": 1, "page-20254310ede169912b2dc363": 1, "page-f25b6ff866d451021b26d088": 1, "page-d39e2e92b5360e96055f68f9": 1, "page-0f77e625191f2ce3e44d5dce": 1}}
+{"query_id": "query-ba53d95f7b3b14f09cfe0479", "qrels": {"page-feb9ab62b9e2c5233a979d3c": 1, "page-dd27b6d52ee0e0b13aa3b642": 1, "page-20254310ede169912b2dc363": 1, "page-f25b6ff866d451021b26d088": 1, "page-d39e2e92b5360e96055f68f9": 1, "page-0f77e625191f2ce3e44d5dce": 1}}
+{"query_id": "query-61d1605225793b056ba23a8a", "qrels": {"page-c2a5a9e783454e644e20b213": 1}}
+{"query_id": "query-6bb359036c14e6b228e5bf72", "qrels": {"page-93c2415321bac3c06f75a9d5": 1}}
+{"query_id": "query-4734a8bb3c6cfbfacbc72df4", "qrels": {"page-8f63f511f8cee208d32b719f": 1}}
+{"query_id": "query-fe7eb79105decf4972bd841a", "qrels": {"page-2c43c98280f67e58cdd7d9ed": 1}}
+{"query_id": "query-c6ed04ec9626fe8cbbda5920", "qrels": {"page-113bc84a60c542a5876176ec": 1}}
+{"query_id": "query-86a222ed17f826729a40443b", "qrels": {"page-f04a9c53a8985294cbc6cb52": 1, "page-453009ab4e1554e1fbdfe694": 1}}
+{"query_id": "query-2667f88ead135c70acfd2a8f", "qrels": {"page-a63c106e632760250d75767e": 1, "page-9c10d218684f4f9d4660fe41": 1}}
+{"query_id": "query-50996ace13f3525cbb66b391", "qrels": {"page-345b201f942d22516f8e0277": 1}}
+{"query_id": "query-9225e982b3efa01d9ec5964f", "qrels": {"page-a7ce8961bd5a28f6e7deba65": 1}}
+{"query_id": "query-09e704f429d69f819349145f", "qrels": {"page-70e5269be33e44d16a1207dd": 1}}
+{"query_id": "query-08c99bb5934ad9bdb70412f3", "qrels": {"page-8c91dde2854e52b05a5c2bda": 1, "page-6f08f18959a732be7814c4a9": 1, "page-93c26a0825e9ed9940347128": 1, "page-d75fee7f4beceffe5b9d250d": 1, "page-2bc8bc4da64670ea91f71cbe": 1, "page-fccd5a6303f31ccdf85cd1f0": 1, "page-0938f1b909775e5cf6f04fb3": 1, "page-605ec65d24e53c7e0fcc5aa6": 1, "page-247d754393700a64dd835af8": 1, "page-d4a8d415122be3e71be9c315": 1}}
+{"query_id": "query-7c4f6065c7eac4c6594ffd32", "qrels": {"page-1ca5da24150702ee108e896d": 1}}
+{"query_id": "query-e058700555731daa0f50e7f7", "qrels": {"page-348a678075420fadbf735b67": 1, "page-6f08f18959a732be7814c4a9": 1}}
+{"query_id": "query-c189bb8629c2a8f94e5cab45", "qrels": {"page-4bf1dba35a49155a862f7bab": 1, "page-addfe702b1f8eb2f9c5c1a75": 1, "page-40f4309cae7f3f75d88731ff": 1, "page-348a678075420fadbf735b67": 1, "page-3b79993cbb2eab52bab5b9be": 1, "page-ef678ca55ec6c4d2a023e524": 1, "page-eb5d699a35a249b6f34a43c1": 1}}
+{"query_id": "query-e3c04218f67448382edd9fdb", "qrels": {"page-0b256b6e7697846b89893e03": 1}}
+{"query_id": "query-d52bdf7c38a81a98ad59b082", "qrels": {"page-04852571caf0f4ff2409a5e2": 1, "page-1c2cda2f1c7916424861820e": 1, "page-51d450c76eb14fde6f3ed859": 1}}
+{"query_id": "query-7ffc08768c656415f19ed382", "qrels": {"page-04852571caf0f4ff2409a5e2": 1}}
+{"query_id": "query-95bd33f9dca199dbaf624c26", "qrels": {"page-51d450c76eb14fde6f3ed859": 1}}
+{"query_id": "query-4da3cdd3ff1834656b507d7e", "qrels": {"page-4689d9d0f475c4c83c0c0562": 1, "page-9a26e0ad2b35c1b5915d44e0": 1, "page-382abba8f8991ab5e8bd691e": 1, "page-1ab625c37d9b781f6b8b838e": 1}}
+{"query_id": "query-1f326b7e69d600695fe58f3b", "qrels": {"page-c973deddd60de93bde271ebb": 1, "page-e046f9644a0d34266871b534": 1, "page-7ab3d5f52501682144292ebf": 1, "page-0ed1c0ae029d48a8198c4043": 1}}
+{"query_id": "query-531eafb1089f33c65f644f7d", "qrels": {"page-ff83835a87c73f8504f97972": 1}}
+{"query_id": "query-8cc06b0b60e4dabd862e6f11", "qrels": {"page-77d3d56f642169eec97e5f04": 1}}
+{"query_id": "query-3418d1aed953039bd3b35e34", "qrels": {"page-1dbad371d6bfbed1e27ca43c": 1}}
+{"query_id": "query-53ec1600073eaadecd74afa6", "qrels": {"page-eb49c1cdcfd24fef4438fe14": 1, "page-63921d5202931d02f24ae4c7": 1, "page-38f5fa41eaf1b44283b626fa": 1, "page-685cc1408856435248be5a1f": 1, "page-ff3159a50d81dde59219e7c7": 1}}
+{"query_id": "query-50f6cf93eea2cb0aecc0cbc8", "qrels": {"page-63921d5202931d02f24ae4c7": 1}}
+{"query_id": "query-5b0d57db63508a14fcd965e7", "qrels": {"page-0649bc9ece0585fec4feae93": 1}}
+{"query_id": "query-8ae93cc56377b63c0efba5cc", "qrels": {"page-535485258709c415f4783d06": 1, "page-5b5d646dd9f16aeacff047b9": 1, "page-553e802f98f36f472fc18414": 1, "page-5b9c27a72eca1073a0031f53": 1}}
+{"query_id": "query-4ec9bae9b0ef7d438914ef6b", "qrels": {"page-5dfef71efa720b9586fb0d54": 1, "page-8ca2682b5fd3d4a40a3611ec": 1}}
+{"query_id": "query-2345c8d54248c12d0abc1ade", "qrels": {"page-0348cdcbaddb4ae5ba63d96a": 1, "page-93509d92d755b5fc9d08c60a": 1}}
+{"query_id": "query-f23888863514edff257733ad", "qrels": {"page-0348cdcbaddb4ae5ba63d96a": 1}}
+{"query_id": "query-85a3c9ca981383f373e1559e", "qrels": {"page-0738d244cce6b1c6ad8ff470": 1}}
+{"query_id": "query-fbcf6cfa2fed2304d1d0c9bd", "qrels": {"page-1b2ac3a9d726b21dfb5b0770": 1}}
+{"query_id": "query-915582410a205f57b899bc2d", "qrels": {"page-d8be2214e1d9fc6019b08cc8": 1, "page-62c16225c1f5e79874a4886a": 1}}
+{"query_id": "query-4b45ddb2b8420f8542b1fca8", "qrels": {"page-2b88647aacb04ef884cbf27b": 1, "page-e3ca19e23520a5573af5c49c": 1}}
+{"query_id": "query-3db8f364ae38b501abfb07d2", "qrels": {"page-d86a77891c4efe2a035a1278": 1, "page-979498524136bede6fc0a482": 1}}
+{"query_id": "query-ed3d79b4a4567c1cbb47d9c5", "qrels": {"page-d86a77891c4efe2a035a1278": 1, "page-979498524136bede6fc0a482": 1, "page-16cceefda46b055031867d6a": 1}}
+{"query_id": "query-6c24af138ed6479a7a756418", "qrels": {"page-9834140ab5f6e90c596df9b6": 1, "page-e5e6d9940e1f506e588cc366": 1, "page-6e44156a602370edacdb19a5": 1, "page-4239cd9b891b0b4cdf5f8bb9": 1}}
+{"query_id": "query-696ed8d3828191d915ef41a8", "qrels": {"page-47eac5db30620969595d27a5": 1, "page-0849d3b95ded0e330c692650": 1}}
+{"query_id": "query-cafbff0488cc9953b2484725", "qrels": {"page-b79bb27130a4ca85ad92fd76": 1}}
+{"query_id": "query-32f16fd743087d86eba221e3", "qrels": {"page-b5ca08dbf52289643178ff18": 1}}
+{"query_id": "query-ba03f710f2fd1c181d840baf", "qrels": {"page-ce7a73e0bc6b8761f42261e9": 1}}
+{"query_id": "query-27dd2b02974f4ad33d14ca6b", "qrels": {"page-8fefc21a3d8d48db4f1a0466": 1, "page-20c4183e57ff6345ffefa821": 1, "page-cd8822227e349e03a28fca9b": 1, "page-a137dd85fbe17c25aa9ebcad": 1, "page-bbec1a3c6d40d5ce2d42816c": 1, "page-e9070a6099fddeb4531a54e5": 1, "page-1f8ff518e5662a4d3efd370d": 1, "page-74f4e576667163d74fcb8acb": 1, "page-104733011a7cb79913e6c2dc": 1, "page-0f596af33fd765081422c1d4": 1}}
+{"query_id": "query-9fb1fd48f2fa6aff3f31dcbf", "qrels": {"page-250e4dc55c563cbcf2140dea": 1, "page-8e0177bbcc6143b6a880cb18": 1, "page-32d322165ce894f41e13bb68": 1}}
+{"query_id": "query-c8dbfd150bf42ff114246715", "qrels": {"page-fc9bfd0edd55d0f7f6dc54e4": 1, "page-7bc8d1a8bf2cff3a63fe94cf": 1}}
+{"query_id": "query-cb6235b4c20cfd20781d2592", "qrels": {"page-fc9bfd0edd55d0f7f6dc54e4": 1, "page-7bc8d1a8bf2cff3a63fe94cf": 1}}
+{"query_id": "query-2eafaecd444177c7646909a2", "qrels": {"page-7bc8d1a8bf2cff3a63fe94cf": 1}}
+{"query_id": "query-388f214454a34578f28c1f87", "qrels": {"page-a4ed6890ae2a6ecf07d00434": 1}}
+{"query_id": "query-dfc0374511dfc9b8b3667bb1", "qrels": {"page-99d7e955ab612fe2fb3c77e9": 1}}
+{"query_id": "query-cb34ae3b0196cbd0624ff2cd", "qrels": {"page-5e730049980f1f1d3ab3365f": 1}}
+{"query_id": "query-b669c918a7a61888042d1654", "qrels": {"page-01aeb9d231492f33615e3c11": 1}}
+{"query_id": "query-0d02ed23d640e23195ffdecf", "qrels": {"page-5c2f4d5290056c6b7db40f98": 1}}
+{"query_id": "query-027f195baf4469a4fc50b2e9", "qrels": {"page-5c2f4d5290056c6b7db40f98": 1, "page-cb3aa03e8304e4c4d6979a03": 1, "page-d3813f28df54d82d47158aea": 1, "page-62c9e591226e3f491035eb06": 1, "page-ad9272493c6ce5551d896f7a": 1, "page-2afe3cac7f043636e563acc4": 1}}
+{"query_id": "query-0a2320ac1410f5fc65143ba1", "qrels": {"page-081dcde2505da45147cd14d9": 1}}
+{"query_id": "query-4b32eafef84e0af2fe9a5162", "qrels": {"page-3e80669f6d239492197ff029": 1}}
+{"query_id": "query-0d9528626f0b6f9c99590d72", "qrels": {"page-f5381af7ff483d0f6ca1edde": 1}}
+{"query_id": "query-6fb7150a56c838b3dcf2d9fb", "qrels": {"page-dda2eb155abc0de19f787336": 1}}
+{"query_id": "query-0a0fe6d7712c3c25df2b6318", "qrels": {"page-60bbba9129ceb180d68a1913": 1, "page-4adeb3923a79f4644e86e2cd": 1}}
+{"query_id": "query-483092a210a690c6500dec93", "qrels": {"page-5c2d302a25e3b4c0a88115d2": 1}}
+{"query_id": "query-d75d48d0fbc518a66f351682", "qrels": {"page-8b02d96000bb79df1ed3dd05": 1}}
+{"query_id": "query-a6e6e96d98224230fa22e491", "qrels": {"page-fa8a603fd1688d836b1bf96f": 1, "page-d108c5d75e57d0f2de16be5e": 1}}
+{"query_id": "query-1c4a085919072bb37227ddce", "qrels": {"page-5277197b067ce7971cdff760": 1}}
+{"query_id": "query-e9fa16a0136685e0d36233e6", "qrels": {"page-e11234c1d169e0cedb1747d0": 1}}
+{"query_id": "query-c2921ce50793f21e8ee6d5c5", "qrels": {"page-1ffb587cdfa9991b34915146": 1, "page-44b58baae52ac9fe0d517470": 1}}
+{"query_id": "query-a4bb24e7eb3ef348c23dad4a", "qrels": {"page-793f37bb5c1dec43869454ff": 1}}
+{"query_id": "query-7b18202376561dd486f52477", "qrels": {"page-ad29be269d45a3a4663b4f6e": 1}}
+{"query_id": "query-37a42abeffce689255e50014", "qrels": {"page-d91322ce84e4ecc8b1f7d966": 1}}
+{"query_id": "query-ac1d66624b8351f120d66dfa", "qrels": {"page-8d55f751c4b16a8ad0414338": 1}}
+{"query_id": "query-eeb60e32ec266a292562fbbe", "qrels": {"page-58ebaf0f2a34446dc20372d8": 1}}
+{"query_id": "query-6f448494815c0b8f9d4f19c8", "qrels": {"page-8e28a3bddbdc820791e3cefa": 1, "page-a6230f45530f6e27d374b792": 1, "page-4572d07ce638858471d81eff": 1, "page-dedbf6f79390f9ea61434f1a": 1, "page-ecbde3bc10af179d9584568d": 1, "page-0f5817b0bad38c43874702de": 1, "page-eb97f6e346039beae742bc25": 1, "page-025cc04b0303fd857479167d": 1}}
+{"query_id": "query-f0fdccd3acd00250887c0410", "qrels": {"page-6cabe7688786b9e8080c8d23": 1}}
+{"query_id": "query-9a4e8cde12f4b0bad3c7cdd1", "qrels": {"page-e5cb2d39c1d0fa0fef780456": 1}}
+{"query_id": "query-ff3f67ac93c8d4d8037a9af8", "qrels": {"page-fa1857017bc797b118789ef1": 1}}
+{"query_id": "query-c39c7d4942757749f1c12c49", "qrels": {"page-744c8077d1c2c1c0ba82186b": 1}}
+{"query_id": "query-4bf323d1b7f4b65373a1269b", "qrels": {"page-6afa51129ed8159e7b413af6": 1, "page-2d2878fe3fef52d5da5c0fa3": 1, "page-8eb984e98dd0bcc81acaee0e": 1, "page-f5dcdf095957555e7561052c": 1}}
+{"query_id": "query-8699c820b3fbf50eedd92f07", "qrels": {"page-2ffa6963805767722689805a": 1}}
+{"query_id": "query-0af0991693420e903decea68", "qrels": {"page-a5879a5392b15293f7356ee1": 1, "page-7f52ec1817019f2704b86777": 1}}
+{"query_id": "query-006559f7012ea9f4ca5e3391", "qrels": {"page-713319be030c5cfd1bf868ef": 1}}
+{"query_id": "query-28ffa4e5db65eb2e6c3e02e0", "qrels": {"page-d5da61da4df16046be312e6a": 1}}
+{"query_id": "query-17c75d5cbb556b82add32a73", "qrels": {"page-2a8b27f37fa268fffa039658": 1}}
+{"query_id": "query-270cff33474f9958cc5148c5", "qrels": {"page-239823eed165360ff1502177": 1, "page-83f0b42a4d544b26a788bb23": 1}}
+{"query_id": "query-c14249c12ce35806997bb7e0", "qrels": {"page-5551222aaa073dbafd944782": 1}}
+{"query_id": "query-2ffa5c356858c0624ae1075a", "qrels": {"page-dcfde7995901ed876e616557": 1, "page-d7589d8579151da27c4c83db": 1}}
+{"query_id": "query-39782943d4650aa680f6e088", "qrels": {"page-db69e67d0b2804a8846e8bfe": 1, "page-bbca78a04bfc12f593538f7f": 1, "page-dc3f4441108685e567cb46f4": 1, "page-709edbbbf7b497301a819dbd": 1}}
+{"query_id": "query-b56509542420c1f5de5f78f8", "qrels": {"page-7b53e9698f2f8282efe074bc": 1}}
+{"query_id": "query-e53679e6f807f9a793638e8a", "qrels": {"page-af1f8845b37e87d72e6ac787": 1, "page-3d174cae44479cec54ce3fa3": 1}}
+{"query_id": "query-ea37bfe1eca512e62bb6fd3c", "qrels": {"page-ef2951771bfbd84871f9ae04": 1, "page-ab7f65058688ff90ee003d6a": 1}}
+{"query_id": "query-cd5461d6adce2885ff13c4e9", "qrels": {"page-ed9bdcaf47bb29127d985714": 1}}
+{"query_id": "query-91f00755b8415dde3f85d7b8", "qrels": {"page-64b6c373a234ab8f99bcd38f": 1}}
+{"query_id": "query-a60d34e1a13cff7d8fa5933b", "qrels": {"page-9f87b12f436fb5e1d352fa43": 1}}
+{"query_id": "query-eacf148997ed3c8d907b1f0f", "qrels": {"page-6938958a382f1908ac320c6c": 1, "page-d804081dd5e4567f91f3a48c": 1, "page-4510bbe304ca02e7c9f05e62": 1}}
+{"query_id": "query-5697f622a2bba8915bded197", "qrels": {"page-7ad7a23e67e777d3faa8ce3d": 1, "page-9f87b12f436fb5e1d352fa43": 1}}
+{"query_id": "query-433804020eb88f76a2de3eaa", "qrels": {"page-7fccf1bd314d32602ea5132f": 1}}
+{"query_id": "query-dd567f608f5c4a9bb0b8525b", "qrels": {"page-f98bc53ec96e4a27500b0b89": 1, "page-52d5fbe52255617ba57ca5cc": 1}}
+{"query_id": "query-887a9efea61496e937b67401", "qrels": {"page-53f97b23ad4e9ff6b33b9e28": 1, "page-bc926abb201e36fbc85952d5": 1, "page-933985c93ab1fb2c60ff3693": 1}}
+{"query_id": "query-8119c0df2b468508c9294672", "qrels": {"page-13da697c3f8ce3cdf6a567b9": 1}}
+{"query_id": "query-ae9a3edcb3458d9d843f460f", "qrels": {"page-6ebc77a9807efd4c1351295f": 1}}
+{"query_id": "query-fd04731a0e26c87fcf4d74d0", "qrels": {"page-6ebc77a9807efd4c1351295f": 1}}
+{"query_id": "query-f27f1e46102dd9e7b76623fc", "qrels": {"page-5fd2cfb6da031769c96de1a7": 1}}
+{"query_id": "query-cab2767963439656b46f47cf", "qrels": {"page-5fd2cfb6da031769c96de1a7": 1, "page-9bad3855b2311f0c88bc7ce3": 1}}
+{"query_id": "query-652225d37d26d1cf252a42f5", "qrels": {"page-652fde7d167541643e5ab624": 1, "page-3149c0a67605c37b0c8159df": 1}}
+{"query_id": "query-5a30cc0a6682f6326cbcd73e", "qrels": {"page-8251a8f0ecfbd305bb405ed8": 1}}
+{"query_id": "query-c68fd2f94bf2820111d70206", "qrels": {"page-804333597a556b0de01a959a": 1}}
+{"query_id": "query-bfc71e0628f8e60cd00e34d5", "qrels": {"page-e672b90518f1b92c0dd9396b": 1, "page-d16e3c1bd911d222b21a515c": 1, "page-b7fc7edcf56afb8b16dcb425": 1, "page-8e647eb3b17bdd04dff6ccfc": 1, "page-60bcb9cba7ff89390c66e93c": 1, "page-986beeed499e5ff924f6d5c9": 1, "page-fe44c8464b4bc6f479bd4bf7": 1, "page-1bd5336f13450d27f6edeb95": 1, "page-6b7e4cd13edfcf8b463cc08f": 1}}
+{"query_id": "query-7ba43e1146fb56a695cbce48", "qrels": {"page-00bc7300ff430820a6f9780c": 1, "page-d9e5fbba225c9053f49121b3": 1, "page-62606ce46147556dbdbc578f": 1, "page-c285678713348b47b57ae313": 1, "page-f7c2b371a54933673aae8819": 1}}
+{"query_id": "query-e4dee45a9b9151ac084310de", "qrels": {"page-7009c288ee28a691bfbfcd37": 1, "page-57e37f06d6d29776bc2eef11": 1}}
+{"query_id": "query-3fd9c0613c0ba49ee3ad94aa", "qrels": {"page-8604f473127600192ecbdf06": 1}}
+{"query_id": "query-02273075733dc6307a6932c4", "qrels": {"page-8604f473127600192ecbdf06": 1}}
+{"query_id": "query-31d3eb95f5bb2aacc5e38f85", "qrels": {"page-73edbc1601db6cd993ff3615": 1}}
+{"query_id": "query-92f93bf637997a8bd7fb2871", "qrels": {"page-03f8eaef7f4dc89b4f9208b1": 1, "page-66d059329bea3d07fde1991d": 1}}
+{"query_id": "query-93e2f8d2c9c402a33267be8b", "qrels": {"page-f4eb2f612b80d1e574a80b0b": 1}}
+{"query_id": "query-ebda32386880a034306c6af0", "qrels": {"page-66d059329bea3d07fde1991d": 1, "page-6864670cf426ac784c1959a7": 1}}
+{"query_id": "query-f9ae83d518d96692f13edc33", "qrels": {"page-997d6a7bff1ebc83e5b141af": 1, "page-e1619c34c6daddd25fd847c7": 1}}
+{"query_id": "query-ce44c6a3107a4a50dc562711", "qrels": {"page-54f3e11243415cb5d180bd21": 1}}
+{"query_id": "query-326c731a607d90ccf4b83846", "qrels": {"page-54f3e11243415cb5d180bd21": 1, "page-bb4aeb5c1c5840e00d79786e": 1, "page-dccb11136698f95cfd11f7b6": 1, "page-3d96a337a5ddfb704d61666a": 1}}
+{"query_id": "query-fba522cdb2ff565a874a917f", "qrels": {"page-924627f36b308f2a9debb36a": 1, "page-07b8a459516e209b3641bf10": 1}}
+{"query_id": "query-687560a5a2082575b1b27c52", "qrels": {"page-ffd1ccd10e858648d99c62ab": 1, "page-1651b6039d9d81d1e294d6d8": 1}}
+{"query_id": "query-44bc8da991be419769347276", "qrels": {"page-a45a97ae5d0386ae0f96d8e8": 1}}
+{"query_id": "query-88e75675e7e29d2f807fd6b1", "qrels": {"page-70e445413bd03ab8f32bd533": 1}}
+{"query_id": "query-b10cec6c7cd0acfc1f36910f", "qrels": {"page-ea2e390da0da9f49931ff1c2": 1}}
+{"query_id": "query-4182a1491aa0f04f66d6f52e", "qrels": {"page-5ceaeb1059d865f6575c1935": 1, "page-be56eb33c3b0679b0f2540b2": 1}}
+{"query_id": "query-a241a7e1a885b1b35fb3699f", "qrels": {"page-436685e6494c3b1fb921c9d4": 1}}
+{"query_id": "query-077066d3502cf33f7d068676", "qrels": {"page-f880f571b39448caa4efe8a7": 1}}
+{"query_id": "query-db14e95886db57b7cd3c8f66", "qrels": {"page-dff742ea21a08a56a8d752b9": 1}}
+{"query_id": "query-1d957d548718a04911c32e2e", "qrels": {"page-a8eca1cf811ee2fa6ea910f0": 1}}
+{"query_id": "query-87d85d47c7f85dd7df0a66a8", "qrels": {"page-44da3e8d2d1cac1118986c68": 1}}
+{"query_id": "query-5ed658036cdf761322d3c7e0", "qrels": {"page-af62675bb53e2aeacaae25ed": 1}}
+{"query_id": "query-7ba33e15090cae5b24e489c7", "qrels": {"page-d4687089944e7a440633c6b3": 1}}
+{"query_id": "query-8f6e26f135dc9511f5736b25", "qrels": {"page-3054a9242c3c73afe6684e4f": 1}}
+{"query_id": "query-addddb45cae376925dd9b2d6", "qrels": {"page-13040eabb30cf85abf0db242": 1, "page-a1b363bef846c762663977d3": 1}}
+{"query_id": "query-d60d7e88c4db91b066b45e61", "qrels": {"page-ce7c0b490402fbe563635475": 1, "page-02d81f7e8a701ffc59e49934": 1}}
+{"query_id": "query-2a5e889b48c9835876b852ae", "qrels": {"page-ce7c0b490402fbe563635475": 1, "page-02d81f7e8a701ffc59e49934": 1}}
+{"query_id": "query-18709098431ca25dc5698b7a", "qrels": {"page-0fa3b5948822451f5c23cfdd": 1, "page-3660cb530fc121c760c41b54": 1, "page-0b26e26108a27370884d3418": 1, "page-b33ecc0da8ef4313dc839cda": 1, "page-a5d6b305ea23c1cd1a527ba1": 1, "page-b6936cc1bd0cd5fb11384860": 1, "page-a68b953ae64b7f4538dd60d1": 1, "page-e0844b97cc14430945d122be": 1}}
+{"query_id": "query-f30f4a152ca3825b55a6616f", "qrels": {"page-b86e0b624339db1fd886dbd7": 1, "page-a1b363bef846c762663977d3": 1}}
+{"query_id": "query-ca2ebb95d9e269a854eed60c", "qrels": {"page-c30eaa8fd089c065efdafb8c": 1, "page-5fd3bffaa74dbbe33243aa3d": 1}}
+{"query_id": "query-dd5b39ee7cc3aa8112832d88", "qrels": {"page-2551b56dd8e752c7e2309795": 1, "page-aac3a962142acc19539f2a0c": 1, "page-c171b790bd46476ee7bc075d": 1, "page-9ad3deba6e55078bdd73814c": 1, "page-73e38c6a03be28bf1eaac1c5": 1}}
+{"query_id": "query-06f1302a0d8ee7d45ac1132b", "qrels": {"page-8238985c6776a628701ef3b7": 1, "page-c6aa8c877da54199ee9a7dfc": 1, "page-383d412d65a4dbf43a3f1a80": 1}}
+{"query_id": "query-de25a17fed015c54138ba1ca", "qrels": {"page-d5b43c7cbf105b5623ea2ded": 1}}
+{"query_id": "query-48131c1ab4fca8330770bacc", "qrels": {"page-c41b3770fe64992146767c5a": 1}}
+{"query_id": "query-6d77fc3191b58da0d85aa3ec", "qrels": {"page-f264479f3a6721079fe3c638": 1}}
+{"query_id": "query-49159c5034a84002e9c4ac9d", "qrels": {"page-98cd63d239e9ed33c4ce554d": 1}}
+{"query_id": "query-49c2e5c514dc98db83d2da0c", "qrels": {"page-4263b59f36360d74dfbc2f3f": 1}}
+{"query_id": "query-88ab3995f59655b98d569929", "qrels": {"page-41071ed5ea55c2e1444df187": 1, "page-98cd63d239e9ed33c4ce554d": 1, "page-17e148f89390e031d4e37beb": 1, "page-ed456c68c338ac5d965aa9bb": 1, "page-e00fdbd4de473f37f7812506": 1}}
+{"query_id": "query-767f7d4a618432c25b618af6", "qrels": {"page-2eb83f875d747e24c48deb96": 1, "page-b98ed9c4f59166909c1e5118": 1}}
+{"query_id": "query-dfe0647f81c7f533c7a8a488", "qrels": {"page-98cd63d239e9ed33c4ce554d": 1, "page-ed456c68c338ac5d965aa9bb": 1}}
+{"query_id": "query-5dd526d322d42d88a4b97e32", "qrels": {"page-2683f2e8147827ab328ae46d": 1, "page-b856d7a7b0bf631568886c9e": 1}}
+{"query_id": "query-4eeb920043f3fc8ba50960cd", "qrels": {"page-e98abd7a55f07fba79694937": 1}}
+{"query_id": "query-be4cf73cca710ecf8baed473", "qrels": {"page-6ede51cd16c8a6ec99751952": 1}}
+{"query_id": "query-eaa90efe8d2be4cae60ff941", "qrels": {"page-2c9f78d82faef09afaa69425": 1}}
+{"query_id": "query-7767c5b4e7760a14400dd8e7", "qrels": {"page-0e2807d758a44497285904dc": 1}}
+{"query_id": "query-28fa4c40c5e885389990e4cd", "qrels": {"page-a9d8f633917b3a9d245c2c45": 1}}
+{"query_id": "query-4619213135281a8dff8b121b", "qrels": {"page-dd654ec64b37499d7dac939a": 1, "page-5d4ee1be6e0c47fa83da6a90": 1, "page-8690d13d59628bc7d9085a8d": 1, "page-b1c1684bd8ed09ef35b4c3e3": 1, "page-6b19b3fea7ed0b52b55b181e": 1, "page-9e76ec05c82eaf7d4b679efd": 1}}
+{"query_id": "query-cd983ddafaaac61fa9b18687", "qrels": {"page-76851cf58a27d29ae0f91a05": 1}}
+{"query_id": "query-af5dd1ea68dd4c66294a5c70", "qrels": {"page-76851cf58a27d29ae0f91a05": 1}}
+{"query_id": "query-27360f1cca5fde45eabe4074", "qrels": {"page-a9d8f633917b3a9d245c2c45": 1}}
+{"query_id": "query-ebcbfc6080cd31b9aa886fdf", "qrels": {"page-45535aec08ad62686be1ad9b": 1}}
+{"query_id": "query-83e8bbc94fc3a22dd5b4cfe1", "qrels": {"page-45535aec08ad62686be1ad9b": 1, "page-0c9ad59061a42f679455c559": 1, "page-a0df1c8c32a4c239bc04012d": 1, "page-85be2c040ef25529ab79300a": 1}}
+{"query_id": "query-9f9a0370ed10bcec1c67ed0f", "qrels": {"page-caec6af6f5ea02716c069cc1": 1}}
+{"query_id": "query-0b483013ab3cbbcba0c223b0", "qrels": {"page-caec6af6f5ea02716c069cc1": 1}}
+{"query_id": "query-4bf650ff6052d599177cc621", "qrels": {"page-e42aeb904bc0cb2c489757b2": 1}}
+{"query_id": "query-08f2ee2ba78c9268015644dc", "qrels": {"page-3df55910b37dcf19273006fb": 1}}
+{"query_id": "query-e798f0dee8f50d93be512253", "qrels": {"page-0ea860dff629557dfe938a44": 1}}
+{"query_id": "query-074b4a49fd5dc087af35abd9", "qrels": {"page-6cdaf4ed3b94eddc1c18ca6d": 1}}
+{"query_id": "query-767b87ec3ba46bcab5c99f04", "qrels": {"page-2f08b04f060a4f465b42b579": 1}}
+{"query_id": "query-a588eefc7d3ecf046418a190", "qrels": {"page-e97a78b61f0f98bea0b543c7": 1}}
+{"query_id": "query-9b95c0dd8dbfde228ec0462b", "qrels": {"page-6be33cd3a9d286da924774ee": 1, "page-e5993dc2be666c482dd861e7": 1}}
+{"query_id": "query-b9aee812c966601ea4c196d6", "qrels": {"page-5703476ef94950d85688b480": 1}}
+{"query_id": "query-a148efaa2ffacbabdec5ef88", "qrels": {"page-5703476ef94950d85688b480": 1}}
+{"query_id": "query-85c42eb656cc900eb17c434f", "qrels": {"page-2ffef47d7cc7549c8d3148af": 1, "page-3aeeb1c79e2d133a78aaa093": 1, "page-36e87485bf6f9e4655d289d0": 1}}
+{"query_id": "query-2164700d59b80ef53f5c32dc", "qrels": {"page-727d4508b32ee5aafde1bb07": 1}}
+{"query_id": "query-73786015f00b99b22c65c7b9", "qrels": {"page-c3625069a2512be08c1ef963": 1}}
+{"query_id": "query-d26085ad96ba09dbd0ca8da6", "qrels": {"page-d3de538d7ffa392160c91195": 1, "page-b8895ab2399b47f1fd5a5a1a": 1}}
+{"query_id": "query-766f34e55e4ed2560aa6b516", "qrels": {"page-bb3dd0b65d73a5714533dd46": 1}}
+{"query_id": "query-61588f7a6e8c76806f4db648", "qrels": {"page-c016d0e9988bc32692e4efb7": 1}}
+{"query_id": "query-24dcc060c75f588ad398b118", "qrels": {"page-f98bc53ec96e4a27500b0b89": 1}}
+{"query_id": "query-fc23954b4eaafa5ba8901940", "qrels": {"page-587f5ecb0f66099091e86dfa": 1}}
