@@ -129,8 +129,12 @@ An incomplete audit is an infrastructure failure.
 
 The trajectory audit uses `deepseek/deepseek-v4.1-flash` via OpenRouter through
 pinned RewardKit 0.2.0. Evidence and answer judging use the separately configured
-`ANSWER_JUDGE_MODEL_NAME`. Provider credentials stay in trusted parent processes;
-submission and audit workers receive only their restricted API transports.
+`ANSWER_JUDGE_MODEL_NAME`. Submitted build, search and answer processes receive
+restricted API transports rather than provider credentials. The separate,
+non-root trajectory-audit process holds its own model credential. Its shell-tool
+environment filters credential variables, and an inherited Landlock policy
+limits filesystem access to read-only audit inputs and runtime files, with
+writes confined to audit state and output directories.
 
 ## Running This Task
 
