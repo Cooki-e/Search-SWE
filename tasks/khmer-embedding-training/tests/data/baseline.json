@@ -11,6 +11,6 @@
     "backbone": "020afdebf2762b29fcaf286629a96c3b3b65af241f6a08226b1cfee60a21def6",
     "evaluator": "47476fb4bee549994e8bf0acca5089c3a69ae0c8541943c734a93c33b3e39e30",
     "metrics": "68365b23ada5d192f8219c8a094075c448d07256220158f480e025d989351c24",
-    "checkpoint_validator": "5bd0917fbeff2efe6c8c15d0e006c20843b741009e7e837c9c3e1f5b8f8c6fd9"
+    "checkpoint_validator": "07951ec760717ac0d609360b8f939348b440ee6835c20dc19dbe2cd0185ecadf"
   }
 }

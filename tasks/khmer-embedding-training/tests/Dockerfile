@@ -24,7 +24,8 @@ RUN useradd --create-home --uid 10001 --user-group submission \
 
 COPY . /tests/
 RUN install -d -m 0755 /opt/task-runtime \
-    && install -m 0755 /tests/offline_exec.py /opt/task-runtime/offline_exec.py
+    && install -m 0755 /tests/offline_exec.py /opt/task-runtime/offline_exec.py \
+    && install -m 0755 /tests/evaluation/checkpoint.py /opt/task-runtime/check_checkpoint.py
 
 RUN chmod 700 /tests \
     && chmod 700 /tests/test.sh

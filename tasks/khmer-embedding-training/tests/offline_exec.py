@@ -4,7 +4,23 @@ import ctypes
 import errno
 import os
 import socket
+import stat
 import sys
+
+
+def close_inherited_descriptors():
+    """Keep ordinary stdio, but do not carry network sockets across exec."""
+    for fd in (0, 1, 2):
+        try:
+            network_socket = stat.S_ISSOCK(os.fstat(fd).st_mode)
+        except OSError:
+            continue
+        if network_socket:
+            null = os.open(os.devnull, os.O_RDONLY if fd == 0 else os.O_WRONLY)
+            os.dup2(null, fd)
+            if null > 2:
+                os.close(null)
+    os.closerange(3, os.sysconf("SC_OPEN_MAX"))
 
 
 def restrict_network():
@@ -81,5 +97,6 @@ def restrict_network():
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         raise SystemExit("Expected executable and arguments")
+    close_inherited_descriptors()
     restrict_network()
     os.execv(sys.argv[1], sys.argv[1:])

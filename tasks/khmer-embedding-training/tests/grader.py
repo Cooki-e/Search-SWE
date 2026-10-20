@@ -86,6 +86,7 @@ def run_stage(user, argv, work, log, timeout):
         user,
         "--",
         "/opt/conda/bin/python",
+        "-I",
         "/opt/task-runtime/offline_exec.py",
         *map(str, argv),
     ]
@@ -96,7 +97,8 @@ def run_stage(user, argv, work, log, timeout):
             log.with_suffix(".stderr.log").open("w") as err,
         ):
             completed = subprocess.run(
-                command, env=env, cwd=work, stdout=out, stderr=err, timeout=timeout
+                command, env=env, cwd=work, stdout=out, stderr=err,
+                stdin=subprocess.DEVNULL, close_fds=True, timeout=timeout
             )
         if completed.returncode:
             raise SubmissionError(
@@ -245,11 +247,24 @@ def main():
         except (OSError, ValueError, KeyError) as exc:
             raise SubmissionError("Invalid embedding checkpoint: " + str(exc)) from exc
         root = Path(tempfile.mkdtemp(prefix="khmer-eval-", dir="/run"))
+        root.chmod(0o711)
+        checkpoint_work = root / "checkpoint"
+        stage_directory(checkpoint_work, "submission")
+        checkpoint_seconds = run_stage(
+            "submission",
+            [
+                "/opt/conda/bin/python", "-I",
+                "/opt/task-runtime/check_checkpoint.py", "--load-standard",
+                APP / "submission/model",
+            ],
+            checkpoint_work, LOG / "checkpoint-load", 300,
+        )
         results, pipeline = run_pipeline(APP, CORPUS, queries, root, LOG, CONTRACT)
         try:
             result = score_results(CORPUS, queries, answers, results)
         except (ValueError, TypeError, KeyError) as exc:
             raise SubmissionError("Invalid retrieval output: " + str(exc)) from exc
+        result["checkpoint_load_seconds"] = checkpoint_seconds
         result["pipeline"] = pipeline
         result["executable_gate"] = True
         result["baseline_recall@20"] = baseline["recall@20"]
