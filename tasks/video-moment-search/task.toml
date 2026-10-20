@@ -1,0 +1,36 @@
+schema_version = "1.4"
+artifacts = ["/app", "/logs/agent/trajectory.json"]
+[task]
+name = "search-swe/video-moment-search"
+version = "0.5.0"
+description = "Build temporal search over fixed video representations."
+authors = [{ name = "Haoran Jin" }]
+keywords = ["video", "moment-retrieval", "temporal", "gpu"]
+[metadata]
+dataset = "Charades-STA and ActivityNet Captions, pinned Lighthouse feature release"
+primary_metric = "SourceMacroGridUtility"
+iou_thresholds = [0.5, 0.7, 0.9]
+public_query_count = 5
+hidden_query_count = 450
+[agent]
+timeout_sec = 21600.0
+user = "root"
+network_mode = "no-network"
+[verifier]
+timeout_sec = 12000.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai"]
+[verifier.env]
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+os = "linux"
+network_mode = "no-network"
+cpus = 8
+memory_mb = 32768
+storage_mb = 102400
+gpus = 1

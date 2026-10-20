@@ -1,0 +1,47 @@
+schema_version = "1.4"
+artifacts = ["/app", "/logs/agent/trajectory.json"]
+[task]
+name = "search-swe/evolving-personal-memory"
+version = "1.0.4"
+description = "Build a personal-memory search and answering system over long conversation histories."
+authors = [{ name = "Haoran Jin" }]
+keywords = ["memory", "retrieval", "conversation", "question-answering"]
+[metadata]
+dataset = "Memora"
+primary_metric = "FAMA"
+public_example_count = 5
+hidden_query_count = 595
+record_count = 27614
+max_retrieved_records = 350
+[agent]
+timeout_sec = 7200
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+[verifier]
+timeout_sec = 21600
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+[environment]
+build_timeout_sec = 1800
+workdir = "/app"
+cpus = 8
+memory_mb = 32768
+storage_mb = 102400
+gpus = 0
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+os = "linux"
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+[verifier.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"
+MEMORA_JUDGE_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"
+MEMORA_JUDGE_BASE_URL = "https://openrouter.ai/api/v1"
+MEMORA_JUDGE_MODELS = '["deepseek/deepseek-v4.1-flash", "qwen/qwen3.6-35b-a3b", "qwen/qwen3.5-9b"]'

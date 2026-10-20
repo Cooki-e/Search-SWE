@@ -1,0 +1,20 @@
+Build a search system that locates the time interval matching a natural-language description within a specified video.
+
+The supplied videos are represented by frozen frame vectors at `/task/data/corpus/`. Its `records.jsonl` contains `video_id`, `duration` in seconds, `feature_path` and `grid_path`. Paths are relative to that directory. Each feature row corresponds to one successive interval between adjacent time-grid endpoints. The video vectors were generated with CLIP ViT-B/32. The same fixed image and text encoder is available at `/task/models/clip/`; raw video files are not supplied.
+
+Create executable `/app/build.sh` and `/app/run.sh` and their supporting files under `/app`:
+`/app/build.sh --corpus /task/data/corpus --index-dir /work/index` `/app/run.sh --index-dir /work/index --queries /work/input/queries.jsonl --output /work/output/results.jsonl`
+
+Each input JSONL row contains `query_id`, `video_id` and `description`, the original natural-language description. For each input row return the same `query_id` and numeric `start` and `end` values in seconds. Return exactly one nonempty interval whose endpoints belong to that video's supplied grid. Write diagnostics to stderr.
+
+Public training requests and interval labels are at `/task/data/training/queries.jsonl` and `/task/data/training/labels.jsonl`. Five validation requests and their labels are at the corresponding paths under `/task/data/validation/`. Labels contain `query_id`, `video_id` and `windows`, a list of acceptable start/end pairs. The remaining requests and labels are not provided.
+
+The environment has 8 CPU cores, 32 GiB RAM, 100 GiB storage and one 40 GiB GPU. Development has a six-hour budget. The supplied encoders are fixed. An optional temporal/scoring component may have up to 5 million trainable parameters and use up to 45 minutes of training. Per request, at most 64 candidate intervals may receive learned or token-level fine scoring; inexpensive frame-level screening and boundary proposals are allowed. Index construction has up to 60 minutes, and query calls follow the workload below. Calls may be repeated with different input files.
+
+Process each request independently. Data, models and documentation are read-only. Put all other required runtime files under `/app`. Read `/task/docs/environment.md` and `/task/docs/available_resources.md`.
+
+During verification, build and query commands run as a non-root user with `/app` and supplied inputs read-only. The passed index directory already exists and is writable during construction, but its parent directory is not writable. Create build files and temporary directories inside the index directory or the supplied `TMPDIR`; do not create siblings or rename the index directory itself. The completed index becomes read-only for retrieval. Query results, caches and temporary files belong in the writable output directory or the supplied `TMPDIR` and `XDG_CACHE_HOME`. Honor the passed paths rather than writing to `/app` or assuming a writable system temporary directory.
+
+The system must handle workloads of up to 500 requests in 2 calls of at most 250 requests. Each call has an independent 2,700-second allowance; time used by one call does not reduce another. Completed valid JSONL rows remain usable if a query call times out; missing or malformed rows are unsuccessful. A failed query command other than a timeout invalidates that call.
+
+You may use the public examples to implement and check the complete build and query path during development. Include all required implementation files under `/app` so the system runs after a fresh start with the supplied inputs.

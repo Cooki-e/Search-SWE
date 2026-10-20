@@ -1,0 +1,50 @@
+schema_version = "1.4"
+artifacts = ["/app", "/logs/agent/trajectory.json"]
+
+[task]
+name = "search-swe/financial-report-qa"
+version = "1.0.1"
+description = "Retrieve supporting evidence and its original positions across a shared library of complete financial reports."
+authors = [{ name = "Haoran Jin" }]
+keywords = ["financial-reports", "retrieval", "evidence-localization"]
+
+[metadata]
+dataset = "DocFinQA full reports aligned with original FinQA gold_inds"
+primary_metric = "EvidenceRecall@5"
+corpus_report_count = 885
+public_query_count = 5
+hidden_query_count = 4236
+
+[agent]
+timeout_sec = 7200.0
+user = "root"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[verifier]
+timeout_sec = 12000.0
+user = "root"
+environment_mode = "separate"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+
+[environment]
+build_timeout_sec = 1800.0
+workdir = "/app"
+cpus = 8
+memory_mb = 32768
+storage_mb = 102400
+gpus = 0
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai", "api.jina.ai"]
+os = "linux"
+
+[environment.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+
+[verifier.env]
+OPENROUTER_API_KEY = "${OPENROUTER_API_KEY:-}"
+JINA_API_KEY = "${JINA_API_KEY:-}"
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"

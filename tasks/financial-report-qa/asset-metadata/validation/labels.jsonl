@@ -1,0 +1,5 @@
+{"query_id": "query-765885", "evidence": [{"evidence_id": "e1", "locations": [{"document_id": "report-0315", "start": 104959, "end": 105000}]}]}
+{"query_id": "query-696301", "evidence": [{"evidence_id": "e1", "locations": [{"document_id": "report-0145", "start": 192265, "end": 192319}]}, {"evidence_id": "e2", "locations": [{"document_id": "report-0145", "start": 191051, "end": 191230}]}]}
+{"query_id": "query-937159", "evidence": [{"evidence_id": "e1", "locations": [{"document_id": "report-0043", "start": 583971, "end": 584011}]}, {"evidence_id": "e2", "locations": [{"document_id": "report-0043", "start": 584079, "end": 584112}]}]}
+{"query_id": "query-265238", "evidence": [{"evidence_id": "e1", "locations": [{"document_id": "report-0027", "start": 315282, "end": 315348}]}]}
+{"query_id": "query-901038", "evidence": [{"evidence_id": "e1", "locations": [{"document_id": "report-0185", "start": 428214, "end": 428259}]}]}

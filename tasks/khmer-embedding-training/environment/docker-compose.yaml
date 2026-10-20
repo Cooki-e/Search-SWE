@@ -1,0 +1,42 @@
+services:
+  main:
+    cpu_period: 100000
+    cpu_quota: 800000
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    volumes:
+      - type: bind
+        source: ../data/corpus.parquet
+        target: /task/data/corpus.parquet
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../models/multilingual-e5-large
+        target: /task/models/multilingual-e5-large
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../data/examples.jsonl
+        target: /task/data/examples.jsonl
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ../models/Qwen3.5-9B
+        target: /task/models/Qwen3.5-9B
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./docs
+        target: /task/docs
+        read_only: true
+        bind:
+          create_host_path: false

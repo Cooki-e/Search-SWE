@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/corpus/licenses/LICENSE-repository.txt",
+      "size_bytes": 11357,
+      "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "source": {
+        "local_path": "asset-metadata/licenses/LICENSE-repository.txt"
+      }
+    },
+    {
+      "path": "data/corpus/licenses/source-data-README.md",
+      "size_bytes": 5295,
+      "sha256": "df93166e707dbd9273f5be01f2ec532949d59c55542fe8fb22d71a2e8c82fc0a",
+      "source": {
+        "local_path": "asset-metadata/licenses/source-data-README.md"
+      }
+    },
+    {
+      "path": "data/corpus/records.jsonl",
+      "size_bytes": 57464224,
+      "sha256": "38516571052ac916c60db7dfd561f8aa27bc48a09d6c637c9efd407b1108bdfe",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "ba49ab6cccbec42042e62e02b66eef30d73ca0c7",
+        "filename": "tasks/evolving-personal-memory/data/corpus/records.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/queries.jsonl",
+      "size_bytes": 981,
+      "sha256": "d3079d688c41c17feee86dac21937f0f6cd1823c9111d3b210a427ccc5d115dd",
+      "source": {
+        "local_path": "asset-metadata/validation/queries.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/labels.jsonl",
+      "size_bytes": 20416,
+      "sha256": "8b29d796108fc618a766482c77ee54c8154ac2917a8a4c7de2f2618c61ed54a2",
+      "source": {
+        "local_path": "asset-metadata/validation/labels.jsonl"
+      }
+    }
+  ]
+}

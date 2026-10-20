@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/corpus/reports.jsonl",
+      "size_bytes": 470982872,
+      "sha256": "a87991aa19c7a9244520c0f2fdf299b83c49cf2aafd95d7b006189256aac05de",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "39235bf2ee2378473af70d245b6d8d329e7920a6",
+        "filename": "tasks/financial-report-qa/data/corpus/reports.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/queries.jsonl",
+      "size_bytes": 936,
+      "sha256": "9cb9cab7e5af3f719fb1c6276698759d974430d6271cbf2f3706f724f74e39f4",
+      "source": {
+        "local_path": "asset-metadata/validation/queries.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/labels.jsonl",
+      "size_bytes": 929,
+      "sha256": "1294e2a713761602f2dc6fd2dcb8f85154e9706951b5f2b44dfd52a6a7bb9e06",
+      "source": {
+        "local_path": "asset-metadata/validation/labels.jsonl"
+      }
+    }
+  ]
+}
