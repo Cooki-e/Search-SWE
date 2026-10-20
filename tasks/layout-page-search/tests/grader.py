@@ -54,6 +54,9 @@ def command(args):
         "--",
         "/usr/bin/setpriv",
         "--no-new-privs",
+        "/opt/conda/bin/python",
+        "-I",
+        "/opt/task-runtime/offline_exec.py",
         *args,
     ]
 
@@ -70,6 +73,8 @@ def run(args, label, timeout):
             env=child_env(),
             stdout=out,
             stderr=err,
+            stdin=subprocess.DEVNULL,
+            close_fds=True,
             start_new_session=True,
         )
         try:
