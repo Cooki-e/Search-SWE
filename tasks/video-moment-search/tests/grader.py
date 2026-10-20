@@ -279,7 +279,7 @@ def main():
                         )
                     window = validate(q, byid[key], pages)
                     value = quality(window, gold[key])
-                except ValueError as exc:
+                except (ValueError, OverflowError) as exc:
                     error = str(exc)
                 rows.append(
                     {

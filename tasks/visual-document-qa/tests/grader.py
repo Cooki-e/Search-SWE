@@ -343,7 +343,7 @@ def main():
                         )
                     answer, pages = validate(q, byid[key], docs)
                     jobs.append((q, gold[key], answer, pages))
-                except ValueError as exc:
+                except (ValueError, OverflowError) as exc:
                     rows.append(
                         {
                             "query_id": key,
