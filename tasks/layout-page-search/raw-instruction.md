@@ -1,0 +1,25 @@
+# Task: Visual-Document Evidence Page Retrieval
+
+## Task Description
+
+I need to locate the pages that support a question about a report's figures, tables or layout, so I can inspect the original material. Build a search system that returns a compact set of supporting pages within the specified document. Include the pages needed to check the request, while avoiding unrelated pages.
+
+## Inputs and Available Validation Data
+
+The page collection is at `/task/data/corpus/`. Its `records.jsonl` lists `page_id`, `domain`, `doc_id`, `page_number`, `image_path`, `markdown`. Paths are relative to that directory. The images are rendered document pages and the text is uniformly extracted from the documents. Local model weights are available at `/task/models/page-encoder/` and its underlying model at `/task/models/vision-backbone/`. These resources are read-only.
+
+Public requests and page-relevance annotations are at `/task/data/validation/queries.jsonl` and `/task/data/validation/labels.jsonl`. Use these examples to check the complete build and query path. The remaining requests and labels are not supplied.
+
+## Expected Artifacts and Interfaces
+
+Provide executable `/app/build.sh` and `/app/run.sh`, with all supporting code and learned files under `/app`. Index construction uses `/app/build.sh --corpus /task/data/corpus --index-dir DIR` and must return successfully within 3,600 seconds. Requests use `/app/run.sh --index-dir DIR --queries JSONL --output JSONL`. Each input row contains `query_id`, `doc_id`, `question`, `domain` and `language`. Return one JSONL object per input, preserving `query_id`, with a `results` list of at most ten distinct pages from the specified document. Each item contains `page_id` and a finite numeric `score`, in nonincreasing score order. No answer text or bounding box is required. Write diagnostics to stderr.
+
+## Environment and Resource Limits
+
+You have six hours for implementation and checking, eight CPU cores, 32 GiB RAM, 100 GiB storage and one 40 GiB GPU. The supplied encoders are fixed. An optional scoring or adaptation component may have up to five million trainable parameters and use up to 45 minutes of training. Per request, query-dependent page-token or region comparisons and learned pairwise scoring may inspect at most 40 candidate pages; corpus-wide text processing, global representations and gallery-only preprocessing are allowed. No external model, dataset or API is available.
+
+## Execution, Permissions and Workload
+
+The query workload contains at most 600 requests in two calls, each with an independent 2,700-second allowance. Completed valid rows remain usable if a call times out; missing or malformed rows are unsuccessful. Honor the supplied paths. The submitted system must work after a fresh start with the same inputs. Before starting, read `/task/docs/environment.md` and `/task/docs/available_resources.md`.
+
+During verification, build and query commands run as a non-root user. The implementation under `/app` and the supplied inputs are read-only. The passed index directory already exists and is writable, but its parent directory is not writable. Create build files, caches and temporary directories inside that index directory or the supplied `TMPDIR`; do not create sibling directories or rename the index directory itself. The index persists and remains writable across query calls. Write results at the passed output path, whose parent directory is writable. Honor `TMPDIR` and `XDG_CACHE_HOME` rather than writing to `/app` or assuming a writable system temporary directory.

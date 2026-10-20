@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": "data/corpus/collection-01.jsonl",
+      "size_bytes": 51155721,
+      "sha256": "f75e6d0b2ea7813d2e6fe997372ebb92f193c27e69a6c6d7fb3b07fad8324efb",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/corpus/collection-01.jsonl"
+      }
+    },
+    {
+      "path": "data/corpus/collection-02.jsonl",
+      "size_bytes": 2135502384,
+      "sha256": "633211a0bf19dd8d6dd1efadb21efa7bd8de0639500c5264def4528ebb6df0d8",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/corpus/collection-02.jsonl"
+      }
+    },
+    {
+      "path": "data/corpus/collection-03.jsonl",
+      "size_bytes": 1640635472,
+      "sha256": "8eeaec3a382beef4516f147ff296559ed86442c597a5c14bd50ab15a2fa32503",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/corpus/collection-03.jsonl"
+      }
+    },
+    {
+      "path": "data/corpus/collection-04.jsonl",
+      "size_bytes": 98958429,
+      "sha256": "ac5d615a28e33fd51109845529f76378e2b6a13a87c703c9427d6c6a19b3acd8",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/corpus/collection-04.jsonl"
+      }
+    },
+    {
+      "path": "data/corpus/collection-05.jsonl",
+      "size_bytes": 47905993,
+      "sha256": "f984bfcec4c4601b6a942d2042c4dbe85bca9d741a59ffe20803322016b4d554",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/corpus/collection-05.jsonl"
+      }
+    },
+    {
+      "path": "data/corpus/collection-06.jsonl",
+      "size_bytes": 278064375,
+      "sha256": "afdab89df4fdbc178ac4a90e81ac683db8c6267ec176c11da254fd7c8f6485bc",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/corpus/collection-06.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/labels.jsonl",
+      "size_bytes": 2380,
+      "sha256": "44f3fad26d5b7a5f5985d50f5fb9499c6babcd35ea86738d38c750f868906cfa",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/validation/labels.jsonl"
+      }
+    },
+    {
+      "path": "data/validation/queries.jsonl",
+      "size_bytes": 42792,
+      "sha256": "cac475e6e6dffce23945d3e82002d1eacd3fdb4d11416c909f2cdb2e5d9ca962",
+      "source": {
+        "repo_id": "search-swe/Search-SWE",
+        "repo_type": "dataset",
+        "revision": "dc952fbffa3c3325db82cc07d7727a7ed868f78e",
+        "filename": "tasks/spoken-query-search/data/validation/queries.jsonl"
+      }
+    },
+    {
+      "path": "models/encoder/config.json",
+      "size_bytes": 655,
+      "sha256": "69137736cab8b8903a07fe8afaafdda25aac55415a12a55d1bffa9f581abf959",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "config.json"
+      }
+    },
+    {
+      "path": "models/encoder/model.safetensors",
+      "size_bytes": 470641600,
+      "sha256": "1a55775f53449dac10a2bcbc312469fac40b96d53198c407081a831f81c98477",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "model.safetensors"
+      }
+    },
+    {
+      "path": "models/encoder/modules.json",
+      "size_bytes": 387,
+      "sha256": "c6e29747481e8b5dd2b58401966aeac910de39092f90cda9a704b1545f902b04",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "modules.json"
+      }
+    },
+    {
+      "path": "models/encoder/sentence_bert_config.json",
+      "size_bytes": 57,
+      "sha256": "948201d8329907aae938fa62f9ceeed53f5694dacc2b87b9f3b78b37ee986529",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "sentence_bert_config.json"
+      }
+    },
+    {
+      "path": "models/encoder/sentencepiece.bpe.model",
+      "size_bytes": 5069051,
+      "sha256": "cfc8146abe2a0488e9e2a0c56de7952f7c11ab059eca145a0a727afce0db2865",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "sentencepiece.bpe.model"
+      }
+    },
+    {
+      "path": "models/encoder/special_tokens_map.json",
+      "size_bytes": 167,
+      "sha256": "d05497f1da52c5e09554c0cd874037a083e1dc1b9cfd48034d1c717f1afc07a7",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "special_tokens_map.json"
+      }
+    },
+    {
+      "path": "models/encoder/tokenizer.json",
+      "size_bytes": 17082730,
+      "sha256": "0b44a9d7b51c3c62626640cda0e2c2f70fdacdc25bbbd68038369d14ebdf4c39",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "tokenizer.json"
+      }
+    },
+    {
+      "path": "models/encoder/tokenizer_config.json",
+      "size_bytes": 443,
+      "sha256": "a1d6bc8734a6f635dc158508bef000f8e2e5a759c7d92f984b2c86e5ff53425b",
+      "source": {
+        "repo_id": "intfloat/multilingual-e5-small",
+        "repo_type": "model",
+        "revision": "614241f622f53c4eeff9890bdc4f31cfecc418b3",
+        "filename": "tokenizer_config.json"
+      }
+    }
+  ]
+}
