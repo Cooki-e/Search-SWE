@@ -237,7 +237,7 @@ def main():
                         )
                     ids = validate(q, byid[key], pages)
                     value = quality(ids, gold[key], groups[key])
-                except ValueError as exc:
+                except (ValueError, OverflowError) as exc:
                     error = str(exc)
                 rows.append(
                     {

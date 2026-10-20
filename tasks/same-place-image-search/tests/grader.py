@@ -291,7 +291,7 @@ def main():
                         )
                     ids = validate(q, byid[key], pages)
                     value = quality(ids, gold[key], junk[key])
-                except (ValueError, TypeError) as exc:
+                except (ValueError, TypeError, OverflowError) as exc:
                     error = str(exc)
                 rows.append(
                     {
