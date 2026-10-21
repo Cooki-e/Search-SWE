@@ -80,12 +80,27 @@ The full schema and invocation details are in [instruction.md](instruction.md).
 ### Search Quality
 
 For each question, compute set F1 between the returned pages and the complete
-original evidence-page set. Quality is mean F1 over 515 held-out questions;
-the report's 0–100 score is 100 times this mean. Domain means are diagnostic.
+original evidence-page set. Quality is mean F1 over 515 held-out questions.
+ Domain means are diagnostic.
 
 The set metric penalizes both missing evidence and extra pages. Returning the
 complete annotated evidence set achieves full per-query credit. It does not
 measure answer accuracy or bounding-box localization.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.5734305608092015` and integer score anchor `a = 20` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

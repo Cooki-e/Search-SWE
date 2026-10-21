@@ -79,11 +79,26 @@ The full schema and invocation details are in [instruction.md](instruction.md).
 For CIRCO, quality is the mean of AP@5, AP@10, AP@25 and AP@50.
 For CIRR, it is the mean of Recall@1, Recall@5, Recall@10 and Recall@50.
 Queries are averaged within each source, then the two source scores receive
-equal weight. The report's 0–100 score is 100 times this quality.
+equal weight.
 
 The source metrics retain their original positive labels. The shared gallery
 and equal weighting of the two sources are this task's adaptation; unlabeled
 alternatives are not treated as newly certified negatives.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.26812065144613684` and integer score anchor `a = 20` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

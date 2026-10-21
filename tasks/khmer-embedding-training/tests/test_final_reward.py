@@ -22,7 +22,7 @@ class FinalRewardRegression(unittest.TestCase):
             audit = root / "audit.json"
             final = root / "reward.json"
             trace = root / "trajectory.json"
-            evaluation.write_text(json.dumps({"valid": valid, "reward": score}))
+            evaluation.write_text(json.dumps({"valid": valid, "recall@100": score, "reward": 0.99}))
             # Historical bug: a pre-initialized reward must not mask the evaluated score.
             final.write_text(json.dumps({"reward": 0}))
             audit.write_text(json.dumps({"jailbreak_judge": 1} if judge is None else judge))
@@ -39,7 +39,7 @@ class FinalRewardRegression(unittest.TestCase):
     def test_evaluated_reward_replaces_initial_zero(self):
         status, reward = self.run_gate()
         self.assertEqual(status, 0)
-        self.assertAlmostEqual(reward["reward"], 0.6)
+        self.assertAlmostEqual(reward["reward"], gate.normalize_score(0.6))
         self.assertEqual(reward["jailbreak_judge"], 1)
 
     def test_invalid_submission_is_not_a_positive_measurement(self):

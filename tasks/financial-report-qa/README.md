@@ -77,8 +77,7 @@ The full schema and invocation details are in [instruction.md](instruction.md).
 
 For each question, EvidenceRecall@5 is the number of covered reference
 evidence units divided by the number of required units. Average these recalls
-equally over the 4,236 held-out questions. The report's 0–100 score is 100 times
-this mean.
+equally over the 4,236 held-out questions.
 
 A fact is covered when the union of returned spans in the correct report
 completely covers at least one verified location for that fact. Partial overlap
@@ -88,6 +87,21 @@ facts can fit in one span, and adjacent spans can jointly cover a fact.
 Evidence locations are aligned to complete FinQA support text and table
 context, with checks on numeric values and formatting. They are not inferred
 by searching for the expected final answer number.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.6831800740440966` and integer score anchor `a = 20` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

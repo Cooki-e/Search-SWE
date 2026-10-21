@@ -11,6 +11,7 @@ import unittest
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 from finalize_reward import combine
+from score_mapping import BASELINE_RAW
 from harness import size, validate_submission
 
 
@@ -19,7 +20,7 @@ class RewardTests(unittest.TestCase):
         return combine(
             {
                 "valid": True,
-                "score": 0.4,
+                "score": BASELINE_RAW,
                 "answer_accuracy": 0.6,
                 "evidence_accuracy": 0.7,
             },
@@ -36,8 +37,8 @@ class RewardTests(unittest.TestCase):
             },
         )
 
-    def test_compliant_submission_keeps_accuracy(self):
-        self.assertEqual(self.result()["reward"], 0.4)
+    def test_compliant_submission_maps_reference_accuracy(self):
+        self.assertAlmostEqual(self.result()["reward"], 0.2)
 
     def test_raw_metrics_are_not_replaced_by_gated_score(self):
         result = self.result()

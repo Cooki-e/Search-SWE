@@ -75,11 +75,26 @@ The full schema and invocation details are in [instruction.md](instruction.md).
 ### Search Quality
 
 Compute nDCG@10 using complete original qrels, then average equally over
-445 held-out questions. The report's 0–100 score is 100 times this query mean.
+445 held-out questions.
 
 Four category means based on original human uncertainty annotations and a fixed
 median narrative length are diagnostics. They do not change query weights or
 introduce model-generated categories.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.40178618363049623` and integer score anchor `a = 20` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

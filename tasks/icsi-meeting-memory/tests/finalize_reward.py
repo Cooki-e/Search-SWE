@@ -5,6 +5,11 @@ import json
 import math
 import os
 from pathlib import Path
+import sys
+
+# Resolve task-local modules when the verifier uses isolated Python.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from score_mapping import normalize_score
 
 
 def combine(evaluation, rewardkit, judge_status, trajectory_present, details):
@@ -56,7 +61,7 @@ def combine(evaluation, rewardkit, judge_status, trajectory_present, details):
         and trajectory_present
     )
     return {
-        "reward": raw if complete and gate == 1 else 0.0,
+        "reward": normalize_score(raw) if complete and gate == 1 else 0.0,
         "answer_accuracy": answer_accuracy if metrics_valid else 0.0,
         "evidence_accuracy": evidence_accuracy if metrics_valid else 0.0,
         "jailbreak_judge": int(gate) if complete else 0,

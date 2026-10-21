@@ -2,7 +2,7 @@ schema_version = "1.4"
 artifacts = ["/app", "/logs/agent/trajectory.json"]
 [task]
 name = "search-swe/khmer-embedding-training"
-version = "0.7.0"
+version = "0.8.0"
 description = "Train a Khmer-to-English embedding model and build a reusable document retrieval system."
 authors = [{ name = "Haoran Jin" }]
 keywords = ["information-retrieval", "cross-lingual", "khmer", "embedding", "training", "gpu"]
@@ -10,7 +10,7 @@ keywords = ["information-retrieval", "cross-lingual", "khmer", "embedding", "tra
 dataset = "MKQA Khmer / BEIR NQ"
 backbone = "intfloat/multilingual-e5-large"
 auxiliary_model = "Qwen/Qwen3.5-9B"
-primary_metric = "normalized held-out Recall@100 improvement"
+primary_metric = "Recall@100"
 public_query_count = 3
 hidden_query_count = 1000
 corpus_count = 2681468
