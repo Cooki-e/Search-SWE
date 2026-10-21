@@ -94,10 +94,24 @@ and lambda is the fraction of criteria that concern forgetting.
 FAMA = max(0, MPA - lambda * (1 - FAA))
 ```
 
-Final quality is mean FAMA over 595 held-out questions; the report's 0–100 score
-is 100 times that mean. Retrieval IDs assemble the answer request and are not a
+Final quality is mean FAMA over 595 held-out questions. Retrieval IDs assemble the answer request and are not a
 separate retrieval-quality metric. Record IDs are not appended to judged answer
 text.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.3712215103709065` and integer score anchor `a = 20` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

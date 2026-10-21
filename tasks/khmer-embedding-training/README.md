@@ -2,7 +2,7 @@
 
 Adapt a supplied embedding backbone and retrieve English documents for Khmer questions.
 
-**Task:** `khmer-embedding-training` · **Metric:** normalized held-out Recall@100 improvement
+**Task:** `khmer-embedding-training` · **Metric:** Recall@100
 
 ## Overview
 
@@ -84,14 +84,22 @@ The full commands and output contract are in [instruction.md](instruction.md).
 
 Recall@100 uses the source answer-token hit rule: a question succeeds when
 at least one of the first 100 retrieved documents contains an accepted answer.
-The task verifier normalizes this quality against the measured original
-checkpoint reference, whose Recall@100 on the same 1,000 questions is 0.279.
+Recall@20 is diagnostic.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.595` and integer score anchor `a = 15` on the 0–100 scale:
 
 ```text
-quality reward = clamp((Recall@100 - 0.279) / (1 - 0.279), 0, 1)
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
 ```
 
-The report's 0–100 score is 100 times this reward. Recall@20 is diagnostic.
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

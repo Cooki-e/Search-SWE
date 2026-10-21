@@ -80,11 +80,26 @@ The full schema and invocation details are in [instruction.md](instruction.md).
 
 Per-query quality is `0.5 × Recall@3 + 0.5 × MRR@3`.
 Average within each of the three description levels, then give the levels
-equal weight. The report's 0–100 score is 100 times this quality.
+equal weight.
 
 Up to ten results are accepted by the interface, but only the first three
 affect the metric. The composite and partial-sketch input are task adaptations;
 they do not reproduce the source paper's reported scores.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.32306763285024154` and integer score anchor `a = 15` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

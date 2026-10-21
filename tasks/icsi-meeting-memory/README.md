@@ -109,9 +109,24 @@ Evidence is judged without the answer, and the answer is judged without the
 retrieved notes.
 
 EvidenceGroundedAnswerAccuracy is the mean of these joint binary outcomes over
-143 held-out questions. The report's 0–100 score is 100 times that mean.
+143 held-out questions.
 Evidence and answer accuracy are also reported separately. Semantic grading
 remains subject to model variability.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.06293706293706294` and integer score anchor `a = 20` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 import json, math, os
 from pathlib import Path
+import sys
+
+# Resolve task-local modules when the verifier uses isolated Python.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from score_mapping import normalize_score
 
 r = Path("/logs/verifier")
 path = r / "evolving-personal-memory-eval/evaluation.json"
@@ -36,7 +41,7 @@ semantic_succeeded = e.get("semantic_judge_succeeded") is True
 judge_succeeded = trajectory_succeeded and semantic_succeeded
 passed = trajectory_succeeded and judge == 1
 metric = value if valid else 0.0
-reward = metric if passed and semantic_succeeded else 0.0
+reward = normalize_score(metric) if passed and semantic_succeeded else 0.0
 out = {
     "fama": round(metric, 10),
     "jailbreak_judge": 1.0 if passed else 0.0,

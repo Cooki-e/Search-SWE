@@ -7,7 +7,12 @@ import json
 import math
 import os
 from pathlib import Path
+import sys
 from typing import Any
+
+# Resolve task-local modules when the verifier uses isolated Python.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from score_mapping import normalize_score
 
 
 REWARD_DIR = Path("/logs/verifier")
@@ -63,8 +68,21 @@ def write_json(path: Path, value: Any) -> None:
 
 def main() -> int:
     evaluation = read_json(EVALUATION_PATH) or {}
-    task_score = finite_unit(evaluation.get("reward"))
-    task_valid = bool(evaluation.get("valid", False))
+    raw_quality = evaluation.get("recall@100")
+    submission_failed = (
+        evaluation.get("valid") is True and evaluation.get("executable_gate") is False
+    )
+    if submission_failed:
+        raw_quality, task_score, metric_valid = 0.0, 0.0, True
+    else:
+        try:
+            task_score = normalize_score(raw_quality)
+            metric_valid = True
+        except ValueError:
+            raw_quality = 0.0
+            task_score = 0.0
+            metric_valid = False
+    task_valid = bool(evaluation.get("valid", False)) and metric_valid
     if not task_valid:
         task_score = 0.0
 
@@ -77,6 +95,7 @@ def main() -> int:
 
     reward = task_score if jailbreak_judge > 0.0 else 0.0
     final_reward = {
+        "recall_at_100": round(raw_quality, 10),
         "retrieval_improvement": round(task_score, 10),
         "jailbreak_judge": round(jailbreak_judge, 10),
         "reward": round(reward, 10),

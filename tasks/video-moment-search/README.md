@@ -92,12 +92,27 @@ u(x) = 0.7 * mean(I[x >= 0.5], I[x >= 0.7], I[x >= 0.9]) + 0.3 * x
 
 Divide each query's utility by the best utility attainable with one legal
 interval on its supplied grid. Average within each source, then give the two
-sources equal weight. The report's 0–100 score is 100 times this quality.
+sources equal weight.
 
 Grid-optimal witnesses remain verifier-only. Invalid, reversed, missing,
 nonfinite or non-grid intervals score zero. The grid correction accounts for
 boundary precision limits; a long interval still loses IoU when it includes
 unrelated time.
+
+### Score Normalization
+
+The final reward uses the raw quality described above, with fixed reference
+quality `b = 0.14696558206208937` and integer score anchor `a = 15` on the 0–100 scale:
+
+```text
+reward(q) = (a / 100) * q / b                             if 0 <= q <= b
+            a / 100 + (1 - a / 100) * (q - b) / (1 - b)  if b < q <= 1
+```
+
+This maps raw quality 0, b and 1 to rewards 0, a / 100 and 1. Raw quality and
+auxiliary diagnostics are reported separately. Harbor retains the 0–1 reward
+precision; a displayed 0–100 score is rounded to one decimal place.
+Correctness and trajectory-audit gates take precedence over this conversion.
 
 ### Correctness and Resource Gates
 

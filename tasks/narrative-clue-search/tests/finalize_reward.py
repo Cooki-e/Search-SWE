@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 import json, math, os
 from pathlib import Path
+import sys
+
+# Resolve task-local modules when the verifier uses isolated Python.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from score_mapping import normalize_score
 
 r = Path("/logs/verifier")
 path = r / "narrative-clue-search-eval/evaluation.json"
@@ -35,7 +40,7 @@ trajectory_succeeded = os.environ.get("SEARCH_SWE_JUDGE_STATUS") == "0" and pars
 judge_succeeded = trajectory_succeeded
 passed = judge_succeeded and judge == 1
 metric = value if valid else 0.0
-reward = metric if passed else 0.0
+reward = normalize_score(metric) if passed else 0.0
 out = {
     "query_mean_ndcg": round(metric, 10),
     "jailbreak_judge": 1.0 if passed else 0.0,
