@@ -14,3 +14,7 @@ RUN npm install --global --ignore-scripts \
     && test "$(pi --version)" = "${SEARCH_SWE_PI_VERSION}" \
     && test "$(claude --version)" = "${SEARCH_SWE_CLAUDE_CODE_VERSION} (Claude Code)"
 RUN claude --help | grep -F "(low, medium, high, xhigh, max)" >/dev/null
+
+COPY query_cpu.c /usr/local/src/search-swe-query-cpu.c
+RUN cc -O2 -Wall -Wextra -Werror /usr/local/src/search-swe-query-cpu.c -o /usr/local/bin/search-swe-query-cpu \
+    && chmod 0755 /usr/local/bin/search-swe-query-cpu

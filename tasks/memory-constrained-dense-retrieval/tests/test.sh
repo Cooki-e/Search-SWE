@@ -12,7 +12,7 @@ install -d -o root -g root -m 0700 "$RESULTS_DIR"
 install -d -o root -g root -m 0700 "$VERIFIER_PRIVATE_DIR"
 
 # Submission writes must stay inside verifier-created index/output paths so the
-# 6 GiB index accounting cannot be bypassed through a home or global temp dir.
+# index accounting cannot be bypassed through a home or global temp dir.
 if [[ -d /home/submission && ! -L /home/submission ]]; then
     chown -R root:root /home/submission
     chmod 0755 /home/submission
@@ -70,6 +70,8 @@ rm -f /logs/verifier/reward.json \
     /logs/verifier/reward.txt \
     /logs/verifier/reward-details.json \
     "$RESULTS_DIR/evaluation.json"
+printf '0\n' > /logs/verifier/reward.txt
+printf '{"reward":0}\n' > /logs/verifier/reward.json
 
 stop_submission_processes() {
     pkill -TERM -u "$SUBMISSION_USER" 2>/dev/null || true

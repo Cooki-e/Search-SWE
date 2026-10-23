@@ -6,8 +6,8 @@ relevance judgments, or remote search results during the formal run.
 
 The task data uses JSONL sparse vectors with opaque document, query, and term
 IDs. Public queries, public relevance judgments, public term statistics, and
-public regression data are available for local testing. Hidden queries and
-hidden relevance judgments are not available to the submission.
+public regression data are available for local testing. Hidden queries are supplied only to the formal search invocation; hidden
+relevance judgments are never available to submission code.
 
 NumPy is installed and may be used through its normal Python API. The formal
 runtime is CPU-only, offline, and does not provide a GPU, transformer model,

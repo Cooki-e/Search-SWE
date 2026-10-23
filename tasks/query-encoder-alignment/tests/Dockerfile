@@ -21,10 +21,11 @@ RUN set -eux; \
 
 RUN useradd --create-home --uid 10001 --shell /bin/bash submission
 
-COPY --chmod=755 test.sh run_evaluation.sh finalize_reward.py /tests/
-COPY --chmod=644 grader.py rewardkit_deepseek.py /tests/
-COPY --chmod=555 starter/ /tests/starter/
-COPY --chmod=600 data/queries.jsonl data/ground_truth.jsonl /tests/data/
-COPY jailbreak_judge/ /audit/jailbreak_judge/
-
-RUN chmod 700 /tests /tests/data /audit
+# One source layer avoids repeated snapshots of the large shared GPU image.
+COPY . /tests/
+RUN chmod 755 /tests/test.sh /tests/run_evaluation.sh /tests/finalize_reward.py \
+        /tests/starter/run.sh /tests/quality_baseline/run.sh \
+    && mkdir -p /audit \
+    && cp -a /tests/jailbreak_judge /audit/ \
+    && chmod 600 /tests/data/queries.jsonl /tests/data/ground_truth.jsonl \
+    && chmod 700 /tests /tests/data /audit

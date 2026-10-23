@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+from quality_baseline.retrieval import exclusions, read_jsonl as read_rows
 
 
 CORPUS_PATH = Path("/task/data/corpus.jsonl")
@@ -20,10 +21,31 @@ QUERIES_PATH = Path("/tests/data/queries.jsonl")
 GROUND_TRUTH_PATH = Path("/tests/data/ground_truth.jsonl")
 REPORT_PATH = Path("/logs/verifier/query-encoder-alignment-eval/evaluation.json")
 EXPECTED_VECTOR_SHA256 = "54c2f4a5a83e43d8ab5569f195c7e478a0807c9018e0749a9f62158656c8cd46"
+EXPECTED_CORPUS_SHA256 = "97fe08496783f71dc21b060d15245c279e4076cbbf9078886f7fafc2d402d4dc"
 TOP_K = 1
 TIME_LIMIT_FRACTION = 0.60
-ACCURACY_BASELINE = 0.31
-ACCURACY_RANGE = 0.69
+QUALITY_VERSION = "ridge-v1"
+BASELINE_LOCK = Path(__file__).parent / "quality_baseline_lock.json"
+
+
+def verify_baseline_lock(accuracy: float, output: Path) -> dict:
+    lock = json.loads(BASELINE_LOCK.read_text())
+    fingerprints = {
+        "version": QUALITY_VERSION,
+        "corpus_sha256": sha256(CORPUS_PATH),
+        "vectors_sha256": sha256(VECTOR_PATH),
+        "queries_sha256": sha256(QUERIES_PATH),
+        "labels_sha256": sha256(GROUND_TRUTH_PATH),
+        "implementation_sha256": sha256(Path(__file__).parent / "quality_baseline/baseline.py"),
+        "retrieval_sha256": sha256(Path(__file__).parent / "quality_baseline/retrieval.py"),
+    }
+    if any(lock.get(key) != value for key, value in fingerprints.items()):
+        raise ValueError("frozen quality baseline version/data fingerprint mismatch")
+    predictions = [(row["query_id"], row["results"][0]["doc_id"]) for row in read_jsonl(output)]
+    digest = hashlib.sha256(json.dumps(predictions, ensure_ascii=False).encode()).hexdigest()
+    if lock.get("prediction_ids_sha256") != digest or lock.get("accuracy_at_1") != accuracy:
+        raise ValueError("quality baseline differs from the frozen calibration")
+    return lock
 
 
 def sha256(path: Path) -> str:
@@ -50,6 +72,8 @@ def read_jsonl(path: Path) -> list[dict[str, Any]]:
 
 
 def load_reference_data() -> tuple[list[str], list[str], dict[str, str]]:
+    if sha256(CORPUS_PATH) != EXPECTED_CORPUS_SHA256:
+        raise ValueError("fixed corpus checksum mismatch")
     corpus_rows = read_jsonl(CORPUS_PATH)
     corpus_ids = [
         str(row.get("id", row.get("_id", row.get("doc_id", ""))))
@@ -94,6 +118,7 @@ def validate_results(
     query_ids: list[str],
     corpus_ids: list[str],
     ground_truth: dict[str, str],
+    excluded: dict[str, set[str]] | None = None,
 ) -> tuple[float, list[int | None]]:
     rows = read_jsonl(path)
     if len(rows) != len(query_ids):
@@ -118,6 +143,8 @@ def validate_results(
                 raise ValueError(f"{path}: {expected_query_id!r} result {position} is not an object")
             doc_id = str(result.get("doc_id", ""))
             score = result.get("score")
+            if excluded and doc_id in excluded[expected_query_id]:
+                raise ValueError(f"{path}: self document or text duplicate for {expected_query_id!r}")
             if not doc_id or doc_id not in corpus_order or doc_id in seen:
                 raise ValueError(f"{path}: invalid or duplicate document ID for {expected_query_id!r}")
             if not isinstance(score, (int, float)) or isinstance(score, bool) or not math.isfinite(float(score)):
@@ -161,8 +188,12 @@ def read_starter_report(path: Path) -> dict[str, Any]:
     return value if isinstance(value, dict) else {}
 
 
-def clamp_reward(accuracy: float) -> float:
-    value = (accuracy - ACCURACY_BASELINE) / ACCURACY_RANGE
+def clamp_reward(accuracy: float, baseline: float) -> float:
+    if not math.isfinite(accuracy) or not 0 <= accuracy <= 1:
+        raise ValueError("invalid candidate accuracy")
+    if not math.isfinite(baseline) or not 0 <= baseline < 1:
+        raise ValueError("invalid quality baseline: A0 must be finite and below 1")
+    value = (accuracy - baseline) / (1 - baseline)
     return max(0.0, min(1.0, value))
 
 
@@ -181,6 +212,7 @@ def main() -> int:
     starter_report_path = Path(os.environ.get("SEARCH_SWE_STARTER_REPORT", "/logs/verifier/query-encoder-alignment-eval/starter-report.json"))
     starter_time_path = Path(os.environ.get("SEARCH_SWE_STARTER_TIME_FILE", "/logs/verifier/query-encoder-alignment-eval/starter-time.txt"))
     candidate_time_path = Path(os.environ.get("SEARCH_SWE_CANDIDATE_TIME_FILE", "/logs/verifier/query-encoder-alignment-eval/candidate-time.txt"))
+    quality_output = Path(os.environ.get("SEARCH_SWE_QUALITY_OUTPUT", "/logs/verifier/query-encoder-alignment-eval/quality.jsonl"))
     execution_error = os.environ.get("SEARCH_SWE_EXECUTION_ERROR", "")
 
     report: dict[str, Any] = {
@@ -196,38 +228,63 @@ def main() -> int:
         "time_limit_seconds": None,
         "time_passed": False,
         "errors": [],
+        "measurement_valid": False,
+        "failure_kind": None,
+        "quality_baseline_version": QUALITY_VERSION,
+        "quality_baseline_accuracy_at_1": None,
+        "normalized_quality": None,
+        "score": 0.0,
     }
 
+    failure_kind = "infrastructure"
     try:
         query_ids, corpus_ids, ground_truth = load_reference_data()
+        excluded = exclusions(read_rows(CORPUS_PATH), read_rows(QUERIES_PATH))
+        if any(ground_truth[q] in excluded[q] for q in query_ids):
+            raise ValueError("ground truth contains an excluded self document")
         report["query_count"] = len(query_ids)
         if execution_error:
+            failure_kind = os.environ.get("SEARCH_SWE_ERROR_KIND", "candidate")
             raise ValueError(execution_error)
         run_path = Path("/app/submission/run.sh")
         if not run_path.is_file() or not os.access(run_path, os.X_OK):
+            failure_kind = "candidate"
             raise ValueError(
                 "missing executable submission entry point: "
                 "/app/submission/run.sh"
             )
 
-        starter_accuracy, starter_ranks = validate_results(
-            starter_output, query_ids, corpus_ids, ground_truth
+        baseline_accuracy, baseline_ranks = validate_results(
+            quality_output, query_ids, corpus_ids, ground_truth, excluded
         )
-        candidate_accuracy, candidate_ranks = validate_results(
-            candidate_output, query_ids, corpus_ids, ground_truth
+        clamp_reward(0.0, baseline_accuracy)
+        report["quality_baseline_lock"] = verify_baseline_lock(baseline_accuracy, quality_output)
+        report["quality_baseline_accuracy_at_1"] = baseline_accuracy
+        report["quality_baseline_hit_at_1_count"] = sum(rank == 1 for rank in baseline_ranks)
+        starter_accuracy, starter_ranks = validate_results(
+            starter_output, query_ids, corpus_ids, ground_truth, excluded
         )
         starter_elapsed = read_duration(starter_time_path)
         candidate_elapsed = read_duration(candidate_time_path)
+        failure_kind = "candidate"
+        candidate_accuracy, candidate_ranks = validate_results(
+            candidate_output, query_ids, corpus_ids, ground_truth, excluded
+        )
         time_limit = starter_elapsed * TIME_LIMIT_FRACTION
         time_passed = candidate_elapsed <= time_limit
 
         if sha256(VECTOR_PATH) != EXPECTED_VECTOR_SHA256:
             raise ValueError("fixed corpus vectors changed during evaluation")
 
-        reward = clamp_reward(candidate_accuracy) if time_passed else 0.0
+        normalized_quality = clamp_reward(candidate_accuracy, baseline_accuracy)
+        reward = normalized_quality if time_passed else 0.0
         report.update(
             {
                 "valid": time_passed,
+                "measurement_valid": True,
+                "normalized_quality": normalized_quality,
+                "score": 100 * reward,
+                "failure_kind": None if time_passed else "candidate_runtime",
                 "reward": reward,
                 "primary_metric": {"name": "Accuracy@1", "value": candidate_accuracy},
                 "starter_accuracy_at_1": starter_accuracy,
@@ -239,8 +296,13 @@ def main() -> int:
                 "starter_hit_at_1_count": sum(rank == 1 for rank in starter_ranks),
                 "candidate_hit_at_1_count": sum(rank == 1 for rank in candidate_ranks),
                 "starter_report": read_starter_report(starter_report_path),
-                "reward_formula": "clamp((candidate_accuracy_at_1 - 0.31) / 0.69, 0, 1) if candidate_time <= starter_time * 0.60 else 0",
+                "reward_formula": "clamp((candidate_accuracy_at_1 - A0) / (1 - A0), 0, 1) if candidate_time <= starter_time * 0.60 else 0",
                 "fixed_vector_sha256": EXPECTED_VECTOR_SHA256,
+                "fixed_corpus_sha256": EXPECTED_CORPUS_SHA256,
+                "queries_sha256": sha256(QUERIES_PATH),
+                "labels_sha256": sha256(GROUND_TRUTH_PATH),
+                "quality_implementation_sha256": sha256(Path(__file__).parent / "quality_baseline/baseline.py"),
+                "retrieval_semantics_sha256": sha256(Path(__file__).parent / "quality_baseline/retrieval.py"),
             }
         )
         if not time_passed:
@@ -249,12 +311,14 @@ def main() -> int:
             ]
     except Exception as error:
         report["errors"] = [str(error)]
+        report["failure_kind"] = failure_kind
+        report["measurement_valid"] = failure_kind != "infrastructure"
     finally:
         report["elapsed_seconds"] = time.monotonic() - started
         write_report(report)
 
     print(json.dumps(report, ensure_ascii=False, indent=2))
-    return 0 if report["valid"] else 1
+    return 0 if report["measurement_valid"] else 1
 
 
 if __name__ == "__main__":

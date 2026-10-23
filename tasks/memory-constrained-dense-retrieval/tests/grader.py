@@ -3,12 +3,14 @@
 
 from __future__ import annotations
 
+import errno
 import json
 import math
 import os
 import shutil
 import signal
 import subprocess
+import threading
 import time
 from collections.abc import Iterator
 from pathlib import Path
@@ -20,7 +22,7 @@ PRIVATE_DATA = Path("/tests/data")
 SUBMISSION_DIR = Path("/app")
 WORK_DIR = Path("/tmp/memory-constrained-dense-retrieval-eval")
 INPUT_ROOT = WORK_DIR / "input"
-INDEX_DIR = WORK_DIR / "index"
+INDEX_DIR = Path("/task/index")
 OUTPUT_ROOT = WORK_DIR / "output"
 RESULTS_DIR = Path(
     os.environ.get("SEARCH_SWE_RESULTS_DIR", "/logs/verifier/memory-constrained-dense-retrieval-eval")
@@ -32,20 +34,29 @@ DIMENSION = 1024
 VECTOR_DTYPE_BYTES = 4
 TOP_K = 3
 HIDDEN_QUERY_COUNT = 20
-BUILD_TIMEOUT_SECONDS = 120.0
+BUILD_TIMEOUT_SECONDS = 150.0
 # Each query is an independent run.sh invocation and earns its own score.
 # Keep the per-query budget tight enough to reject exhaustive-scan baselines
 # and require a reusable low-latency index/service.
 QUERY_TIMEOUT_SECONDS = 0.5
+P95_TARGET_SECONDS = 0.030
+MEMORY_LIMIT_BYTES = 512 * 1024 ** 2
+INDEX_LIMIT_BYTES = 64 * 1024 ** 2
 MAX_OUTPUT_BYTES = 16 * 1024 * 1024
 SUBMISSION_UID = 10001
 SUBMISSION_GID = 10001
 SUBMISSION_USER = "submission"
+NOFILE_LIMIT = 1048576
 
 SUBMISSION_COMMAND = [
     "/usr/sbin/runuser",
     "-u",
     SUBMISSION_USER,
+    "--",
+    # runuser resets RLIMIT_NOFILE's soft limit to 1024. Restore the same
+    # explicit soft/hard limit as the development container before execution.
+    "/usr/bin/prlimit",
+    f"--nofile={NOFILE_LIMIT}:{NOFILE_LIMIT}",
     "--",
     "/usr/bin/setpriv",
     "--no-new-privs",
@@ -264,6 +275,10 @@ def pid_uid(pid: int) -> int | None:
         lines = Path(f"/proc/{pid}/status").read_text().splitlines()
     except OSError:
         return None
+    # Zombies cannot retain mappings or create new IPC objects. Their parent
+    # (possibly the verifier) may reap them after this deployment barrier.
+    if any(line.startswith("State:") and line.split()[1] in ("Z", "X") for line in lines):
+        return None
     for line in lines:
         if line.startswith("Uid:"):
             try:
@@ -290,6 +305,55 @@ def stop_submission_processes() -> None:
                 pass
         if sig == signal.SIGTERM:
             time.sleep(0.5)
+    deadline = time.monotonic() + 5.0
+    while remaining := submission_pids():
+        if time.monotonic() >= deadline:
+            raise VerificationError("submission processes survived deployment cleanup")
+        for pid in remaining:
+            try:
+                os.kill(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        time.sleep(0.01)
+
+
+def submission_sysv_ipc() -> list[tuple[str, int]]:
+    objects = []
+    for kind, identifier in (("shm", "shmid"), ("msg", "msqid"), ("sem", "semid")):
+        lines = Path(f"/proc/sysvipc/{kind}").read_text().splitlines()
+        columns = lines[0].split()
+        for line in lines[1:]:
+            row = dict(zip(columns, line.split(), strict=True))
+            if SUBMISSION_UID in (int(row["uid"]), int(row["cuid"])):
+                objects.append((kind, int(row[identifier])))
+    return objects
+
+
+def clear_submission_sysv_ipc() -> None:
+    flags = {"shm": "-m", "msg": "-q", "sem": "-s"}
+    for kind, identifier in submission_sysv_ipc():
+        # Container root need not have CAP_IPC_OWNER. Remove as the creator,
+        # through a trusted binary, after every submitted process has exited.
+        result = subprocess.run(
+            SUBMISSION_COMMAND + ["/usr/bin/ipcrm", flags[kind], str(identifier)],
+            cwd="/", capture_output=True, text=True, timeout=5,
+        )
+        if result.returncode != 0:
+            raise VerificationError(f"could not remove submission System V {kind} {identifier}")
+    if submission_sysv_ipc():
+        raise VerificationError("System V IPC survived deployment cleanup")
+
+
+def restart_submission_for_queries() -> None:
+    stop_submission_processes()
+    # Build and queries share the container's private IPC namespace. System V
+    # objects survive process exit and are not represented by /dev/shm files.
+    clear_submission_sysv_ipc()
+    for entry in Path("/dev/shm").iterdir():
+        if entry.is_dir() and not entry.is_symlink():
+            shutil.rmtree(entry)
+        else:
+            entry.unlink()
 
 
 def kill_group(process: subprocess.Popen[bytes]) -> None:
@@ -310,10 +374,14 @@ def run_timed(
     timeout: float,
     stdout_path: Path,
     stderr_path: Path,
+    output_path: Path | None = None,
+    snapshot_path: Path | None = None,
 ) -> dict[str, Any]:
+    if (output_path is None) != (snapshot_path is None):
+        raise ValueError("output and snapshot paths must be supplied together")
     stdout_path.parent.mkdir(parents=True, exist_ok=True)
-    started = time.monotonic()
     with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
+        started = time.monotonic()
         try:
             process = subprocess.Popen(
                 SUBMISSION_COMMAND + command,
@@ -330,36 +398,95 @@ def run_timed(
                 "error": f"could not start command: {error}",
             }
 
-        timed_out = False
-        try:
-            # wait() returns as soon as the child exits, avoiding the coarse
-            # polling window that could otherwise accept a late process.
-            remaining = max(0.0, started + timeout - time.monotonic())
-            returncode = process.wait(timeout=remaining)
-            finished_at = time.monotonic()
-        except subprocess.TimeoutExpired:
-            # The timeout boundary can race with process exit. Recheck before
-            # killing the process, then judge the observed completion time.
-            returncode = process.poll()
-            if returncode is None:
-                timed_out = True
-                kill_group(process)
-                # Preserve the service started by build.sh so a slow query
-                # does not automatically invalidate the remaining queries.
-                try:
-                    returncode = process.wait(timeout=2)
-                except subprocess.TimeoutExpired:
-                    returncode = None
-            finished_at = time.monotonic()
+        # A blocking waitpid in a waiter thread signals a condition variable.
+        # Unlike Popen.wait(timeout=...), neither wait uses timed POSIX polling.
+        exited = threading.Event()
+        completion = {}
 
-        elapsed_seconds = finished_at - started
-        if elapsed_seconds > timeout:
-            timed_out = True
+        def reap():
+            completion["returncode"] = process.wait()
+            completion["observed"] = time.monotonic()
+            exited.set()
+
+        waiter = threading.Thread(target=reap, daemon=True)
+        waiter.start()
+        try:
+            ready = exited.wait(max(0.0, started + timeout - time.monotonic()))
+            observed = completion["observed"] if ready else time.monotonic()
+            elapsed_seconds = observed - started
+            process_elapsed_seconds = elapsed_seconds
+            timed_out = not ready or elapsed_seconds > timeout
+            output_error = None
+            output_capture_seconds = 0.0
+            if output_path is not None:
+                if timed_out:
+                    output_error = "output not captured before the query deadline"
+                else:
+                    capture_started = time.monotonic()
+                    try:
+                        freeze_output_dir(output_path.parent, output_path)
+                        snapshot_completed_output(output_path, snapshot_path)
+                    except (VerificationError, OSError) as error:
+                        output_error = str(error)
+                    captured = time.monotonic()
+                    output_capture_seconds = captured - capture_started
+                    # Any accepted bytes, including a retained-fd write racing
+                    # with exit, must have arrived within this measured interval.
+                    elapsed_seconds = captured - started
+                    timed_out = elapsed_seconds > timeout
+            cleanup_started = time.monotonic()
+            if not ready:
+                kill_group(process)
+            waiter.join()
+            returncode = completion["returncode"]
+            cleanup_seconds = time.monotonic() - cleanup_started
+        except BaseException:
+            kill_group(process)
+            waiter.join()
+            raise
     return {
         "returncode": returncode,
         "elapsed_seconds": elapsed_seconds,
+        "process_elapsed_seconds": process_elapsed_seconds,
+        "output_capture_seconds": output_capture_seconds,
+        "output_error": output_error,
         "timed_out": timed_out,
+        "cleanup_seconds": cleanup_seconds,
     }
+
+
+def resource_snapshot() -> dict[str, Any]:
+    """Container-wide cgroup v2 accounting includes service and descendants."""
+    root = Path("/sys/fs/cgroup")
+    snapshot = {}
+    for name in ("memory.max", "memory.swap.max", "memory.peak", "memory.events", "cpu.max"):
+        snapshot[name] = (root / name).read_text().strip()
+    return snapshot
+
+
+def oom_kills(snapshot: dict[str, Any]) -> int:
+    return int(dict(line.split() for line in snapshot["memory.events"].splitlines())["oom_kill"])
+
+
+def summarize_scores(results: list[dict[str, Any]]) -> dict[str, Any]:
+    if not results:
+        raise VerificationError("no query measurements")
+    latencies = []
+    for row in results:
+        elapsed = float(row["elapsed_seconds"])
+        if not math.isfinite(elapsed) or elapsed <= 0:
+            raise VerificationError("query timing must be positive and finite")
+        latencies.append(QUERY_TIMEOUT_SECONDS if row.get("timed_out") or row.get("error")
+                         else min(QUERY_TIMEOUT_SECONDS, elapsed))
+    p95 = sorted(latencies)[math.ceil(0.95 * len(latencies)) - 1]
+    accuracy = sum(row["score"] for row in results) / len(results)
+    factor = min(1.0, P95_TARGET_SECONDS / p95)
+    quality_gate_passed = accuracy >= 0.95
+    return {"accuracy_at_3": accuracy, "p95_seconds": p95,
+            "latency_factor": factor, "minimum_accuracy_at_3": 0.95,
+            "quality_gate_passed": quality_gate_passed,
+            "reward_before_quality_gate": accuracy * factor,
+            "reward": accuracy * factor if quality_gate_passed else 0.0}
 
 
 def run_submission_check(script: str) -> bool:
@@ -421,7 +548,9 @@ def prepare_workdirs() -> None:
         root.mkdir()
         os.chown(root, 0, 0)
         os.chmod(root, 0o711)
-    INDEX_DIR.mkdir()
+    validate_index_workspace()
+    if any(INDEX_DIR.iterdir()):
+        raise VerificationError("index workspace must start empty")
     os.chown(INDEX_DIR, SUBMISSION_UID, SUBMISSION_GID)
     os.chmod(INDEX_DIR, 0o750)
     for child_name in ("tmp", "cache"):
@@ -493,6 +622,54 @@ def write_single_query(
     return vectors_path, metadata_path, config_path, output_dir / "results.jsonl"
 
 
+def validate_index_workspace() -> dict[str, int]:
+    # Check the real filesystem boundary, not just a declared allowance.
+    if not INDEX_DIR.is_dir() or INDEX_DIR.is_symlink():
+        raise VerificationError("index workspace is missing")
+    mounts = Path("/proc/self/mountinfo").read_text().splitlines()
+    matching = [line.split() for line in mounts if line.split()[4] == str(INDEX_DIR)]
+    if len(matching) != 1 or matching[0][matching[0].index("-") + 1] != "tmpfs":
+        raise VerificationError("index workspace requires a dedicated tmpfs mount")
+    stats = os.statvfs(INDEX_DIR)
+    capacity = stats.f_blocks * stats.f_frsize
+    if capacity != INDEX_LIMIT_BYTES:
+        raise VerificationError("index tmpfs capacity must be exactly 64 MiB")
+    return {"capacity_bytes": capacity,
+            "allocated_bytes": (stats.f_blocks - stats.f_bfree) * stats.f_frsize}
+
+
+def validate_query_cpu_boundary() -> dict[str, Any]:
+    program = '''
+import json, os
+cpus = sorted(os.sched_getaffinity(0))
+try:
+    os.sched_setaffinity(0, cpus)
+    denied_errno = 0
+except OSError as error:
+    denied_errno = error.errno
+print(json.dumps(dict(allowed_cpus=cpus, affinity_change_errno=denied_errno)))
+'''
+    probe = subprocess.run(
+        SUBMISSION_COMMAND + ['/usr/local/bin/search-swe-query-cpu',
+                              '/opt/conda/bin/python', '-c', program],
+        cwd='/', capture_output=True, text=True, timeout=10,
+    )
+    if probe.returncode != 0:
+        raise VerificationError('query CPU launcher failed its runtime probe')
+    state = json.loads(probe.stdout)
+    if (state.get('allowed_cpus') != [min(os.sched_getaffinity(0))]
+            or state.get('affinity_change_errno') != errno.EPERM):
+        raise VerificationError('query CPU affinity boundary is not enforced')
+    return state
+
+
+def check_index_size(path: Path) -> int:
+    size = directory_size(path)
+    if size > INDEX_LIMIT_BYTES:
+        raise VerificationError("index workspace logical size exceeds 64 MiB")
+    return size
+
+
 def directory_size(path: Path) -> int:
     total = 0
     if not path.is_dir() or path.is_symlink():
@@ -509,7 +686,7 @@ def directory_size(path: Path) -> int:
 
 
 def freeze_output_dir(output_dir: Path, output_path: Path) -> None:
-    """Block later submission writes and reject hidden side files."""
+    """Restrict later path access and reject hidden side files."""
     if output_dir.is_symlink() or not output_dir.is_dir():
         raise VerificationError(f"invalid submission output directory: {output_dir}")
     os.chown(output_dir, 0, 0)
@@ -523,6 +700,15 @@ def freeze_output_dir(output_dir: Path, output_path: Path) -> None:
         raise VerificationError(f"{output_path} is missing or is not a regular file")
     os.chown(output_path, 0, 0)
     os.chmod(output_path, 0o600)
+
+
+def snapshot_completed_output(output_path: Path, snapshot_path: Path) -> None:
+    """Bound capture size; query timing ends only after these bytes are protected."""
+    with output_path.open("rb") as stream:
+        content = stream.read(MAX_OUTPUT_BYTES + 1)
+    if len(content) > MAX_OUTPUT_BYTES:
+        raise VerificationError(f"{output_path} exceeds the output size limit")
+    snapshot_path.write_bytes(content)
 
 
 def validate_batch_output(
@@ -602,7 +788,7 @@ def validate_batch_output(
 
 def check_phase_metrics(metrics: dict[str, Any], label: str, *, timeout: float) -> None:
     elapsed = float(metrics.get("elapsed_seconds", math.inf))
-    if metrics.get("timed_out") or not math.isfinite(elapsed) or not 0 <= elapsed <= timeout:
+    if metrics.get("timed_out") or not math.isfinite(elapsed) or not 0 < elapsed <= timeout:
         raise VerificationError(f"{label} exceeded its timeout")
     if metrics.get("returncode") != 0:
         raise VerificationError(f"{label} exited with {metrics.get('returncode')}")
@@ -620,7 +806,7 @@ def score_query(
     elapsed = float(metrics.get("elapsed_seconds", math.inf))
     execution_passed = metrics.get("returncode") == 0 and not metrics.get("error")
     latency_passed = (not metrics.get("timed_out") and math.isfinite(elapsed)
-                      and 0 <= elapsed <= QUERY_TIMEOUT_SECONDS)
+                      and 0 < elapsed <= QUERY_TIMEOUT_SECONDS)
     errors = []
     if not execution_passed:
         errors.append(f"run.sh exited with {metrics.get('returncode')}")
@@ -660,8 +846,13 @@ def main() -> int:
     try:
         if EXECUTION_ERROR:
             raise VerificationError(EXECUTION_ERROR)
+        resources_before = resource_snapshot()
+        report["resources_before"] = resources_before
+        if resources_before["memory.max"] != str(MEMORY_LIMIT_BYTES) or resources_before["memory.swap.max"] != "0":
+            raise VerificationError("verifier requires a 512 MiB cgroup memory limit and no swap")
         prepare_workdirs()
         check_submission_boundary()
+        report['query_cpu_boundary'] = validate_query_cpu_boundary()
         corpus_rows = load_corpus_shape()
         private_metadata, ground_truth, private_config, raw_vectors = load_private_queries()
         build_metrics = run_timed(
@@ -676,18 +867,26 @@ def main() -> int:
         )
         report["build"] = build_metrics
         check_phase_metrics(build_metrics, "build.sh", timeout=BUILD_TIMEOUT_SECONDS)
-        index_bytes_after_build = directory_size(INDEX_DIR)
+        index_bytes_after_build = check_index_size(INDEX_DIR)
+        report["index_workspace_after_build"] = validate_index_workspace()
         report["index_bytes_after_build"] = index_bytes_after_build
         if index_bytes_after_build <= 0:
             raise VerificationError("build.sh did not create a persistent index")
 
+        # Prove that the bounded artifacts survive a fresh service process.
+        restart_submission_for_queries()
+        report["service_restart_before_queries"] = True
+        report["query_cpu_limit"] = 1
+        report["query_cpu_affinity"] = report["query_cpu_boundary"]["allowed_cpus"]
+        report["query_cpu_enforcement"] = "inherited affinity; seccomp denies affinity changes"
         for query_number, metadata_row in enumerate(private_metadata, start=1):
             vectors_path, metadata_path, config_path, output_path = write_single_query(
                 "query", query_number, raw_vectors=raw_vectors,
                 metadata_row=metadata_row, dimension=int(private_config["dimension"]),
             )
+            snapshot_path = RESULTS_DIR / f"run.query-{query_number:03d}.results.jsonl"
             metrics = run_timed(
-                [str(SUBMISSION_DIR / "run.sh"), "--index-dir", str(INDEX_DIR),
+                ["/usr/local/bin/search-swe-query-cpu", str(SUBMISSION_DIR / "run.sh"), "--index-dir", str(INDEX_DIR),
                  "--query-vectors", str(vectors_path),
                  "--query-metadata", str(metadata_path),
                  "--query-config", str(config_path),
@@ -695,18 +894,18 @@ def main() -> int:
                 timeout=QUERY_TIMEOUT_SECONDS,
                 stdout_path=RESULTS_DIR / f"run.query-{query_number:03d}.stdout.log",
                 stderr_path=RESULTS_DIR / f"run.query-{query_number:03d}.stderr.log",
+                output_path=output_path,
+                snapshot_path=snapshot_path,
             )
-            output_error = None
-            try:
-                freeze_output_dir(output_path.parent, output_path)
-            except (VerificationError, OSError) as error:
-                output_error = str(error)
-            records.append((str(metadata_row["query_id"]), output_path, metrics, output_error))
+            output_error = metrics.get("output_error")
+            records.append((str(metadata_row["query_id"]), snapshot_path, metrics, output_error))
+            check_index_size(INDEX_DIR)
 
-        # Keep the build-started service alive throughout the workload. Stop it
+        # Keep the query service alive throughout the workload. Stop it
         # before loading the large metadata lookup and inspecting private labels.
         stop_submission_processes()
-        report["index_bytes"] = directory_size(INDEX_DIR)
+        report["index_bytes"] = check_index_size(INDEX_DIR)
+        report["index_workspace_final"] = validate_index_workspace()
         doc_rows = load_doc_rows(corpus_rows)
         for query_id, relevant in ground_truth.items():
             unknown = relevant - doc_rows.keys()
@@ -715,9 +914,17 @@ def main() -> int:
         results = [score_query(query_id, path, metrics, error, doc_rows, ground_truth)
                    for query_id, path, metrics, error in records]
         passed = sum(row["score"] for row in results)
-        metric = passed / HIDDEN_QUERY_COUNT
+        aggregate = summarize_scores(results)
+        metric = aggregate["accuracy_at_3"]
+        report["resources_after"] = resource_snapshot()
+        if oom_kills(report["resources_after"]) > oom_kills(resources_before):
+            raise VerificationError("container memory limit caused an OOM kill")
         report.update({
-            "valid": True, "score": 100.0 * metric, "reward": metric,
+            "valid": True, "score": 100.0 * aggregate["reward"], "reward": aggregate["reward"],
+            "scoring": {**aggregate, "p95_target_seconds": P95_TARGET_SECONDS,
+                        "timing_end": "protected output capture after client exit",
+                        "quantile": "nearest-rank ceil(0.95*N), one-based",
+                        "rounds": 1, "timeout_latency_seconds": QUERY_TIMEOUT_SECONDS},
             "query_count": len(results), "passed_queries": passed,
             "all_cases_passed": passed == HIDDEN_QUERY_COUNT,
             "primary_metric": {
@@ -737,7 +944,15 @@ def main() -> int:
     except Exception as error:
         report["errors"].append(str(error))
     finally:
-        stop_submission_processes()
+        try:
+            stop_submission_processes()
+        except Exception as error:
+            report.update(valid=False, score=0.0, reward=0.0)
+            report["errors"].append(f"cannot confirm submission cleanup: {error}")
+        try:
+            report["resources_final"] = resource_snapshot()
+        except OSError as error:
+            report["errors"].append(f"cannot record final cgroup resources: {error}")
 
     write_json(REPORT_PATH, report)
     print(json.dumps(report, ensure_ascii=False, indent=2))

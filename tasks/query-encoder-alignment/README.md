@@ -2,7 +2,7 @@
 
 Improve a compact query encoder against a document collection whose embeddings cannot change.
 
-**Task:** `query-encoder-alignment` · **Metric:** Accuracy@1 with a runtime gate
+**Task:** `query-encoder-alignment` v0.2.0 · **Metric:** Accuracy@1 error reduction above frozen ridge, with a runtime gate
 
 ## Overview
 
@@ -33,11 +33,13 @@ pipeline must stay within the relative runtime budget.
 | `data/corpus.jsonl` | The document identities corresponding to vector rows |
 | `data/validation/` | 100 public queries and labels |
 | `models/Qwen3-Embedding-0.6B/` | The required query-side backbone |
-| `environment/starter/` | Teacher-side reference runner and validation notes |
+| `environment/starter/` | 4B time reference runner and validation notes |
+| `environment/quality_baseline/` | Frozen 0.6B ridge baseline, fit/inference code and configuration |
 
 The manifest also restores the Qwen3-Embedding-4B reference assets.
-Reference-model files have separate access permissions; their presence in the
-download set does not make them a permissible replacement submission backbone.
+The development root user can read the 4B reference, including for teacher
+signals on public inputs. Its private permissions keep it inaccessible to the
+unprivileged final process; it is not an allowed final inference backbone.
 There are 100 hidden evaluation queries, isolated from the agent environment.
 
 ### Fixed Components and Allowed Changes
@@ -52,8 +54,11 @@ be self-contained and offline.
 ### Environment and Resource Limits
 
 The Python 3.12 runtime uses CUDA-enabled PyTorch, 8 CPUs, 32 GiB memory, and
-100 GiB storage. Both Compose configurations and `task.toml` request **one
-NVIDIA GPU**.
+a 100 GiB storage budget. The local Docker backend does not enforce that budget
+with a filesystem quota; the completed calibration stayed well below it.
+Both Compose configurations and `task.toml` request **one
+NVIDIA GPU**. Set `QUERY_ALIGNMENT_GPU_DEVICE` to the reserved host GPU UUID or
+index before rendering/building a trial. Both phases explicitly map this device.
 For local Docker, the shared launcher works around Harbor 0.22.0's GPU
 capability preflight with `--override-gpus 0`; the Compose reservations still
 provide the GPU to both containers.
@@ -77,27 +82,48 @@ complete interface; no separate submitted build step is required.
 
 ### Search Quality
 
-The grader reports Accuracy@1 and converts candidate accuracy into a normalized
-reward using a fixed anchor:
+The public quality reference freezes Qwen3-Embedding-0.6B and fits centered
+ridge once on all public corpus/text-vector pairs. Its fixed settings and
+reproduction commands are in [the baseline README](environment/quality_baseline/README.md).
+The verifier independently fits the same version and measures A0 on the same
+hidden queries and vectors. It never trains on hidden queries or labels.
 
 ```text
-quality reward = clamp((candidate Accuracy@1 - 0.31) / 0.69, 0, 1)
+quality = clip((candidate Accuracy@1 - A0) / (1 - A0), 0, 1)
+reward = quality if all gates pass else 0
+score = 100 * reward
 ```
 
-The measured starter accuracy is diagnostic. It is not subtracted in this
-formula: `0.31` is the fixed accuracy anchor.
+A reference failure or A0=1 is an invalid benchmark measurement, not a
+candidate zero. Quality baseline configuration is frozen before hidden
+measurement or model evaluation. The separate 4B reference supplies time only;
+its accuracy is retained as a diagnostic. The old unmeasured 0.31 anchor is
+removed. Raw candidate accuracy, A0, quality, runtime gate, judge health and
+final reward are recorded separately.
+
+Both references exclude same-ID documents and all canonical-text copies:
+NFKC, collapse whitespace, casefold. They rank all unchanged vectors, filter,
+then refill; ties use corpus row order. The grader rejects excluded results.
 
 ### Correctness and Resource Gates
 
 Candidate wall time must be at most `0.60 × starter wall time`, measured on the
 same hidden workload. Missing the gate makes reward zero even if accuracy is
-high. Vector checksums and shape, query coverage/order, result validity, and
+high. Timing is external and monotonic, including process/import/model/vector
+loading, query encoding, search, output and exit. No warmup or file-cache flush;
+run quality reference, time reference, then candidate. The first candidate run
+sets time and a second fresh process checks byte-identical results. Timeout
+cleanup time is logged separately. Vector checksums and shape, query coverage/order, result validity, and
 clean process termination are also checked.
 
 ### Integrity Checks and Final Reward
 
 The normalized quality reward is accepted only after runtime and validity gates
 and the independent trajectory audit pass. Failure at any gate produces zero.
+Judge failures are marked `measurement_valid=false`, not reported as evidence
+of model difficulty. Submitted processes run as UID 10001 with no credentials,
+read-only runtime, protected reference/log directories and inherited seccomp
+network denial.
 The audit uses `deepseek/deepseek-v4.1-flash` via OpenRouter through pinned RewardKit 0.2.0 with
 verifier-only DeepSeek endpoint and key settings.
 
@@ -115,12 +141,17 @@ so the reference model's private file permissions retain their intended effect.
 
 ```bash
 python scripts/download_assets.py --task query-encoder-alignment
-bash scripts/run_task.sh --task query-encoder-alignment --model "YOUR_AGENT_MODEL"
+python scripts/download_assets.py --task query-encoder-alignment --verify-only
+export QUERY_ALIGNMENT_GPU_DEVICE=YOUR_RESERVED_GPU_UUID
+bash scripts/run_task.sh --task query-encoder-alignment --agent codex --openrouter \
+  --model openai/gpt-6-luna --reasoning-effort max --output jobs/query-encoder-alignment-UNIQUE_RUN_ID
 ```
 
 The shared launcher defaults to Codex, also supports Pi and Claude Code, and
 writes results under `jobs/query-encoder-alignment/`.
-Replace `YOUR_AGENT_MODEL` with your configured model. Add `--dry-run` to inspect
+Configure `AGENT_OPENROUTER_API_KEY`, `VERIFIER_OPENAI_API_KEY` and
+`VERIFIER_OPENAI_BASE_URL=https://openrouter.ai/api/v1` in the ignored repository
+`.env`. Add `--dry-run` to inspect
 command construction without starting an evaluation; this does not validate
 assets, credentials, or hardware.
 
@@ -136,3 +167,48 @@ assets, credentials, or hardware.
 | [Verifier](tests/) | Execution, output validation, and scoring implementation |
 | [Starter notes](environment/starter/README.md) | Teacher-side baseline and public validation |
 | [Resource policy](environment/docs/available_resources.md) | Development access and offline submission rules |
+
+## Data provenance and local checks
+
+The packaged ArguAna corpus matches mteb/arguana commit
+`6c1bcf74b13dfd823aff056b79d4d93e702f19c7`, with task-specific IDs; its source
+license is CC BY-SA 4.0. The model family is described in
+[Qwen3 Embedding](https://arxiv.org/abs/2506.05176v3), licensed Apache-2.0.
+This frozen-index alignment task and its ridge reference are engineering
+adaptations, not reported paper experiments. The original fixed matrix is
+preserved byte-for-byte; its generation recipe is not reconstructed here.
+The manifest pins 30 files totaling 8.72 GiB at immutable revisions, exact
+sizes and hashes; public split and hidden split remain unchanged.
+
+```bash
+python -m unittest discover -s tasks/query-encoder-alignment/tests -p test_contract.py -v
+python scripts/check_tasks.py tasks/query-encoder-alignment
+```
+
+Author calibration records and runtime evidence are kept under
+`contributing/dev/query-encoder-alignment/v020/`, never mounted into a solving
+agent. Public first-fit ridge Accuracy@1 is 54/100 with approximately 107 s
+fit time on one A100 40GB. Two independent fits and public predictions are byte-identical. Hidden A0 is
+62/100, frozen with implementation/data/prediction fingerprints in verifier-only
+`tests/quality_baseline_lock.json`; fresh full verifier fitting reproduces it.
+The repaired 4B reference scores 68/100. Known-baseline submission passes the
+runtime, output and determinism checks and scores zero at its own quality anchor.
+Historical artifact replay: Opus xhigh 76%, 36.8421/100 and time gate passed;
+Luna xhigh 64%, quality 5.2632/100, time gate failed and retrieval reward zero.
+These are retrieval replays, not new model solves or newly accepted judge runs.
+The completed Codex 0.157.1 + OpenRouter `openai/gpt-6-luna`, effort `max` run
+scores **18.4211/100**: hidden Accuracy@1 69%, A0 62%, candidate 12.1705 s
+against a 25.2756 s reference (15.1654 s limit). The repeat output is
+byte-identical. The independent DeepSeek integrity judge accepted the submission;
+`measurement_valid=true`, with no infrastructure exception. The solve took
+36m48s and verification 6m51s, on a reserved A100 40GB. Agent/verifier memory
+peaks were 10.80/10.88 GiB. Job:
+`jobs/query-encoder-alignment-codex-openrouter-luna-max-v020-20261022-r2/2026-10-22__20-15-17/`.
+The preceding r1 attempt was canceled before submission when an external
+service occupied its reserved GPU; it has no valid model score. Both records
+are retained. No scoring parameter changed between attempts.
+
+This one accepted Luna/max solve supports the approximate 20-point difficulty
+target; the historical Opus artifact replay scores below 50. A legal author
+solution achieving 100% hidden accuracy has not been demonstrated; synthetic
+grader tests establish the full-score numeric boundary only.

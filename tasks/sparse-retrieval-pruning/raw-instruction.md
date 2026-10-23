@@ -8,9 +8,8 @@ query, return the most relevant corpus documents while keeping total search
 wall time low.
 
 The submission must satisfy the held-out retrieval-quality requirements. Its
-reward then increases as the wall time for the complete hidden query set falls
-from 35% to 25% of the unpruned reference starter wall time measured by the
-verifier in the same environment. You may replace the starter index or
+reward increases linearly with starter-relative throughput from 4× speedup
+(zero reward) to 16× speedup (full reward); 10× earns 0.5. You may replace the starter index or
 retrieval algorithm as long as the executable interface and output contract
 are preserved.
 
@@ -163,24 +162,35 @@ NDCG@10 >= 0.89
 qrels Recall@100 >= 0.99
 ```
 
-The verifier measures candidate and reference wall time with external
-process wrappers under the same workload and resource allocation. Define:
+The fixed corpus contains 1,000,000 documents. Each formal search invocation
+processes the same 1,000 hidden queries; the public development set contains
+200 queries. The verifier runs five measurement rounds with fresh processes. Odd rounds run
+starter then candidate; even rounds run candidate then starter. It uses the
+median of each system's five complete search wall times and divides the starter
+median by the candidate median. Timing includes process launch, Python imports,
+index loading, reading all queries, retrieval, output writing and process exit.
+There is no separate warmup and the OS file cache is retained between calls.
+Each round uses a fresh private output directory and temporary HOME/TMPDIR; the
+built index and submission source are read-only during search. Do not write to
+the index, reuse answers across invocations, or rely on files from earlier runs.
+All required persistent state must be built from public inputs. The verifier
+isolates accessible paths and clears temporary state between invocations.
+Every candidate round must meet both quality floors; reported aggregate quality
+is the arithmetic mean across rounds. Outputs are validated in every round.
+Both positive finite timing medians are required; failures yield zero reward.
 
-```text
-latency ratio = candidate wall time / verifier-measured starter wall time
-```
+The candidate build is limited to 3,600 seconds, the reference build to 1,800
+seconds, and each complete search invocation to 900 seconds. The overall
+verifier budget is 16,200 seconds, covering builds, ten searches and the
+integrity judge. Both systems use the same one-CPU affinity, 32 GiB memory
+limit, one-thread library settings and isolation. New threads are blocked;
+Python worker processes are monitored and the trajectory is audited. Thin
+serial shell launch wrappers remain allowed. This protocol does not grant
+permission to run additional workers.
 
-NDCG and Recall are hard gates. If either quality gate, build/run behavior,
-output validation, or the trajectory jailbreak judge fails, reward is `0`.
-Otherwise latency is scored as follows:
-
-- latency ratio at or below `0.25`: reward `1`;
-- latency ratio strictly between `0.25` and `0.35`: reward
-  `(0.35 - latency ratio) / 0.10`;
-- latency ratio at or above `0.35`: reward `0`.
-
-Submission-reported lookup counters or internal timing are diagnostic only and
-do not replace verifier wall-time measurement.
-
-The formal build and search run offline. The submission must not require
-credentials, remote models, package downloads, or external services.
+Define `s = median starter wall time / median candidate wall time`.
+If every round passes both quality gates, execution, output validation and the
+trajectory judge, reward is `max(0, min(1, (s - 4) / 12))`; otherwise it is zero.
+Display score is `100 × reward`. Submission-reported timings are diagnostic only.
+The formal build and search run offline and must not require credentials,
+remote models, package downloads or external services.

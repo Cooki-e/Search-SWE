@@ -2,7 +2,7 @@
 
 Optimize a sparse retrieval system while preserving strict quality requirements.
 
-**Task:** `sparse-retrieval-pruning` · **Metric:** Quality-gated linear latency reward
+**Task:** `sparse-retrieval-pruning` · **Metric:** Quality-gated linear speedup reward
 
 ## Overview
 
@@ -16,8 +16,8 @@ unweighted term IDs derived from frozen sparse representations. It evaluates
 a Python implementation against the unpruned reference starter.
 The goal is to preserve strong retrieval quality while reducing total query
 wall time relative to that reference. Quality thresholds are hard gates;
-passing submissions receive a latency reward that decreases linearly between
-25% and 35% of starter wall time.
+passing submissions receive `clip((speedup - 4) / 12, 0, 1)`: 4× starts scoring,
+10× earns 50 points and 16× earns 100 points.
 
 ## What This Task Tests
 
@@ -61,9 +61,9 @@ encoder outputs or a retrainable transformer are supplied.
 ### Environment and Resource Limits
 
 The CPU Python 3.12 environment has one CPU, 32 GiB memory, 80 GiB storage,
-and no GPU. The agent has two hours; the Harbor verifier has 80 minutes.
+and no GPU. The agent has two hours; the Harbor verifier has 270 minutes (worst-case stage budget).
 The current execution wrapper caps the candidate build at 3,600 seconds and
-query run at 900 seconds. The starter-relative latency reward is measured
+each query run at 900 seconds; the starter build is capped at 1,800 seconds. The starter-relative latency reward is measured
 within those bounds, and all verification stages share the overall phase budget.
 
 The formal build/search path requires no external service, credentials, or
@@ -90,16 +90,40 @@ minimums are **0.89** and **0.99** respectively.
 
 ### Correctness and Latency Reward
 
-The verifier measures the candidate and unpruned reference starter on the same
-workload and resource allocation. A latency ratio at or below **0.25** receives reward
-`1`; a ratio at or above **0.35** receives reward `0`; values strictly between
-those boundaries receive `(0.35 - ratio) / 0.10`. Successful build/run, valid
-outputs, and implementation restrictions remain hard requirements.
+The fixed corpus contains 1,000,000 documents. Each formal search invocation
+processes the same 1,000 hidden queries; the public development set contains
+200 queries. The verifier runs five measurement rounds with fresh processes. Odd rounds run
+starter then candidate; even rounds run candidate then starter. It uses the
+median of each system's five complete search wall times and divides the starter
+median by the candidate median. Timing includes process launch, Python imports,
+index loading, reading all queries, retrieval, output writing and process exit.
+There is no separate warmup and the OS file cache is retained between calls.
+Each round uses a fresh private output directory and temporary HOME/TMPDIR; the
+built index and submission source are read-only during search. Do not write to
+the index, reuse answers across invocations, or rely on files from earlier runs.
+All required persistent state must be built from public inputs. The verifier
+isolates accessible paths and clears temporary state between invocations.
+Every candidate round must meet both quality floors; reported aggregate quality
+is the arithmetic mean across rounds. Outputs are validated in every round.
+Both positive finite timing medians are required; failures yield zero reward.
+
+The candidate build is limited to 3,600 seconds, the reference build to 1,800
+seconds, and each complete search invocation to 900 seconds. The overall
+verifier budget is 16,200 seconds, covering builds, ten searches and the
+integrity judge. Both systems use the same one-CPU affinity, 32 GiB memory
+limit, one-thread library settings and isolation. New threads are blocked;
+Python worker processes are monitored and the trajectory is audited. Thin
+serial shell launch wrappers remain allowed. This protocol does not grant
+permission to run additional workers.
+
+Let `s = median(starter wall time) / median(candidate wall time)`. If every
+round meets both quality gates and all execution/output/integrity checks pass,
+reward is `max(0, min(1, (s - 4) / 12))`, and score is 100 times reward.
 
 ### Integrity Checks and Final Reward
 
 If either quality threshold, output and execution checks, or the trajectory
-audit fails, final reward is `0`. Otherwise the final reward is the latency
+audit fails, final reward is `0`. Otherwise the final reward is the speedup
 reward described above. The verifier measures reference wall time afresh for each run.
 The audit uses `deepseek/deepseek-v4.1-flash` via OpenRouter through pinned RewardKit 0.2.0 with
 verifier-only DeepSeek endpoint and key settings.
@@ -140,3 +164,35 @@ assets, credentials, or hardware.
 | [Verifier](tests/) | Execution, output validation, and scoring implementation |
 | [Index format guide](environment/docs/index_format.md) | Starter layout and consistency relationships |
 | [Resource policy](environment/docs/available_resources.md) | Python dependency and execution restrictions |
+
+## Revision 0.5.2 validation
+
+This revision implements the approved 4×–16× speedup calibration and five-round
+alternating protocol. Linux x86_64 Landlock and seccomp are required by the
+verifier (missing kernel support fails closed). Submission temporary writes
+are confined to the current output and scratch directories; source and built
+index are read-only in search. Metrics, hidden labels and prior round results
+are inaccessible. Shell-wrapper subprocesses are permitted only for serial
+launching; Python workers are sampled during execution and the existing judge
+audits the full single-process policy. The single-thread policy is also enforced
+by a kernel filter and library environment settings. The 80 GiB storage value
+is a declared harness budget, not a kernel filesystem quota.
+
+On verifier exit, build/search metrics, stdout/stderr and each round's result
+file are retained under `verifier/runner-artifacts/` in the job. This diagnostic
+copy runs after measurement and also preserves logs when a build/search fails.
+Indexes and temporary scratch files are not exported.
+
+Run task-local regression tests with
+`python -m unittest discover -s tasks/sparse-retrieval-pruning/tests -p 'test_*.py'`.
+Runtime evidence and full-score feasibility are recorded by the author in the
+calibration delivery report; they are not established by static validation.
+
+Revision 0.5.1 also unifies login-shell Python aliases with `/opt/conda` and
+sets single-thread library defaults in both images. This repairs the 0.5.0
+trial's environment mismatch; its incomplete run is not difficulty evidence.
+
+Revision 0.5.2 removes a per-UID `RLIMIT_NPROC` that incorrectly counted
+unrelated containers on the host and could block the starter's serial shell
+launch. The container PID limit, kernel thread prohibition, worker monitoring,
+quality gates and scoring are unchanged.
