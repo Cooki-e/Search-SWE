@@ -38,14 +38,26 @@ class AdapterCleanupTests(unittest.IsolatedAsyncioTestCase):
         await self.env.stop(delete=True)
         self.assertFalse(self.private.exists())
         self.assertEqual((self.env.trial_paths.trial_dir / "egress/fixture.log").read_text(), "safe-event\n")
-        self.env._run_docker_compose_command.assert_any_await(["down", "--remove-orphans", "--volumes"], timeout_sec=60)
+        self.env._run_docker_compose_command.assert_any_await(["down", "--remove-orphans", "--volumes"], timeout_sec=300)
 
     async def test_audit_write_failure_does_not_skip_down(self):
         with patch.object(Path, "mkdir", side_effect=OSError("fixture full disk")):
             with self.assertRaisesRegex(RuntimeError, "audit collection failed"):
                 await self.env.stop(delete=True)
         self.assertFalse(self.private.exists())
-        self.env._run_docker_compose_command.assert_any_await(["down", "--remove-orphans", "--volumes"], timeout_sec=60)
+        self.env._run_docker_compose_command.assert_any_await(["down", "--remove-orphans", "--volumes"], timeout_sec=300)
+
+    async def test_slow_owned_teardown_completes_without_losing_manifest(self):
+        async def slow_compose(command, *args, timeout_sec, **kwargs):
+            if command[0] == "down":
+                self.assertTrue(self.private.exists())
+                if timeout_sec < 180:
+                    raise RuntimeError("Command timed out during slow containerd teardown")
+            return SimpleNamespace(stdout="safe-event\n")
+
+        self.env._run_docker_compose_command.side_effect = slow_compose
+        await self.env.stop(delete=True)
+        self.assertFalse(self.private.exists())
 
     async def test_failed_prelaunch_never_runs_down_against_foreign_resources(self):
         self.env._compose_started = False
