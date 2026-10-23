@@ -7,7 +7,7 @@ artifacts = [
 
 [task]
 name = "search-swe/memory-constrained-dense-retrieval"
-version = "0.7.0"
+version = "0.7.1"
 description = "Build a memory-constrained dense-vector retrieval system over 1.5 million precomputed NQ corpus vectors."
 authors = [{ name = "Search-SWE" }]
 keywords = ["search", "retrieval", "dense-retrieval", "vector-search", "nq", "memory-constrained", "cpu", "indexing"]
@@ -26,6 +26,8 @@ query_timeout_seconds = 0.5
 p95_target_seconds = 0.030
 latency_quantile = "nearest-rank"
 measurement_rounds = 1
+query_timing_end = "protected output capture after client exit"
+deployment_ipc_reset = "POSIX shared-memory files and submission-owned System V shm/msg/sem"
 index_workspace_bytes = 67108864
 index_workspace_filesystem = "tmpfs"
 restart_after_build = true

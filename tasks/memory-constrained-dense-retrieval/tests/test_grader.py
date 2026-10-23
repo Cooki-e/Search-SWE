@@ -106,6 +106,72 @@ print(json.dumps(dict(mask=mask, threads=thread_masks, denied=denied)))
             with self.assertRaises(grader.VerificationError):
                 grader.check_index_size(root)
 
+    def test_deployment_removes_system_v_ipc(self):
+        if os.geteuid() != 0 or not os.path.ismount(grader.INDEX_DIR):
+            self.skipTest('requires the verifier Docker runtime')
+        program = '''
+import ctypes, json, signal
+libc = ctypes.CDLL(None, use_errno=True)
+libc.shmget.argtypes = [ctypes.c_int, ctypes.c_size_t, ctypes.c_int]
+libc.shmat.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+libc.shmat.restype = ctypes.c_void_p
+shm = libc.shmget(0, 65 * 1024 ** 2, 0o1600)
+msg = libc.msgget(0, 0o1600)
+sem = libc.semget(0, 1, 0o1600)
+assert min(shm, msg, sem) >= 0, ctypes.get_errno()
+address = libc.shmat(shm, None, 0)
+assert address != ctypes.c_void_p(-1).value, ctypes.get_errno()
+ctypes.memset(address, 90, 65 * 1024 ** 2)
+print(json.dumps(dict(shm=shm, msg=msg, sem=sem)), flush=True)
+signal.pause()
+'''
+        process = subprocess.Popen(grader.SUBMISSION_COMMAND + ['/opt/conda/bin/python', '-c', program],
+                                   cwd='/', stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                                   text=True)
+        try:
+            objects = json.loads(process.stdout.readline())
+            self.assertTrue(set(objects.items()) <= set(grader.submission_sysv_ipc()))
+            grader.restart_submission_for_queries()
+            process.wait(timeout=5)
+            self.assertEqual(grader.submission_pids(), set())
+            self.assertEqual(grader.submission_sysv_ipc(), [])
+            reader = '''
+import ctypes, errno
+libc = ctypes.CDLL(None, use_errno=True)
+libc.shmat.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+libc.shmat.restype = ctypes.c_void_p
+address = libc.shmat(SHM, None, 0)
+assert address == ctypes.c_void_p(-1).value
+assert ctypes.get_errno() in (errno.EINVAL, errno.EIDRM)
+buffer = ctypes.create_string_buffer(256)
+assert libc.msgctl(MSG, 2, buffer) == -1
+assert ctypes.get_errno() in (errno.EINVAL, errno.EIDRM)
+assert libc.semctl(SEM, 0, 12) == -1
+assert ctypes.get_errno() in (errno.EINVAL, errno.EIDRM)
+'''
+            for name, value in objects.items():
+                reader = reader.replace(name.upper(), str(value))
+            result = subprocess.run(grader.SUBMISSION_COMMAND + [
+                '/usr/local/bin/search-swe-query-cpu', '/opt/conda/bin/python', '-c', reader],
+                cwd='/', capture_output=True, text=True, timeout=5)
+            self.assertEqual(result.returncode, 0, result.stderr)
+        finally:
+            grader.stop_submission_processes()
+            process.wait(timeout=5)
+            process.stdout.close()
+            process.stderr.close()
+            grader.clear_submission_sysv_ipc()
+
+    def test_deployment_fails_closed_on_ipc_cleanup_error(self):
+        with patch.object(grader, 'submission_sysv_ipc', return_value=[('shm', 7)]), \
+                patch.object(grader.subprocess, 'run', return_value=subprocess.CompletedProcess([], 1)):
+            with self.assertRaises(grader.VerificationError):
+                grader.clear_submission_sysv_ipc()
+        with patch.object(grader, 'submission_sysv_ipc', return_value=[('shm', 7)]), \
+                patch.object(grader.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)):
+            with self.assertRaises(grader.VerificationError):
+                grader.clear_submission_sysv_ipc()
+
     def test_kernel_index_capacity(self):
         if not os.path.ismount(grader.INDEX_DIR):
             self.skipTest('requires the verifier Docker tmpfs mount')
@@ -254,6 +320,53 @@ print(json.dumps(dict(uid=os.getuid(), gid=os.getgid(), opened=len(handles),
             with patch.object(grader, 'MAX_OUTPUT_BYTES', 4):
                 with self.assertRaises(grader.VerificationError):
                     grader.snapshot_completed_output(output, snapshot)
+
+    def test_post_exit_output_is_charged_until_capture(self):
+        good = dict(query_id='q', results=[dict(doc_id=d, score=3-i)
+                    for i, d in enumerate(('a', 'b', 'c'))])
+        original_capture = grader.snapshot_completed_output
+        for delay, expected_score in ((.04, 1), (.55, 0)):
+            with self.subTest(delay=delay), tempfile.TemporaryDirectory() as tmp:
+                root = Path(tmp)
+                output, snapshot = root/'output', root/'snapshot'
+                with output.open('wb', buffering=0) as retained_fd:
+                    def capture_after_exit(source, destination):
+                        self.assertEqual(source.read_bytes(), b'')
+                        time.sleep(delay)
+                        retained_fd.write((json.dumps(good)+'\n').encode())
+                        original_capture(source, destination)
+                    with patch.object(grader, 'SUBMISSION_COMMAND', []), \
+                            patch.object(grader, 'SUBMISSION_DIR', root), \
+                            patch.object(grader, 'freeze_output_dir'), \
+                            patch.object(grader, 'snapshot_completed_output', side_effect=capture_after_exit):
+                        metrics = grader.run_timed(['/bin/true'], timeout=.5,
+                            stdout_path=root/'stdout', stderr_path=root/'stderr',
+                            output_path=output, snapshot_path=snapshot)
+                self.assertGreaterEqual(metrics['output_capture_seconds'], delay)
+                self.assertGreaterEqual(metrics['elapsed_seconds'],
+                                        metrics['process_elapsed_seconds'] + delay)
+                self.assertEqual(metrics['timed_out'], delay > .5)
+                scored = grader.score_query('q', snapshot, metrics, metrics['output_error'],
+                                            {'a': 0, 'b': 1, 'c': 2}, {'q': {'a'}})
+                self.assertEqual(scored['score'], expected_score)
+                self.assertEqual(scored['output_valid'], True)
+
+    def test_failed_capture_is_timed_and_cannot_score(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            def fail_capture(*args):
+                time.sleep(.04)
+                raise grader.VerificationError('controlled capture failure')
+            with patch.object(grader, 'SUBMISSION_COMMAND', []), \
+                    patch.object(grader, 'SUBMISSION_DIR', root), \
+                    patch.object(grader, 'freeze_output_dir', side_effect=fail_capture):
+                metrics = grader.run_timed(['/bin/true'], timeout=.5,
+                    stdout_path=root/'stdout', stderr_path=root/'stderr',
+                    output_path=root/'output', snapshot_path=root/'snapshot')
+            self.assertGreaterEqual(metrics['elapsed_seconds'], .04)
+            self.assertIn('controlled capture failure', metrics['output_error'])
+            scored = grader.score_query('q', root/'snapshot', metrics, metrics['output_error'], {}, {})
+            self.assertEqual(scored['score'], 0)
 
     def test_finalizer_composite_and_judge_failure(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -275,6 +275,10 @@ def pid_uid(pid: int) -> int | None:
         lines = Path(f"/proc/{pid}/status").read_text().splitlines()
     except OSError:
         return None
+    # Zombies cannot retain mappings or create new IPC objects. Their parent
+    # (possibly the verifier) may reap them after this deployment barrier.
+    if any(line.startswith("State:") and line.split()[1] in ("Z", "X") for line in lines):
+        return None
     for line in lines:
         if line.startswith("Uid:"):
             try:
@@ -301,12 +305,50 @@ def stop_submission_processes() -> None:
                 pass
         if sig == signal.SIGTERM:
             time.sleep(0.5)
+    deadline = time.monotonic() + 5.0
+    while remaining := submission_pids():
+        if time.monotonic() >= deadline:
+            raise VerificationError("submission processes survived deployment cleanup")
+        for pid in remaining:
+            try:
+                os.kill(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        time.sleep(0.01)
+
+
+def submission_sysv_ipc() -> list[tuple[str, int]]:
+    objects = []
+    for kind, identifier in (("shm", "shmid"), ("msg", "msqid"), ("sem", "semid")):
+        lines = Path(f"/proc/sysvipc/{kind}").read_text().splitlines()
+        columns = lines[0].split()
+        for line in lines[1:]:
+            row = dict(zip(columns, line.split(), strict=True))
+            if SUBMISSION_UID in (int(row["uid"]), int(row["cuid"])):
+                objects.append((kind, int(row[identifier])))
+    return objects
+
+
+def clear_submission_sysv_ipc() -> None:
+    flags = {"shm": "-m", "msg": "-q", "sem": "-s"}
+    for kind, identifier in submission_sysv_ipc():
+        # Container root need not have CAP_IPC_OWNER. Remove as the creator,
+        # through a trusted binary, after every submitted process has exited.
+        result = subprocess.run(
+            SUBMISSION_COMMAND + ["/usr/bin/ipcrm", flags[kind], str(identifier)],
+            cwd="/", capture_output=True, text=True, timeout=5,
+        )
+        if result.returncode != 0:
+            raise VerificationError(f"could not remove submission System V {kind} {identifier}")
+    if submission_sysv_ipc():
+        raise VerificationError("System V IPC survived deployment cleanup")
 
 
 def restart_submission_for_queries() -> None:
     stop_submission_processes()
-    # Docker provides a private IPC namespace. Only the bounded index workspace
-    # survives deployment; POSIX shared memory is runtime state, not an index file.
+    # Build and queries share the container's private IPC namespace. System V
+    # objects survive process exit and are not represented by /dev/shm files.
+    clear_submission_sysv_ipc()
     for entry in Path("/dev/shm").iterdir():
         if entry.is_dir() and not entry.is_symlink():
             shutil.rmtree(entry)
@@ -332,7 +374,11 @@ def run_timed(
     timeout: float,
     stdout_path: Path,
     stderr_path: Path,
+    output_path: Path | None = None,
+    snapshot_path: Path | None = None,
 ) -> dict[str, Any]:
+    if (output_path is None) != (snapshot_path is None):
+        raise ValueError("output and snapshot paths must be supplied together")
     stdout_path.parent.mkdir(parents=True, exist_ok=True)
     with stdout_path.open("wb") as stdout, stderr_path.open("wb") as stderr:
         started = time.monotonic()
@@ -368,9 +414,28 @@ def run_timed(
             ready = exited.wait(max(0.0, started + timeout - time.monotonic()))
             observed = completion["observed"] if ready else time.monotonic()
             elapsed_seconds = observed - started
+            process_elapsed_seconds = elapsed_seconds
             timed_out = not ready or elapsed_seconds > timeout
+            output_error = None
+            output_capture_seconds = 0.0
+            if output_path is not None:
+                if timed_out:
+                    output_error = "output not captured before the query deadline"
+                else:
+                    capture_started = time.monotonic()
+                    try:
+                        freeze_output_dir(output_path.parent, output_path)
+                        snapshot_completed_output(output_path, snapshot_path)
+                    except (VerificationError, OSError) as error:
+                        output_error = str(error)
+                    captured = time.monotonic()
+                    output_capture_seconds = captured - capture_started
+                    # Any accepted bytes, including a retained-fd write racing
+                    # with exit, must have arrived within this measured interval.
+                    elapsed_seconds = captured - started
+                    timed_out = elapsed_seconds > timeout
             cleanup_started = time.monotonic()
-            if timed_out:
+            if not ready:
                 kill_group(process)
             waiter.join()
             returncode = completion["returncode"]
@@ -382,6 +447,9 @@ def run_timed(
     return {
         "returncode": returncode,
         "elapsed_seconds": elapsed_seconds,
+        "process_elapsed_seconds": process_elapsed_seconds,
+        "output_capture_seconds": output_capture_seconds,
+        "output_error": output_error,
         "timed_out": timed_out,
         "cleanup_seconds": cleanup_seconds,
     }
@@ -635,7 +703,7 @@ def freeze_output_dir(output_dir: Path, output_path: Path) -> None:
 
 
 def snapshot_completed_output(output_path: Path, snapshot_path: Path) -> None:
-    """Capture completion-time bytes; chmod cannot revoke a retained write fd."""
+    """Bound capture size; query timing ends only after these bytes are protected."""
     with output_path.open("rb") as stream:
         content = stream.read(MAX_OUTPUT_BYTES + 1)
     if len(content) > MAX_OUTPUT_BYTES:
@@ -816,6 +884,7 @@ def main() -> int:
                 "query", query_number, raw_vectors=raw_vectors,
                 metadata_row=metadata_row, dimension=int(private_config["dimension"]),
             )
+            snapshot_path = RESULTS_DIR / f"run.query-{query_number:03d}.results.jsonl"
             metrics = run_timed(
                 ["/usr/local/bin/search-swe-query-cpu", str(SUBMISSION_DIR / "run.sh"), "--index-dir", str(INDEX_DIR),
                  "--query-vectors", str(vectors_path),
@@ -825,14 +894,10 @@ def main() -> int:
                 timeout=QUERY_TIMEOUT_SECONDS,
                 stdout_path=RESULTS_DIR / f"run.query-{query_number:03d}.stdout.log",
                 stderr_path=RESULTS_DIR / f"run.query-{query_number:03d}.stderr.log",
+                output_path=output_path,
+                snapshot_path=snapshot_path,
             )
-            output_error = None
-            snapshot_path = RESULTS_DIR / f"run.query-{query_number:03d}.results.jsonl"
-            try:
-                freeze_output_dir(output_path.parent, output_path)
-                snapshot_completed_output(output_path, snapshot_path)
-            except (VerificationError, OSError) as error:
-                output_error = str(error)
+            output_error = metrics.get("output_error")
             records.append((str(metadata_row["query_id"]), snapshot_path, metrics, output_error))
             check_index_size(INDEX_DIR)
 
@@ -857,6 +922,7 @@ def main() -> int:
         report.update({
             "valid": True, "score": 100.0 * aggregate["reward"], "reward": aggregate["reward"],
             "scoring": {**aggregate, "p95_target_seconds": P95_TARGET_SECONDS,
+                        "timing_end": "protected output capture after client exit",
                         "quantile": "nearest-rank ceil(0.95*N), one-based",
                         "rounds": 1, "timeout_latency_seconds": QUERY_TIMEOUT_SECONDS},
             "query_count": len(results), "passed_queries": passed,
@@ -878,7 +944,11 @@ def main() -> int:
     except Exception as error:
         report["errors"].append(str(error))
     finally:
-        stop_submission_processes()
+        try:
+            stop_submission_processes()
+        except Exception as error:
+            report.update(valid=False, score=0.0, reward=0.0)
+            report["errors"].append(f"cannot confirm submission cleanup: {error}")
         try:
             report["resources_final"] = resource_snapshot()
         except OSError as error:
