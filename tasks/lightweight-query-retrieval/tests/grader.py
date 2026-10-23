@@ -64,8 +64,10 @@ def command(arguments, scratch):
     for key in ("CUDA_VISIBLE_DEVICES", "NVIDIA_VISIBLE_DEVICES", "NVIDIA_DRIVER_CAPABILITIES", "LD_LIBRARY_PATH"):
         if os.environ.get(key):
             env.append(f"{key}={os.environ[key]}")
-    return ["/usr/sbin/runuser", "-u", "submission", "--", "/usr/bin/setpriv", "--no-new-privs",
-            "/usr/bin/env", "-i", *env, *arguments]
+    # The root-owned wrapper installs a socket filter before dropping UID. The
+    # verifier's audit network access must never reach candidate code.
+    return ["/usr/bin/env", "-i", *env, "/opt/conda/bin/python",
+            "/tests/offline_exec.py", "submission", *arguments]
 
 
 def directory(path, candidate=False):
@@ -96,6 +98,7 @@ def boundary(scratch):
         "test -x /app/build.sh", "test -x /app/run.sh", "test ! -w /app",
         "test ! -r /tests/data/queries.jsonl", "test ! -r /tests/data/ground_truth.jsonl",
         "test ! -r /tests/grader.py", "test ! -w /logs/verifier", "test ! -e /task/data/examples.jsonl",
+        "test ! -r /logs/agent/trajectory.json", "test ! -w /logs/agent",
         'test -z "${OPENAI_API_KEY+x}"', 'test -z "${OPENROUTER_API_KEY+x}"',
         'test -z "${JINA_API_KEY+x}"', 'test -z "${CODEX_HOME+x}"']
     result = subprocess.run(command(["/bin/sh", "-c", " && ".join(checks)], scratch), timeout=10,
@@ -265,8 +268,8 @@ def main():
     try:
         report = evaluate()
         write_json(LOGS/"report.json", report)
-        write_json(LOGS/"reward.json", {"reward": report["reward"], "ndcg_at_10": report["ndcg_at_10"]})
-        (LOGS/"reward.txt").write_text(str(report["reward"])+"\n")
+        # report.json contains the raw retrieval score. Only finalize_reward.py
+        # may award it after a successful integrity audit; public reward stays 0.
         print(json.dumps(report, ensure_ascii=False))
     except Exception as exc:
         stop_children()

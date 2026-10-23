@@ -10,6 +10,7 @@ from pathlib import Path
 import pwd
 import selectors
 import signal
+import stat
 import subprocess
 import sys
 import time
@@ -21,10 +22,50 @@ from checks import check_result
 from data_io import read_metadata, read_vectors
 
 
-HIDDEN_QUERY_COUNT = 10
+HIDDEN_QUERY_COUNT = 25
 BUILD_TIMEOUT_SECONDS = 600.0
 QUERY_TIMEOUT_SECONDS = 0.015
 THREADS = 8
+
+
+def stop_submission_processes(run_as, timeout=5.0):
+    """Kill all live processes of the container's dedicated submission user.
+
+    A process group is insufficient: fork + setsid escapes it. Repeat the UID
+    scan until empty so children created during cleanup cannot cross a phase.
+    An unreaped zombie is harmless only once its remaining threads have exited.
+    """
+    if not run_as:
+        return
+    uid = pwd.getpwnam(run_as).pw_uid
+    if uid in (0, os.geteuid()):
+        raise ValueError("submission cleanup requires a separate non-root UID")
+    deadline = time.monotonic() + timeout
+    while True:
+        live = []
+        for entry in Path("/proc").iterdir():
+            if not entry.name.isdigit():
+                continue
+            try:
+                fields = dict(line.split(":", 1) for line in
+                              (entry / "status").read_text(errors="replace").splitlines() if ":" in line)
+                if uid not in map(int, fields["Uid"].split()):
+                    continue
+                if fields["State"].strip()[0] in "ZX" and int(fields["Threads"]) == 1:
+                    continue
+                live.append(int(entry.name))
+            except (FileNotFoundError, ProcessLookupError):
+                continue
+        if not live:
+            return
+        for pid in live:
+            try:
+                os.kill(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        if time.monotonic() >= deadline:
+            raise RuntimeError("submission processes did not exit before the next phase")
+        time.sleep(0.01)
 
 
 def write_json(path, value):
@@ -37,7 +78,8 @@ def read_jsonl(path):
 
 
 class Process:
-    def __init__(self, command, app, work, log, run_as, threads):
+    def __init__(self, command, app, work, log, run_as, threads, *, service=False):
+        self.run_as = run_as
         self.log = log.open("wb")
         environment = {
             "PATH": f"{Path(sys.executable).parent}:/usr/local/bin:/usr/bin:/bin",
@@ -51,8 +93,11 @@ class Process:
         if run_as:
             # The verifier can contact its trajectory judge; submitted build and
             # query processes inherit an Internet-socket block before dropping uid.
+            sandbox = [run_as]
+            if service:
+                sandbox += ["--service", str(app), str(work)]
             command = [sys.executable, str(Path(__file__).with_name("offline_exec.py")),
-                       run_as, *command]
+                       *sandbox, *command]
         self.proc = subprocess.Popen(command, cwd=app, env=environment,
                                      stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                                      stderr=self.log, bufsize=0, start_new_session=True)
@@ -122,21 +167,31 @@ class Process:
 
     def close(self):
         try:
-            os.killpg(self.proc.pid, signal.SIGKILL)
-        except ProcessLookupError:
-            pass
-        self.proc.wait()
-        self.selector.close()
-        self.writer.close()
-        self.proc.stdin.close()
-        self.proc.stdout.close()
-        self.log.close()
+            try:
+                os.killpg(self.proc.pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            stop_submission_processes(self.run_as)
+            self.proc.wait(timeout=5)
+        finally:
+            self.selector.close()
+            self.writer.close()
+            self.proc.stdin.close()
+            self.proc.stdout.close()
+            self.log.close()
 
 
 def check_index_files(path):
-    for item in path.rglob("*"):
-        if item.is_symlink():
+    pending = [path]
+    while pending:
+        item = pending.pop()
+        mode = item.lstat().st_mode
+        if stat.S_ISLNK(mode):
             raise ValueError("persistent index files must not be symbolic links")
+        if stat.S_ISDIR(mode):
+            pending.extend(item.iterdir())
+        elif not stat.S_ISREG(mode) or item == path:
+            raise ValueError("persistent index must be a directory containing only regular files and directories")
 
 
 def inspect_faiss(path, rows, dimension):
@@ -227,8 +282,8 @@ def run_stage(args, name, corpus, query_file, gold_file):
     build_seconds = time.monotonic() - started
     check_index_files(index)
     faiss_info = inspect_faiss(index, len(vectors), vectors.shape[1])
-    # Retire the paths supplied to build, retaining the verifier's open maps.
-    # The official run uses aliases to avoid copying the 10M corpus.
+    # Retain the verifier's open maps. Service Landlock rules also deny the
+    # canonical corpus path, including when these build inputs were aliases.
     retired_input = work / "retired-build-input"
     corpus.rename(retired_input)
     retired_input.chmod(0o700)
@@ -239,6 +294,7 @@ def run_stage(args, name, corpus, query_file, gold_file):
     phases = [queries, queries]
     for phase, requests in enumerate(phases):
         if phase:
+            check_index_files(index)
             relocated = work / "restored-index"
             index.rename(relocated)
             index = relocated
@@ -247,10 +303,11 @@ def run_stage(args, name, corpus, query_file, gold_file):
         try:
             for number, query in enumerate(requests):
                 if process is None:
+                    check_index_files(index)
                     started = time.monotonic()
                     process = Process([str(app / "run.sh"), "--index-dir", str(index), "--serve"],
                                       app, index, args.report.parent / f"{name}-serve-{phase}-{number}.log",
-                                      args.run_as, THREADS)
+                                      args.run_as, THREADS, service=True)
                     # Startup is bounded by test.sh's overall verifier timeout.
                     # The per-query deadline starts when request() sends input.
                     if process.readline() != {"status": "ready"}:

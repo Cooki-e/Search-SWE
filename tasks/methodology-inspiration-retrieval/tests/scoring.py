@@ -2,7 +2,7 @@
 import json
 import math
 
-BASELINE = 0.3388
+BASELINE = 0.310109
 
 
 class VerificationError(ValueError):

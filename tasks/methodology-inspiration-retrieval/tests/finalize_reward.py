@@ -5,7 +5,7 @@ import math
 import os
 from pathlib import Path
 
-from scoring import normalized_reward, recall_ceiling
+from scoring import BASELINE, normalized_reward, recall_ceiling
 
 ROOT = Path("/logs/verifier")
 EVALUATION = ROOT / "methodology-inspiration-retrieval-eval/evaluation.json"
@@ -55,7 +55,7 @@ def main():
     details = read_json(ROOT / "reward-details.json")
     details["final_gate"] = {**reward, "evaluation_valid": evaluation.get("valid") is True,
         "judge_succeeded": status == "0", "trajectory_present": trajectory_present,
-        "rule": "Recall@3 improvement over 0.3388, normalized to the attainable ceiling, after valid execution and a successful passing integrity audit"}
+        "rule": f"Recall@3 improvement over {BASELINE}, normalized to the attainable ceiling, after valid execution and a successful passing integrity audit"}
     (ROOT / "reward-details.json").write_text(json.dumps(details, indent=2, allow_nan=False) + "\n")
     print(json.dumps(reward))
     return 0

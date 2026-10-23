@@ -13,7 +13,7 @@ You have 120 minutes to complete the task. Keep all submission files under `/app
 
 The build must exit successfully within **600 seconds** and save a valid Faiss ANN index covering the supplied corpus as `index.faiss`. The index must use L2, be readable by `faiss.read_index`, and be used during retrieval. Full-corpus brute-force search must not be the default query strategy.
 
-Store all required runtime state as regular files inside the supplied index directory, without symlinks. The system must work after restart and index relocation, with the original build input paths unavailable and no surviving build process.
+Store all required runtime state as regular files inside the supplied index directory. The system must work after restart and index relocation, with the original build input paths unavailable and no surviving build process.
 
 ```bash
 /app/run.sh --index-dir /path/to/index --serve

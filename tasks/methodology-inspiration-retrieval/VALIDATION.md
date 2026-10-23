@@ -1,33 +1,40 @@
-# Validation
+# Local validation
 
-## Official publication — 2026-10-18
+Release reconciliation (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md) records the available Luna result, judge health, version limits and published asset pins. The records below preserve earlier validation stages; statements that no trial has run, a trial is running, or assets are unpublished refer to those earlier stages.
 
-The current package supersedes the historical unpublished status recorded below.
-Public inputs were published as Cooki-e in [HF discussion #4](https://huggingface.co/datasets/search-swe/Search-SWE/discussions/4)
-and merged into `search-swe/Search-SWE` at immutable revision
-`2182510dda66f946a153a5b09515f82fb4da125e`. All 2 public input files
-were freshly downloaded from that revision into a new output/cache directory;
-both the repository downloader and an independent size/SHA-256 check passed.
-`assets.json` now pins the official files. Input bytes are unchanged.
+## Baseline revision — 2026-10-23, v0.1.1
 
-All 11 task regression tests passed on the host. The 15 Stella model files
-were also size/hash-verified locally; their original upstream references are
-unchanged and no model weights were uploaded.
-Across the final two-task publication checkout, the repository suite ran
-174 tests: 172 passed and two optional-dependency tests were skipped. The five
-scaffolding and 12 maintainer-helper tests also passed. Task-specific and
-repository-wide `check_tasks.py --merge-ready --base` checks each reported zero
-errors; `check_release.py` reported zero errors and zero warnings. The base
-commit was `dab2e1e04904ff2731bf81849c65c639631c9499`.
+The user selected **0.310109** as the new zero-reward baseline. This is the
+six-decimal rounding of untrained Stella without a query prompt on the final
+4,851-document corpus and 122-query test set: **0.3101092896174863**. Source:
+`../../../task_development/methodology-inspiration-retrieval/research/stella400m-v1/screened-v2-results.json`,
+`models.stella_plain.recall3`.
 
-The publication contains only the two task directories. Original instructions,
-scoring, resource limits and model source records are unchanged. No new paid
-coding-agent trial, live trajectory audit or GPU experiment was run; the
-historical runtime results and their limitations below remain applicable.
-Author-side publication logs are retained outside the package in
-`pr_preparation/filtered-ann-methodology-20261018T061022Z/`.
+The attainable Recall@3 ceiling remains **0.9901639344262295**. Quality Q maps
+to `clip((Q-0.310109)/(0.9901639344262295-0.310109), 0, 1)`; a successful passing
+integrity audit is still required for a positive final reward.
 
-## Local validation — 2026-10-16
+The saved Codex / `openai/gpt-6-luna` / `max` trial from 2026-10-22 has valid
+results for all 122 queries, raw Recall@3 **0.32076502732240436**, and a
+successful passing trajectory judge. Applying the new formula gives final
+reward **0.0156693625514165**; its original reward under baseline 0.3388 was
+zero. This is an offline recalculation using the saved evaluation and integrity
+gate, not a new agent or judge run. The original run artifacts are preserved at
+`../../../task_results/methodology-inspiration-retrieval/codex-openrouter-gpt-6-luna-max-v010-20261022T093112Z/jobs/2026-10-22__17-31-54/methodology-inspiration-retrieva__PbJPQsK/verifier/`.
+The evidence files are `methodology-inspiration-retrieval-eval/evaluation.json`,
+`reward.json`, and `reward-details.json` (`final_gate`).
+
+Validation for this revision: all 11 task-local unit tests passed; the TOML,
+grader, scoring module and finalizer agree on the baseline; the production
+scoring/finalizer functions reproduce the recalculated reward using the saved
+integrity gate and the ceiling computed from the fixed labels. Both instruction
+files are unchanged. The task static checker still reports the two existing
+unpublished data revision errors for `data/corpus.jsonl` and `data/examples.jsonl`.
+
+## Archived packaging validation — 2026-10-16, v0.1.0
+
+Everything below records the original packaging checks with baseline 0.3388.
+Statements about unperformed trials and scores describe that historical revision.
 
 The local package, deterministic grader, isolated runtime and genuine Stella
 baseline have been exercised. This record does not claim a completed coding

@@ -2,11 +2,12 @@ schema_version = "1.4"
 
 artifacts = [
     "/app",
+    "/logs/agent/trajectory.json",
 ]
 
 [task]
 name = "search-swe/lightweight-query-retrieval"
-version = "0.3.0"
+version = "0.4.0"
 description = "Reduce complete query processing time while maintaining a required retrieval quality across three document collections."
 authors = [{ name = "Bingyu" }]
 keywords = ["information-retrieval", "efficiency", "query-encoding", "gpu"]
@@ -37,10 +38,11 @@ user = "root"
 network_mode = "no-network"
 
 [verifier]
-timeout_sec = 2400.0
+timeout_sec = 3900.0
 user = "root"
 environment_mode = "separate"
-network_mode = "no-network"
+network_mode = "allowlist"
+allowed_hosts = ["openrouter.ai"]
 
 [environment]
 build_timeout_sec = 1800.0
@@ -51,3 +53,7 @@ cpus = 16
 memory_mb = 32768
 storage_mb = 102400
 gpus = 1
+
+[verifier.env]
+OPENAI_BASE_URL = "${VERIFIER_OPENAI_BASE_URL:-}"
+OPENAI_API_KEY = "${VERIFIER_OPENAI_API_KEY:-}"

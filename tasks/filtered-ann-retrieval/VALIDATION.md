@@ -1,30 +1,139 @@
 # Validation
 
-## Official publication — 2026-10-18
+Release reconciliation (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md) records the available Luna result, judge health, version limits and published asset pins. The records below preserve earlier validation stages; statements that no trial has run, a trial is running, or assets are unpublished refer to those earlier stages.
 
-The current package supersedes the historical unpublished status recorded below.
-Public inputs were published as Cooki-e in [HF discussion #4](https://huggingface.co/datasets/search-swe/Search-SWE/discussions/4)
-and merged into `search-swe/Search-SWE` at immutable revision
-`2182510dda66f946a153a5b09515f82fb4da125e`. All 8 public input files
-were freshly downloaded from that revision into a new output/cache directory;
-both the repository downloader and an independent size/SHA-256 check passed.
-`assets.json` now pins the official files. Input bytes are unchanged.
+## Query split expansion — 2026-10-23
 
-The 14 task regression tests passed in the existing CPU verifier image,
-with current tests mounted read-only, no network and no GPU.
-Across the final two-task publication checkout, the repository suite ran
-174 tests: 172 passed and two optional-dependency tests were skipped. The five
-scaffolding and 12 maintainer-helper tests also passed. Task-specific and
-repository-wide `check_tasks.py --merge-ready --base` checks each reported zero
-errors; `check_release.py` reported zero errors and zero warnings. The base
-commit was `dab2e1e04904ff2731bf81849c65c639631c9499`.
+Task version **0.11.0**. The agent-facing instruction is unchanged, SHA-256
+`1ac4215f055a528982c01420d85ffff6f683774304e7aa45db19a6d438da5260`. CPU-only, 8 cores, 16 GiB;
+600-second build and 15 ms query deadlines are unchanged.
 
-The publication contains only the two task directories. Original instructions,
-scoring, resource limits and model source records are unchanged. No new paid
-coding-agent trial, live trajectory audit or GPU experiment was run; the
-historical runtime results and their limitations below remain applicable.
-Author-side publication logs are retained outside the package in
-`pr_preparation/filtered-ann-methodology-20261018T061022Z/`.
+- Public split: five retained plus five relatively easier measured additions,
+  **10 total**. Hidden split: five retained plus twenty harder disjoint additions,
+  **25 total**. Two of the 27 candidate queries remain unused.
+- Each split retains original cases 01–05, covering single/two/three-tag filters.
+  Additions are ranked by the reference implementation's median over ten saved
+  replays, with maximum latency and source ID as tie breakers; the lowest five
+  are public and highest twenty hidden. All additions use broad tag `[23]`.
+- All 35 query vectors and IDs are distinct, and the 25 added Top-10 document
+  sets are pairwise disjoint. Exact labels preserve the independently computed
+  candidate gold; all 35 ID-only gold responses pass the current checker.
+- Grader and finalizer now require 25 cases and divide by 25; two service phases
+  make 50 requests. **19 regression tests passed with no skips**, including
+  final reward 5/25 = 0.2 and rejection of old ten-case evaluation reports.
+- A real unprivileged subprocess test with timeout, malformed response and exit
+  failures yields **22/25 = 0.88**, with 50 requests and eight service loads.
+- Eight runtime assets pass size/SHA-256 verification. The actual downloader
+  restores both updated public files from local staging into a temporary directory.
+- Five final-split saved-program replays: reference hidden 125/125
+  correct and within 15 ms; saved Luna hidden 25/125 within
+  15 ms (each round 5/25 = 0.2), and public 25/50
+  within 15 ms (each round 5/10 = 0.5). Both return correct answers in every call.
+  Reference maximum hidden latency is **14.985 ms**, close to the limit;
+  all individual timings are retained, without a guarantee against future host jitter.
+
+These replays reuse the unmodified reference and saved Codex / gpt-6-luna / max
+submission from the v0.10.1 run ending in trial
+`filtered-ann-retrieval__fvGoMji`. They use the current RPC timer/checker,
+five fresh service loads, alternating mount paths, random query order, 8 pinned
+CPUs and 16 GiB. Slow replies are recorded with a 5-second diagnostic timeout
+and classified against 15 ms. They do not rerun index construction, copy indexes,
+execute a new coding agent or run a live trajectory judge. This is raw saved-program
+retrieval evidence, not a new full Harbor reward or a measured future Luna score.
+
+The selected-package release check with local unpublished staging has zero errors
+and one publication warning. The standard package check reports exactly the two
+unpinned public assets. The six corpus/example pins are unchanged; the two new
+public validation entries have actual hashes and null revisions with local
+`hf-staging` copies. No upload, commit or push was performed. Publishing those
+files and pinning their immutable revision remain required for remote restoration.
+
+Commands, selection mapping, before/after snapshots, regression output and all
+replay timings are under
+`task_development/filtered-ann-retrieval/split-10-public-25-hidden-20261023/`.
+The source/rewritten-instruction audit required only the structured source's
+hidden-count update; no advice or evaluation implementation details were added
+to `instruction.md`. No new scaffold or structural precedent was needed; the
+existing package layout, isolation and published resource limits were retained.
+
+## Execution-boundary fixes — 2026-10-22
+
+Task version **0.10.1**. The instruction is unchanged, SHA-256
+`8d827124973298a1e1efb3268ed7ae3fa2724c53fcdbde723696e5ac5d8678fc`.
+The corpus, labels, ten-query scoring, 600-second build limit and 15 ms request
+deadline are unchanged.
+
+The PR #18 review identified three enforceable gaps. The verifier now:
+
+- Kills and checks every live process of the dedicated submission UID after
+  build, at service shutdown and before recovery/relocation. This includes
+  double-forked `setsid()` descendants and workers whose main thread has exited.
+  Failure to finish cleanup invalidates the stage.
+- Applies a Landlock filesystem allowlist before executing each service. The
+  current index is writable; application code and system runtime files are
+  readable. Original corpus paths, their aliases and other work directories
+  cannot be read. Root-side corpus maps remain usable; mounted inputs are not
+  chmod'ed or chown'ed. Landlock ABI >= 3 is required and failure is fatal.
+- Uses `lstat` to accept only an index directory containing regular files and
+  directories. It rejects links, FIFOs, sockets and devices before loading an
+  index, including at restart and relocation boundaries.
+
+### Executed checks
+
+| Check | Result |
+| --- | --- |
+| Final grader regression suite | **18 passed, 0 skipped**, including four real container integration tests |
+| Detached-process cleanup | Actual double-fork/setsid descendants killed after build, normal shutdown, timeout, malformed output and early exit |
+| Exited leader with live worker | Actual detached worker killed even while its thread-group leader reports zombie state |
+| Filesystem boundary and reload | Build reads the inputs; both service passes cannot read original aliases, canonical paths, retired paths, a link under the application directory or a `/proc/self/root` alias; real saved Faiss index returns all 20 correct responses after relocation |
+| Index file types | Real FIFO, UNIX socket, character device, block device, nested symlink and symlink index root rejected without opening/blocking on them; regular files/directories accepted |
+| Existing process negatives | UID, credentials, protected labels/rewards, IPv4/IPv6 block, nonzero exit, missing/malformed output and timeout checks passed |
+| Existing partial-credit recovery | Three failed queries yield **0.7**, with 20 requests and eight service loads |
+| Task static and selected-package release checks | **0 errors, 0 warnings** |
+| Python/shell syntax and changed-file whitespace | Passed |
+
+Tests ran as root inside disposable containers with the dedicated UID 10001;
+the cleanup tests must not run on the host. The final suite used eight CPU cores,
+2 GiB RAM, no GPU, no network and no API keys. The host reported Linux
+`6.8.0-106-generic`, x86-64 and Landlock ABI 4. ARM64 is supported by the wrapper
+but was not exercised here.
+
+The initial three-vector integration fixture spent too long starting an
+eight-thread Faiss search team. Its service now uses one thread and performs a
+warm-up before readiness. No production timeout or thread limit was relaxed.
+An attempted offline build from the task Dockerfile missed a dependency-install
+cache and was stopped during package retries. Validation instead reused the
+existing task verifier's dependencies and built a local image containing the
+updated `/tests` tree, using the recorded `Dockerfile.validation`. This is not a
+fresh dependency-install build.
+
+### Full-corpus reference run
+
+The existing external reference implementation ran through `test.sh` in a fresh
+container: eight CPUs pinned to cores 0–7, 16 GiB RAM, no GPU, no network, no API
+keys, and read-only mounts for the original corpus and reference source.
+
+- Build: **210.943 seconds**; persisted `IndexIVFScalarQuantizer`, 10,000,000
+  vectors of dimension 192.
+- Hidden cases: **10/10**, including all **20** original/relocated requests.
+- Maximum request latency: **7.556 ms**; service loads: **2.070 / 2.070 seconds**.
+- Raw retrieval: **1.0**; required live audit: **not run**.
+- Final reward: **0.0**, `test.sh` exit **1**, due to missing audit credentials.
+  The missing-audit gate still fails closed.
+
+This full-corpus run used the initial boundary patch. The final refinement to
+recognize zombie leaders with live worker threads was tested afterward in the
+18-test suite; that conditional-only cleanup change did not trigger another
+full corpus build. The Landlock policy and index validation are identical in
+both runs. No coding-model trial, live judge call, asset upload or publication
+was performed.
+
+Commands, source hashes and logs are retained outside the task under
+`task_development/filtered-ann-retrieval/execution-boundaries-20261022/`.
+The full retrieval report is
+`reference-full/filtered-ann-retrieval-eval/evaluation.json`; final regression
+output is `regression-tests-final.log`. These are local author records, not
+claims of publicly accessible evidence.
 
 ## Output-contract simplification — 2026-10-18
 

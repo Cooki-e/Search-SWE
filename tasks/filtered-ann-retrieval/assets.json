@@ -69,24 +69,24 @@
     },
     {
       "path": "data/validation/ground_truth.jsonl",
-      "size_bytes": 2840,
-      "sha256": "cdedf6d38d12193103afa62695242dde237dace90e6524fc7f338bed975e517f",
+      "size_bytes": 2854,
+      "sha256": "62eecba127c84151ba8a581a90c3a1255b71fccc47d81ab2e3e46393dc3c9d75",
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": "2182510dda66f946a153a5b09515f82fb4da125e",
-        "filename": "tasks/filtered-ann-retrieval/validation/ground_truth.jsonl"
+        "revision": "234406eb7e304478e48905829fc0d3233f5a9f1f",
+        "filename": "tasks/filtered-ann-retrieval/v0.11.0/data/validation/ground_truth.jsonl"
       }
     },
     {
       "path": "data/validation/queries.jsonl",
-      "size_bytes": 10212,
-      "sha256": "3d088f2e857f94282d78e623f87d94333da8bace1a5454139b6adf0f5ef8fe60",
+      "size_bytes": 10152,
+      "sha256": "06c446c01032c5e64b561229fbf6620ac9b84bafb2fccc9f0c55c627c7491951",
       "source": {
         "repo_id": "search-swe/Search-SWE",
         "repo_type": "dataset",
-        "revision": "2182510dda66f946a153a5b09515f82fb4da125e",
-        "filename": "tasks/filtered-ann-retrieval/validation/queries.jsonl"
+        "revision": "234406eb7e304478e48905829fc0d3233f5a9f1f",
+        "filename": "tasks/filtered-ann-retrieval/v0.11.0/data/validation/queries.jsonl"
       }
     }
   ]

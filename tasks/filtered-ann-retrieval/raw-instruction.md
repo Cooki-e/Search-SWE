@@ -1,4 +1,4 @@
-# Task: filtered-ann-retrieval
+# Filtered ANN Retrieval
 
 ## Task Description
 
@@ -103,6 +103,8 @@ After the Agent phase, the Harbor verifier runs the submission in a separate env
 
 Submissions must not access hidden evaluation data, hard-code evaluation answers, use external answer lookup, bypass the required retrieval process, or manipulate evaluation infrastructure.
 
+The retrieval score is the fraction of the 25 hidden queries that return the exact Top-10 within 15 ms in both the initial and relocated-index runs, with identical responses. A failed query receives zero independently; build, index, service-load or required trajectory-audit failure makes the final reward zero.
+
 ## Hidden Test Overview
 
 The hidden evaluation contains held-out queries with private relevance judgments. The hidden queries are disjoint from the public development examples and are not copied into the Agent-visible environment.
@@ -112,7 +114,7 @@ The hidden evaluation contains held-out queries with private relevance judgments
 Before implementing the system, read the following task-provided documents:
 
 - [`/task/docs/environment.md`](/task/docs/environment.md) — a concise description of the installed Python environment, system runtime, and commonly available packages and tools.
+- [`/task/docs/available_resources.md`](/task/docs/available_resources.md) — the offline policy and resource restrictions.
+- [`/task/docs/data-format.md`](/task/docs/data-format.md) — the binary input formats.
 
 These documents are part of the Agent-visible task data and should be treated as read-only. Follow the resource and model restrictions in `available_resources.md`; do not infer permission to use an unlisted provider, model, or endpoint. The submitted system has no model or retrieval API credentials.
-
-The retrieval score is the fraction of the ten hidden queries that return the exact Top-10 within 15 ms in both the initial and relocated-index runs, with identical responses. A failed query receives zero independently; build, index, service-load or required trajectory-audit failure makes the final reward zero. Read `/task/docs/available_resources.md` for the offline policy and `/task/docs/data-format.md` for the binary input formats.

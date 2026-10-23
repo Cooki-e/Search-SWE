@@ -1,5 +1,7 @@
 # Local validation — version 0.1.1
 
+Release reconciliation (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md) records the available Luna result, judge health, version limits and published asset pins. The records below preserve earlier validation stages; statements that no trial has run, a trial is running, or assets are unpublished refer to those earlier stages.
+
 This package has published, pinned public inputs and local CPU execution evidence. A configured coding-agent/live-judge trial has not been run.
 
 ## Setting and provenance

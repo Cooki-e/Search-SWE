@@ -1,5 +1,7 @@
 # Paper Metadata Retrieval
 
+Current run and release status (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md). Earlier validation-stage statements are superseded by that dated record.
+
 Author: Cooki-e. Implement reusable Top-1 paper retrieval for natural-language research needs with source conditions. The CPU package provides 70,000 complete papers, 3 public validation requests and 8 verifier-only test requests. No training or fine-tuning.
 
 The public database is `data/corpus.sqlite`, with a single raw `documents` table containing document IDs, bibliographic IDs, titles, abstracts, complete text, metadata JSON and body checksums. It contains no search index, answer annotations, extracted eligibility masks or authoring traces. Source-collection and construction provenance is retained separately in the authoring workspace. Each paper keeps its actual per-record bibliographic and licensing metadata; no blanket redistribution license is asserted for the collection.

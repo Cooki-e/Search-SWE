@@ -1,5 +1,7 @@
 # Methodology Inspiration Retrieval
 
+Current run and release status (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md). Earlier validation-stage statements are superseded by that dated record.
+
 Build a working search engine that retrieves papers offering methodological
 inspiration for a research problem and motivation. The solver receives a fixed
 abstract collection, citation examples, Stella 400M, one A100 40GB and the
@@ -82,13 +84,15 @@ For each query, `recall_q = |top3 ∩ positives_q| / |positives_q|`.
 mean Recall@3 is `U = mean(min(3, |positives_q|) / |positives_q|)` =
 `0.9901639344262295`.
 
-The user-approved fixed zero anchor is **B = 0.3388**. Deterministic quality
+The user-approved fixed zero anchor is **B = 0.310109**. Deterministic quality
 reward is `clip((Q - B) / (U - B), 0, 1)`. This preserves standard macro
 Recall@3 while allowing an ideal Top-3 list for every query to earn full credit.
-The source measurement was `0.33879781420765026` for untrained Stella with its
-official `s2p_query` prompt on this exact corpus/test set. Rounding the anchor
-to 0.3388 is intentional. Neither the published 49.34% nor a new trial score
-replaces this frozen anchor.
+The source measurement was `0.3101092896174863` for untrained Stella without a
+query prompt on this exact corpus/test set. Rounding the anchor to six decimal
+places is intentional. The archived result is `models.stella_plain.recall3` in
+`../../../task_development/methodology-inspiration-retrieval/research/stella400m-v1/screened-v2-results.json`.
+Neither the published paper result nor a new trial score replaces this frozen
+anchor.
 
 Invalid build/output, a whole-batch timeout or a confirmed integrity violation
 receives zero. A successful passing trajectory audit is required for final
@@ -113,9 +117,4 @@ whole-batch process/isolation structure. MIR uses different inputs, model,
 metric, normalization and deadlines. Fenced command examples follow the user's
 preferred instruction style. No starter or reference solution is shipped.
 
-The two public data files are published in [the official Search-SWE dataset](https://huggingface.co/datasets/search-swe/Search-SWE/tree/2182510dda66f946a153a5b09515f82fb4da125e/tasks/methodology-inspiration-retrieval).
-`assets.json` pins immutable revision
-`2182510dda66f946a153a5b09515f82fb4da125e` and records their sizes and SHA-256 hashes.
-Stella's 15 model-file references retain the original upstream revision above;
-model weights were not re-uploaded. See [VALIDATION.md](VALIDATION.md) for
-publication checks, historical runtime evidence and remaining validation layers.
+Public inputs are published and pinned to immutable revisions in `assets.json`, with exact sizes and SHA-256 hashes. Unchanged model pins are retained. See [RUN_RESULTS.md](RUN_RESULTS.md) for the current run evidence and publication status. Existing source terms and attribution remain applicable.

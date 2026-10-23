@@ -1,5 +1,92 @@
 # Local validation
 
+Release reconciliation (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md) records the available Luna result, judge health, version limits and published asset pins. The records below preserve earlier validation stages; statements that no trial has run, a trial is running, or assets are unpublished refer to those earlier stages.
+
+## Integrity judge integration — 2026-10-22, version 0.4.0
+
+Instruction SHA-256:
+`dea7762c163c98d43a21e3eabfa516d2627d704677c54883421bfdb38f13fc8e`.
+This revision implements the user's requested trajectory audit after PR #23's
+finding that the numerical grader alone could reward a precomputed answer table.
+The source instruction and rewritten request both disclose the final integrity
+gate. Assets, original nDCG gains, the 0.45 quality threshold, 0.8-second anchor,
+three timing runs and all candidate execution limits are unchanged.
+
+### Implementation and reference patterns
+
+- Transfer `/logs/agent/trajectory.json` alongside `/app`, protect it from
+  candidate code, and inspect both with the pinned RewardKit 0.2.0 / DeepSeek
+  V4.1 Flash judge. The rubric prohibits hidden-answer mappings and outside
+  resources while allowing legitimate corpus indexes, token lookup, training,
+  learned parameters and preprocessing. Poor retrieval alone is not a violation.
+- Keep raw retrieval in `report.json` and judge output in `.private/`. Public
+  reward files stay zero until finalization. Only a successful audit with numeric
+  binary pass can release the original retrieval reward; missing/malformed
+  evidence, failed processes and invalid judge values fail closed.
+- Permit OpenRouter only in the verifier phase. Candidate commands still use a
+  clean environment, now with an inherited seccomp socket filter and UID drop.
+  No candidate receives judge keys or proxy variables. Agent execution remains
+  offline. The wrapper permits Unix-domain sockets needed by local libraries.
+- Extend the overall verifier timeout from 2,400 to 3,900 seconds for the audit.
+  Retrieval's 2,300-second supervisor and candidate build/load/query limits are
+  unchanged. The audit has a 1,260-second supervisor and finalization 60 seconds.
+
+The reviewed `memory-constrained-dense-retrieval` package at repository base
+`46197a43f8cbb364e72b6d63d5db873ae7d2cac8` supplies the offline-submission /
+root-side-audit pattern. The existing local `filtered-ann-retrieval` wrapper
+supplies the seccomp-before-UID-drop pattern. The DeepSeek backend is byte-identical
+to the repository wrapper. Task-specific grading and allowed training resources
+were retained; the finalizer strictly rejects boolean/string/nonbinary decisions.
+Only this task and its directly necessary shared network/judge inventory entries
+were changed for this integration.
+
+### Executed local checks
+
+| Check | Result |
+| --- | --- |
+| Host contract and final-gate tests | 19 passed; 2 container-only tests skipped |
+| Disposable CPU container tests | 21 passed, 0 skipped |
+| Built task verifier image, without GPU devices | Current runtime files matched the workspace byte-for-byte; 21 tests passed, 0 skipped |
+| Real subprocess isolation | UID 10001, no-new-privs, protected trajectory/judge files, filtered credentials; IPv4/IPv6 socket creation denied, including a child exec; Unix socketpair allowed |
+| Actual `test.sh` with controlled executables | 14 scenarios passed: valid pass/rejection/zero, malformed/nonbinary outputs, grader/judge failure, timeout exit status, missing credentials/trajectory, stale judge output and finalizer failure after a partial write |
+| Numerical gate | Fractional raw reward preserved on pass; no positive public reward before audit; booleans, strings, fractions, out-of-range values, duplicate JSON keys and nonfinite outputs rejected |
+| Verifier Dockerfile build | Passed using the existing GPU base and cached pinned judge dependencies; no GPU allocated |
+| Harbor schema/network plan | Passed: agent baseline and execution offline; verifier allowlist exactly `openrouter.ai`; trajectory declared as an artifact |
+| Canonical judge wrapper | Byte-identical to the existing repository wrapper |
+| Task static and selected-package release checks | 0 errors, 0 warnings |
+
+The container-only tests require explicit `SEARCH_SWE_RUN_CONTAINER_TESTS=1`
+inside a disposable root container; they replace fixture executables temporarily
+and must not be run against host `/app`, `/tests` or `/logs`.
+
+The selected shared-image/network/RewardKit suite ran 14 tests: nine passed,
+two host-dependency skips and three inventory failures. The remaining failures
+are the pre-existing unregistered `paper-metadata-retrieval` package in the
+local shared inventories (including the task-count assertion), not lightweight's
+new settings. The task's exact Harbor phase plan and wrapper were checked
+separately. No unrelated task was registered or altered to suppress those failures.
+
+### Limits and remaining evidence
+
+All judge decisions in the local shell/gate tests are supplied by test fixtures.
+The answer-table rejection case proves that a judge rejection cannot be bypassed
+by a positive retrieval score; it does **not** prove a live model detects the
+table. Likewise the allowlisted legitimate artifacts in the rubric have not yet
+been accepted by a live judge. Live adversarial/legitimate judge validation,
+the final-version coding-agent trial and a new GPU retrieval run remain unrun.
+No paid API call, GPU execution or publication was performed for this revision.
+
+The 0.3.0 witness below remains historical numerical-retrieval evidence; it does
+not validate the new prompt, process wrapper or integrity judge. Its zero reward
+is preserved. A future live audit needs `VERIFIER_OPENAI_BASE_URL` and
+`VERIFIER_OPENAI_API_KEY` configured locally, plus a scoped run budget.
+
+Commands, logs, source hashes and the local patch are retained outside the task
+under `task_development/lightretriever/judge-integration-20261022/`. These are
+local author records, not publicly hosted evidence or a completed audited trial.
+
+## Historical retrieval validation — version 0.3.0
+
 Task version: 0.3.0. Author: Bingyu. This records local execution evidence and
 the subsequent official asset pins. It is not a configured coding-agent trial.
 
