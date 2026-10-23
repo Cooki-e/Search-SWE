@@ -22,6 +22,11 @@ from scripts.egress.ownership import ProjectLock, PrivateDirectory, owner_root
 from environments.egress.gateway import LEASE_SECONDS
 
 
+# Containerd creation/removal can exceed a minute on busy hosts. These bounded
+# lifecycle waits do not extend egress leases or any task execution budget.
+DOCKER_LIFECYCLE_TIMEOUT_SECONDS = 300
+
+
 def docker_json(*arguments, timeout=15):
     response = subprocess.run(["docker", *arguments], check=True, capture_output=True, text=True, timeout=timeout)
     return json.loads(response.stdout)
@@ -173,7 +178,7 @@ print(json.dumps({'gateway':hashlib.sha256(Path('/opt/searchswe/gateway.py').rea
                                    "--label", f"searchswe.preflight={name}", "--network", "none", "--read-only",
                                    "--cap-drop", "ALL", "--security-opt", "no-new-privileges:true",
                                    "--memory", "256m", "--cpus", "1", "--entrypoint", "python3", image["Id"], "-c", script,
-                                   timeout=60)
+                                   timeout=DOCKER_LIFECYCLE_TIMEOUT_SECONDS)
             if contents != {"gateway": gateway_sha, "patch": patch_sha, "runtime": runtime_sha}:
                 raise ValueError("Gateway image contents do not match this checkout")
         finally:
@@ -186,7 +191,8 @@ print(json.dumps({'gateway':hashlib.sha256(Path('/opt/searchswe/gateway.py').rea
                     raise RuntimeError("Gateway preflight container ownership mismatch")
                 # This probe has no network, capabilities or secrets. Allow a
                 # bounded slow containerd teardown; this is not an egress lease.
-                removed = subprocess.run(["docker", "rm", "-f", name], capture_output=True, timeout=60)
+                removed = subprocess.run(["docker", "rm", "-f", name], capture_output=True,
+                                         timeout=DOCKER_LIFECYCLE_TIMEOUT_SECONDS)
                 if removed.returncode:
                     remains = subprocess.run(["docker", "container", "inspect", name], capture_output=True, text=True, timeout=15)
                     if remains.returncode == 0 or "No such" not in remains.stderr:
@@ -508,7 +514,7 @@ print(json.dumps({'gateway':hashlib.sha256(Path('/opt/searchswe/gateway.py').rea
         if delete:
             command.append("--volumes")
         try:
-            await self._run_docker_compose_command(command, timeout_sec=60)
+            await self._run_docker_compose_command(command, timeout_sec=DOCKER_LIFECYCLE_TIMEOUT_SECONDS)
         except BaseException:
             # Preserve credentials/manifest in the owner-only directory for
             # verified recovery; never pretend that Docker down succeeded.
