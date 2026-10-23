@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import statistics
 from pathlib import Path
 from typing import Any
 
@@ -15,36 +16,23 @@ QUALITY_K = 10
 EPSILON = 1e-12
 MIN_NDCG = 0.89
 MIN_RECALL = 0.99
-FULL_REWARD_STARTER_WALL_RATIO = 0.25
-ZERO_REWARD_STARTER_WALL_RATIO = 0.35
-REWARD_METRIC = "quality_gated_linear_starter_latency"
+ZERO_REWARD_SPEEDUP = 4.0
+FULL_REWARD_SPEEDUP = 16.0
+ROUND_COUNT = 5
+REWARD_METRIC = "quality_gated_linear_starter_speedup"
 
 
-def latency_reward(ratio: float) -> float:
-    if ratio <= FULL_REWARD_STARTER_WALL_RATIO:
-        return 1.0
-    if ratio >= ZERO_REWARD_STARTER_WALL_RATIO:
-        return 0.0
-    return (ZERO_REWARD_STARTER_WALL_RATIO - ratio) / (
-        ZERO_REWARD_STARTER_WALL_RATIO - FULL_REWARD_STARTER_WALL_RATIO
-    )
+def speedup_reward(speedup: float) -> float:
+    if not math.isfinite(speedup) or speedup <= 0:
+        raise ValueError("speedup must be positive and finite")
+    return max(0.0, min(1.0, (speedup - ZERO_REWARD_SPEEDUP) /
+                        (FULL_REWARD_SPEEDUP - ZERO_REWARD_SPEEDUP)))
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--results", type=Path, required=True)
-    parser.add_argument("--baseline-results", type=Path, required=True)
-    parser.add_argument("--qrels", type=Path, required=True)
-    parser.add_argument("--queries", type=Path, required=True)
-    parser.add_argument("--corpus-ids", type=Path, required=True)
-    parser.add_argument("--reference", type=Path, required=True)
-    parser.add_argument("--reference-metadata", type=Path, required=True)
-    parser.add_argument("--categories", type=Path, required=True)
-    parser.add_argument("--index-dir", type=Path, required=True)
-    parser.add_argument("--build-metrics", type=Path, required=True)
-    parser.add_argument("--run-metrics", type=Path, required=True)
-    parser.add_argument("--baseline-run-metrics", type=Path, required=True)
-    parser.add_argument("--report", type=Path, required=True)
+    for name in ("rounds", "qrels", "queries", "corpus-ids", "reference", "report"):
+        parser.add_argument("--" + name, type=Path, required=True)
     return parser.parse_args()
 
 
@@ -122,7 +110,10 @@ def validate_results(
             if not isinstance(item, dict):
                 raise ValueError(f"invalid result object for {query_id}")
             doc_id = str(item.get("doc_id", ""))
-            score = float(item.get("score"))
+            raw_score = item.get("score")
+            if isinstance(raw_score, bool) or not isinstance(raw_score, (int, float)):
+                raise ValueError(f"score must be numeric for {query_id}")
+            score = float(raw_score)
             if not doc_id or doc_id not in valid_docs or doc_id in seen or not math.isfinite(score):
                 raise ValueError(f"invalid document/score for {query_id}")
             if score > previous_score + EPSILON:
@@ -166,94 +157,75 @@ def retrieval_quality(
     return aggregate, per_query
 
 
+def grade_rounds(rounds, ids, valid_docs, qrels, reference):
+    if len(rounds) != ROUND_COUNT:
+        raise ValueError(f"expected {ROUND_COUNT} complete measurement rounds")
+    measured = []
+    for number, row in enumerate(rounds, 1):
+        expected_order = ["starter", "candidate"] if number % 2 else ["candidate", "starter"]
+        if row.get("round") != number or row.get("order") != expected_order:
+            raise ValueError("measurement rounds/order do not match the protocol")
+        result = {"round": number, "order": expected_order}
+        for side in ("candidate", "starter"):
+            entry = row[side]
+            metrics = json.loads(Path(entry["metrics"]).read_text())
+            seconds = metrics.get("wall_seconds")
+            if (isinstance(seconds, bool) or not isinstance(seconds, (int, float))
+                    or not math.isfinite(seconds) or seconds <= 0):
+                raise ValueError("starter and candidate wall_seconds must be positive and finite")
+            if metrics.get("return_code") != 0 or metrics.get("error"):
+                raise ValueError(f"round {number} {side} execution failed: {metrics.get('error')}")
+            rankings = validate_results(load_jsonl(Path(entry["results"])), ids, valid_docs)
+            quality, per_query = retrieval_quality(rankings, qrels, ids)
+            result[side] = {"quality": quality, "per_query": per_query, "metrics": metrics}
+        measured.append(result)
+    candidate_quality = {m: statistics.mean(r["candidate"]["quality"][m] for r in measured)
+                         for m in ("ndcg@10", "qrels_recall@100")}
+    starter_quality = {m: statistics.mean(r["starter"]["quality"][m] for r in measured)
+                       for m in candidate_quality}
+    floors = {m: all(r["candidate"]["quality"][m] >= minimum for r in measured)
+              for m, minimum in (("ndcg@10", MIN_NDCG), ("qrels_recall@100", MIN_RECALL))}
+    candidate_seconds = statistics.median(r["candidate"]["metrics"]["wall_seconds"] for r in measured)
+    starter_seconds = statistics.median(r["starter"]["metrics"]["wall_seconds"] for r in measured)
+    speedup = starter_seconds / candidate_seconds
+    latency_score = speedup_reward(speedup)
+    reward = latency_score if all(floors.values()) else 0.0
+    reference_quality, _ = retrieval_quality(reference, qrels, ids)
+    return {
+        "status": "ok", "reward_metric": REWARD_METRIC, "reward": reward,
+        "score": 100 * reward, "success": reward > 0,
+        "quality": {"candidate": candidate_quality, "corrected_starter": starter_quality,
+                    "weighted_reference": reference_quality,
+                    "thresholds": {"min_ndcg@10": MIN_NDCG, "min_qrels_recall@100": MIN_RECALL},
+                    "floors": floors, "aggregation": "mean across rounds; every round must pass"},
+        "latency": {"candidate_wall_seconds": candidate_seconds,
+                    "starter_wall_seconds": starter_seconds,
+                    "speedup": speedup, "ratio": candidate_seconds / starter_seconds,
+                    "zero_reward_speedup": ZERO_REWARD_SPEEDUP,
+                    "full_reward_speedup": FULL_REWARD_SPEEDUP, "reward": latency_score,
+                    "aggregation": "ratio of medians from five rounds, not median of ratios",
+                    "warmup": "none; OS file cache retained; fresh process and scratch each invocation"},
+        "rounds": measured,
+    }
+
+
 def main() -> int:
     args = parse_args()
     try:
         ids = query_ids(args.queries)
         valid_docs = load_corpus_ids(args.corpus_ids)
         qrels = load_qrels(args.qrels)
-        candidate = validate_results(load_jsonl(args.results), ids, valid_docs)
-        starter = validate_results(
-            load_jsonl(args.baseline_results), ids, valid_docs
-        )
         reference = validate_results(load_jsonl(args.reference), ids, valid_docs)
-        candidate_quality, per_query = retrieval_quality(candidate, qrels, ids)
-        starter_quality, _ = retrieval_quality(starter, qrels, ids)
-        reference_quality, _ = retrieval_quality(reference, qrels, ids)
-        run_metrics = json.loads(args.run_metrics.read_text(encoding="utf-8"))
-        baseline_metrics = json.loads(
-            args.baseline_run_metrics.read_text(encoding="utf-8")
-        )
-        baseline_seconds = float(baseline_metrics.get("wall_seconds", 0.0))
-        candidate_seconds = float(run_metrics.get("wall_seconds", 0.0))
-        if baseline_seconds <= 0 or candidate_seconds <= 0:
-            raise ValueError("starter and candidate wall_seconds must be positive")
-        latency_ratio = candidate_seconds / baseline_seconds
-        full_reward_candidate_seconds = (
-            baseline_seconds * FULL_REWARD_STARTER_WALL_RATIO
-        )
-        zero_reward_candidate_seconds = (
-            baseline_seconds * ZERO_REWARD_STARTER_WALL_RATIO
-        )
-        floors = {
-            "ndcg@10": candidate_quality["ndcg@10"] >= MIN_NDCG,
-            "qrels_recall@100": candidate_quality["qrels_recall@100"] >= MIN_RECALL,
-        }
-        quality_pass = all(floors.values())
-        latency_score = latency_reward(latency_ratio)
-        reward = latency_score if quality_pass else 0.0
-        success = quality_pass and reward > 0.0
-        report: dict[str, Any] = {
-            "status": "ok",
-            "reward_metric": REWARD_METRIC,
-            "reward": reward,
-            "success": success,
-            "quality": {
-                "candidate": candidate_quality,
-                "corrected_starter": starter_quality,
-                "weighted_reference": reference_quality,
-                "thresholds": {
-                    "min_ndcg@10": MIN_NDCG,
-                    "min_qrels_recall@100": MIN_RECALL,
-                },
-                "floors": floors,
-                "per_query": per_query,
-            },
-            "latency": {
-                "candidate_wall_seconds": candidate_seconds,
-                "starter_wall_seconds": baseline_seconds,
-                "full_reward_starter_wall_ratio": FULL_REWARD_STARTER_WALL_RATIO,
-                "zero_reward_starter_wall_ratio": ZERO_REWARD_STARTER_WALL_RATIO,
-                "full_reward_candidate_wall_seconds": full_reward_candidate_seconds,
-                "zero_reward_candidate_wall_seconds": zero_reward_candidate_seconds,
-                "ratio": latency_ratio,
-                "reward": latency_score,
-                "starter_run_metrics": baseline_metrics,
-                "run_metrics": run_metrics,
-            },
-            "ignored_legacy_signals": [
-                "exact_top100_overlap",
-                "shared_document_score_agreement",
-                "index_size",
-                "posting_balance",
-                "weighted_wand_upper_bound_audit",
-            ],
-        }
-        args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.report.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-        print(json.dumps(report, indent=2, sort_keys=True))
-        return 0
+        report = grade_rounds(json.loads(args.rounds.read_text()), ids, valid_docs, qrels, reference)
+        status = 0
     except Exception as exc:
-        report = {
-            "status": "invalid",
-            "reward_metric": REWARD_METRIC,
-            "reward": 0.0,
-            "error": f"{type(exc).__name__}: {exc}",
-        }
-        args.report.parent.mkdir(parents=True, exist_ok=True)
-        args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
-        print(json.dumps(report, indent=2))
-        return 1
+        report = {"status": "invalid", "reward_metric": REWARD_METRIC, "reward": 0.0,
+                  "score": 0.0, "error": f"{type(exc).__name__}: {exc}"}
+        status = 1
+    args.report.parent.mkdir(parents=True, exist_ok=True)
+    args.report.write_text(json.dumps(report, indent=2, sort_keys=True, allow_nan=False) + "\n")
+    print(json.dumps({k: v for k, v in report.items() if k != "rounds"}, indent=2, allow_nan=False))
+    return status
 
 
 if __name__ == "__main__":

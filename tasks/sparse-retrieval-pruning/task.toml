@@ -7,14 +7,14 @@ artifacts = [
 
 [task]
 name = "search-swe/sparse-retrieval-pruning"
-version = "0.4.0"
-description = "Optimize Python learned-sparse retrieval under quality gates and a continuous starter-relative latency reward."
+version = "0.5.2"
+description = "Optimize Python learned-sparse retrieval under quality gates and a continuous 4x-to-16x starter-relative speedup reward."
 authors = [{ name = "Search-SWE" }]
 keywords = ["information-retrieval", "search", "ms-marco", "splade", "sparse-retrieval", "postings"]
 
 [metadata]
 dataset = "MS MARCO Passage v1 with frozen SPLADE sparse vectors"
-primary_metric = "quality_gated_linear_starter_latency"
+primary_metric = "quality_gated_linear_starter_speedup"
 metric_k = 10
 public_example_count = 200
 hidden_query_count = 1000
@@ -27,7 +27,7 @@ user = "root"
 network_mode = "no-network"
 
 [verifier]
-timeout_sec = 4800.0
+timeout_sec = 16200.0
 user = "root"
 environment_mode = "separate"
 network_mode = "allowlist"

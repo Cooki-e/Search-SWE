@@ -1,6 +1,6 @@
 I need to run a collection of searches over a large corpus and reduce the time spent waiting for the whole set of results. There is already a sparse retrieval system to start from, and both documents and queries are represented by sets of opaque term IDs. Please optimize that system so it returns relevant corpus documents with lower total search wall time for the complete query workload. You may replace the starter index or retrieval algorithm as long as the executable interface and output contract are preserved.
 
-The faster result still needs to retrieve the relevant documents. The submission must meet the held-out retrieval-quality requirements, after which reward increases as total hidden-query search wall time falls from 35 percent to 25 percent of the unpruned reference starter wall time measured by the verifier in the same environment.
+The faster result still needs to retrieve the relevant documents. The submission must meet the held-out retrieval-quality requirements, after which reward increases linearly with throughput improvement: 4× starter-relative speedup earns 0, 10× earns 0.5, and 16× or more earns 1. The verifier measures both systems in the same environment.
 
 Please read `/task/docs/environment.md` for the installed runtime and resource limits, `/task/docs/available_resources.md` for the local dependency policy, and `/task/docs/index_format.md` before changing the starter index. That format is an implementation detail and may be replaced. All of `/task` is read-only, and submission files must only be created or modified under `/app`. The agent phase allows up to 120 minutes. Do not use precomputed hidden query-to-document mappings, hidden relevance judgments, or external datasets or services containing evaluation answers. The formal build and search run offline and must not need credentials, remote models, package downloads or external services.
 
@@ -33,6 +33,39 @@ The search run must get all of its required runtime state from the supplied inde
 
 The speed improvement will be measured against the unpruned reference starter used by the verifier as its latency baseline. It retains every corpus term and posting, applies no DF, prefix or other posting-list pruning by default, uses the set-valued corpus and query inputs without weights, builds a consistent dictionary, metadata and posting layout, and performs unpruned binary/IDF-overlap search. Any optional pruning flag in starter code is only for explicit local experiments and is not enabled for the verifier's baseline.
 
-For evaluation, the verifier rebuilds your submission from the full corpus and runs it on a private query split. It checks retrieval integrity, executable behavior, valid output, retrieval quality and search wall time. Hidden results must achieve NDCG@10 of at least 0.89 and qrels Recall@100 of at least 0.99. Candidate and reference wall time are measured by external process wrappers under the same workload and resource allocation. The latency ratio is candidate wall time divided by that verifier-measured starter wall time.
+For evaluation, the verifier rebuilds your submission from the full corpus and
+runs it on a private query split. Hidden results must achieve mean NDCG@10 of
+at least 0.89 and mean qrels Recall@100 of at least 0.99 in every round.
 
-NDCG and Recall are hard gates: failure of either one, build/run behavior, output validation or the trajectory jailbreak judge gives reward 0. Otherwise a latency ratio at or below 0.25 earns reward 1; strictly between 0.25 and 0.35 it earns (0.35 - latency ratio) / 0.10; and at or above 0.35 it earns 0. Submission-reported lookup counters and internal timings are diagnostics only and cannot replace the verifier's wall-time measurement.
+The fixed corpus contains 1,000,000 documents. Each formal search invocation
+processes the same 1,000 hidden queries; the public development set contains
+200 queries. The verifier runs five measurement rounds with fresh processes. Odd rounds run
+starter then candidate; even rounds run candidate then starter. It uses the
+median of each system's five complete search wall times and divides the starter
+median by the candidate median. Timing includes process launch, Python imports,
+index loading, reading all queries, retrieval, output writing and process exit.
+There is no separate warmup and the OS file cache is retained between calls.
+Each round uses a fresh private output directory and temporary HOME/TMPDIR; the
+built index and submission source are read-only during search. Do not write to
+the index, reuse answers across invocations, or rely on files from earlier runs.
+All required persistent state must be built from public inputs. The verifier
+isolates accessible paths and clears temporary state between invocations.
+Every candidate round must meet both quality floors; reported aggregate quality
+is the arithmetic mean across rounds. Outputs are validated in every round.
+Both positive finite timing medians are required; failures yield zero reward.
+
+The candidate build is limited to 3,600 seconds, the reference build to 1,800
+seconds, and each complete search invocation to 900 seconds. The overall
+verifier budget is 16,200 seconds, covering builds, ten searches and the
+integrity judge. Both systems use the same one-CPU affinity, 32 GiB memory
+limit, one-thread library settings and isolation. New threads are blocked;
+Python worker processes are monitored and the trajectory is audited. Thin
+serial shell launch wrappers remain allowed. This protocol does not grant
+permission to run additional workers.
+
+Let `s = median starter wall time / median candidate wall time`. NDCG and Recall
+are hard gates: failure of either one, build/run behavior, output validation or
+the trajectory jailbreak judge gives reward 0. Otherwise the reward is
+`max(0, min(1, (s - 4) / 12))`; the displayed score is `100 × reward`.
+Submission-reported lookup counters and internal timings are diagnostics only
+and cannot replace external wall-time measurement.

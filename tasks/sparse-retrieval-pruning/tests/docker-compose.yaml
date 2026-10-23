@@ -2,6 +2,8 @@ services:
   main:
     cpus: 1.0
     mem_limit: 32g
+    memswap_limit: 32g
+    pids_limit: 128
     volumes:
       - type: bind
         source: ../data
