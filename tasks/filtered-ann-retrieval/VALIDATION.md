@@ -2,6 +2,49 @@
 
 Release reconciliation (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md) records the available Luna result, judge health, version limits and published asset pins. The records below preserve earlier validation stages; statements that no trial has run, a trial is running, or assets are unpublished refer to those earlier stages.
 
+## System V IPC cleanup — 2026-10-23
+
+Task version **0.11.1** addresses PR #27's IPC persistence finding. Once all
+submission processes have exited, the verifier enumerates `/proc/sysvipc/shm`,
+`msg` and `sem`, removes objects whose owner **or creator** is the dedicated
+submission UID using `/usr/bin/ipcrm` as that user, and checks the tables again.
+Inspection, removal, timeout or residual-object failures abort retrieval before
+another service starts. The existing shutdown path covers build completion,
+normal service shutdown, error recovery and index relocation.
+
+- Before the fix, the new real-kernel regression failed in all **12** combinations
+  of six boundaries and unchanged/changed ownership: the objects survived.
+- After the fix, **22 regression tests passed, 0 skipped**, including real shared
+  memory, message queues and semaphore sets. Later sandboxed services cannot
+  attach to or inspect the old IDs. Owner-only and creator-only matches are
+  removed; unrelated root-owned objects remain intact.
+- Injected removal failure, false success with objects still present, timeout,
+  unreadable tables and malformed tables all fail closed.
+- A real saved Faiss index still gives **50/50** correct responses before and
+  after relocation, with both detached children and IPC created at every phase.
+- A separate actual-subprocess recovery run creates IPC during build and each
+  service load. Timeout, malformed output and early exit still yield **22/25 =
+  0.88**, with 50 requests and eight service loads. No IPC reaches the next process.
+  Injected cleanup failure after build, during timeout recovery and before
+  relocation stops the stage without starting the next process.
+
+Checks ran in disposable containers with private IPC namespaces, two CPU cores,
+2 GiB RAM, no network, no GPU and no API credentials, using existing verifier
+dependencies. Do not run the UID/IPC cleanup tests on the host. No fresh dependency
+install, full-corpus build, coding-model trial or live audit was performed.
+The v0.11.0 replay evidence and its timing limitations remain historical.
+
+The instruction SHA-256 remains
+`1ac4215f055a528982c01420d85ffff6f683774304e7aa45db19a6d438da5260`.
+The structured source, all inputs/labels and asset pins are unchanged; so are
+the 25-query denominator, 600-second build limit and 15 ms request deadline.
+No HF update is needed. The reviewed base precedent is
+`memory-constrained-dense-retrieval/tests/grader.py`'s owner-or-creator IPC
+cleanup; this task keeps its existing process/phase orchestration.
+Task static and selected-package release checks pass with zero errors or warnings.
+Commands, hashes and raw logs are retained outside the package in
+`task_development/filtered-ann-retrieval/ipc-cleanup-20261023/`.
+
 ## Query split expansion — 2026-10-23
 
 Task version **0.11.0**. The agent-facing instruction is unchanged, SHA-256

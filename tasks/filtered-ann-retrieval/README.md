@@ -2,7 +2,7 @@
 
 Current run and release status (2026-10-23): [RUN_RESULTS.md](RUN_RESULTS.md). Earlier validation-stage statements are superseded by that dated record.
 
-Author: **bingyu**. Version: **0.11.0**. Migrated from
+Author: **bingyu**. Version: **0.11.1**. Migrated from
 `search_swe_bingyu/task-submissions/bingyu/1-x-1` version 0.8.1.
 
 Build a persistent Faiss ANN backend returning exact nearest neighbors subject
@@ -64,6 +64,9 @@ submission processes use UID 10001, a clean environment and a seccomp network bl
 At build completion, each service restart and the relocation boundary, the
 verifier kills and waits for all live processes of the dedicated submission UID,
 including detached sessions and live worker threads with an exited leader.
+After those processes exit, it removes System V shared memory, message queues
+and semaphore sets owned or created by that UID, then verifies none remain.
+Unreadable IPC tables, failed removal or residual objects invalidate retrieval.
 Index validation accepts only directories and regular files. Service processes
 use a Landlock allowlist for `/app`, the current index and system runtime files;
 the original corpus remains inaccessible through canonical paths or aliases.
@@ -85,6 +88,9 @@ boundaries above. Version 0.11.0 changes the query split to ten public and 25
 hidden cases and updates the scoring denominator. It selects five relatively
 easier public and twenty harder hidden cases from 27 repeatedly measured broad
 filter candidates, using reference-runtime medians as a difficulty proxy.
+Version 0.11.1 also clears and verifies System V IPC at each execution boundary,
+using the owner-or-creator cleanup pattern in the reviewed
+`memory-constrained-dense-retrieval/tests/grader.py` as a structural precedent.
 The instruction, submission interfaces, corpus and time/resource limits are unchanged.
 Structural precedents are `memory-constrained-dense-retrieval`
 and `sparse-retrieval-pruning` for offline CPU retrieval and protected evaluation.
@@ -98,5 +104,6 @@ migration reports live outside the package in
 The 0.11.0 split has local dataset, grader and saved-program replay checks;
 it has not received a fresh coding-model run or live judge call. Reference runs
 measure raw retrieval; without the required audit, final reward remains zero.
-The updated public assets still require publication and an immutable revision
-before remote restoration or release.
+The public assets are published at the immutable revision recorded above.
+Version 0.11.1 has 22 passing grader regression tests and real subprocess IPC
+recovery checks; no fresh coding-model trial or live judge call was run for it.

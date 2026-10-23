@@ -28,16 +28,52 @@ QUERY_TIMEOUT_SECONDS = 0.015
 THREADS = 8
 
 
+def submission_sysv_ipc(uid):
+    """Find persistent IPC owned or created by the dedicated submission UID."""
+    objects = []
+    for kind, identifier in (("shm", "shmid"), ("msg", "msqid"), ("sem", "semid")):
+        lines = Path(f"/proc/sysvipc/{kind}").read_text().splitlines()
+        columns = lines[0].split()
+        if not {identifier, "uid", "cuid"}.issubset(columns):
+            raise RuntimeError(f"cannot inspect System V {kind} objects")
+        for line in lines[1:]:
+            row = dict(zip(columns, line.split(), strict=True))
+            if uid in (int(row["uid"]), int(row["cuid"])):
+                objects.append((kind, int(row[identifier])))
+    return objects
+
+
+def clear_submission_sysv_ipc(user, timeout=5.0):
+    """Remove non-file state after all submission processes have exited."""
+    deadline = time.monotonic() + timeout
+    for kind, identifier in submission_sysv_ipc(user.pw_uid):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise TimeoutError("submission IPC cleanup exceeded its time limit")
+        result = subprocess.run(
+            ["/usr/bin/ipcrm", {"shm": "-m", "msg": "-q", "sem": "-s"}[kind], str(identifier)],
+            user=user.pw_uid, group=user.pw_gid, extra_groups=(), cwd="/",
+            env={"PATH": "/usr/bin:/bin", "LC_ALL": "C"}, stdin=subprocess.DEVNULL,
+            capture_output=True, text=True, timeout=remaining,
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"cannot remove submission {kind} {identifier}: {result.stderr.strip()}")
+    if submission_sysv_ipc(user.pw_uid):
+        raise RuntimeError("submission System V IPC survived phase cleanup")
+
+
 def stop_submission_processes(run_as, timeout=5.0):
     """Kill all live processes of the container's dedicated submission user.
 
     A process group is insufficient: fork + setsid escapes it. Repeat the UID
     scan until empty so children created during cleanup cannot cross a phase.
     An unreaped zombie is harmless only once its remaining threads have exited.
+    Then remove persistent System V IPC, including objects with changed owners.
     """
     if not run_as:
         return
-    uid = pwd.getpwnam(run_as).pw_uid
+    user = pwd.getpwnam(run_as)
+    uid = user.pw_uid
     if uid in (0, os.geteuid()):
         raise ValueError("submission cleanup requires a separate non-root UID")
     deadline = time.monotonic() + timeout
@@ -57,6 +93,7 @@ def stop_submission_processes(run_as, timeout=5.0):
             except (FileNotFoundError, ProcessLookupError):
                 continue
         if not live:
+            clear_submission_sysv_ipc(user, timeout)
             return
         for pid in live:
             try:

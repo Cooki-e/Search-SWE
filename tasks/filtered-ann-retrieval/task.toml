@@ -3,7 +3,7 @@ artifacts = ["/app", "/logs/agent/trajectory.json"]
 
 [task]
 name = "search-swe/filtered-ann-retrieval"
-version = "0.11.0"
+version = "0.11.1"
 description = "Build a persistent Faiss filtered ANN backend from scratch; score each of 25 hidden exact filtered Top-10 queries independently within 15 ms, then average."
 authors = [{ name = "bingyu" }]
 keywords = ["search", "faiss", "filtered-ann", "metadata", "yfcc", "indexing"]
@@ -21,7 +21,7 @@ filter_semantics = "conjunction of tag IDs"
 public_query_count = 10
 hidden_query_count = 25
 functional_query_count = 0
-data_status = "Full YFCC-10M corpus with ten public and 25 disjoint hidden queries installed; updated public split staged locally pending publication"
+data_status = "Full YFCC-10M corpus with ten public and 25 disjoint hidden queries installed; public inputs published with immutable asset pins"
 
 [agent]
 timeout_sec = 7200.0

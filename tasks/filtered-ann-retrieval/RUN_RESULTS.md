@@ -2,16 +2,22 @@
 
 The archived v0.10.1 full trial scored 1.0 with a successful passing audit. Version 0.11.0 has 10 public and 25 hidden queries. Five replays of the saved program each passed 5/25 within 15 ms (0.20); all answers were correct, but twenty per replay were late. These are saved-program retrieval measurements, not a new full verifier reward. The reference maximum was 14.985 ms, so timing stability and a fresh full trial remain open validation work.
 
+Version 0.11.1 closes System V IPC persistence across verifier phases. Its
+instruction, data, scoring formula and deadlines are unchanged. The 0.20 replay
+below belongs to v0.11.0; no new Luna score or live audit was produced by this
+fix. All 22 grader tests and the actual subprocess recovery/failure checks pass;
+see [VALIDATION.md](VALIDATION.md) for their scope.
+
 | Field | Observed value |
 | --- | --- |
-| Current package | `0.11.0` |
+| Current package | `0.11.1` |
 | Saved agent trial version | `0.10.1` |
 | Agent / model / effort | Codex / OpenRouter `openai/gpt-6-luna` / `max` |
 | Evidence type | Saved-program replay on the revised split; not a new final reward |
-| Current available score | 0.2 |
+| Latest available score | 0.2 (v0.11.0 saved-program replay) |
 | Raw metric | exact Top-10 AND <=15ms pass rate = 0.2 |
 | Archived final reward | 1 |
-| Required trajectory judge | Succeeded; numeric pass = 1 in the old v0.10.1 trial; not rerun for v0.11.0 |
+| Required trajectory judge | Succeeded; numeric pass = 1 in the old v0.10.1 trial; not rerun for v0.11.0 or v0.11.1 |
 | Current CPU / RAM / GPU configuration | 8 CPUs / 16384 MiB / 0 GPU(s) |
 | Development limit | 7200 seconds |
 | Current instruction SHA-256 | `1ac4215f055a528982c01420d85ffff6f683774304e7aa45db19a6d438da5260` |

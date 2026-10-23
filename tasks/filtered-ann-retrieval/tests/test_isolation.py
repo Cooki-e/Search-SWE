@@ -9,6 +9,7 @@ from pathlib import Path
 import pwd
 import socket
 import stat
+import subprocess
 import sys
 import tempfile
 import time
@@ -46,6 +47,63 @@ os.waitpid(child, 0)
 '''
 
 
+SYSV_CREATE = '''
+import ctypes, json, os
+from pathlib import Path
+libc = ctypes.CDLL(None, use_errno=True)
+libc.shmat.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+libc.shmat.restype = ctypes.c_void_p
+libc.shmdt.argtypes = [ctypes.c_void_p]
+objects = dict(shm=libc.shmget(0, 4096, 0o1600),
+               msg=libc.msgget(0, 0o1600), sem=libc.semget(0, 1, 0o1600))
+assert min(objects.values()) >= 0, ctypes.get_errno()
+address = libc.shmat(objects['shm'], None, 0)
+assert address != ctypes.c_void_p(-1).value, ctypes.get_errno()
+ctypes.memmove(address, b'non-file-state', 14)
+assert libc.shmdt(address) == 0
+if change_owner:
+    # IPC_STAT/IPC_SET share ipc_perm's leading key/uid/gid/cuid/cgid fields.
+    # Check the native layout before changing ownership; creator stays intact.
+    for kind, identifier in objects.items():
+        buffer = ctypes.create_string_buffer(512)
+        def control(command):
+            if kind == 'sem': return libc.semctl(identifier, 0, command, buffer)
+            return getattr(libc, kind + 'ctl')(identifier, command, buffer)
+        assert control(2) == 0, ctypes.get_errno()
+        permissions = (ctypes.c_uint * 5).from_buffer(buffer)
+        assert list(permissions)[1:] == [os.getuid(), os.getgid(), os.getuid(), os.getgid()]
+        permissions[1] = permissions[2] = 65534
+        assert control(1) == 0, ctypes.get_errno()
+(index_dir / 'sysv.json').write_text(json.dumps(objects))
+'''
+
+
+SYSV_ABSENT = '''
+import ctypes, errno, json
+libc = ctypes.CDLL(None, use_errno=True)
+libc.shmat.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_int]
+libc.shmat.restype = ctypes.c_void_p
+objects = json.loads((index_dir / 'sysv.json').read_text())
+assert libc.shmat(objects['shm'], None, 0) == ctypes.c_void_p(-1).value
+assert ctypes.get_errno() in (errno.EINVAL, errno.EIDRM)
+buffer = ctypes.create_string_buffer(512)
+assert libc.msgctl(objects['msg'], 2, buffer) == -1
+assert ctypes.get_errno() in (errno.EINVAL, errno.EIDRM)
+assert libc.semctl(objects['sem'], 0, 12) == -1
+assert ctypes.get_errno() in (errno.EINVAL, errno.EIDRM)
+'''
+
+
+def ipc_rows():
+    rows = {}
+    for kind, key in (("shm", "shmid"), ("msg", "msqid"), ("sem", "semid")):
+        lines = Path(f"/proc/sysvipc/{kind}").read_text().splitlines()
+        for line in lines[1:]:
+            row = dict(zip(lines[0].split(), line.split(), strict=True))
+            rows[kind, int(row[key])] = row
+    return rows
+
+
 def alive(pid):
     try:
         status = Path(f"/proc/{pid}/status").read_text()
@@ -78,6 +136,114 @@ class ExecutionBoundaryTests(unittest.TestCase):
     def assert_daemons_dead(self, index):
         for path in index.glob("escape-*.pid"):
             self.assertFalse(alive(int(path.read_text())), str(path))
+
+    def test_sysv_objects_of_dead_creators_cannot_cross_boundaries(self):
+        for boundary in ("build", "restart", "relocation", "timeout", "malformed", "exit"):
+            for change_owner in (False, True):
+                with self.subTest(boundary=boundary, change_owner=change_owner):
+                    code = f"index_dir = __import__('pathlib').Path({str(self.index)!r})\n"
+                    code += f"change_owner = {change_owner!r}\n" + SYSV_CREATE
+                    if boundary != "build":
+                        code += "\nimport time\nprint('{\"status\":\"ready\"}', flush=True)\n"
+                        if boundary == "malformed":
+                            code += "print('invalid JSON', flush=True)\n"
+                        code += "raise SystemExit(17)\n" if boundary == "exit" else "time.sleep(30)\n"
+                    child = self.process(code, service=boundary != "build")
+                    try:
+                        if boundary == "build":
+                            child.build_wait(10)
+                            self.assertEqual(child.proc.wait(timeout=5), 0)
+                            self.assertFalse(alive(child.proc.pid))
+                        else:
+                            self.assertEqual(child.readline(10), {"status": "ready"})
+                            if boundary in ("timeout", "malformed", "exit"):
+                                error = {"timeout": TimeoutError, "malformed": ValueError,
+                                         "exit": RuntimeError}[boundary]
+                                with self.assertRaises(error):
+                                    child.readline(0.05)
+                        objects = json.loads((self.index / "sysv.json").read_text())
+                        rows = ipc_rows()
+                        for kind, identifier in objects.items():
+                            self.assertEqual(int(rows[kind, identifier]["cuid"]), 10001)
+                            self.assertEqual(int(rows[kind, identifier]["uid"]),
+                                             65534 if change_owner else 10001)
+                    finally:
+                        child.close()
+                    self.assertTrue(set(objects.items()).isdisjoint(ipc_rows()))
+                    if boundary == "relocation":
+                        self.index.rename(self.root / "relocated-index")
+                        self.index = self.root / "relocated-index"
+                    probe = self.process(
+                        f"index_dir = __import__('pathlib').Path({str(self.index)!r})\n" + SYSV_ABSENT,
+                        service=True)
+                    try:
+                        probe.build_wait(10)
+                    finally:
+                        probe.close()
+
+    def test_ipc_cleanup_preserves_other_users_objects(self):
+        code = f"index_dir = __import__('pathlib').Path({str(self.index)!r})\n"
+        code += "change_owner = False\n" + SYSV_CREATE
+        subprocess.run([sys.executable, "-c", code], check=True, timeout=10)
+        foreign = json.loads((self.index / "sysv.json").read_text())
+        (self.index / "sysv.json").unlink()
+        try:
+            # Owner-only match: created by root, then transferred to submission.
+            transferred_code = code.replace("change_owner = False", "change_owner = True")
+            transferred_code = transferred_code.replace("permissions[1] = permissions[2] = 65534",
+                                                        "permissions[1] = permissions[2] = 10001")
+            subprocess.run([sys.executable, "-c", transferred_code], check=True, timeout=10)
+            transferred = json.loads((self.index / "sysv.json").read_text())
+            for kind, identifier in transferred.items():
+                self.assertEqual(int(ipc_rows()[kind, identifier]["cuid"]), 0)
+                self.assertEqual(int(ipc_rows()[kind, identifier]["uid"]), 10001)
+            (self.index / "sysv.json").unlink()
+            child = self.process(code)
+            try:
+                child.build_wait(10)
+            finally:
+                child.close()
+            self.assertTrue(set(foreign.items()).issubset(ipc_rows()))
+            owned = json.loads((self.index / "sysv.json").read_text())
+            self.assertTrue(set(owned.items()).isdisjoint(ipc_rows()))
+            self.assertTrue(set(transferred.items()).isdisjoint(ipc_rows()))
+        finally:
+            for kind, identifier in foreign.items():
+                subprocess.run(["/usr/bin/ipcrm", {"shm": "-m", "msg": "-q", "sem": "-s"}[kind],
+                                str(identifier)], check=True, timeout=5)
+
+    def test_ipc_cleanup_failure_is_not_silently_accepted(self):
+        read_text = Path.read_text
+        for failure in ("remove_error", "false_success", "timeout", "unreadable", "malformed"):
+            with self.subTest(failure=failure):
+                code = f"index_dir = __import__('pathlib').Path({str(self.index)!r})\n"
+                child = self.process(code + "change_owner = False\n" + SYSV_CREATE)
+                try:
+                    child.build_wait(10)
+                    objects = json.loads((self.index / "sysv.json").read_text())
+                    if failure in ("unreadable", "malformed"):
+                        def broken_table(path, *args, **kwargs):
+                            if str(path) == "/proc/sysvipc/shm":
+                                if failure == "unreadable":
+                                    raise PermissionError("IPC table unavailable")
+                                return "unexpected columns\n"
+                            return read_text(path, *args, **kwargs)
+                        fault = patch.object(Path, "read_text", broken_table)
+                        expected = PermissionError if failure == "unreadable" else RuntimeError
+                    elif failure == "timeout":
+                        fault = patch("grader.subprocess.run",
+                                      side_effect=subprocess.TimeoutExpired("ipcrm", 5))
+                        expected = subprocess.TimeoutExpired
+                    else:
+                        fault = patch("grader.subprocess.run", return_value=SimpleNamespace(
+                            returncode=int(failure == "remove_error"), stderr="injected failure"))
+                        expected = RuntimeError
+                    with fault, self.assertRaises(expected):
+                        child.close()
+                    self.assertTrue(set(objects.items()).issubset(ipc_rows()))
+                finally:
+                    # Real cleanup after fault injection, inside this private IPC namespace.
+                    child.close()
 
     def test_detached_children_die_after_build_phase_and_error(self):
         for boundary in ("build", "phase", "timeout", "malformed", "exit"):
@@ -160,7 +326,7 @@ index_dir=Path(a.index_dir)
 idx=faiss.IndexHNSWFlat(1,2)
 idx.add(vectors)
 faiss.write_index(idx,str(index_dir/'index.faiss'))
-''' + DAEMON
+''' + DAEMON + "\nchange_owner = False\n" + SYSV_CREATE
         serve = '''import argparse, json, sys, faiss, numpy as np
 from pathlib import Path
 p=argparse.ArgumentParser()
@@ -175,7 +341,7 @@ idx=faiss.read_index(str(index_dir/'index.faiss'))
 # This three-vector fixture needs one search thread, not an eight-thread team.
 faiss.omp_set_num_threads(1)
 idx.search(np.zeros((1,1),dtype='float32'),2)
-''' + DAEMON + '''
+''' + DAEMON + "\nchange_owner = True\n" + SYSV_CREATE + '''
 print(json.dumps({'status':'ready'}),flush=True)
 for line in sys.stdin:
     q=json.loads(line)
@@ -201,6 +367,8 @@ for line in sys.stdin:
             def __init__(self, command, app, work, *args, **kwargs):
                 # Observe the real orchestration; every subprocess still runs.
                 test.assert_daemons_dead(work)
+                test.assertFalse(any(10001 in (int(row["uid"]), int(row["cuid"]))
+                                     for row in ipc_rows().values()))
                 starts.append(work.name)
                 super().__init__(command, app, work, *args, **kwargs)
 
@@ -211,6 +379,8 @@ for line in sys.stdin:
         self.assertEqual(report["request_count_including_reload_checks"], 50)
         self.assertEqual(starts, ["index", "index", "restored-index"])
         self.assert_daemons_dead(args.work_dir / "retrieval/restored-index")
+        self.assertFalse(any(10001 in (int(row["uid"]), int(row["cuid"]))
+                             for row in ipc_rows().values()))
         self.assertEqual(original_modes, {p.name: p.stat().st_mode for p in corpus.iterdir()})
 
     def test_special_index_entries_rejected_without_opening_them(self):
