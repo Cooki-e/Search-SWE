@@ -24,3 +24,6 @@ COPY . /tests/
 
 RUN chmod 700 /tests \
     && chmod 700 /tests/test.sh
+
+RUN cc -O2 -Wall -Wextra -Werror /tests/query_cpu.c -o /usr/local/bin/search-swe-query-cpu \
+    && chmod 0755 /usr/local/bin/search-swe-query-cpu

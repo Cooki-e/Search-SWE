@@ -1,5 +1,15 @@
 services:
   main:
+    cpus: 16
+    ipc: private
+    mem_limit: 512m
+    memswap_limit: 512m
+    ulimits:
+      nofile:
+        soft: 1048576
+        hard: 1048576
+    tmpfs:
+      - /task/index:rw,exec,nosuid,nodev,size=67108864,uid=10001,gid=10001,mode=0750
     volumes:
       - type: bind
         source: ../data

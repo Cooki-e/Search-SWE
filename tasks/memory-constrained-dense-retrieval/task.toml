@@ -7,7 +7,7 @@ artifacts = [
 
 [task]
 name = "search-swe/memory-constrained-dense-retrieval"
-version = "0.3.0"
+version = "0.7.0"
 description = "Build a memory-constrained dense-vector retrieval system over 1.5 million precomputed NQ corpus vectors."
 authors = [{ name = "Search-SWE" }]
 keywords = ["search", "retrieval", "dense-retrieval", "vector-search", "nq", "memory-constrained", "cpu", "indexing"]
@@ -15,12 +15,26 @@ keywords = ["search", "retrieval", "dense-retrieval", "vector-search", "nq", "me
 [metadata]
 dataset = "NaturalQuestions"
 primary_metric = "Accuracy@3"
+minimum_accuracy_at_3 = 0.95
 metric_k = 3
 public_example_count = 20
 hidden_query_count = 20
 all_hidden_queries_required = false
 per_query_latency_gate = true
+build_timeout_seconds = 150.0
 query_timeout_seconds = 0.5
+p95_target_seconds = 0.030
+latency_quantile = "nearest-rank"
+measurement_rounds = 1
+index_workspace_bytes = 67108864
+index_workspace_filesystem = "tmpfs"
+restart_after_build = true
+build_cpus = 16
+query_cpus = 1
+query_cpu_enforcement = "inherited affinity with seccomp preventing expansion"
+nofile_soft_limit = 1048576
+nofile_hard_limit = 1048576
+reward_formula = "accuracy_at_3 * min(1, 0.030 / p95_seconds) if accuracy_at_3 >= 0.95 else 0"
 corpus_vector_count = 1500000
 corpus_dimension = 1024
 corpus_vector_bytes = 6144000000
@@ -43,7 +57,7 @@ network_mode = "no-network"
 build_timeout_sec = 1800.0
 workdir = "/app"
 cpus = 16
-memory_mb = 2048
+memory_mb = 512
 storage_mb = 102400
 gpus = 0
 os = "linux"
