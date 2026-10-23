@@ -7,7 +7,9 @@ import os
 from pathlib import Path
 import time
 
-import faiss
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "quality_baseline"))
+from retrieval import rank_scores
 import numpy as np
 
 from common import encode_queries, query_id, query_text, read_jsonl
@@ -49,43 +51,19 @@ def main() -> int:
         raise ValueError(f"unexpected fixed vectors: shape={vectors.shape}, dtype={vectors.dtype}")
     if not np.isfinite(vectors[:]).all():
         raise ValueError("fixed corpus vectors contain non-finite values")
-    index = faiss.IndexFlatIP(SEARCH_DIMENSION)
-    index.add(np.ascontiguousarray(vectors, dtype=np.float32))
 
     queries = read_jsonl(args.queries)
     started = time.perf_counter()
     query_vectors = encode_queries([query_text(row) for row in queries])
-    if query_vectors.shape[1] != index.d:
+    if query_vectors.shape[1] != SEARCH_DIMENSION:
         raise ValueError(f"unexpected query vector shape: {query_vectors.shape}")
-    if not np.isfinite(query_vectors).all():
-        raise ValueError("query vectors contain non-finite values")
-    fetch_k = min(index.ntotal, args.top_k + 1)
-    scores, indices = index.search(query_vectors, fetch_k)
-
+    ranked_rows = rank_scores(query_vectors @ vectors.T, corpus, queries, args.top_k)
+    ranked_results = [row["results"] for row in ranked_rows]
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temp_path = args.output.with_name(args.output.name + ".tmp")
     with temp_path.open("w", encoding="utf-8") as handle:
-        ranked_results: list[list[dict[str, float | str]]] = []
-        for row, query_scores, query_indices in zip(queries, scores, indices):
-            current_query_id = query_id(row)
-            ranked = []
-            for score, index in sorted(
-                zip(query_scores.tolist(), query_indices.tolist()),
-                key=lambda item: (-float(item[0]), int(item[1])),
-            ):
-                if index < 0 or doc_ids[int(index)] == current_query_id:
-                    continue
-                ranked.append({"doc_id": doc_ids[int(index)], "score": float(score)})
-                if len(ranked) == args.top_k:
-                    break
-            results = [
-                {"doc_id": result["doc_id"], "score": result["score"]}
-                for result in ranked
-            ]
-            if len(results) != args.top_k:
-                raise ValueError(f"{current_query_id}: insufficient search results")
-            ranked_results.append(results)
-            handle.write(json.dumps({"query_id": current_query_id, "results": results}, ensure_ascii=False) + "\n")
+        for row in ranked_rows:
+            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
     os.replace(temp_path, args.output)
     elapsed_seconds = time.perf_counter() - started
     report = {

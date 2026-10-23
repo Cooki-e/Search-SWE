@@ -1,6 +1,7 @@
 import tomllib
 from pathlib import Path
 import unittest
+import yaml
 
 
 REPO = Path(__file__).resolve().parents[2]
@@ -28,9 +29,22 @@ class TaskImages(unittest.TestCase):
                     task / "environment/docker-compose.yaml",
                     task / "tests/docker-compose.yaml",
                 ):
-                    text = compose.read_text()
-                    self.assertEqual("driver: nvidia" in text, gpu)
-                    self.assertEqual("count: 1" in text, gpu)
+                    main = yaml.safe_load(compose.read_text())["services"]["main"]
+                    devices = main.get("deploy", {}).get("resources", {}).get(
+                        "reservations", {}
+                    ).get("devices", [])
+                    self.assertEqual(len(devices), int(gpu))
+                    if gpu:
+                        device = devices[0]
+                        self.assertEqual(device["driver"], "nvidia")
+                        self.assertIn("gpu", device["capabilities"])
+                        if "device_ids" in device:
+                            self.assertNotIn("count", device)
+                            self.assertEqual(len(device["device_ids"]), 1)
+                            self.assertIsInstance(device["device_ids"][0], str)
+                            self.assertTrue(device["device_ids"][0].strip())
+                        else:
+                            self.assertEqual(device["count"], 1)
 
 
 if __name__ == "__main__":

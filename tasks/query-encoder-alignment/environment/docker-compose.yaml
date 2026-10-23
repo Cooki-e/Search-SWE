@@ -1,11 +1,12 @@
 services:
   main:
+    init: true
     deploy:
       resources:
         reservations:
           devices:
             - driver: nvidia
-              count: 1
+              device_ids: ["${QUERY_ALIGNMENT_GPU_DEVICE:?Set the reserved GPU UUID or index}"]
               capabilities: [gpu]
     volumes:
       - type: bind

@@ -16,3 +16,5 @@ RUN npm install --global --ignore-scripts \
 RUN claude --help | grep -F "(low, medium, high, xhigh, max)" >/dev/null
 
 COPY starter/ /app/starter/
+
+COPY quality_baseline/ /app/quality_baseline/
